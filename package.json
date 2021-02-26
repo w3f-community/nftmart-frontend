@@ -29,14 +29,37 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "rekv": "^1.2.2",
-    "typescript": "^3.9.5",
     "web-vitals": "^0.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty && npm run lint:style",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty",
+    "lint:prettier": "prettier --check --end-of-line auto",
+    "lint:style": "stylelint --fix --syntax less"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ],
+    "**/*.less": "npm run lint:style"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -52,5 +75,40 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "lint-staged": "^10.0.7",
+    "husky": "^4.3.8",
+    "typescript": "^3.9.5",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-formatter-pretty": "^4.0.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-compat": "^3.1.1",
+    "eslint-plugin-eslint-comments": "^3.1.1",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jest": "^24.0.1",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
+    "eslint-plugin-markdown": "^1.0.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "eslint-plugin-simple-import-sort": "^5.0.3",
+    "eslint-plugin-unicorn": "^20.0.0",
+    "prettier": "^2.2.1",
+    "stylelint": "^13.7.0",
+    "stylelint-config-css-modules": "^2.2.0",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.1.0",
+    "stylelint-no-unsupported-browser-features": "^4.1.4",
+    "stylelint-order": "^4.0.0",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-angular": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0"
   }
 }
