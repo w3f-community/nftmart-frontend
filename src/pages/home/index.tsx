@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import Page from '../../layouts/common'
+import CommLayout from '../../layouts/common'
+import Uploader from '../../components/uploader'
+const Page = () => {
 
-export default function page() {
   return (
-    <Page>
+    <CommLayout>
       home
-    </ Page >
+      <Uploader />
+    </ CommLayout >
   )
 }
+
+export default Page
