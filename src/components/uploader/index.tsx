@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Image } from '@chakra-ui/react';
+import { IPFS_POST_SERVER, IPFS_GET_SERVER } from '../../constants';
 
 const ipfsClient = require('ipfs-http-client');
 
@@ -7,7 +8,7 @@ export default function Uploader() {
   const [cid, setCid] = useState();
 
   const saveToIpfs = async (files = []) => {
-    const ipfs = ipfsClient('http://59.110.115.146:5001');
+    const ipfs = ipfsClient(IPFS_POST_SERVER);
     if (files.length === 0) {
       return;
     }
@@ -36,7 +37,7 @@ export default function Uploader() {
     <form id="capture-media" onSubmit={handleSubmit}>
       <Input type="file" onChange={captureFile} />
       <br />
-      {cid && <Image src={`http://59.110.115.146:8080/ipfs/${cid}`} />}
+      {cid && <Image src={`${IPFS_GET_SERVER}/${cid}`} />}
     </form>
   );
 }
