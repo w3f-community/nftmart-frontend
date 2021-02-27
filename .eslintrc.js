@@ -59,6 +59,7 @@ const config = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
+    '@typescript-eslint/no-var-requires': 'off',
     'import/extensions': [
       'warn',
       'always',

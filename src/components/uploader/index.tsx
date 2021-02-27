@@ -1,45 +1,38 @@
-import React, { useCallback } from 'react';
-import { Box, Center } from '@chakra-ui/react';
-// import { useIpfs } from '../../utils';
-import { useDropzone } from 'react-dropzone'
-const ipfsClient = require('ipfs-http-client')
+import React from 'react';
+import { Input } from '@chakra-ui/react';
 
-export default function Uploader({ name = '' }) {
+const ipfsClient = require('ipfs-http-client');
 
-  const onDrop = useCallback(files => {
-
-    console.log(files)
-    saveToIpfs(files)
-  }, [])
-
+export default function Uploader() {
   const saveToIpfs = async (files = []) => {
-    const ipfs = ipfsClient('http://59.110.115.146:4001')
-    if (files.length == 0) {
-      return
+    const ipfs = ipfsClient('http://59.110.115.146:5001');
+    if (files.length === 0) {
+      return;
     }
     try {
-      const added = await ipfs.add(
-        files[0],
-        {
-          progress: (prog: any) => console.log(`received: ${prog}`)
-        }
-      )
-      console.log(added)
+      const added = await ipfs.add(files[0], {
+        progress: (prog: any) => console.log(`received: ${prog}`),
+      });
+      console.log(added.cid.toString(), '=============');
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
 
-  const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: 'image/jpeg, image/png'
-  })
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+  };
 
-  return <Center p={4} border='1px solid gray' borderRadius='lg'>
-    <div {...getRootProps()}>
-      <input {...getInputProps} />
-      <p>Drag 'n' drop some files here, or click to select files</p>
-    </div>
-  </Center>
+  const captureFile = (event: any) => {
+    event.stopPropagation();
+    event.preventDefault();
+    saveToIpfs(event.target.files);
+  };
 
+  return (
+    <form id="capture-media" onSubmit={handleSubmit}>
+      <Input type="file" onChange={captureFile} />
+      <br />
+    </form>
+  );
 }
