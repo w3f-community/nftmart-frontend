@@ -2382,6 +2382,23 @@
     bn.js "^4.11.9"
     eventemitter3 "^4.0.7"
 
+"@polkadot/extension-dapp@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.37.1.tgz#04f858e42788113a5c6d8695348a9334dea8185b"
+  integrity sha512-qSY2egyogqWK2epQdjUeUkQqhuQM3oaaCDKRyWXs6OilpkUV+2q0jYsWpf6vsDV2mKBxPWoeQKy/GPzTZlKSQA==
+  dependencies:
+    "@babel/runtime" "^7.12.13"
+    "@polkadot/extension-inject" "^0.37.1"
+    "@polkadot/util" "^5.6.2"
+    "@polkadot/util-crypto" "^5.6.2"
+
+"@polkadot/extension-inject@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.37.1.tgz#4588249086366b5a1504bb7367ab684af13c0229"
+  integrity sha512-rzepei2JW+TzPz7nUfCrDB8/Q/A8BNzIEvTKgXs97a9PMQ67asPTG9l6HV/Rt4wnDL+gjk+kgzcA7bXfETo6Hg==
+  dependencies:
+    "@babel/runtime" "^7.12.13"
+
 "@polkadot/hw-ledger-transports@5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@polkadot/hw-ledger-transports/-/hw-ledger-transports-5.8.1.tgz#354c71c29bc106a8069c7f0e1d28697af508dfe6"
@@ -2491,7 +2508,7 @@
     "@types/bn.js" "^4.11.6"
     bn.js "^4.11.9"
 
-"@polkadot/util-crypto@5.8.1", "@polkadot/util-crypto@^5.7.1", "@polkadot/util-crypto@^5.8.1":
+"@polkadot/util-crypto@5.8.1", "@polkadot/util-crypto@^5.6.2", "@polkadot/util-crypto@^5.7.1", "@polkadot/util-crypto@^5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-5.8.1.tgz#39962a02a517be6ea5a5fa47c0fe0241c5c535a1"
   integrity sha512-xZmp72MBVxeTkkVNnKrumzFs7tyQnE69lyvJxFO07Rq1X89Oi1NUphE64qJn2HvFyGrKwm2teJB6mrLqec/MsQ==
@@ -2513,7 +2530,7 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@5.8.1", "@polkadot/util@^5.7.1", "@polkadot/util@^5.7.2-6", "@polkadot/util@^5.8.1":
+"@polkadot/util@5.8.1", "@polkadot/util@^5.6.2", "@polkadot/util@^5.7.1", "@polkadot/util@^5.7.2-6", "@polkadot/util@^5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-5.8.1.tgz#7f01ddeedbc4c78ae5db1ffba60cffd11cde6ae6"
   integrity sha512-qGcKPa/S/cZQuScaknXYJ6f3Mk3HirhkGnKQEF9/fYYsEQ1JSuU+J8VI+Y/iX/vDIIPUFiz9tRPUpZjGIzS+yQ==

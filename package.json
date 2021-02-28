@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.0.0",
     "@polkadot/api": "^3.10.3-9",
     "@polkadot/api-contract": "^3.10.3-8",
+    "@polkadot/extension-dapp": "^0.37.1",
     "@polkadot/hw-ledger": "^5.7.2-6",
     "@polkadot/keyring": "^5.7.2-6",
     "@polkadot/networks": "^5.7.2-6",

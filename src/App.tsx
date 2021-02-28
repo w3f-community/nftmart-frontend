@@ -17,17 +17,17 @@ export const App = () => {
   return (
     <ApolloProvider client={getClient()}>
       <ChakraProvider theme={theme}>
-        <PolkaProvider>
-          <HashRouter>
-            <TransHOC>
-              <Header />
+        <HashRouter>
+          <TransHOC>
+            <Header />
+            <PolkaProvider>
               <Switch>
                 <Route exact strict path="/" component={Home} />
               </Switch>
-              <Footer />
-            </TransHOC>
-          </HashRouter>
-        </PolkaProvider>
+            </PolkaProvider>
+            <Footer />
+          </TransHOC>
+        </HashRouter>
       </ChakraProvider>
     </ApolloProvider>
   );
