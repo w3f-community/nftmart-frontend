@@ -8,5 +8,10 @@
   "quick-area.wallet": "我的钱包",
   "quick-area.works": "我的作品",
   "quick-area.works.create": "创建",
-  "quick-area.profile.edit": "资料编辑"
+  "quick-area.profile.edit": "资料编辑",
+  "extension.dowload": "请下载 Polkadot 钱包插件",
+  "extension.login": "登录到您的钱包",
+  "extension.account": "请先使用 Polkadot 钱包插件创建或导入账户",
+  "login": "登录",
+  "download": "下载"
 }
