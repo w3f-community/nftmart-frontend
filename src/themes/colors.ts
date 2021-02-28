@@ -12,5 +12,14 @@ const obj = {
     600: '#3A3BB2',
     700: '#553C9A',
   },
-}
-export default obj
+  text: {
+    500: '#191A24',
+    600: '#858999',
+    700: '#C2C4CC',
+  },
+  bg: {
+    500: '#F8F9FA',
+    600: '#F7F8FB',
+  },
+};
+export default obj;

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 
 import CommLayout from '../../layouts/common';
-import Uploader from '../../components/uploader';
-import { queryTimestamp } from '../../services';
+import Banner from './Banner';
+import TypeFilter from './TypeFilter';
+import Works from './Works';
 
 const Page = () => {
   return (
     <CommLayout>
-      home
-      <Uploader />
+      <Banner />
+      <TypeFilter />
+      <Works />
     </CommLayout>
   );
 };
