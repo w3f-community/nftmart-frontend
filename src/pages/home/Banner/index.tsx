@@ -8,6 +8,7 @@ const Container = styled.div({
   display: 'flex',
   justifyContent: 'center',
   height: '440px',
+  overflow: 'hidden',
   backgroundColor: 'blue',
 });
 

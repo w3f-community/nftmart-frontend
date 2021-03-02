@@ -53,15 +53,27 @@ export default function Uploader() {
         </Box>
         <Box mb="20px" display="flex">
           {iconList.map(({ id, src, hoverSrc }) => (
-            <Box
-              as="img"
-              alt=""
-              src={src}
-              key={id}
-              width="32px"
-              ml={id !== 0 ? '30px' : 0}
-              cursor="pointer"
-            />
+            <Box ml={id !== 0 ? '30px' : 0} role="group">
+              <Box
+                as="img"
+                alt=""
+                src={src}
+                key={id}
+                width="32px"
+                cursor="pointer"
+                _groupHover={{ display: 'none' }}
+              />
+              <Box
+                as="img"
+                alt=""
+                display="none"
+                src={hoverSrc}
+                key={id}
+                width="32px"
+                cursor="pointer"
+                _groupHover={{ display: 'block' }}
+              />
+            </Box>
           ))}
         </Box>
         <Box lineHeight="20px" color="#61688a" fontSize="12px">
