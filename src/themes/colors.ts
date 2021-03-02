@@ -13,13 +13,13 @@ const obj = {
     700: '#553C9A',
   },
   text: {
-    500: '#191A24',
-    600: '#858999',
-    700: '#C2C4CC',
+    black: '#191A24',
+    gray: '#858999',
+    lightGray: '#C2C4CC',
   },
   bg: {
-    500: '#F8F9FA',
-    600: '#F7F8FB',
+    light1: '#F8F9FA',
+    light2: '#F7F8FB',
   },
 };
 export default obj;

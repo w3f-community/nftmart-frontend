@@ -22,7 +22,7 @@ const Collection = (props: CollectionProps) => {
         height="17px"
         lineHeight="17px"
         fontSize="12px"
-        color={colors.text[600]}
+        color={colors.text.gray}
       >
         <Box>作品集</Box>
         <Box flex="1" textAlign="right">
@@ -36,7 +36,7 @@ const Collection = (props: CollectionProps) => {
         p="0 16px"
         height="22px"
         fontWeight="600"
-        color={colors.text[500]}
+        color={colors.text.black}
       >
         <Box lineHeight="22px">{name}</Box>
         <Box

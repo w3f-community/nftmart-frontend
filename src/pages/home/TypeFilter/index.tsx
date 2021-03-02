@@ -17,7 +17,7 @@ const TypeItem = styled.li`
   font-size: 16px;
   line-height: 60px;
   cursor: pointer;
-  color: ${colors.text[600]};
+  color: ${colors.text.gray};
   :first-of-type {
     margin-left: 0;
   }

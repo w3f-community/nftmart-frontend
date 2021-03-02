@@ -45,7 +45,7 @@ const PartHeader = (props: PartHeaderProps) => {
           lineHeight="20px"
           display="block"
           height="20px"
-          color={colors.text[500]}
+          color={colors.text.black}
           fontSize="14px"
         >
           查看更多
@@ -184,7 +184,7 @@ const Works = () => {
   ];
 
   return (
-    <Box backgroundColor={colors.bg[600]} p="40px 0">
+    <Box backgroundColor={colors.bg.light2} p="40px 0">
       {partList.map(({ title, id, typicalList, icon }) => (
         <PartWorks title={title} key={id} typicalList={typicalList} icon={icon} />
       ))}
