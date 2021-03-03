@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 
-
 interface Props {
   children: React.ReactNode;
 }
@@ -9,12 +8,9 @@ interface Props {
 const layout = ({ children }: Props) => {
   return (
     <>
-      <Box as="main" h='100vh'>
-        {children}
-      </Box>
+      <Box as="main">{children}</Box>
     </>
   );
-}
+};
 
-
-export default layout
+export default layout;

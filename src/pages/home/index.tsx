@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 
-import Page from '../../layouts/common'
+import CommLayout from '../../layouts/common';
+import Banner from './Banner';
+import TypeFilter from './TypeFilter';
+import Works from './Works';
 
-export default function page() {
+const Page = () => {
   return (
-    <Page>
-      home
-    </ Page >
-  )
-}
+    <CommLayout>
+      <Banner />
+      <TypeFilter />
+      <Works />
+    </CommLayout>
+  );
+};
+
+export default Page;

@@ -1,42 +1,42 @@
-import { ComponentStyleConfig } from "@chakra-ui/react";
-import colors from "../colors";
+import { ComponentStyleConfig } from '@chakra-ui/react';
+import colors from '../colors';
 
 const Button: ComponentStyleConfig = {
   baseStyle: {
-    borderRadius: "5px",
-    padding: "4px 15px",
+    borderRadius: '5px',
+    padding: '4px 15px',
     // py: 1,
-    mr: "10px",
-    fontWeight: "normal",
+    mr: '10px',
+    fontWeight: 'normal',
     _disabled: {
-      backgroundColor: colors.buttonBackground.disabled,
-      border: "none",
-      color: colors.text.light,
+      backgroundColor: colors.btnBg.disabled,
+      border: 'none',
+      color: colors.text.lightGray,
       _hover: {
-        background: colors.buttonBackground.disabled,
+        background: colors.btnBg.disabled,
       },
     },
   },
   variants: {
     primary: {
-      color: "white",
+      color: 'white',
       backgroundColor: colors.primary,
       _hover: {
-        backgroundColor: colors.buttonBackground.hover.primary,
+        backgroundColor: colors.btnBg.hover.primary,
       },
     },
     default: {
       color: colors.primary,
-      backgroundColor: "white",
+      backgroundColor: 'white',
       borderWidth: 1,
       borderColor: colors.primary,
       _hover: {
-        backgroundColor: colors.buttonBackground.hover.default,
+        backgroundColor: colors.btnBg.hover.default,
       },
     },
   },
   defaultProps: {
-    variants: "default",
+    variants: 'default',
   },
 };
 
