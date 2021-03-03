@@ -1,16 +1,15 @@
-import * as React from "react"
-import { HashRouter, Switch, Route } from 'react-router-dom'
-import {
-  ChakraProvider,
-} from "@chakra-ui/react"
-import Home from './pages/home'
-import TransHOC from './components/trans'
-import theme from './themes'
-import Header from './components/header'
-import Footer from './components/footer'
+import * as React from "react";
+import { HashRouter, Switch, Route } from "react-router-dom";
+import { Button, ChakraProvider } from "@chakra-ui/react";
 
-import './i18n'
+import Home from "./pages/home";
+import theme from "./themes";
 
+import TransHOC from "./components/trans";
+import Header from "./components/header";
+import Footer from "./components/footer";
+
+import "./i18n";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -24,4 +23,4 @@ export const App = () => (
       </TransHOC>
     </HashRouter>
   </ChakraProvider>
-)
+);
