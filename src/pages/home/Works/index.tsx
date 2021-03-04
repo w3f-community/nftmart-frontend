@@ -34,7 +34,8 @@ const PartHeader = (props: PartHeaderProps) => {
       marginBottom="30px"
     >
       <Box display="flex" height="100%" alignItems="center">
-        <Box as="img" src={icon} alt="" width="24px" height="24px" mr="8px" />
+        {/* TODO: Update image source to have more clearness by using svg etc... */}
+        <Box as="img" src={icon} alt="" width={7} height={7} mr="8px" />
         <Box color="#232A4A" fontSize="22px" fontWeight="600" lineHeight="30px">
           {title}
         </Box>
