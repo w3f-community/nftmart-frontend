@@ -48,7 +48,7 @@ export default function Uploader() {
         </Box>
       </Box>
       <Box mt="60px">
-        <Box lineHeight="20px" color="#61688a" fontWeight="500" fontSize="14px" mb="33px">
+        <Box lineHeight="20px" color="#61688a" fontWeight="500" fontSize="14px" mb="20px">
           Follow Us
         </Box>
         <Box mb="20px" display="flex">
