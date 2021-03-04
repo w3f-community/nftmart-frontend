@@ -1,22 +1,23 @@
 // theme.js
-import { extendTheme, ThemeOverride } from "@chakra-ui/react";
+import { extendTheme, ThemeOverride } from '@chakra-ui/react';
 
 // Global style overrides
-import styles from "./styles";
+import styles from './styles';
 
 // Foundational style overrides
-import borders from "./foundations/borders";
+import borders from './foundations/borders';
 
-import colors from "./colors";
+import colors from './colors';
 // Component style overrides
-import Button from "./components/button";
-import Link from "./components/link";
+import Button from './components/button';
+import Link from './components/link';
+import Popover from './components/popover';
 
 const overrides: ThemeOverride = {
   colors,
   // colorMode config
   config: {
-    initialColorMode: "light",
+    initialColorMode: 'light',
     useSystemColorMode: false,
   },
   styles, // global style
@@ -25,6 +26,7 @@ const overrides: ThemeOverride = {
   components: {
     Button,
     Link,
+    Popover,
     // Other components go here
   },
 };

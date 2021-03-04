@@ -1,10 +1,18 @@
-import React from "react";
-import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
-import NavLink from "../navlink";
+import React from 'react';
+import { Container, Flex, Text } from '@chakra-ui/react';
+import NavLink from '../navlink';
+import Login from '../login';
 
 export default function Header() {
   return (
-    <Flex as="header" flex={1} justify="space-between" backgroundColor="white">
+    <Flex
+      as="header"
+      flex={1}
+      justify="space-between"
+      backgroundColor="white"
+      boxShadow="base"
+      minHeight="77px"
+    >
       <Container
         py={4}
         maxW={1200}
@@ -23,9 +31,9 @@ export default function Header() {
           <NavLink />
         </Flex>
 
-        <Box justifyContent="flex-end">
-          <Button>A</Button>
-        </Box>
+        <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">
+          <Login />
+        </Flex>
       </Container>
     </Flex>
   );

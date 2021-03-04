@@ -25,6 +25,8 @@ const provider = ({ children }: Props) => {
   // extension inject status
   const [injected, setInjected] = useState(false);
 
+  const accessAvailable = api && injected && accounts;
+
   useEffect(() => {
     const initExtension = async () => {
       const allInjected = await web3Enable('NFTMart');
@@ -49,6 +51,10 @@ const provider = ({ children }: Props) => {
 
       // subscribe and update defaultaccount
       const unsubscribe = await web3AccountsSubscribe(async (reInjectedAccounts) => {
+        if (!reInjectedAccounts.length) {
+          return;
+        }
+
         const injector = await web3FromSource(reInjectedAccounts[0].meta.source);
         globalStore.setState({
           accounts: reInjectedAccounts,
@@ -60,9 +66,11 @@ const provider = ({ children }: Props) => {
     initExtension();
   }, []);
 
+  // return <>{children}</>;
+
   return (
     <>
-      {api && injected && accounts ? (
+      {accessAvailable ? (
         children
       ) : (
         <Center h="100vh" w="100vw">
