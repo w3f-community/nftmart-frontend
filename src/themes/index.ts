@@ -12,6 +12,7 @@ import colors from './colors';
 import Button from './components/button';
 import Link from './components/link';
 import Popover from './components/popover';
+import Container from './components/container';
 
 const overrides: ThemeOverride = {
   colors,
@@ -27,6 +28,7 @@ const overrides: ThemeOverride = {
     Button,
     Link,
     Popover,
+    Container,
     // Other components go here
   },
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 import Collection from '../../../components/collection';
 import colors from '../../../themes/colors';
 import IconSj from '../../../assets/home/icon_sj.png';
@@ -185,9 +185,11 @@ const Works = () => {
 
   return (
     <Box backgroundColor={colors.bg.light2} p="40px 0">
-      {partList.map(({ title, id, typicalList, icon }) => (
-        <PartWorks title={title} key={id} typicalList={typicalList} icon={icon} />
-      ))}
+      <Container>
+        {partList.map(({ title, id, typicalList, icon }) => (
+          <PartWorks title={title} key={id} typicalList={typicalList} icon={icon} />
+        ))}
+      </Container>
     </Box>
   );
 };
