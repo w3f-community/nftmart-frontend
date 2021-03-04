@@ -2,8 +2,17 @@ import React from 'react';
 import { Box } from '@chakra-ui/react';
 import Collection from '../../../components/collection';
 
+import { t } from '../../../i18n';
+
 const MainList = () => {
-  const typeList = [{ name: '全部', id: 0 }];
+  const typeMap = {
+    all: 1,
+    digital: 2,
+    virtual: 3,
+    sport: 4,
+    collect: 5,
+    other: 6,
+  };
 
   const list = [
     { name: '星空', price: 1, id: 0 },
@@ -29,8 +38,8 @@ const MainList = () => {
         backgroundColor="#fff"
         boxShadow="0px 2px 4px 0px rgba(0, 0, 0, 0.06)"
       >
-        {typeList.map(({ id, name }) => (
-          <Box key={id}>{name}</Box>
+        {Object.keys(typeMap).map((type) => (
+          <Box key={typeMap[type]}>{t(`type.${type}`)}</Box>
         ))}
       </Box>
       <Box display="flex" flexWrap="wrap">

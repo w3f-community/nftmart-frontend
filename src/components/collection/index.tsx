@@ -33,7 +33,7 @@ const Collection = (props: CollectionProps) => {
 
   return (
     <MotionBox
-      width="240px"
+      width="242px"
       height="310px"
       backgroundColor="#fff"
       borderRadius="4px"
