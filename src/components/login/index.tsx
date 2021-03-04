@@ -30,6 +30,7 @@ const Login = () => {
   const avatar = '';
   const username = 'Username';
 
+  // Link render helper
   const renderLink = (title: string) => {
     const path = navMap[title];
     const active = location.pathname === path;
@@ -39,6 +40,7 @@ const Login = () => {
 
   const menu = <Stack>{Object.keys(navMap).map(renderLink)}</Stack>;
 
+  // Menu
   const triggerContent = (
     <Stack
       direction="row"
@@ -50,7 +52,7 @@ const Login = () => {
       // _hover={{ backgroundColor: colors.bg.light1 }}
     >
       <Avatar size="sm" src={avatar} />
-      <Text fontSize="sm" fontWeight="bold" isTruncated>
+      <Text fontSize="sm" fontWeight="bold" userSelect="none" isTruncated>
         {username}
       </Text>
       {opening ? <Icon as={IoMdArrowDropup} /> : <Icon as={IoMdArrowDropdown} />}

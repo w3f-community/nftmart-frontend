@@ -4,7 +4,7 @@ const Popover: ComponentStyleConfig = {
   baseStyle: {
     content: {
       padding: '4px 18px',
-      borderRadius: '5px',
+      borderRadius: '4px',
     },
   },
 
