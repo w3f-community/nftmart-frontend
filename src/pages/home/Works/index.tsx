@@ -185,7 +185,7 @@ const Works = () => {
   ];
 
   return (
-    <Box backgroundColor={colors.bg.light2} p="40px 0">
+    <Box p="40px 0">
       <Container>
         {partList.map(({ title, id, typicalList, icon }) => (
           <PartWorks title={title} key={id} typicalList={typicalList} icon={icon} />

@@ -10,7 +10,7 @@ export default function Header() {
       flex={1}
       justify="space-between"
       backgroundColor="white"
-      boxShadow="base"
+      boxShadow="md"
       minHeight="77px"
     >
       <Container
