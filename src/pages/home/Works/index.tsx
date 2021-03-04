@@ -6,6 +6,7 @@ import IconSj from '../../../assets/home/icon_sj.png';
 import IconCj from '../../../assets/home/icon_cj.png';
 import IconClinch from '../../../assets/home/icon_clinch.png';
 import IconRight from '../../../assets/home/icon_right.png';
+import { t } from '../../../i18n';
 
 type PartWorksProps = {
   title: string;
@@ -49,7 +50,7 @@ const PartHeader = (props: PartHeaderProps) => {
           color={colors.text.black}
           fontSize="14px"
         >
-          查看更多
+          {t(`home.more`)}
         </Box>
         <Box
           as="img"
@@ -68,9 +69,9 @@ const PartWorks = (props: PartWorksProps) => {
   const { title, typicalList, icon } = props;
 
   return (
-    <Box width="1364px" m="0 auto">
+    <Box>
       <PartHeader title={title} icon={icon} />
-      <Box display="flex" mr="-16px">
+      <Box display="flex" mr="-16px" justifyContent="space-around">
         {typicalList.map(({ id, name, price }) => (
           <Box margin="0 16px 40px 0" key={id}>
             <Collection name={name} price={price} />

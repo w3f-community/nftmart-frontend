@@ -34,7 +34,7 @@ const SideFilter = () => {
         <Stack spacing={4}>
           <Stack mb={2}>
             <Heading as="h4" size="md">
-              状态
+              {t('form.status')}
             </Heading>
             <Wrap direction="row" spacing={4}>
               {Object.keys(statusMap).map((key) => (
@@ -49,9 +49,9 @@ const SideFilter = () => {
 
           <Stack>
             <Heading as="h4" size="md">
-              集合
+              {t('form.collection')}
             </Heading>
-            <Input />
+            <Input placeholder={t('form.collection.placeholder')} />
             <RadioGroup>
               <Stack>
                 <Radio>Hashmasks</Radio>

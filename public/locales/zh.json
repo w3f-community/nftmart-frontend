@@ -1,17 +1,40 @@
 {
   "site.title": "NFTmart",
+
   "nav.home": "首页",
   "nav.explore": "浏览",
-  "nav.list-sale": "上架",
+  "nav.list-sale": "上架出售",
   "nav.latest-create": "最新创建",
   "nav.latest-strike": "最新成交",
+
   "quick-area.wallet": "我的钱包",
   "quick-area.works": "我的作品",
   "quick-area.works.create": "创建",
   "quick-area.profile.edit": "资料编辑",
+
   "extension.dowload": "请下载 Polkadot 钱包插件",
   "extension.login": "登录到您的钱包",
   "extension.account": "请先使用 Polkadot 钱包插件创建或导入账户",
+
   "login": "登录",
-  "download": "下载"
+  "download": "下载",
+
+  "component.collection.title": "作品集",
+  "component.collection.price": "价格",
+
+  "form.collection": "集合",
+  "form.collection.placeholder": "过滤集合",
+  "form.status": "状态",
+
+  "type.all": "全部",
+  "type.digital": "数字艺术品",
+  "type.virtual": "虚拟世界",
+  "type.sport": "运动",
+  "type.collect": "收藏品",
+  "type.other": "其他",
+
+  "home.new-list": "新上架",
+  "home.new-create": "新创建",
+  "home.new-strike": "最近成交",
+  "home.more": "查看更多"
 }

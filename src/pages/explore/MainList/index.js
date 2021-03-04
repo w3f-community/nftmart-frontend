@@ -1,18 +1,77 @@
-import React from 'react';
-import { Box } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import Collection from '../../../components/collection';
+import colors from '../../../themes/colors';
 
 import { t } from '../../../i18n';
 
-const MainList = () => {
-  const typeMap = {
-    all: 1,
-    digital: 2,
-    virtual: 3,
-    sport: 4,
-    collect: 5,
-    other: 6,
+const typeMap = {
+  all: 1,
+  digital: 2,
+  virtual: 3,
+  sport: 4,
+  collect: 5,
+  other: 6,
+};
+
+/** 类型选择 Type filter, use for filtering different types of works */
+const TypeFilters = ({ onChange }) => {
+  const [selectedType, setSelectedType] = useState('all');
+
+  const handleSelect = (type) => {
+    setSelectedType(type);
+    // TODO: which property should we use?
+    onChange(type);
   };
+
+  const renderFilter = (type) => (
+    <Box
+      key={typeMap[type]}
+      cursor="pointer"
+      _hover={{ color: colors.text.black }}
+      color={selectedType === type ? colors.text.black : ''}
+      onClick={() => handleSelect(type)}
+    >
+      {t(`type.${type}`)}
+    </Box>
+  );
+
+  return (
+    <Box
+      display="flex"
+      justifyContent="space-evenly"
+      alignItems="center"
+      ml="16px"
+      mb="20px"
+      height="60px"
+      borderRadius="4px"
+      backgroundColor="#fff"
+      boxShadow="0px 2px 4px 0px rgba(0, 0, 0, 0.06)"
+      color={colors.text.gray}
+    >
+      {Object.keys(typeMap).map(renderFilter)}
+    </Box>
+  );
+};
+
+/** 展示 结果 与 排序选择 */
+const Helpers = ({ count, onSort }) => {
+  const suffix = `result${count > 1 ? 's' : ''}`;
+
+  return (
+    <Flex justifyContent="space-between" ml="16px" py="16px">
+      <Box>
+        <Text color={colors.text.gray}>
+          {count} {suffix}
+        </Text>
+      </Box>
+      <Box>Sorter</Box>
+    </Flex>
+  );
+};
+
+const MainList = () => {
+  const [count, setCount] = useState(16178);
 
   const list = [
     { name: '星空', price: 1, id: 0 },
@@ -27,21 +86,21 @@ const MainList = () => {
     { name: '星空', price: 1, id: 9 },
   ];
 
+  const handleFilterChange = (type) => {
+    // type
+    console.log('CHANGED type:', type);
+  };
+
+  const handleSorting = (sort) => {
+    //
+  };
+
   return (
     <Box width="1104px">
-      <Box
-        display="flex"
-        ml="16px"
-        mb="20px"
-        height="60px"
-        borderRadius="4px"
-        backgroundColor="#fff"
-        boxShadow="0px 2px 4px 0px rgba(0, 0, 0, 0.06)"
-      >
-        {Object.keys(typeMap).map((type) => (
-          <Box key={typeMap[type]}>{t(`type.${type}`)}</Box>
-        ))}
-      </Box>
+      <TypeFilters onChange={handleFilterChange} />
+
+      <Helpers onSort={handleSorting} count={count} />
+
       <Box display="flex" flexWrap="wrap">
         {list.map(({ name, price, id }) => (
           <Box ml="16px" mb="16px">

@@ -1,17 +1,41 @@
 {
   "site.title": "NFTmart",
+
   "nav.home": "Home",
   "nav.explore": "Explore",
   "nav.list-sale": "List",
   "nav.latest-create": "Latest Create",
   "nav.latest-strike": "Latest Strike",
+
   "quick-area.wallet": "Wallet",
   "quick-area.works": "Works",
   "quick-area.works.create": "Create",
   "quick-area.profile.edit": "Profile edit",
+
   "extension.dowload": "Please download Polkadot extension",
   "extension.login": "Connect wallet",
   "extension.account": "Please use Polkadot extension create or import your account",
+
   "login": "Login",
-  "download": "Download"
+  "download": "Download",
+
+  "component.collection.title": "Title",
+  "component.collection.price": "Price",
+
+  "form.collection": "Collections",
+  "form.collection.placeholder": "Filter Collections",
+  "form.filter": "Filter Collections",
+  "form.status": "Status",
+
+  "type.all": "All",
+  "type.digital": "Digital Art",
+  "type.virtual": "Virtual",
+  "type.sport": "Sport",
+  "type.collect": "Collect",
+  "type.other": "Other",
+
+  "home.new-list": "New List",
+  "home.new-create": "New Creation",
+  "home.new-strike": "Latest Strike",
+  "home.more": "More"
 }
