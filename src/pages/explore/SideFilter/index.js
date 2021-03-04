@@ -22,7 +22,7 @@ const statusMap = {
 const SideFilter = () => {
   return (
     // Columns
-    <Box width="270px">
+    <Box width="321px">
       {/* Card */}
       <Box
         backgroundColor="#fff"
