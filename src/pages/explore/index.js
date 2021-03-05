@@ -5,14 +5,7 @@ import MainList from './MainList';
 
 const Explore = () => {
   return (
-    <Box
-      width="1364px"
-      display="flex"
-      backgroundColor="#F7F8FB"
-      pt="20px"
-      justifyContent="center"
-      pb="24px"
-    >
+    <Box display="flex" backgroundColor="#F7F8FB" pt="20px" justifyContent="center" pb="24px">
       <SideFilter />
       <MainList />
     </Box>
