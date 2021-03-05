@@ -1,14 +1,7 @@
 import React from 'react';
+import { Box, Container } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import colors from '../../../themes/colors';
-
-const Container = styled.div({
-  display: 'flex',
-  justifyContent: 'center',
-  height: '60px',
-  backgroundColor: '#fff',
-  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.06)',
-});
 
 const TypeItem = styled.li`
   list-style: none;
@@ -36,11 +29,17 @@ const TypeFilter = () => {
   ];
 
   return (
-    <Container>
-      {typeList.map(({ id, name }) => (
-        <TypeItem key={id}>{name}</TypeItem>
-      ))}
-    </Container>
+    <Box
+      backgroundColor="white"
+      // boxShadow="sm"
+      boxShadow="0px 2px 4px 0px rgba(0, 0, 0, 0.06)"
+    >
+      <Container display="flex" justifyContent="center">
+        {typeList.map(({ id, name }) => (
+          <TypeItem key={id}>{name}</TypeItem>
+        ))}
+      </Container>
+    </Box>
   );
 };
 

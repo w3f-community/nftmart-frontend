@@ -10,6 +10,9 @@ import borders from './foundations/borders';
 import colors from './colors';
 // Component style overrides
 import Button from './components/button';
+import Link from './components/link';
+import Popover from './components/popover';
+import Container from './components/container';
 
 const overrides: ThemeOverride = {
   colors,
@@ -23,6 +26,9 @@ const overrides: ThemeOverride = {
   // Other foundational style overrides go here
   components: {
     Button,
+    Link,
+    Popover,
+    Container,
     // Other components go here
   },
 };
