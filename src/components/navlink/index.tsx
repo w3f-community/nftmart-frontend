@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Link, Text } from '@chakra-ui/react';
-import colors from '../../themes/colors';
+import { useLocation } from 'react-router-dom';
 
-import { t } from '../../i18n';
+import NLink from '../link';
 
 const NavLink = () => {
   const location = useLocation();
@@ -19,39 +17,17 @@ const NavLink = () => {
   const renderLink = (title: string) => {
     const path = navMap[title];
     const active = location.pathname === path;
-    const borderBottom = {
-      content: '" "',
-      height: 1,
-      width: '80%',
-      borderRadius: 3,
-      position: 'absolute',
-      backgroundColor: colors.primary,
-      left: '50%',
-      bottom: -2,
-      transform: 'translate(-50%, -50%)',
-    };
 
     return (
-      <Text
-        fontSize={16}
-        marginRight={8}
-        fontWeight="bold"
+      <NLink
+        title={title}
+        path={path}
+        active={active}
         bgSize="cover"
-        _hover={{
-          color: colors.primary,
-        }}
-        position="relative"
-      >
-        <Link
-          as={RouterLink}
-          key={title}
-          to={path}
-          color={active ? colors.primary : ''}
-          _after={active ? borderBottom : {}}
-        >
-          {t(title)}
-        </Link>
-      </Text>
+        fontWeight="bold"
+        marginRight={8}
+        bordered
+      />
     );
   };
 

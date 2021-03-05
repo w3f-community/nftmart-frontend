@@ -16,6 +16,11 @@ const obj = {
         textDecoration: 'none',
       },
     },
+
+    ':focus': {
+      outline: 'none',
+      boxShadow: 'none',
+    },
   }),
 };
 

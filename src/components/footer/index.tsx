@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 import LogoImg from '../../assets/footer_logo.png';
 import GithubLogo from '../../assets/footer_icon_github.png';
 import GithubLogoHover from '../../assets/footer_icon_github_s.png';
@@ -30,56 +30,65 @@ export default function Uploader() {
       flex={1}
       display="flex"
       justifyContent="center"
-      height="232px"
+      minHeight="232px"
       backgroundColor="#373F60"
       border="1px solid #979797"
     >
-      <Box mr="60px" mt="100px">
-        <Box as="img" src={LogoImg} alt="" width="180px"></Box>
-      </Box>
-      <Box mr="60px" width="663px" mt="60px">
-        <Box lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
-          About Us
+      <Container
+        display="flex"
+        flexDirection="row"
+        paddingX={3}
+        justifyContent="space-around"
+        flexWrap="wrap"
+        paddingBottom={5}
+      >
+        <Box mt="100px">
+          <Box as="img" src={LogoImg} alt="" width="180px"></Box>
         </Box>
-        <Box lineHeight="20px" color="#C7CCE6" fontSize="14px">
-          NFTmark, dedicated to an instant and inclusive coverage of everything happening in the
-          crypto/blockchain world, delivers right trade information with professional insights and
-          state-of-art accuracy to an international readership.
+        <Box width="663px" mt="60px">
+          <Box lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
+            About Us
+          </Box>
+          <Box lineHeight="20px" color="#C7CCE6" fontSize="14px">
+            NFTmark, dedicated to an instant and inclusive coverage of everything happening in the
+            crypto/blockchain world, delivers right trade information with professional insights and
+            state-of-art accuracy to an international readership.
+          </Box>
         </Box>
-      </Box>
-      <Box mt="60px">
-        <Box lineHeight="20px" color="#61688a" fontWeight="500" fontSize="14px" mb="33px">
-          Follow Us
+        <Box mt="60px">
+          <Box lineHeight="20px" color="#61688a" fontWeight="500" fontSize="14px" mb="20px">
+            Follow Us
+          </Box>
+          <Box mb="20px" display="flex">
+            {iconList.map(({ id, src, hoverSrc }) => (
+              <Box ml={id !== 0 ? '30px' : 0} role="group">
+                <Box
+                  as="img"
+                  alt=""
+                  src={src}
+                  key={id}
+                  width="32px"
+                  cursor="pointer"
+                  _groupHover={{ display: 'none' }}
+                />
+                <Box
+                  as="img"
+                  alt=""
+                  display="none"
+                  src={hoverSrc}
+                  key={id}
+                  width="32px"
+                  cursor="pointer"
+                  _groupHover={{ display: 'block' }}
+                />
+              </Box>
+            ))}
+          </Box>
+          <Box lineHeight="20px" color="#61688a" fontSize="12px">
+            © 2021 NFTmark
+          </Box>
         </Box>
-        <Box mb="20px" display="flex">
-          {iconList.map(({ id, src, hoverSrc }) => (
-            <Box ml={id !== 0 ? '30px' : 0} role="group">
-              <Box
-                as="img"
-                alt=""
-                src={src}
-                key={id}
-                width="32px"
-                cursor="pointer"
-                _groupHover={{ display: 'none' }}
-              />
-              <Box
-                as="img"
-                alt=""
-                display="none"
-                src={hoverSrc}
-                key={id}
-                width="32px"
-                cursor="pointer"
-                _groupHover={{ display: 'block' }}
-              />
-            </Box>
-          ))}
-        </Box>
-        <Box lineHeight="20px" color="#61688a" fontSize="12px">
-          © 2021 NFTmark
-        </Box>
-      </Box>
+      </Container>
     </Box>
   );
 }

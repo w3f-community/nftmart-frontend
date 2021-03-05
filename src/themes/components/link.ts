@@ -1,12 +1,12 @@
-import colors from "../colors";
+import { ComponentStyleConfig } from '@chakra-ui/react';
 
-const Link: any = {
+const Link: ComponentStyleConfig = {
   baseStyle: {
     _hover: {
-      textDecoration: "none",
+      textDecoration: 'none',
     },
     _focus: {
-      boxShadow: "none",
+      boxShadow: 'none',
     },
   },
 };

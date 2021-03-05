@@ -3,10 +3,9 @@ import colors from '../colors';
 
 const Button: ComponentStyleConfig = {
   baseStyle: {
-    borderRadius: '5px',
-    padding: '4px 15px',
+    borderRadius: '4px',
+    padding: '3px 16px',
     // py: 1,
-    mr: '10px',
     fontWeight: 'normal',
     _disabled: {
       backgroundColor: colors.btnBg.disabled,
