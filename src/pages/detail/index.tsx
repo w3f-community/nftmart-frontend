@@ -31,7 +31,7 @@ import bgSrc from '../../assets/background-demo.jpeg';
 const CardHead: FC<HTMLChakraProps<'div'>> = ({ children, ...restProps }) => (
   <Box paddingX={4}>
     <Box paddingY={4}>
-      <Heading as="h5" size="sm" color={colors.text.black}>
+      <Heading as="h4" size="md" color={colors.text.black}>
         {children}
       </Heading>
     </Box>
@@ -46,23 +46,25 @@ const CardBody: FC<HTMLChakraProps<'div'>> = ({ children, ...restProps }) => (
 
 export interface CardProps {
   title?: React.ReactNode;
+  body?: React.ReactNode;
   noHeadBorder?: boolean;
 }
 
 const Card: FC<Omit<HTMLChakraProps<'div'>, 'title'> & CardProps> = ({
   title,
   noHeadBorder = false,
+  body,
   children,
   ...restProps
-}) => (
-  <Box borderRadius="3px" backgroundColor="white" padding={0} {...restProps}>
-    {title && <CardHead>{title}</CardHead>}
-    {title && !noHeadBorder && (
-      <Divider borderBottomWidth="2px" borderColor={colors.divider.light} />
-    )}
-    <CardBody>{children}</CardBody>
-  </Box>
-);
+}) => {
+  return (
+    <Box borderRadius="3px" backgroundColor="white" padding={0} {...restProps}>
+      {title && <CardHead>{title}</CardHead>}
+      {title && !noHeadBorder && <Divider borderColor={colors.divider.dark} />}
+      {body || <CardBody>{children}</CardBody>}
+    </Box>
+  );
+};
 
 export interface CardMetaProps {
   avatar?: string;
@@ -166,42 +168,46 @@ const Detail: FC = () => {
               </Stack>
             </Card>
             <Card title="历史成交价">Graph</Card>
-            <Card title="历史事件">
-              <Table variant="simple">
-                <TableCaption>Imperial to metric conversion factors</TableCaption>
-                <Thead>
-                  <Tr>
-                    <Th>To convert</Th>
-                    <Th>into</Th>
-                    <Th isNumeric>multiply by</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  <Tr>
-                    <Td>inches</Td>
-                    <Td>millimetres (mm)</Td>
-                    <Td isNumeric>25.4</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>feet</Td>
-                    <Td>centimetres (cm)</Td>
-                    <Td isNumeric>30.48</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>yards</Td>
-                    <Td>metres (m)</Td>
-                    <Td isNumeric>0.91444</Td>
-                  </Tr>
-                </Tbody>
-                <Tfoot>
-                  <Tr>
-                    <Th>To convert</Th>
-                    <Th>into</Th>
-                    <Th isNumeric>multiply by</Th>
-                  </Tr>
-                </Tfoot>
-              </Table>
-            </Card>
+            <Card
+              title="历史事件"
+              body={
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>事件</Th>
+                      <Th isNumeric>价格</Th>
+                      <Th>来源</Th>
+                      <Th>目标</Th>
+                      <Th isNumeric>时间</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    <Tr>
+                      <Td>Create</Td>
+                      <Td isNumeric>187,12</Td>
+                      <Td>未知</Td>
+                      <Td>目标</Td>
+                      <Td isNumeric>2021-02-12 14:23:45</Td>
+                    </Tr>
+
+                    <Tr>
+                      <Td>Create</Td>
+                      <Td isNumeric>187,12</Td>
+                      <Td>未知</Td>
+                      <Td>目标</Td>
+                      <Td isNumeric>2021-02-12 14:23:45</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>Create</Td>
+                      <Td isNumeric>187,12</Td>
+                      <Td>未知</Td>
+                      <Td>目标</Td>
+                      <Td isNumeric>2021-02-12 14:23:45</Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              }
+            />
           </Stack>
         </SimpleGrid>
       </Container>
