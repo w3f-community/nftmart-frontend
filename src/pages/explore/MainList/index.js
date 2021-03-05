@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import Collection from '../../../components/collection';
-import colors from '../../../themes/colors';
+import { Link } from 'react-router-dom';
 
 import { t } from '../../../i18n';
+import colors from '../../../themes/colors';
+import Collection from '../../../components/collection';
 import NSelect from '../../../components/nSelect';
 
 const typeMap = {
@@ -43,11 +44,10 @@ const TypeFilters = ({ onChange }) => {
       justifyContent="space-evenly"
       alignItems="center"
       ml="16px"
-      mb="20px"
       height="60px"
       borderRadius="4px"
       backgroundColor="#fff"
-      boxShadow="0px 2px 4px 0px rgba(0, 0, 0, 0.06)"
+      boxShadow="base"
       color={colors.text.gray}
     >
       {Object.keys(typeMap).map(renderFilter)}
@@ -72,9 +72,13 @@ const Helpers = ({ count, onSort }) => {
     </Box>
   );
 
+  const handleSelect = (value) => {
+    onSort(value);
+  };
+
   const sorter = (
     <Box>
-      <NSelect options={options} />
+      <NSelect options={options} onSelect={handleSelect} />
     </Box>
   );
 
@@ -119,9 +123,11 @@ const MainList = () => {
 
       <Box display="flex" flexWrap="wrap">
         {list.map(({ name, price, id }) => (
-          <Box ml="16px" mb="16px">
-            <Collection name={name} price={price} key={id} />
-          </Box>
+          <Link to="/">
+            <Box ml="16px" mb="16px">
+              <Collection name={name} price={price} key={id} />
+            </Box>
+          </Link>
         ))}
       </Box>
     </Box>

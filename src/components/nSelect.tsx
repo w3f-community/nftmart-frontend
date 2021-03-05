@@ -80,12 +80,7 @@ const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue }) => {
     >
       <PopoverTrigger>{triggerNode}</PopoverTrigger>
       <Portal>
-        <PopoverContent
-          maxWidth="200px"
-          _focus={{ boxShadow: 'none' }}
-          paddingY={0}
-          boxShadow="rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
-        >
+        <PopoverContent maxWidth="200px" _focus={{ boxShadow: 'none' }} paddingY={0}>
           <PopoverArrow />
           <PopoverBody>{Options}</PopoverBody>
         </PopoverContent>

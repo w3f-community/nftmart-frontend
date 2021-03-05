@@ -71,11 +71,7 @@ const Login = () => {
       <PopoverTrigger>{triggerContent}</PopoverTrigger>
       <Portal>
         {/* TODO: Move focus property else where to have common use */}
-        <PopoverContent
-          maxWidth="200px"
-          _focus={{ boxShadow: 'none' }}
-          boxShadow="rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
-        >
+        <PopoverContent maxWidth="200px" _focus={{ boxShadow: 'none' }}>
           <PopoverArrow />
           <PopoverBody display="flex" justifyContent="center">
             {menus}
