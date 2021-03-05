@@ -123,7 +123,7 @@ const MainList = () => {
 
       <Box display="flex" flexWrap="wrap">
         {list.map(({ name, price, id }) => (
-          <Link to="/">
+          <Link to={`/detail/${id}`}>
             <Box ml="16px" mb="16px">
               <Collection name={name} price={price} key={id} />
             </Box>

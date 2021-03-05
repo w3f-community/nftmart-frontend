@@ -74,7 +74,7 @@ const PartWorks = (props: PartWorksProps) => {
       <Box display="flex" mr="-16px" justifyContent="space-around">
         {typicalList.map(({ id, name, price }) => (
           <Box margin="0 16px 40px 0" key={id}>
-            <Collection name={name} price={price} />
+            <Collection name={name} price={price} isSet />
           </Box>
         ))}
       </Box>

@@ -9,6 +9,7 @@ import { t } from '../../i18n';
 type CollectionProps = {
   name: string;
   price: number;
+  isSet?: boolean;
 };
 
 export type MotionBoxProps = Omit<ChakraProps, keyof MotionProps> &
@@ -30,7 +31,7 @@ export const MotionBox = motion.custom(
 
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
-  const { name, price } = props;
+  const { name, price, isSet = false } = props;
 
   return (
     <MotionBox
@@ -77,7 +78,7 @@ const Collection = (props: CollectionProps) => {
         </Box>
         <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
           <Flex align="center" height="22px">
-            <Box src={PriceIcon} as="img" alt="" mr="4px" />
+            {isSet && <Box src={PriceIcon} as="img" alt="" mr="4px" />}
             <Box>{price}</Box>
           </Flex>
         </Box>
