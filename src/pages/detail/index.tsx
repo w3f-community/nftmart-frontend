@@ -18,6 +18,8 @@ import {
   Th,
   Td,
   TableCaption,
+  AspectRatio,
+  Image,
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import Alert from './Alert';
@@ -101,7 +103,7 @@ const PurchaseCard: FC<PurchaseCardProps> = ({ price, onPurchase }) => (
     backgroundColor="#f9f8fd"
     noHeadBorder
   >
-    <Box>
+    <Box marginTop="-1rem">
       <Heading display="inline">{price}</Heading> <Text display="inline">FEI</Text>
     </Box>
   </Card>
@@ -125,9 +127,13 @@ const Detail: FC = () => {
     <Box>
       <Alert />
       <Container>
-        <SimpleGrid templateColumns="466px auto" spacing={4} paddingY={8}>
+        <SimpleGrid templateColumns="466px auto" spacing={4} paddingY={6}>
           <Stack spacing={4}>
-            <Box borderRadius="3px" as="img" src={bgSrc} />
+            <Box borderRadius="3px">
+              {/* <AspectRatio maxHeight="666px" ratio={1}> */}
+              <Image borderRadius="3px" maxHeight="666px" src={bgSrc} objectFit="cover" />
+              {/* </AspectRatio> */}
+            </Box>
             <Card title="介绍">
               <Stack>
                 <Text color={colors.text.black}>{data.describe}</Text>
