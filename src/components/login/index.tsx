@@ -38,9 +38,10 @@ const Login = () => {
     return <NLink title={title} path={path} active={active} bgSize="cover" textAlign="center" />;
   };
 
-  const menu = <Stack>{Object.keys(navMap).map(renderLink)}</Stack>;
+  // Menus
+  const menus = <Stack>{Object.keys(navMap).map(renderLink)}</Stack>;
 
-  // Menu
+  // Trigger
   const triggerContent = (
     <Stack
       direction="row"
@@ -77,7 +78,7 @@ const Login = () => {
         >
           <PopoverArrow />
           <PopoverBody display="flex" justifyContent="center">
-            {menu}
+            {menus}
           </PopoverBody>
         </PopoverContent>
       </Portal>

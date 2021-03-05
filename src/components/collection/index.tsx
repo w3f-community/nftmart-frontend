@@ -57,8 +57,8 @@ const Collection = (props: CollectionProps) => {
         fontSize="12px"
         color={colors.text.gray}
       >
-        <Box>{t('component.collection.title')}</Box>
-        <Box flex="1" textAlign="right">
+        <Box userSelect="none">{t('component.collection.title')}</Box>
+        <Box userSelect="none" flex="1" textAlign="right">
           {t('component.collection.price')}
         </Box>
       </Box>
@@ -70,6 +70,7 @@ const Collection = (props: CollectionProps) => {
         p="0 16px 16px 16px"
         fontWeight="600"
         color={colors.text.black}
+        flex="1"
       >
         <Box pr={2} flex="2" overflow="hidden" textOverflow="ellipsis">
           {name}
