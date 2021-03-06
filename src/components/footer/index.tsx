@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Container } from '@chakra-ui/react';
+import { t } from '../../i18n';
 import LogoImg from '../../assets/footer_logo.png';
 import GithubLogo from '../../assets/footer_icon_github.png';
 import GithubLogoHover from '../../assets/footer_icon_github_s.png';
@@ -47,17 +48,15 @@ export default function Uploader() {
         </Box>
         <Box width="663px" mt="60px">
           <Box lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
-            About Us
+            {t('footer.aboutus.title')}
           </Box>
           <Box lineHeight="20px" color="#C7CCE6" fontSize="14px">
-            NFTmark, dedicated to an instant and inclusive coverage of everything happening in the
-            crypto/blockchain world, delivers right trade information with professional insights and
-            state-of-art accuracy to an international readership.
+            {t('footer.aboutus.intro')}
           </Box>
         </Box>
         <Box mt="60px">
           <Box lineHeight="20px" color="#61688a" fontWeight="500" fontSize="14px" mb="20px">
-            Follow Us
+            {t('footer.follow')}
           </Box>
           <Box mb="20px" display="flex">
             {iconList.map(({ id, src, hoverSrc }) => (
@@ -85,7 +84,7 @@ export default function Uploader() {
             ))}
           </Box>
           <Box lineHeight="20px" color="#61688a" fontSize="12px">
-            © 2021 NFTmark
+            {t('footer.copyright')}
           </Box>
         </Box>
       </Container>

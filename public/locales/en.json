@@ -37,5 +37,10 @@
   "home.new-list": "New List",
   "home.new-create": "New Creation",
   "home.new-strike": "Latest Strike",
-  "home.more": "More"
+  "home.more": "More",
+
+  "footer.aboutus.title": "About Us",
+  "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
+  "footer.follow": "Follow Us",
+  "footer.copyright": "© 2021 NFTmark"
 }
