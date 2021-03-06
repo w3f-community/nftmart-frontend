@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -16,9 +16,21 @@ import {
   Radio,
   RadioGroup,
   Heading,
+  AlertIcon,
+  Alert,
 } from '@chakra-ui/react';
+import { Field, FieldProps, Form, Formik } from 'formik';
+import * as yup from 'yup';
+
 import NFormControl from '../../components/formControl';
 import colors from '../../themes/colors';
+
+const ErrorMessage: FC<{ message: string }> = ({ message }) => (
+  <Alert status="error">
+    <AlertIcon />
+    {message}
+  </Alert>
+);
 
 export interface SalesSettingModalProps {
   open: boolean;
@@ -26,54 +38,133 @@ export interface SalesSettingModalProps {
   onClose: () => void;
 }
 
-const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onConfirm, onClose }) => {
+// TODO: Translation messages
+const SalesSettingSchema = yup.object().shape({
+  price: yup.number().moreThan(0, 'number should more than xxx').required('price is required aaa'),
+  expiration: yup.number(),
+  category: yup.number().required(),
+  pledge: yup.number().moreThan(200).required(),
+});
+
+const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
+  const [] = useState({});
+
+  const handleSubmit = () => {
+    console.log('submit call');
+  };
+
   return (
     <Modal isOpen={open} onClose={onClose} size="xl" isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
           <Heading as="h3" size="md">
-            Modal Title
+            detail.modal.sales-setting.title
           </Heading>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody paddingBottom={6}>
-          <Stack spacing={8}>
-            <NFormControl title="price" subtitle="price.subtitle">
-              <InputGroup size="sm">
-                <Input placeholder="price" type="number" height="auto" />
-                <InputRightAddon children="suffix" height="auto" />
-              </InputGroup>
-            </NFormControl>
-            <NFormControl title="expiration" subtitle="expiration.subtitle">
-              <Checkbox color={colors.text.gray} defaultIsChecked>
-                expiration date
-              </Checkbox>
-            </NFormControl>
-            <NFormControl title="category" subtitle="category.subtitle" direction="vertical">
-              <RadioGroup color={colors.text.gray}>
-                <Stack direction="row" spacing={6}>
-                  <Radio value="1">First</Radio>
-                  <Radio value="2">Second</Radio>
-                  <Radio value="3">Third</Radio>
-                  <Radio value="4">Fourth</Radio>
-                </Stack>
-              </RadioGroup>
-            </NFormControl>
-            <NFormControl title="pledge" subtitle="pledge.subtitle">
-              <InputGroup size="sm">
-                <Input placeholder="price" type="number" height="auto" />
-                <InputRightAddon children="suffix" height="auto" />
-              </InputGroup>
-            </NFormControl>
-          </Stack>
-        </ModalBody>
 
-        <ModalFooter display="flex" justifyContent="center">
-          <Button variant="primary" onClick={onConfirm}>
-            Confirm
-          </Button>
-        </ModalFooter>
+        <Formik
+          initialValues={{
+            price: undefined,
+            expiration: undefined,
+            category: 1,
+            pledge: 200,
+          }}
+          onSubmit={handleSubmit}
+          validationSchema={SalesSettingSchema}
+        >
+          {/* TODO: Add invalid feedback and styles in each field */}
+          {({ isSubmitting, errors, touched, values }) => {
+            const error = Object.values(errors)[0];
+            const errorNode =
+              error && Object.values(touched).length ? <ErrorMessage message={error} /> : null;
+
+            return (
+              <Form>
+                {errorNode}
+
+                <ModalBody paddingBottom={6}>
+                  <Stack spacing={8}>
+                    <Field name="price">
+                      {({ field }: FieldProps) => (
+                        <NFormControl
+                          name="price"
+                          title="price"
+                          subtitle="price.subtitle"
+                          // isInvalid={}
+                        >
+                          <InputGroup size="sm">
+                            <Input
+                              {...field}
+                              id="price"
+                              type="number"
+                              height="auto"
+                              onChange={field.onChange}
+                              value={field.value}
+                            />
+                            <InputRightAddon
+                              color={colors.text.gray}
+                              userSelect="none"
+                              children="suffix"
+                              height="auto"
+                            />
+                          </InputGroup>
+                        </NFormControl>
+                      )}
+                    </Field>
+
+                    <NFormControl title="expiration" subtitle="expiration.subtitle">
+                      <Checkbox color={colors.text.gray}>expiration date</Checkbox>
+                    </NFormControl>
+
+                    <Field name="category">
+                      {({ field, form }: FieldProps) => (
+                        <NFormControl
+                          name="category"
+                          title="category"
+                          subtitle="category.subtitle"
+                          direction="vertical"
+                        >
+                          <RadioGroup
+                            color={colors.text.gray}
+                            {...field}
+                            value={field.value}
+                            onChange={(value) => form.setFieldValue('category', Number(value))}
+                          >
+                            <Stack direction="row" spacing={6}>
+                              <Radio value={1}>Hashmasks</Radio>
+                              <Radio value={2}>CryptoPunks</Radio>
+                              <Radio value={3}>SperRare</Radio>
+                              <Radio value={4}>Raible</Radio>
+                            </Stack>
+                          </RadioGroup>
+                        </NFormControl>
+                      )}
+                    </Field>
+
+                    <Field name="pledge">
+                      {({ field }: FieldProps) => (
+                        <NFormControl title="pledge" subtitle="pledge.subtitle">
+                          <InputGroup size="sm">
+                            <Input {...field} type="number" height="auto" value={values.pledge} />
+                            <InputRightAddon children="suffix" height="auto" />
+                          </InputGroup>
+                        </NFormControl>
+                      )}
+                    </Field>
+                  </Stack>
+                </ModalBody>
+
+                <ModalFooter display="flex" justifyContent="center">
+                  <Button variant="primary" type="submit" isLoading={isSubmitting}>
+                    Confirm
+                  </Button>
+                </ModalFooter>
+              </Form>
+            );
+          }}
+        </Formik>
       </ModalContent>
     </Modal>
   );
