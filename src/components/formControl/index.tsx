@@ -32,7 +32,7 @@ const NFormControl: FC<NFormControlProps> = ({
           </FormLabel>
           <FormHelperText>{subtitle}</FormHelperText>
         </Flex>
-        <Flex paddingY={direction === 'horizontal' ? 0 : 4}>{children}</Flex>
+        <Flex paddingTop={direction === 'horizontal' ? 0 : 4}>{children}</Flex>
       </Flex>
     </FormControl>
   );
