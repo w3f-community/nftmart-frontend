@@ -63,6 +63,7 @@ const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue }) => {
       onClick={() => handleSelect(index)}
       textAlign="center"
       userSelect="none"
+      key={title}
     >
       <Text>{title}</Text>
     </Box>
