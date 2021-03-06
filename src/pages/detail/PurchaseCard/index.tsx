@@ -41,7 +41,7 @@ export interface PurchaseCardProps {
 
 const PurchaseCard: FC<PurchaseCardProps> = ({ name, onPurchase }) => {
   return (
-    <Card title={<Text color={colors.primary}>NFTbox ICON</Text>} noHeadBorder>
+    <Card title={<Text color={colors.primary}>NFTbox [ICON]</Text>} noHeadBorder>
       <Stack>
         <Flex justify="space-between" align="flex-end">
           <Heading size="lg">{name}</Heading>
