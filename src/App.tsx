@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import * as React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import { ApolloProvider } from '@apollo/client';
 import PolkaProvider from './api/polka/provider';
 import TransHOC from './components/trans';
@@ -21,6 +21,8 @@ export const App = () => {
   return (
     <ApolloProvider client={getClient()}>
       <ChakraProvider theme={theme}>
+        <CSSReset />
+        
         <HashRouter>
           <TransHOC>
             <Header />

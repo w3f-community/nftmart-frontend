@@ -15,6 +15,7 @@ import {
   Checkbox,
   Radio,
   RadioGroup,
+  Heading,
 } from '@chakra-ui/react';
 import NFormControl from '../../components/formControl';
 import colors from '../../themes/colors';
@@ -30,7 +31,11 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onConfirm, onClos
     <Modal isOpen={open} onClose={onClose} size="xl" isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>
+          <Heading as="h3" size="md">
+            Modal Title
+          </Heading>
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody paddingBottom={6}>
           <Stack spacing={8}>

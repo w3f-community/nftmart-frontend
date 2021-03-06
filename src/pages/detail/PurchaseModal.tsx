@@ -53,7 +53,14 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ open, onClose, onConfirm }) => 
             </Heading>
           </Flex>
           <Flex flex={1} align="flex-end">
-            <Meta description="Owned by" who="Who" fontSize="0.75rem" cursor="text" userSelect="auto" whoProps={{ color: colors.text.gray }} />
+            <Meta
+              description="Owned by"
+              who="Who"
+              fontSize="0.75rem"
+              cursor="text"
+              userSelect="auto"
+              whoProps={{ color: colors.text.gray }}
+            />
           </Flex>
         </Stack>
       </Stack>
@@ -76,9 +83,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ open, onClose, onConfirm }) => 
           <Flex flex={4}>{item}</Flex>
           <Flex flex={2}>count</Flex>
           <Flex flex={1} justify="flex-end">
-            <Text color={colors.primary}>
-              price
-            </Text>
+            <Text color={colors.primary}>price</Text>
           </Flex>
         </Flex>
       </Stack>
@@ -89,7 +94,11 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ open, onClose, onConfirm }) => 
     <Modal isOpen={open} onClose={onClose} size="lg" isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>
+          <Heading as="h3" size="md">
+            Modal Title
+          </Heading>
+        </ModalHeader>
         <ModalCloseButton />
         <Box paddingX={6} marginTop={-3}>
           <Text color={colors.text.gray}>Sub title</Text>
