@@ -72,7 +72,13 @@ const PriceHistoryChart = () => {
           </linearGradient>
         </defs>
         <CartesianGrid stroke="#e6e6e6" vertical={false} fill={colors.bg.light1} />
-        <XAxis dataKey="name" axisLine={false} tickLine={false} stroke={colors.text.lightGray} />
+        <XAxis
+          dataKey="name"
+          axisLine={false}
+          tickLine={false}
+          stroke={colors.text.gray}
+          tickMargin={10}
+        />
         <YAxis
           // TODO: Domain should be dynamically calculated
           domain={[(dataMin: number) => Math.abs(dataMin) - 500, (dataMax: number) => dataMax * 2]}
@@ -81,7 +87,7 @@ const PriceHistoryChart = () => {
           fill={colors.bg.light1}
           padding={{ bottom: 70 }}
           tickMargin={16}
-          stroke={colors.text.lightGray}
+          stroke={colors.text.gray}
         />
         <Tooltip />
         <Area
