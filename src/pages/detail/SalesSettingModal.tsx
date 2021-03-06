@@ -47,8 +47,6 @@ const SalesSettingSchema = yup.object().shape({
 });
 
 const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
-  const [] = useState({});
-
   const handleSubmit = () => {
     console.log('submit call');
   };
