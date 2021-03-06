@@ -11,6 +11,7 @@ const Modal: ComponentStyleConfig = {
     body: {
       px: 6,
       py: 2,
+      pt: 4,
     },
     footer: {
       px: 6,
@@ -18,7 +19,7 @@ const Modal: ComponentStyleConfig = {
       pb: 6,
     },
     closeButton: {
-      top: 6,
+      top: 4,
       right: 6,
       color: colors.text.lightGray,
       fontSize: '16px',
