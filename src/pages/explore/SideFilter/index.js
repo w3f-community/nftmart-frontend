@@ -24,13 +24,7 @@ const SideFilter = () => {
     // Columns
     <Box width="321px">
       {/* Card */}
-      <Box
-        backgroundColor="#fff"
-        boxShadow="box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06)"
-        borderRadius="4px"
-        paddingY={6}
-        paddingX={4}
-      >
+      <Box backgroundColor="#fff" boxShadow="base" borderRadius="4px" paddingY={6} paddingX={4}>
         <Stack spacing={4}>
           <Stack mb={2}>
             <Heading as="h4" size="md">

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import Collection from '../../../components/collection';
-import colors from '../../../themes/colors';
+import { Link } from 'react-router-dom';
 
 import { t } from '../../../i18n';
+import colors from '../../../themes/colors';
+import Collection from '../../../components/collection';
+import NSelect from '../../../components/nSelect';
 
 const typeMap = {
   all: 1,
@@ -42,11 +44,10 @@ const TypeFilters = ({ onChange }) => {
       justifyContent="space-evenly"
       alignItems="center"
       ml="16px"
-      mb="20px"
       height="60px"
       borderRadius="4px"
       backgroundColor="#fff"
-      boxShadow="0px 2px 4px 0px rgba(0, 0, 0, 0.06)"
+      boxShadow="base"
       color={colors.text.gray}
     >
       {Object.keys(typeMap).map(renderFilter)}
@@ -57,15 +58,34 @@ const TypeFilters = ({ onChange }) => {
 /** 展示 结果 与 排序选择 */
 const Helpers = ({ count, onSort }) => {
   const suffix = `result${count > 1 ? 's' : ''}`;
+  const options = [
+    { value: 1, title: t('form.sort.auto') },
+    { value: 2, title: t('form.sort.other') },
+    { value: 3, title: t('form.sort.latest') },
+  ];
+
+  const result = (
+    <Box>
+      <Text color={colors.text.gray}>
+        {count} {suffix}
+      </Text>
+    </Box>
+  );
+
+  const handleSelect = (value) => {
+    onSort(value);
+  };
+
+  const sorter = (
+    <Box>
+      <NSelect options={options} onSelect={handleSelect} />
+    </Box>
+  );
 
   return (
-    <Flex justifyContent="space-between" ml="16px" py="16px">
-      <Box>
-        <Text color={colors.text.gray}>
-          {count} {suffix}
-        </Text>
-      </Box>
-      <Box>Sorter</Box>
+    <Flex justify="space-between" align="center" ml="16px" py="16px">
+      {result}
+      {sorter}
     </Flex>
   );
 };
@@ -103,9 +123,11 @@ const MainList = () => {
 
       <Box display="flex" flexWrap="wrap">
         {list.map(({ name, price, id }) => (
-          <Box ml="16px" mb="16px">
-            <Collection name={name} price={price} key={id} />
-          </Box>
+          <Link to={`/detail/${id}`}>
+            <Box ml="16px" mb="16px">
+              <Collection name={name} price={price} key={id} />
+            </Box>
+          </Link>
         ))}
       </Box>
     </Box>
