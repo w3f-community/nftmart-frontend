@@ -1,3 +1,4 @@
+import React, { FC } from 'react';
 import {
   Avatar,
   Box,
@@ -13,16 +14,15 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   AspectRatio,
   Image,
 } from '@chakra-ui/react';
-import React, { FC } from 'react';
+
 import Alert from './Alert';
+import PriceHistoryChart from './PriceHistoryChart';
 
 import colors from '../../themes/colors';
 
@@ -167,7 +167,11 @@ const Detail: FC = () => {
                 ></PurchaseCard>
               </Stack>
             </Card>
-            <Card title="历史成交价">Graph</Card>
+
+            <Card title="历史成交价">
+              <PriceHistoryChart />
+            </Card>
+
             <Card
               title="历史事件"
               body={
