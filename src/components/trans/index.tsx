@@ -1,20 +1,20 @@
-import React, { useEffect, ReactNode, useState } from 'react'
+import React, { useEffect, ReactNode, useState } from 'react';
 
-import i18n from '../../i18n'
+import i18n from '../../i18n';
 
 // fires a GA pageview every time the route changes
 type ContainerProps = {
-  children: ReactNode
+  children: ReactNode;
 };
 
 const Container = ({ children }: ContainerProps) => {
-  const [i18nObj, seti18n] = useState({ isInitialized: false })
+  const [i18nObj, seti18n] = useState({ isInitialized: false });
 
   useEffect(() => {
     const init = async () => {
       await i18n.init({
         backend: {
-          loadPath: `./locales/{{lng}}.json`
+          loadPath: `./locales/{{lng}}.json`,
         },
         react: {
           useSuspense: true,
@@ -24,19 +24,14 @@ const Container = ({ children }: ContainerProps) => {
         keySeparator: false,
         interpolation: { escapeValue: false },
         debug: true,
-      })
-      seti18n(i18n)
-
-    }
+      });
+      seti18n(i18n);
+    };
     if (!i18nObj.isInitialized) {
-      init()
+      init();
     }
-  }, [i18nObj.isInitialized])
+  }, [i18nObj.isInitialized]);
 
-  return (
-    <>
-      {i18nObj.isInitialized && children}
-    </>
-  );
+  return <>{i18nObj.isInitialized && children}</>;
 };
-export default Container
+export default Container;

@@ -13,7 +13,9 @@ import { getClient } from './api/graph';
 import './i18n';
 
 import Home from './pages/home';
+import Explore from './pages/explore';
 import Wallet from './pages/wallet';
+import Detail from './pages/detail';
 
 export const App = () => {
   return (
@@ -25,7 +27,9 @@ export const App = () => {
             <PolkaProvider>
               <Switch>
                 <Route exact strict path="/" component={Home} />
+                <Route exact strict path="/explore" component={Explore} />
                 <Route exact strict path="/wallet" component={Wallet} />
+                <Route exact strict path="/detail/*" component={Detail} />
               </Switch>
             </PolkaProvider>
             <Footer />
