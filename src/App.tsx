@@ -29,7 +29,7 @@ export const App = () => {
               <Switch>
                 <Route exact strict path="/" component={Home} />
                 <Route exact strict path="/explore" component={Explore} />
-                <Route exact strict path="/wallet" component={Wallet} />
+                <Route exact strict path="/profile/wallet" component={Wallet} />
                 <Route exact strict path="/profile/create" component={CreateCollection} />
                 <Route exact strict path="/profile/info" component={EditUser} />
               </Switch>
