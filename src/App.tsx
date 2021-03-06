@@ -16,6 +16,7 @@ import Home from './pages/home';
 import Explore from './pages/explore';
 import Wallet from './pages/wallet';
 import Detail from './pages/detail';
+import Create from './pages/create';
 
 export const App = () => {
   return (
@@ -30,6 +31,7 @@ export const App = () => {
                 <Route exact strict path="/explore" component={Explore} />
                 <Route exact strict path="/wallet" component={Wallet} />
                 <Route exact strict path="/detail/*" component={Detail} />
+                <Route exact strict path="/create" component={Create} />
               </Switch>
             </PolkaProvider>
             <Footer />
