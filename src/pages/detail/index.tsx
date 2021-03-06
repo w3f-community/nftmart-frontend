@@ -1,16 +1,5 @@
 import React, { FC, useState } from 'react';
-import {
-  Box,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Text,
-} from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import Alert from './Alert';
 
@@ -25,8 +14,8 @@ import MetaCard from './MetaCard';
 import AboutCard from './AboutCard';
 
 import bgSrc from '../../assets/background-demo.jpeg';
-import colors from '../../themes/colors';
 import PurchaseModal from './PurchaseModal';
+import SalesSettingModal from './SalesSettingModal';
 
 const data = {
   collection_id: 0,
@@ -43,7 +32,9 @@ const data = {
 
 const Detail: FC = () => {
   const [purchaseOpen, setPurchaseOpen] = useState(false);
+  const [settingOpen, setSettingOpen] = useState(false);
 
+  // Events
   const handlePurchaseClose = () => {
     setPurchaseOpen(false);
   };
@@ -52,9 +43,25 @@ const Detail: FC = () => {
     //
   };
 
+  const handleSettingClose = () => {
+    setSettingOpen(false);
+  };
+
+  const handleSettingConfirm = () => {
+    // TODO
+  };
+
+  const handleDestroy = () => {
+    //
+  };
+
   return (
     <Box>
-      <Alert />
+      <Alert
+        // onDestroy={handleDestroy}
+        onSetting={() => setSettingOpen(true)}
+      />
+
       <DetailContainer
         left={
           <>
@@ -73,7 +80,17 @@ const Detail: FC = () => {
         }
       />
 
-      <PurchaseModal open={purchaseOpen} onClose={handlePurchaseClose} onConfirm={handlePurchaseConfirm} />
+      <PurchaseModal
+        open={purchaseOpen}
+        onClose={handlePurchaseClose}
+        onConfirm={handlePurchaseConfirm}
+      />
+
+      <SalesSettingModal
+        open={settingOpen}
+        onClose={handleSettingClose}
+        onConfirm={handleSettingConfirm}
+      />
     </Box>
   );
 };
