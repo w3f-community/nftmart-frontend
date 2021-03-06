@@ -41,7 +41,8 @@
     "react-scripts": "4.0.3",
     "recharts": "^2.0.8",
     "rekv": "^1.2.2",
-    "web-vitals": "^0.2.2"
+    "web-vitals": "^0.2.2",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-app-rewired start",
