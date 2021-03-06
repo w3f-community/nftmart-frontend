@@ -1,5 +1,16 @@
-import React, { FC } from 'react';
-import { Box } from '@chakra-ui/react';
+import React, { FC, useState } from 'react';
+import {
+  Box,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  Text,
+} from '@chakra-ui/react';
 
 import Alert from './Alert';
 
@@ -14,6 +25,8 @@ import MetaCard from './MetaCard';
 import AboutCard from './AboutCard';
 
 import bgSrc from '../../assets/background-demo.jpeg';
+import colors from '../../themes/colors';
+import PurchaseModal from './PurchaseModal';
 
 const data = {
   collection_id: 0,
@@ -29,6 +42,16 @@ const data = {
 };
 
 const Detail: FC = () => {
+  const [purchaseOpen, setPurchaseOpen] = useState(false);
+
+  const handlePurchaseClose = () => {
+    setPurchaseOpen(false);
+  };
+
+  const handlePurchaseConfirm = () => {
+    //
+  };
+
   return (
     <Box>
       <Alert />
@@ -43,12 +66,14 @@ const Detail: FC = () => {
         }
         right={
           <>
-            <PurchaseCard name={data.name} />
+            <PurchaseCard name={data.name} onPurchase={() => setPurchaseOpen(true)} />
             <PriceHistoryCard />
             <HistoryEventCard />
           </>
         }
       />
+
+      <PurchaseModal open={purchaseOpen} onClose={handlePurchaseClose} onConfirm={handlePurchaseConfirm} />
     </Box>
   );
 };

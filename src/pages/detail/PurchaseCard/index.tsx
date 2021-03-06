@@ -36,9 +36,10 @@ const InnerCard: FC<InnerCardProps> = ({ price, onPurchase }) => (
 
 export interface PurchaseCardProps {
   name: string;
+  onPurchase: () => void;
 }
 
-const PurchaseCard: FC<PurchaseCardProps> = ({ name }) => {
+const PurchaseCard: FC<PurchaseCardProps> = ({ name, onPurchase }) => {
   return (
     <Card title={<Text color={colors.primary}>NFTbox ICON</Text>} noHeadBorder>
       <Stack>
@@ -48,9 +49,7 @@ const PurchaseCard: FC<PurchaseCardProps> = ({ name }) => {
         </Flex>
         <InnerCard
           price="12"
-          onPurchase={() => {
-            //
-          }}
+          onPurchase={onPurchase}
         ></InnerCard>
       </Stack>
     </Card>
