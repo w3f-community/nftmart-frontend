@@ -35,11 +35,23 @@ const Login = () => {
     const path = navMap[title];
     const active = location.pathname === path;
 
-    return <NLink title={title} path={path} active={active} bgSize="cover" textAlign="center" />;
+    return (
+      <NLink
+        title={title}
+        path={path}
+        active={active}
+        bgSize="cover"
+        textAlign="center"
+        linkProps={{
+          paddingX: 4,
+          display: 'block'
+        }}
+      />
+    );
   };
 
   // Menus
-  const menus = <Stack>{Object.keys(navMap).map(renderLink)}</Stack>;
+  const menus = <Stack paddingY={2}>{Object.keys(navMap).map(renderLink)}</Stack>;
 
   // Trigger
   const triggerContent = (

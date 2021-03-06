@@ -27,6 +27,7 @@ import PriceHistoryChart from './PriceHistoryChart';
 import colors from '../../themes/colors';
 
 import bgSrc from '../../assets/background-demo.jpeg';
+import NSelect from '../../components/nSelect';
 
 const CardHead: FC<HTMLChakraProps<'div'>> = ({ children, ...restProps }) => (
   <Box paddingX={4}>
@@ -169,7 +170,33 @@ const Detail: FC = () => {
             </Card>
 
             <Card title="历史成交价">
-              <PriceHistoryChart />
+              <Stack spacing={4}>
+                <Stack direction="row" spacing={4}>
+                  <NSelect
+                    options={[
+                      { title: '最近7天', value: 7 },
+                      { title: '最近30天', value: 30 },
+                    ]}
+                    suffix
+                  />
+
+                  <Flex direction="column" justify="space-between">
+                    <Text color={colors.text.gray}>7天成交价格</Text>
+                    <Heading as="h4" size="md">
+                      187,123
+                    </Heading>
+                  </Flex>
+
+                  <Flex direction="column" justify="space-between">
+                    <Text color={colors.text.gray}>7天成交价格</Text>
+                    <Heading as="h4" size="md">
+                      187,123
+                    </Heading>
+                  </Flex>
+                </Stack>
+
+                <PriceHistoryChart />
+              </Stack>
             </Card>
 
             <Card
