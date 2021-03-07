@@ -1,12 +1,15 @@
 import {
   Box,
+  Center,
+  Flex,
   Icon,
   Popover,
   PopoverArrow,
   PopoverBody,
   PopoverContent,
+  PopoverProps,
   PopoverTrigger,
-  Portal,
+  SelectProps,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -17,19 +20,39 @@ import colors from '../themes/colors';
 
 export type Option<Value = any> = { value: Value; title: string };
 
-export interface NSelectProps<Value = any> {
+export interface NSelectProps<Value = any> extends PopoverProps {
   options: Option<Value>[];
   onSelect?: (val: Value) => void;
-  defaultValue?: Value;
   suffix?: boolean;
 }
 
-const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue, suffix = false }) => {
+const NSelect: FC<NSelectProps> = ({
+  options,
+  onSelect,
+  suffix,
+  ...popoverProps
+}) => {
   const [opening, setOpening] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option>();
 
   // Trigger
-  const triggerNode = (
+  const triggerNode = suffix ? (
+    <Flex
+      justify="space-between"
+      cursor="pointer"
+      minWidth="180px"
+      borderRadius={3}
+      borderWidth={1}
+      onClick={() => setOpening(true)}
+    >
+      <Flex align="center" minWidth={99} flex={2} paddingX={3} paddingY={3}>
+        <Text>{selectedOption?.title ?? options[0].title}</Text>
+      </Flex>
+      <Center flex={1} paddingX={4} paddingY={2} backgroundColor={colors.bg.light1}>
+        <Icon color={colors.text.gray} as={opening ? IoMdArrowDropup : IoMdArrowDropdown} />
+      </Center>
+    </Flex>
+  ) : (
     <Box
       paddingX={4}
       paddingY={2}
@@ -44,14 +67,7 @@ const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue, suffix = f
       onClick={() => setOpening(true)}
     >
       <Text>{selectedOption?.title ?? options[0].title}</Text>
-
-      {suffix ? (
-        <Box>
-          <Icon color={colors.text.gray} as={opening ? IoMdArrowDropup : IoMdArrowDropdown} />
-        </Box>
-      ) : (
-        <Icon color={colors.text.gray} as={opening ? IoMdArrowDropup : IoMdArrowDropdown} />
-      )}
+      <Icon color={colors.text.gray} as={opening ? IoMdArrowDropup : IoMdArrowDropdown} />
     </Box>
   );
 
@@ -87,14 +103,13 @@ const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue, suffix = f
       variant="menu"
       isOpen={opening}
       onClose={() => setOpening(false)}
+      {...popoverProps}
     >
       <PopoverTrigger>{triggerNode}</PopoverTrigger>
-      <Portal>
-        <PopoverContent maxWidth="200px" _focus={{ boxShadow: 'none' }} padding="0">
-          <PopoverArrow />
-          <PopoverBody>{Options}</PopoverBody>
-        </PopoverContent>
-      </Portal>
+      <PopoverContent maxWidth="200px" _focus={{ boxShadow: 'none' }} padding="0">
+        <PopoverArrow />
+        <PopoverBody>{Options}</PopoverBody>
+      </PopoverContent>
     </Popover>
   );
 };

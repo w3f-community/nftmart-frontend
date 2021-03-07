@@ -18,16 +18,20 @@ import {
   Heading,
   AlertIcon,
   Alert,
+  Text,
+  Box,
+  Center,
 } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import * as yup from 'yup';
 
 import NFormControl from '../../components/formControl';
 import colors from '../../themes/colors';
+import NSelect from '../../components/nSelect';
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
-  <Alert status="error">
-    <AlertIcon />
+  <Alert status="error" color="white" backgroundColor={colors.failure}>
+    <AlertIcon color="white" />
     {message}
   </Alert>
 );
@@ -47,6 +51,8 @@ const SalesSettingSchema = yup.object().shape({
 });
 
 const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
+  const [expirationOpen, setExpirationOpen] = useState(false);
+
   const handleSubmit = () => {
     console.log('submit call');
   };
@@ -113,8 +119,34 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
                     </Field>
 
                     <NFormControl title="expiration" subtitle="expiration.subtitle">
-                      <Checkbox color={colors.text.gray}>expiration date</Checkbox>
+                      <Checkbox
+                        color={colors.text.gray}
+                        onChange={() => setExpirationOpen((check) => !check)}
+                      >
+                        expiration date
+                      </Checkbox>
                     </NFormControl>
+
+                    {expirationOpen && (
+                      <Field name="expiration">
+                        {({ field, form }: FieldProps) => (
+                          <Stack direction="row" spacing={5}>
+                            {/* TODO: translation */}
+                            <NSelect
+                              options={[{ title: '不修改', value: 0 }]}
+                              onSelect={(val) => form.setFieldValue('expiration', val)}
+                              suffix
+                            />
+                            <Center>
+                              <Stack direction="row">
+                                <Text color={colors.text.gray}>expiration time</Text>
+                                <Text fontWeight="bold">2021-03-12 12:23</Text>
+                              </Stack>
+                            </Center>
+                          </Stack>
+                        )}
+                      </Field>
+                    )}
 
                     <Field name="category">
                       {({ field, form }: FieldProps) => (
