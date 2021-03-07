@@ -26,8 +26,8 @@ import NFormControl from '../../components/formControl';
 import colors from '../../themes/colors';
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
-  <Alert status="error">
-    <AlertIcon />
+  <Alert status="error" color="white" backgroundColor={colors.failure}>
+    <AlertIcon color="white" />
     {message}
   </Alert>
 );
