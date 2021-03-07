@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Box,
   Button,
+  Checkbox,
+  CheckboxGroup,
   Heading,
   Input,
   Radio,
@@ -12,14 +14,31 @@ import {
 } from '@chakra-ui/react';
 
 import { t } from '../../../i18n';
+import colors from '../../../themes/colors';
 
-const statusMap = {
-  'nav.list-sale': 'a',
-  'nav.latest-create': 'b',
-  'nav.latest-strike': 'c',
+const STATUS_MAP: Record<string, number> = {
+  'nav.list-sale': 0,
+  'nav.latest-create': 1,
+  'nav.latest-strike': 2,
 };
 
+const FAKE_CATEGORIES = []
+
 const SideFilter = () => {
+  // TODO: is there a better way to manipulate status
+  const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
+  const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
+
+  const handleSelectStatus = (status: number) => {
+    if (selectedStatusSet.has(status)) {
+      selectedStatusSet.delete(status);
+    } else {
+      selectedStatusSet.add(status);
+    }
+
+    setSelectedStatus(Array.from(selectedStatusSet));
+  };
+
   return (
     // Columns
     <Box width="321px">
@@ -31,13 +50,26 @@ const SideFilter = () => {
               {t('form.status')}
             </Heading>
             <Wrap direction="row" spacing={4}>
-              {Object.keys(statusMap).map((key) => (
-                <WrapItem>
-                  <Button variant="default" onClick={() => null} width="120px">
-                    {t(key)}
-                  </Button>
-                </WrapItem>
-              ))}
+              {Object.keys(STATUS_MAP).map((key) => {
+                const status = STATUS_MAP[key];
+                const isSelected = selectedStatusSet.has(status);
+                const color = isSelected ? colors.primary : colors.text.gray;
+
+                return (
+                  <WrapItem>
+                    <Button
+                      variant="default"
+                      borderColor={color}
+                      color={color}
+                      onClick={() => handleSelectStatus(status)}
+                      width="120px"
+                      _focus={{ boxShadow: 'none' }}
+                    >
+                      {t(key)}
+                    </Button>
+                  </WrapItem>
+                );
+              })}
             </Wrap>
           </Stack>
 
@@ -46,14 +78,14 @@ const SideFilter = () => {
               {t('form.collection')}
             </Heading>
             <Input placeholder={t('form.collection.placeholder')} />
-            <RadioGroup>
+            <CheckboxGroup>
               <Stack>
-                <Radio>Hashmasks</Radio>
-                <Radio>CryptoPunks</Radio>
-                <Radio>SperRare</Radio>
-                <Radio>Raible</Radio>
+                <Checkbox>Hashmasks</Checkbox>
+                <Checkbox>CryptoPunks</Checkbox>
+                <Checkbox>SperRare</Checkbox>
+                <Checkbox>Raible</Checkbox>
               </Stack>
-            </RadioGroup>
+            </CheckboxGroup>
           </Stack>
         </Stack>
       </Box>

@@ -142,7 +142,7 @@ const MainList = () => {
   };
 
   return (
-    <Box width="1104px">
+    <Box flex={1}>
       <TypeFilters onChange={handleFilterChange} />
 
       <Helpers onSort={handleSorting} count={count} />
