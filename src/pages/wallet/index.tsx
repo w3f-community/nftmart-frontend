@@ -11,6 +11,7 @@ import MainList from './main-list';
 const Page = () => {
   const { account } = globalStore.useState('account');
   const { balance, nonce } = store.useState('balance', 'nonce');
+
   useEffect(() => {
     // if (account) getBalance(account.address);
   }, [account]);

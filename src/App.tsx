@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import * as React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import { ApolloProvider } from '@apollo/client';
 import PolkaProvider from './api/polka/provider';
 import TransHOC from './components/trans';
@@ -17,11 +17,15 @@ import Explore from './pages/explore';
 import Wallet from './pages/wallet';
 import CreateCollection from './pages/create-collection';
 import EditUser from './pages/edit-user';
+import Detail from './pages/detail';
+import Create from './pages/create';
 
 export const App = () => {
   return (
     <ApolloProvider client={getClient()}>
       <ChakraProvider theme={theme}>
+        <CSSReset />
+        
         <HashRouter>
           <TransHOC>
             <Header />
@@ -32,6 +36,9 @@ export const App = () => {
                 <Route exact strict path="/profile/wallet" component={Wallet} />
                 <Route exact strict path="/profile/create" component={CreateCollection} />
                 <Route exact strict path="/profile/info" component={EditUser} />
+                <Route exact strict path="/wallet" component={Wallet} />
+                <Route exact strict path="/detail/*" component={Detail} />
+                <Route exact strict path="/create" component={Create} />
               </Switch>
             </PolkaProvider>
             <Footer />

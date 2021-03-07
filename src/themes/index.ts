@@ -13,6 +13,8 @@ import Button from './components/button';
 import Link from './components/link';
 import Popover from './components/popover';
 import Container from './components/container';
+import Table from './components/table';
+import Modal from './components/modal';
 
 const overrides: ThemeOverride = {
   colors,
@@ -29,6 +31,8 @@ const overrides: ThemeOverride = {
     Link,
     Popover,
     Container,
+    Table,
+    Modal,
     // Other components go here
   },
 };

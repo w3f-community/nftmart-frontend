@@ -3,9 +3,9 @@
 
   "nav.home": "Home",
   "nav.explore": "Explore",
-  "nav.list-sale": "List",
-  "nav.latest-create": "Latest Create",
-  "nav.latest-strike": "Latest Strike",
+  "nav.list-sale": "Listing",
+  "nav.latest-create": "New Releases",
+  "nav.latest-strike": "Sold Recently",
 
   "quick-area.wallet": "Wallet",
   "quick-area.works": "Works",
