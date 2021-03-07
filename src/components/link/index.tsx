@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Text, Link, HTMLChakraProps } from '@chakra-ui/react';
+import { Text, Link, HTMLChakraProps, LinkProps } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import colors from '../../themes/colors';
 
@@ -10,10 +10,11 @@ export interface NLinkProps extends HTMLChakraProps<'p'> {
   title: string;
   active?: boolean;
   bordered?: boolean;
+  linkProps?: LinkProps;
 }
 
 const NLink: FC<NLinkProps> = (props) => {
-  const { path, title, active = false, bordered = false, ...restStyles } = props;
+  const { path, title, active = false, bordered = false, linkProps, ...restStyles } = props;
 
   const borderBottom = {
     content: '" "',
@@ -42,6 +43,7 @@ const NLink: FC<NLinkProps> = (props) => {
         to={path}
         color={active ? colors.primary : ''}
         _after={active && bordered ? borderBottom : {}}
+        {...linkProps}
       >
         {t(title)}
       </Link>

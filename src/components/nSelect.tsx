@@ -21,9 +21,10 @@ export interface NSelectProps<Value = any> {
   options: Option<Value>[];
   onSelect?: (val: Value) => void;
   defaultValue?: Value;
+  suffix?: boolean;
 }
 
-const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue }) => {
+const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue, suffix = false }) => {
   const [opening, setOpening] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option>();
 
@@ -43,7 +44,14 @@ const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue }) => {
       onClick={() => setOpening(true)}
     >
       <Text>{selectedOption?.title ?? options[0].title}</Text>
-      <Icon color={colors.text.gray} as={opening ? IoMdArrowDropup : IoMdArrowDropdown} />
+
+      {suffix ? (
+        <Box>
+          <Icon color={colors.text.gray} as={opening ? IoMdArrowDropup : IoMdArrowDropdown} />
+        </Box>
+      ) : (
+        <Icon color={colors.text.gray} as={opening ? IoMdArrowDropup : IoMdArrowDropdown} />
+      )}
     </Box>
   );
 
@@ -63,12 +71,14 @@ const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue }) => {
       onClick={() => handleSelect(index)}
       textAlign="center"
       userSelect="none"
+      paddingX={4}
+      key={title}
     >
       <Text>{title}</Text>
     </Box>
   );
 
-  const Options = <Stack>{options.map(renderOption)}</Stack>;
+  const Options = <Stack paddingY={2}>{options.map(renderOption)}</Stack>;
 
   return (
     <Popover
@@ -80,7 +90,7 @@ const NSelect: FC<NSelectProps> = ({ options, onSelect, defaultValue }) => {
     >
       <PopoverTrigger>{triggerNode}</PopoverTrigger>
       <Portal>
-        <PopoverContent maxWidth="200px" _focus={{ boxShadow: 'none' }} paddingY={0}>
+        <PopoverContent maxWidth="200px" _focus={{ boxShadow: 'none' }} padding="0">
           <PopoverArrow />
           <PopoverBody>{Options}</PopoverBody>
         </PopoverContent>

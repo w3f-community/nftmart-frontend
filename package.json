@@ -7,6 +7,7 @@
     "@chakra-ui/react": "^1.0.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
+    "@nivo/core": "^0.67.0",
     "@polkadot/api": "^3.10.3-9",
     "@polkadot/api-contract": "^3.10.3-8",
     "@polkadot/extension-dapp": "^0.37.1",
@@ -38,8 +39,10 @@
     "react-icons": "^3.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "recharts": "^2.0.8",
     "rekv": "^1.2.2",
-    "web-vitals": "^0.2.2"
+    "web-vitals": "^0.2.2",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-app-rewired start",

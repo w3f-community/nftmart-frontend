@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Box, Flex, Stack, Text, Button, Container, Center } from '@chakra-ui/react';
 import colors from '../../../themes/colors';
 
-const Alert = () => {
+export interface AlertProps {
+  onSetting: () => void;
+}
+
+const Alert: FC<AlertProps> = ({ onSetting }) => {
   return (
     <Box height="80px" backgroundColor="#e9ecff" display="flex" alignItems="center">
       <Container>
@@ -18,7 +22,9 @@ const Alert = () => {
             </Box>
           </Center>
           <Button variant="default">销毁</Button>
-          <Button variant="primary">售卖设置</Button>
+          <Button variant="primary" onClick={onSetting}>
+            售卖设置
+          </Button>
         </Stack>
       </Container>
     </Box>
