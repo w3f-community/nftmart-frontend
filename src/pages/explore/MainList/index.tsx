@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import colors from '../../../themes/colors';
 import Collection from '../../../components/collection';
 import NSelect from '../../../components/nSelect';
 
-const typeMap = {
+const typeMap: Record<string, number> = {
   all: 1,
   digital: 2,
   virtual: 3,
@@ -17,16 +17,21 @@ const typeMap = {
 };
 
 /** 类型选择 Type filter, use for filtering different types of works */
-const TypeFilters = ({ onChange }) => {
+
+export interface TypeFiltersProps {
+  onChange: (val: any) => void;
+}
+
+const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
   const [selectedType, setSelectedType] = useState('all');
 
-  const handleSelect = (type) => {
+  const handleSelect = (type: string) => {
     setSelectedType(type);
     // TODO: which property should we use?
     onChange(type);
   };
 
-  const renderFilter = (type) => (
+  const renderFilter = (type: string) => (
     <Box
       key={typeMap[type]}
       cursor="pointer"
@@ -56,7 +61,12 @@ const TypeFilters = ({ onChange }) => {
 };
 
 /** 展示 结果 与 排序选择 */
-const Helpers = ({ count, onSort }) => {
+export interface Helpers {
+  count: number;
+  onSort: (val: any) => void;
+}
+
+const Helpers: FC<Helpers> = ({ count, onSort }) => {
   const suffix = `result${count > 1 ? 's' : ''}`;
   const options = [
     { value: 1, title: t('form.sort.auto') },
@@ -72,7 +82,7 @@ const Helpers = ({ count, onSort }) => {
     </Box>
   );
 
-  const handleSelect = (value) => {
+  const handleSelect = (value: any) => {
     onSort(value);
   };
 
@@ -94,24 +104,40 @@ const MainList = () => {
   const [count, setCount] = useState(16178);
 
   const list = [
-    { name: '星空', price: 1, id: 0 },
-    { name: '星空', price: 1, id: 1 },
-    { name: '星空', price: 1, id: 2 },
-    { name: '星空', price: 1, id: 3 },
-    { name: '星空', price: 1, id: 4 },
-    { name: '星空', price: 1, id: 5 },
-    { name: '星空', price: 1, id: 6 },
-    { name: '星空', price: 1, id: 7 },
-    { name: '星空', price: 1, id: 8 },
-    { name: '星空', price: 1, id: 9 },
+    {
+      id: 1,
+      collection_id: 0,
+      category_id: -1,
+      name: '饕餮史蒂芬',
+      picture: '史蒂芬史蒂芬是否第三方',
+      metadata: '元数据',
+      external_links: '外部链接说明',
+      describe: '描述',
+      status: 0,
+      price: 0,
+      address: '0x12541254189999',
+    },
+    {
+      id: 2,
+      collection_id: 4,
+      category_id: 1,
+      name: '饕餮',
+      picture: '史蒂芬史蒂芬是否第三方',
+      metadata: '元数据',
+      external_links: '外部链接说明',
+      describe: '描述',
+      status: 0,
+      price: 0,
+      address: '0x12541254189999',
+    },
   ];
 
-  const handleFilterChange = (type) => {
+  const handleFilterChange = (type: string) => {
     // type
     console.log('CHANGED type:', type);
   };
 
-  const handleSorting = (sort) => {
+  const handleSorting = (sort: any) => {
     //
   };
 
