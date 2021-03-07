@@ -18,14 +18,13 @@ import Wallet from './pages/wallet';
 import CreateCollection from './pages/create-collection';
 import EditUser from './pages/edit-user';
 import Detail from './pages/detail';
-import Create from './pages/create';
 
 export const App = () => {
   return (
     <ApolloProvider client={getClient()}>
       <ChakraProvider theme={theme}>
         <CSSReset />
-        
+
         <HashRouter>
           <TransHOC>
             <Header />
@@ -33,12 +32,11 @@ export const App = () => {
               <Switch>
                 <Route exact strict path="/" component={Home} />
                 <Route exact strict path="/explore" component={Explore} />
-                <Route exact strict path="/profile/wallet" component={Wallet} />
-                <Route exact strict path="/profile/create" component={CreateCollection} />
-                <Route exact strict path="/profile/info" component={EditUser} />
+                <Route exact strict path="/profile" component={EditUser} />
                 <Route exact strict path="/wallet" component={Wallet} />
                 <Route exact strict path="/detail/*" component={Detail} />
-                <Route exact strict path="/create" component={Create} />
+
+                <Route exact strict path="/create" component={CreateCollection} />
               </Switch>
             </PolkaProvider>
             <Footer />

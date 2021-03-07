@@ -24,7 +24,21 @@ export const TYPES = {
   TokenData: { deposit: 'Balance' },
   Properties: 'u8',
   ActiveIndex: 'u32',
-  CategoryId: 'u32',
+};
+
+export const NAV_MAP: Record<string, string> = {
+  'nav.home': '/',
+  'nav.explore': '/explore',
+  'nav.list-sale': '/explore?status=listing',
+  'nav.latest-create': '/explore?status=new',
+  'nav.latest-strike': '/explore?status=recent',
+};
+  
+export const USER_LINKS: Record<string, string> = {
+  'quick-area.wallet': '/wallet',
+  'quick-area.works': '/collections',
+  'quick-area.works.create': '/create',
+  'quick-area.profile.edit': '/profile',
 };
 
 export const DBURL = '';

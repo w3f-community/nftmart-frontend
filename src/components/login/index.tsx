@@ -14,13 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import NLink from '../link';
-
-const navMap: Record<string, string> = {
-  'quick-area.wallet': '/profile/wallet',
-  'quick-area.works': '/profile/product',
-  'quick-area.works.create': '/profile/create',
-  'quick-area.profile.edit': '/profile/info',
-};
+import { USER_LINKS } from '../../constants';
 
 const Login = () => {
   const location = useLocation();
@@ -32,7 +26,7 @@ const Login = () => {
 
   // Link render helper
   const renderLink = (title: string) => {
-    const path = navMap[title];
+    const path = USER_LINKS[title];
     const active = location.pathname === path;
 
     return (
@@ -44,14 +38,14 @@ const Login = () => {
         textAlign="center"
         linkProps={{
           paddingX: 4,
-          display: 'block'
+          display: 'block',
         }}
       />
     );
   };
 
   // Menus
-  const menus = <Stack paddingY={2}>{Object.keys(navMap).map(renderLink)}</Stack>;
+  const menus = <Stack paddingY={2}>{Object.keys(USER_LINKS).map(renderLink)}</Stack>;
 
   // Trigger
   const triggerContent = (

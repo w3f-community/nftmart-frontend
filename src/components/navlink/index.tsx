@@ -2,20 +2,13 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import NLink from '../link';
+import { NAV_MAP } from '../../constants';
 
 const NavLink = () => {
   const location = useLocation();
 
-  const navMap: { [key: string]: string } = {
-    'nav.home': '/',
-    'nav.explore': '/explore',
-    'nav.list-sale': '/list-sale',
-    'nav.latest-create': '/lates-create',
-    'nav.latest-strike': '/lates-strike',
-  };
-
   const renderLink = (title: string) => {
-    const path = navMap[title];
+    const path = NAV_MAP[title];
     const active = location.pathname === path;
 
     return (
@@ -31,7 +24,7 @@ const NavLink = () => {
     );
   };
 
-  return <>{Object.keys(navMap).map(renderLink)}</>;
+  return <>{Object.keys(NAV_MAP).map(renderLink)}</>;
 };
 
 export default NavLink;

@@ -66,7 +66,7 @@ const provider = ({ children }: Props) => {
     initExtension();
   }, []);
 
-  return <>{children}</>; // TODO wallet injected logic
+  return <>{children}</>;
 
   return (
     <>
