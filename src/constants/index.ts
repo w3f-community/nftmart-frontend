@@ -24,6 +24,7 @@ export const TYPES = {
   TokenData: { deposit: 'Balance' },
   Properties: 'u8',
   ActiveIndex: 'u32',
+  CategoryId: 'u32',
 };
 
 export const DBURL = '';
