@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Container } from '@chakra-ui/react';
+import React, { FC } from 'react';
+import { Box, Container, SimpleGrid, Skeleton } from '@chakra-ui/react';
 import Collection from '../../../components/collection';
 import colors from '../../../themes/colors';
 import IconSj from '../../../assets/home/icon_sj.png';
@@ -7,15 +7,13 @@ import IconCj from '../../../assets/home/icon_cj.png';
 import IconClinch from '../../../assets/home/icon_clinch.png';
 import IconRight from '../../../assets/home/icon_right.png';
 import { t } from '../../../i18n';
+import { Work } from '../../../types';
 
 type PartWorksProps = {
   title: string;
-  icon: any;
-  typicalList: {
-    name: string;
-    id: number;
-    price: number;
-  }[];
+  icon: React.ReactNode;
+  link: string;
+  typicalList: Work[];
 };
 
 type PartHeaderProps = {
@@ -69,127 +67,50 @@ const PartWorks = (props: PartWorksProps) => {
   const { title, typicalList, icon } = props;
 
   return (
-    <Box>
+    <Box marginBottom={10}>
       <PartHeader title={title} icon={icon} />
-      <Box display="flex" mr="-16px" justifyContent="space-around">
-        {typicalList.map(({ id, name, price }) => (
-          <Box margin="0 16px 40px 0" key={id}>
-            <Collection name={name} price={price} isSet />
-          </Box>
+      <SimpleGrid columns={5} spacing={4}>
+        {typicalList.map((work) => (
+          <Collection {...work} isSet />
         ))}
-      </Box>
+      </SimpleGrid>
     </Box>
   );
 };
+export interface WorksProps {
+  loading: boolean;
+  data: Record<string, Work[]>;
+}
 
-const Works = () => {
+const Works: FC<WorksProps> = ({ loading, data }) => {
   const partList = [
     {
-      title: '新上架',
+      key: 'listing',
+      title: t('nav.list-sale'),
       icon: IconSj,
-      seeMoreLink: '',
-      typicalList: [
-        {
-          name: '静物系列再作星空',
-          id: 0,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 1,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 2,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 3,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 4,
-          price: 198234,
-        },
-      ],
-      id: 0,
+      link: '/explore?status=listing',
     },
     {
-      title: '新创建',
+      key: 'new',
+      title: t('nav.latest-create'),
       icon: IconCj,
-      seeMoreLink: '',
-      typicalList: [
-        {
-          name: '静物系列再作星空',
-          id: 0,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 1,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 2,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 3,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 4,
-          price: 198234,
-        },
-      ],
-      id: 1,
+      link: '/explore?status=new',
     },
     {
-      title: '最近成交',
+      key: 'recent',
+      title: t('nav.latest-strike'),
       icon: IconClinch,
-      seeMoreLink: '',
-      typicalList: [
-        {
-          name: '静物系列再作星空',
-          id: 0,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 1,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 2,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 3,
-          price: 198234,
-        },
-        {
-          name: '静物系列再作星空',
-          id: 4,
-          price: 198234,
-        },
-      ],
-      id: 2,
+      link: '/explore?status=recent',
     },
-  ];
+  ].map((item) => ({ ...item, list: data[item.key] || [] }));
 
   return (
     <Box p="40px 0">
       <Container>
-        {partList.map(({ title, id, typicalList, icon }) => (
-          <PartWorks title={title} key={id} typicalList={typicalList} icon={icon} />
+        {partList.map(({ title, link, icon, list }) => (
+          <Skeleton isLoaded={!loading} key={title}>
+            <PartWorks title={title} typicalList={list} icon={icon} link={link} />
+          </Skeleton>
         ))}
       </Container>
     </Box>
