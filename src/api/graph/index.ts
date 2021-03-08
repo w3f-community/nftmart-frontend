@@ -11,37 +11,42 @@ export const newClient = (opt = {}) => {
 };
 
 export const getClient = () => {
-  const client = newClient({ url: DBURL });
+  const client = newClient({ uri: DBURL });
   return client;
 };
 
-// const GET_COLLECTIONS = gql`
-// query itemsQuery(
-//     $id: ID!,
-// ) {
-//     items(
+const GET_COLLECTIONS = gql`
+  query {
+    collections
+  }
+`;
 
-//     )
-// }
-// `;
+const GET_ITEMS = gql`
+  query {
+    assets(page: 1) {
+      assets {
+        id
+        Name
+        Status
+        PicUrl
+        categoryId
+        price
+      }
+      hasMore
+    }
+  }
+`;
 
-// const GET_ITEMS = gql`
-// query itemsQuery(
-//   $id: ID!,
-// ) {
-// }
-// `;
+// export query result for collections , use fetchMore to load more paginations
+export const GetItems = (vars = {}) => {
+  return useQuery(GET_ITEMS, {
+    variables: { offset: 0, limit: 20, ...vars },
+  });
+};
 
-// // export query result for collections , use fetchMore to load more paginations
-// export const GetItems = (vars = {}) => {
-//   return useQuery(GET_ITEMS, {
-//     variables: { offset: 0, limit: 20, ...vars },
-//   });
-// };
-
-// // export query result for collections , use fetchMore to load more paginations
-// export const GetCollections = (vars = {}) => {
-//   return useQuery(GET_COLLECTIONS, {
-//     variables: { offset: 0, limit: 20, ...vars },
-//   });
-// };
+// export query result for collections , use fetchMore to load more paginations
+export const GetCollections = (vars = {}) => {
+  return useQuery(GET_COLLECTIONS, {
+    variables: { offset: 0, limit: 20, ...vars },
+  });
+};

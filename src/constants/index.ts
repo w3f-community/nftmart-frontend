@@ -33,7 +33,7 @@ export const NAV_MAP: Record<string, string> = {
   'nav.latest-create': '/explore?status=new',
   'nav.latest-strike': '/explore?status=recent',
 };
-  
+
 export const USER_LINKS: Record<string, string> = {
   'quick-area.wallet': '/wallet',
   'quick-area.works': '/collections',
@@ -41,7 +41,8 @@ export const USER_LINKS: Record<string, string> = {
   'quick-area.profile.edit': '/profile',
 };
 
-export const DBURL = '';
+// TODO: Change to env variables
+export const DBURL = 'http://localhost:8888/graphql';
 export const IPFS_POST_SERVER = 'http://59.110.115.146:5001';
 export const IPFS_GET_SERVER = 'http://59.110.115.146:8000';
 export const NODE_URL = 'ws://8.136.111.191:9944';
