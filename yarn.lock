@@ -1151,7 +1151,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.3.1":
+"@babel/runtime@^7.10.5", "@babel/runtime@^7.13.9", "@babel/runtime@^7.3.1":
   version "7.13.9"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.9.tgz#97dbe2116e2630c489f22e0656decd60aaa1fcee"
   integrity sha512-aY2kU+xgJ3dJ1eU6FMB9EH8dIe8dmusF1xEku52joLvw6eAFN0AI+WxCLDnpev2LEejWBAy2sBvBOBAjI3zmvA==
@@ -2477,6 +2477,13 @@
   dependencies:
     "@babel/runtime" "^7.13.7"
 
+"@polkadot/networks@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npm.taobao.org/@polkadot/networks/download/@polkadot/networks-6.0.4.tgz#95c071040741a784bd5ee63ecd36987f3e44108c"
+  integrity sha1-lcBxBAdBp4S9XuY+zTaYfz5EEIw=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+
 "@polkadot/phishing@^0.5.38":
   version "0.5.40"
   resolved "https://registry.yarnpkg.com/@polkadot/phishing/-/phishing-0.5.40.tgz#de5ceca00d6f22f050a42dd5b4e5e0f158803518"
@@ -2560,6 +2567,28 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
+"@polkadot/util-crypto@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npm.taobao.org/@polkadot/util-crypto/download/@polkadot/util-crypto-6.0.4.tgz#e6973b0f1f4bf4c8a9f6601f527f8ca38e43483c"
+  integrity sha1-5pc7Dx9L9Mip9mAfUn+Mo45DSDw=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+    "@polkadot/networks" "6.0.4"
+    "@polkadot/util" "6.0.4"
+    "@polkadot/wasm-crypto" "^4.0.2"
+    "@polkadot/x-randomvalues" "6.0.4"
+    base-x "^3.0.8"
+    base64-js "^1.5.1"
+    blakejs "^1.1.0"
+    bn.js "^4.11.9"
+    create-hash "^1.2.0"
+    elliptic "^6.5.4"
+    hash.js "^1.1.7"
+    js-sha3 "^0.8.0"
+    scryptsy "^2.1.0"
+    tweetnacl "^1.0.3"
+    xxhashjs "^0.2.2"
+
 "@polkadot/util@5.8.1", "@polkadot/util@^5.6.2", "@polkadot/util@^5.7.1", "@polkadot/util@^5.7.2-6", "@polkadot/util@^5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-5.8.1.tgz#7f01ddeedbc4c78ae5db1ffba60cffd11cde6ae6"
@@ -2573,6 +2602,19 @@
     camelcase "^5.3.1"
     ip-regex "^4.3.0"
 
+"@polkadot/util@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npm.taobao.org/@polkadot/util/download/@polkadot/util-6.0.4.tgz#0383d25879c5e222b0e12f7269aa8f0805d69c86"
+  integrity sha1-A4PSWHnF4iKw4S9yaaqPCAXWnIY=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+    "@polkadot/x-textdecoder" "6.0.4"
+    "@polkadot/x-textencoder" "6.0.4"
+    "@types/bn.js" "^4.11.6"
+    bn.js "^4.11.9"
+    camelcase "^5.3.1"
+    ip-regex "^4.3.0"
+
 "@polkadot/wasm-crypto-asmjs@^3.2.4":
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto-asmjs/-/wasm-crypto-asmjs-3.2.4.tgz#837f5b723161b21670d13779eff4c061f7947577"
@@ -2580,12 +2622,26 @@
   dependencies:
     "@babel/runtime" "^7.13.7"
 
+"@polkadot/wasm-crypto-asmjs@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npm.taobao.org/@polkadot/wasm-crypto-asmjs/download/@polkadot/wasm-crypto-asmjs-4.0.2.tgz#f42c353a64e1243841daf90e4bd54eff01a4e3cf"
+  integrity sha1-9Cw1OmThJDhB2vkOS9VO/wGk488=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+
 "@polkadot/wasm-crypto-wasm@^3.2.4":
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto-wasm/-/wasm-crypto-wasm-3.2.4.tgz#70885e06a813af91d81cf7e8ff826976fa99a38b"
   integrity sha512-Q/3IEpoo7vkTzg40GxehRK000A9oBgjbh/uWCNQ8cMqWLYYCfzZy4NIzw8szpxNiSiGfGL0iZlP4ZSx2ZqEe2g==
   dependencies:
     "@babel/runtime" "^7.13.7"
+
+"@polkadot/wasm-crypto-wasm@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npm.taobao.org/@polkadot/wasm-crypto-wasm/download/@polkadot/wasm-crypto-wasm-4.0.2.tgz#89f9e0a1e4d076784d4a42bea37fc8b06bdd8bb6"
+  integrity sha1-ifngoeTQdnhNSkK+o3/IsGvdi7Y=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
 
 "@polkadot/wasm-crypto@^3.2.4":
   version "3.2.4"
@@ -2595,6 +2651,15 @@
     "@babel/runtime" "^7.13.7"
     "@polkadot/wasm-crypto-asmjs" "^3.2.4"
     "@polkadot/wasm-crypto-wasm" "^3.2.4"
+
+"@polkadot/wasm-crypto@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npm.taobao.org/@polkadot/wasm-crypto/download/@polkadot/wasm-crypto-4.0.2.tgz#9649057adee8383cc86433d107ba526b718c5a3b"
+  integrity sha1-lkkFet7oODzIZDPRB7pSa3GMWjs=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+    "@polkadot/wasm-crypto-asmjs" "^4.0.2"
+    "@polkadot/wasm-crypto-wasm" "^4.0.2"
 
 "@polkadot/x-fetch@^5.7.1", "@polkadot/x-fetch@^5.8.1":
   version "5.8.1"
@@ -2615,6 +2680,15 @@
     "@types/node-fetch" "^2.5.8"
     node-fetch "^2.6.1"
 
+"@polkadot/x-global@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npm.taobao.org/@polkadot/x-global/download/@polkadot/x-global-6.0.4.tgz#4c59ac10e66cc443e1c90de316da0b73569b5607"
+  integrity sha1-TFmsEOZsxEPhyQ3jFtoLc1abVgc=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+    "@types/node-fetch" "^2.5.8"
+    node-fetch "^2.6.1"
+
 "@polkadot/x-randomvalues@5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@polkadot/x-randomvalues/-/x-randomvalues-5.8.1.tgz#30adf7813fa7c45599cbd2e60bf99b187890d1ee"
@@ -2622,6 +2696,14 @@
   dependencies:
     "@babel/runtime" "^7.13.7"
     "@polkadot/x-global" "5.8.1"
+
+"@polkadot/x-randomvalues@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npm.taobao.org/@polkadot/x-randomvalues/download/@polkadot/x-randomvalues-6.0.4.tgz#a66b627d897bb89f932104ead72628abecc5965e"
+  integrity sha1-pmtifYl7uJ+TIQTq1yYoq+zFll4=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+    "@polkadot/x-global" "6.0.4"
 
 "@polkadot/x-rxjs@^5.8.1":
   version "5.8.1"
@@ -2639,6 +2721,14 @@
     "@babel/runtime" "^7.13.7"
     "@polkadot/x-global" "5.8.1"
 
+"@polkadot/x-textdecoder@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npm.taobao.org/@polkadot/x-textdecoder/download/@polkadot/x-textdecoder-6.0.4.tgz#80ab21add809052db8c447cd8eee0061e3048d84"
+  integrity sha1-gKshrdgJBS24xEfNju4AYeMEjYQ=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+    "@polkadot/x-global" "6.0.4"
+
 "@polkadot/x-textencoder@5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@polkadot/x-textencoder/-/x-textencoder-5.8.1.tgz#27d5e42854df226559eccb7a1041889ff232f265"
@@ -2646,6 +2736,14 @@
   dependencies:
     "@babel/runtime" "^7.13.7"
     "@polkadot/x-global" "5.8.1"
+
+"@polkadot/x-textencoder@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npm.taobao.org/@polkadot/x-textencoder/download/@polkadot/x-textencoder-6.0.4.tgz#eb99079d114e70909167c830adabd6ccc5c54090"
+  integrity sha1-65kHnRFOcJCRZ8gwravWzMXFQJA=
+  dependencies:
+    "@babel/runtime" "^7.13.9"
+    "@polkadot/x-global" "6.0.4"
 
 "@polkadot/x-ws@^5.8.1":
   version "5.8.1"
@@ -3156,7 +3254,7 @@
   dependencies:
     "@types/lodash" "*"
 
-"@types/lodash@*":
+"@types/lodash@*", "@types/lodash@^4.14.165":
   version "4.14.168"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
   integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
@@ -10146,7 +10244,7 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lodash-es@^4.17.14:
+lodash-es@^4.17.14, lodash-es@^4.17.15:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
@@ -10868,6 +10966,11 @@ nan@^2.12.1, nan@^2.13.2, nan@^2.14.2:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
+
+nanoclone@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npm.taobao.org/nanoclone/download/nanoclone-0.2.1.tgz#dd4090f8f1a110d26bb32c49ed2f5b9235209ed4"
+  integrity sha1-3UCQ+PGhENJrsyxJ7S9bkjUgntQ=
 
 nanoid@^3.1.12, nanoid@^3.1.20:
   version "3.1.20"
@@ -12739,6 +12842,11 @@ prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
     react-is "^16.8.1"
+
+property-expr@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npm.taobao.org/property-expr/download/property-expr-2.0.4.tgz#37b925478e58965031bb612ec5b3260f8241e910"
+  integrity sha1-N7klR45YllAxu2EuxbMmD4JB6RA=
 
 protocol-buffers-schema@^3.3.1:
   version "3.5.1"
@@ -15401,6 +15509,11 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
+toposort@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npm.taobao.org/toposort/download/toposort-2.0.2.tgz#ae21768175d1559d48bef35420b2f4962f09c330"
+  integrity sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=
+
 tough-cookie@^2.3.3, tough-cookie@~2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
@@ -16717,6 +16830,19 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+yup@^0.32.9:
+  version "0.32.9"
+  resolved "https://registry.npm.taobao.org/yup/download/yup-0.32.9.tgz#9367bec6b1b0e39211ecbca598702e106019d872"
+  integrity sha1-k2e+xrGw45IR7LylmHAuEGAZ2HI=
+  dependencies:
+    "@babel/runtime" "^7.10.5"
+    "@types/lodash" "^4.14.165"
+    lodash "^4.17.20"
+    lodash-es "^4.17.15"
+    nanoclone "^0.2.1"
+    property-expr "^2.0.4"
+    toposort "^2.0.2"
 
 zen-observable@^0.8.14:
   version "0.8.15"

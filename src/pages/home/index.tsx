@@ -1,5 +1,4 @@
 import React from 'react';
-
 import CommLayout from '../../layouts/common';
 import Banner from './Banner';
 import TypeFilter from './TypeFilter';
