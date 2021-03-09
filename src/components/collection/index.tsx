@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  forwardRef,
-  ChakraProps,
-  chakra,
-  ComponentWithAs,
-  Box,
-  Flex,
-  Image,
-} from '@chakra-ui/react';
+import { forwardRef, ChakraProps, chakra, ComponentWithAs, Box, Flex } from '@chakra-ui/react';
 import { motion, MotionProps, isValidMotionProp } from 'framer-motion';
+import Image, { Shimmer } from 'react-shimmer';
 
 import colors from '../../themes/colors';
 import PriceIcon from '../../assets/home/icon_price.png';
@@ -54,7 +47,10 @@ const Collection = (props: CollectionProps) => {
       flexDirection="column"
       justifyContent="space-around"
     >
-      <Image height="195px" src={PicUrl} objectFit="cover" />
+      <Image
+        src={PicUrl as string}
+        fallback={<Shimmer height={195} width={231} />}
+      />
       <Box
         mt="16px"
         display="flex"

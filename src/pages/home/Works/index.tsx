@@ -107,11 +107,13 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
   return (
     <Box p="40px 0">
       <Container>
-        {partList.map(({ title, link, icon, list }) => (
-          <Skeleton isLoaded={!loading} key={title}>
-            <PartWorks title={title} typicalList={list} icon={icon} link={link} />
-          </Skeleton>
-        ))}
+        {partList.map(({ title, link, icon, list }) =>
+          list.length ? (
+            <Skeleton isLoaded={!loading} key={title}>
+              <PartWorks title={title} typicalList={list} icon={icon} link={link} />
+            </Skeleton>
+          ) : null,
+        )}
       </Container>
     </Box>
   );
