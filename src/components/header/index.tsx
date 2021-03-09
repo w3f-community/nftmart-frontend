@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Container, Flex, Text } from '@chakra-ui/react';
 import NavLink from '../navlink';
 import Login from '../login';
+import { Z_INDEXES } from '../../constants';
 
-export default function Header() {
+export interface HeaderProps {
+  sticky?: boolean;
+}
+
+const Header: FC<HeaderProps> = ({ sticky }) => {
   return (
     <Flex
       as="header"
@@ -12,6 +17,11 @@ export default function Header() {
       backgroundColor="white"
       boxShadow="md"
       minHeight="77px"
+      position={sticky ? 'fixed' : 'initial'}
+      top={0}
+      left={0}
+      right={0}
+      zIndex={Z_INDEXES.header}
     >
       <Container
         py={4}
@@ -37,4 +47,6 @@ export default function Header() {
       </Container>
     </Flex>
   );
-}
+};
+
+export default Header;

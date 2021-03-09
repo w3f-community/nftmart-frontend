@@ -42,7 +42,8 @@ export const USER_LINKS: Record<string, string> = {
   'quick-area.profile.edit': '/profile',
 };
 
-export const DBURL = '';
+// TODO: Change to env variables
+export const DBURL = 'http://localhost:8888/graphql';
 export const IPFS_POST_SERVER = 'http://59.110.115.146:5001';
 export const IPFS_GET_SERVER = 'http://59.110.115.146:8000';
 export const NODE_URL = 'ws://8.136.111.191:9944';
@@ -71,4 +72,11 @@ export const NFT_METADATA = {
   description: '', // nft desc
   backgroundColor: '', //  color #ffffff
   traits: [], // nft propos
+};
+
+export const Z_INDEXES = {
+  // popover's index - 1
+  header: 9,
+  typeFilter: 9,
+  banner: 8,
 };

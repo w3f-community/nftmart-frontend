@@ -7,6 +7,7 @@ import store from '../../stores/account';
 
 import SideFilter from './side-filter';
 import MainList from './main-list';
+import Layout from '../../layouts/common';
 
 const Page = () => {
   const { account } = globalStore.useState('account');
@@ -19,12 +20,14 @@ const Page = () => {
   console.log(balance, nonce);
 
   return (
-    <Box pt="20px" pb="24px">
-      <Container display="flex">
-        <SideFilter />
-        <MainList />
-      </Container>
-    </Box>
+    <Layout>
+      <Box pt="20px" pb="24px">
+        <Container display="flex">
+          <SideFilter />
+          <MainList />
+        </Container>
+      </Box>
+    </Layout>
   );
 };
 
