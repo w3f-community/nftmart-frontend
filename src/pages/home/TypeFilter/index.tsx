@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Box, Container } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import colors from '../../../themes/colors';
+import { t } from '../../../i18n';
 
 const TypeItem = styled.li`
   list-style: none;
@@ -19,13 +20,17 @@ const TypeItem = styled.li`
   }
 `;
 
-const TypeFilter = () => {
+export interface TypeFilterProps {
+  onFilter?: (v: number) => void;
+}
+
+const TypeFilter: FC<TypeFilterProps> = ({ onFilter }) => {
   const typeList = [
-    { name: '数学艺术品', id: 0 },
-    { name: '虚拟世界', id: 1 },
-    { name: '运动', id: 2 },
-    { name: '收藏品', id: 3 },
-    { name: '其他', id: 4 },
+    { name: t('type.digital'), id: 1 },
+    { name: t('type.virtual'), id: 2 },
+    { name: t('type.sport'), id: 3 },
+    { name: t('type.collect'), id: 4 },
+    { name: t('type.other'), id: 5 },
   ];
 
   return (
@@ -36,7 +41,9 @@ const TypeFilter = () => {
     >
       <Container display="flex" justifyContent="center">
         {typeList.map(({ id, name }) => (
-          <TypeItem key={id}>{name}</TypeItem>
+          <TypeItem key={id} onClick={() => onFilter?.(id)}>
+            {name}
+          </TypeItem>
         ))}
       </Container>
     </Box>
