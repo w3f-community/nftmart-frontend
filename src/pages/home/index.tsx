@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { compose, filter, groupBy } from 'ramda';
+import { groupBy } from 'ramda';
 import { Center, Container, Text } from '@chakra-ui/react';
+
+import store, { actions } from '../../stores/assets';
 
 import { GetItems } from '../../api/graph';
 import CommLayout from '../../layouts/common';
@@ -22,23 +24,25 @@ const groupByStatus = groupBy<Work>(({ Status }) => STATUS_MAP[Status]);
 
 const Page = () => {
   const { loading, error, data: response } = GetItems();
+  const { assets } = store.useState('assets', 'filteredAssets');
 
-  const originalAssets: Work[] = response?.assets?.assets ?? [];
-
-  const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(originalAssets));
+  const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(assets));
   const [stickyFilter, setStickyFilter] = useState(false);
-  const [typeFilterHeight, setTypeFilterHeight] = useState(338);
+  const [typeFilterHeight] = useState(338);
 
   // State Effect
   useEffect(() => {
-    if (response?.assets?.assets.length) {
-      setWorkListMap(groupByStatus(response?.assets?.assets));
+    const newAssets = response?.assets?.assets;
+    if (newAssets.length) {
+      setWorkListMap(groupByStatus(newAssets));
+      store.setState({ assets: newAssets });
     }
     return () => {
       //
     };
   }, [response]);
 
+  // Update sticky header UI
   useEffect(() => {
     const listenter = () => {
       if (window.pageYOffset > 80 && !stickyFilter) {
@@ -57,12 +61,7 @@ const Page = () => {
 
   // Events
   const handleFilter = (categoryId: number) => {
-    setWorkListMap(
-      compose<Work[], Work[], ListMap>(
-        groupByStatus,
-        filter((work: Work) => work.categoryId === categoryId),
-      )(originalAssets),
-    );
+    actions.filterAssets({ category: categoryId })
   };
 
   // Component
