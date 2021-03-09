@@ -1,6 +1,9 @@
 import React, { FC } from 'react';
 import { Box, Container, SimpleGrid, Skeleton } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+
 import Collection from '../../../components/collection';
+import Empty from '../../../components/empty';
 import colors from '../../../themes/colors';
 import IconSj from '../../../assets/home/icon_sj.png';
 import IconCj from '../../../assets/home/icon_cj.png';
@@ -19,10 +22,11 @@ type PartWorksProps = {
 type PartHeaderProps = {
   title: string;
   icon: any;
+  link: string;
 };
 
 const PartHeader = (props: PartHeaderProps) => {
-  const { title, icon } = props;
+  const { title, icon, link } = props;
 
   return (
     <Box
@@ -40,16 +44,18 @@ const PartHeader = (props: PartHeaderProps) => {
         </Box>
       </Box>
       <Box display="flex" alignItems="center" cursor="pointer">
-        <Box
-          as="a"
-          lineHeight="20px"
-          display="block"
-          height="20px"
-          color={colors.text.black}
-          fontSize="14px"
-        >
-          {t(`home.more`)}
-        </Box>
+        <Link to={link}>
+          <Box
+            as="a"
+            lineHeight="20px"
+            display="block"
+            height="20px"
+            color={colors.text.black}
+            fontSize="14px"
+          >
+            {t(`home.more`)}
+          </Box>
+        </Link>
         <Box
           as="img"
           src={IconRight}
@@ -64,11 +70,11 @@ const PartHeader = (props: PartHeaderProps) => {
 };
 
 const PartWorks = (props: PartWorksProps) => {
-  const { title, typicalList, icon } = props;
+  const { title, typicalList, icon, link } = props;
 
   return (
     <Box marginBottom={10}>
-      <PartHeader title={title} icon={icon} />
+      <PartHeader title={title} icon={icon} link={link} />
       <SimpleGrid columns={5} spacing={4}>
         {typicalList.map((work) => (
           <Collection {...work} isSet />
@@ -107,11 +113,16 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
   return (
     <Box p="40px 0">
       <Container>
-        {partList.map(({ title, link, icon, list }) => (
-          <Skeleton isLoaded={!loading} key={title}>
-            <PartWorks title={title} typicalList={list} icon={icon} link={link} />
-          </Skeleton>
-        ))}
+        {!Object.keys(data).length && <Empty description={t('home.empty')} />}
+
+        {!!Object.keys(data).length &&
+          partList.map(({ title, link, icon, list }) =>
+            list.length ? (
+              <Skeleton isLoaded={!loading} key={title}>
+                <PartWorks title={title} typicalList={list} icon={icon} link={link} />
+              </Skeleton>
+            ) : null,
+          )}
       </Container>
     </Box>
   );

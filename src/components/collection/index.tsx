@@ -1,19 +1,13 @@
 import React from 'react';
-import {
-  forwardRef,
-  ChakraProps,
-  chakra,
-  ComponentWithAs,
-  Box,
-  Flex,
-  Image,
-} from '@chakra-ui/react';
+import { forwardRef, ChakraProps, chakra, ComponentWithAs, Box, Flex } from '@chakra-ui/react';
 import { motion, MotionProps, isValidMotionProp } from 'framer-motion';
+import Image, { Shimmer } from 'react-shimmer';
 
 import colors from '../../themes/colors';
 import PriceIcon from '../../assets/home/icon_price.png';
 import { t } from '../../i18n';
 import { Work } from '../../types';
+import { toFixedDecimals } from '../../utils';
 
 type CollectionProps = {
   isSet?: boolean;
@@ -54,7 +48,10 @@ const Collection = (props: CollectionProps) => {
       flexDirection="column"
       justifyContent="space-around"
     >
-      <Image height="195px" src={PicUrl} objectFit="cover" />
+      <Image
+        src={PicUrl as string}
+        fallback={<Shimmer height={195} width={231} />}
+      />
       <Box
         mt="16px"
         display="flex"
@@ -86,7 +83,7 @@ const Collection = (props: CollectionProps) => {
         <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
           <Flex align="center" height="22px">
             {isSet && <Box src={PriceIcon} as="img" alt="" mr="4px" />}
-            <Box>{price}</Box>
+            <Box>{toFixedDecimals(price, 0)}</Box>
           </Flex>
         </Box>
       </Box>

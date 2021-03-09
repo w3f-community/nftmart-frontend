@@ -2,8 +2,6 @@ import React, { useMemo, useState } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
-  CheckboxGroup,
   Heading,
   Input,
   Radio,
@@ -22,10 +20,17 @@ const STATUS_MAP: Record<string, number> = {
   'nav.latest-strike': 2,
 };
 
-const FAKE_CATEGORIES = []
+const QUERY_MAP: Record<string, string> = {
+  listing: 'nav.list-sale',
+  new: 'nav.latest-create',
+  recent: 'nav.latest-strike',
+};
+
+const FAKE_CATEGORIES = [];
 
 const SideFilter = () => {
   // TODO: is there a better way to manipulate status
+  // TODO: add multiple select prop
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
 
@@ -56,13 +61,13 @@ const SideFilter = () => {
                 const color = isSelected ? colors.primary : colors.text.gray;
 
                 return (
-                  <WrapItem>
+                  <WrapItem flex={1} key={key}>
                     <Button
                       variant="default"
                       borderColor={color}
                       color={color}
                       onClick={() => handleSelectStatus(status)}
-                      width="120px"
+                      flex={1}
                       _focus={{ boxShadow: 'none' }}
                     >
                       {t(key)}
@@ -70,6 +75,8 @@ const SideFilter = () => {
                   </WrapItem>
                 );
               })}
+              {/* Placeholder */}
+              <WrapItem flex={1}></WrapItem>
             </Wrap>
           </Stack>
 
@@ -78,14 +85,14 @@ const SideFilter = () => {
               {t('form.collection')}
             </Heading>
             <Input placeholder={t('form.collection.placeholder')} />
-            <CheckboxGroup>
+            <RadioGroup>
               <Stack>
-                <Checkbox>Hashmasks</Checkbox>
-                <Checkbox>CryptoPunks</Checkbox>
-                <Checkbox>SperRare</Checkbox>
-                <Checkbox>Raible</Checkbox>
+                <Radio>Hashmasks</Radio>
+                <Radio>CryptoPunks</Radio>
+                <Radio>SperRare</Radio>
+                <Radio>Raible</Radio>
               </Stack>
-            </CheckboxGroup>
+            </RadioGroup>
           </Stack>
         </Stack>
       </Box>

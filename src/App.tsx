@@ -20,6 +20,26 @@ import CreateCollection from './pages/create-collection';
 import EditUser from './pages/edit-user';
 import Detail from './pages/detail';
 
+const ControlledLayout = () => {
+  return (
+    <>
+      <Header sticky />
+      <PolkaProvider>
+        <Switch>
+          <Route exact strict path="/" component={Home} />
+          <Route exact strict path="/explore" component={Explore} />
+          <Route exact strict path="/profile" component={EditUser} />
+          <Route exact strict path="/wallet" component={Wallet} />
+          <Route exact strict path="/detail/*" component={Detail} />
+
+          <Route exact strict path="/create" component={CreateCollection} />
+        </Switch>
+      </PolkaProvider>
+      <Footer />
+    </>
+  );
+};
+
 export const App = () => {
   return (
     <ApolloProvider client={getClient()}>
@@ -27,20 +47,7 @@ export const App = () => {
         <CSSReset />
         <HashRouter>
           <TransHOC>
-            <Header />
-            <PolkaProvider>
-              <Manager>
-                <Switch>
-                  <Route exact strict path="/" component={Home} />
-                  <Route exact strict path="/explore" component={Explore} />
-                  <Route exact strict path="/profile" component={EditUser} />
-                  <Route exact strict path="/wallet" component={Wallet} />
-                  <Route exact strict path="/detail/*" component={Detail} />
-                  <Route exact strict path="/create" component={CreateCollection} />
-                </Switch>
-              </Manager>
-            </PolkaProvider>
-            <Footer />
+            <ControlledLayout />
           </TransHOC>
         </HashRouter>
       </ChakraProvider>

@@ -54,3 +54,10 @@ export const NODE_URL = 'ws://8.136.111.191:9944';
 // 	Burnable = 0b00000010
 
 export const TOKEN_TRANSFERABLE_BURNABLE = 0b00000011;
+
+export const Z_INDEXES = {
+  // popover's index - 1
+  header: 9,
+  typeFilter: 9,
+  banner: 8,
+};

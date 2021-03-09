@@ -5,12 +5,14 @@ interface Props {
   children: React.ReactNode;
 }
 
-const layout = ({ children }: Props) => {
+const Layout = ({ children }: Props) => {
   return (
     <>
-      <Box as="main">{children}</Box>
+      <Box marginTop="77px" as="main">
+        {children}
+      </Box>
     </>
   );
 };
 
-export default layout;
+export default Layout;
