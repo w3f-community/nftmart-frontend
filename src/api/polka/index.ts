@@ -17,10 +17,11 @@ const nftDeposit = async (metadata: any, quantity: any) => {
       [metadata.length, quantity.toNumber()],
       10000,
     );
+    console.log(_);
     return bnToBn(depositAll);
   } catch (e) {
-    console.log(e);
-    return bnToBn(0);
+    // console.log(e);
+    return null;
   }
 };
 
@@ -33,7 +34,7 @@ export const initPolkadotApi = () => {
   ApiPromise.create({ provider: wsProvider, types: TYPES }).then((res) => {
     globalStore.setState({ api: res });
     api = res;
-    console.log('api inited ......');
+    // console.log('api inited ......');
   });
 };
 
@@ -57,9 +58,9 @@ export const getClassById = async (id: number) => {
   const clazz = JSON.parse(res);
   const adminList = await api.query.proxy.proxies(clazz.owner); // query adminList of class
   clazz.adminList = JSON.parse(adminList);
-  console.log(clazz);
+  // console.log(clazz);
   clazz.metadata = hexToUtf8(clazz.metadata);
-  console.log(clazz);
+  // console.log(clazz);
   return clazz;
 };
 
@@ -68,7 +69,7 @@ export const getNftsById = async (classId: number, id: string) => {
   const res = await api.query.ormlNft.tokens(classId, id); // todo metadata parse
   const nft = JSON.parse(res.unwrap());
   nft.class = await getClassById(classId);
-  console.log(nft);
+  // console.log(nft);
   return nft;
 };
 
@@ -104,9 +105,10 @@ export const mintNft = async ({
 }) => {
   const metadataStr = JSON.stringify(nftMetadata);
   const balancesNeeded = await nftDeposit(metadataStr, bnToBn(quantity));
+  if (balancesNeeded === null) return null;
   const classInfo = await api.query.ormlNft.classes(classID);
   if (!classInfo.isSome) {
-    console.log('classInfo not exist');
+    // console.log('classInfo not exist');
     return null;
   }
   const ownerOfClass = classInfo.unwrap().owner.toString();

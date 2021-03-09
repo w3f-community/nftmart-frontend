@@ -53,3 +53,22 @@ export const NODE_URL = 'ws://8.136.111.191:9944';
 // 	Burnable = 0b00000010
 
 export const TOKEN_TRANSFERABLE_BURNABLE = 0b00000011;
+
+// class metadata
+export const CLASS_METADATA = {
+  name: '', // name of nft asset
+  banerUrl: '', // banner media url of class
+  externalUrl: '', // website url
+  description: '', // nft desc
+};
+
+// nft metadata
+export const NFT_METADATA = {
+  name: '', // name of nft asset
+  type: 'image', // image | gif | video | audio | article —— use image first
+  url: '', // media url ipfs cid
+  externalUrl: '', // website url
+  description: '', // nft desc
+  backgroundColor: '', //  color #ffffff
+  traits: [], // nft propos
+};
