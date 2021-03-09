@@ -9,6 +9,7 @@ import TypeFilter from './TypeFilter';
 import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
+import Up from '../../components/uploader';
 
 type ListMap = Record<string, Work[]>;
 
@@ -78,6 +79,7 @@ const Page = () => {
     <CommLayout>
       <TypeFilter onFilter={handleFilter} sticky={stickyFilter} top={typeFilterHeight} />
       {error ? errorBox : <Works loading={loading} data={workListMap} />}
+      <Up></Up>
     </CommLayout>
   );
 };

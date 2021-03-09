@@ -44,8 +44,8 @@ export const USER_LINKS: Record<string, string> = {
 
 // TODO: Change to env variables
 export const DBURL = 'http://localhost:8888/graphql';
-export const IPFS_POST_SERVER = 'http://59.110.115.146:5001';
-export const IPFS_GET_SERVER = 'http://59.110.115.146:8000';
+export const IPFS_POST_SERVER = 'http://59.110.115.146:5001'; // ipfs node
+export const IPFS_GET_SERVER = 'http://59.110.115.146:8080/ipfs/'; // query with cid server
 export const NODE_URL = 'ws://8.136.111.191:9944';
 
 // 	 Token can be transferred
