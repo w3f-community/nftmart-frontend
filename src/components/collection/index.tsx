@@ -7,6 +7,7 @@ import colors from '../../themes/colors';
 import PriceIcon from '../../assets/home/icon_price.png';
 import { t } from '../../i18n';
 import { Work } from '../../types';
+import { toFixedDecimals } from '../../utils';
 
 type CollectionProps = {
   isSet?: boolean;
@@ -82,7 +83,7 @@ const Collection = (props: CollectionProps) => {
         <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
           <Flex align="center" height="22px">
             {isSet && <Box src={PriceIcon} as="img" alt="" mr="4px" />}
-            <Box>{price}</Box>
+            <Box>{toFixedDecimals(price, 0)}</Box>
           </Flex>
         </Box>
       </Box>
