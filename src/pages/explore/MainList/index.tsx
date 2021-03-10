@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Box, Center, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -112,7 +112,13 @@ export interface MainListProps {
 }
 
 const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
-  const count = data.length;
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (Array.isArray(data)) {
+      setCount(data.length);
+    }
+  }, [data]);
 
   const handleFilterChange = (type: number) => {
     onTypeChange(type);

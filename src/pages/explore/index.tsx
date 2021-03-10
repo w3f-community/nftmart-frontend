@@ -7,11 +7,15 @@ import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
 import { GetCollections, GetItems } from '../../api/graph';
 import { debounce } from '../../utils';
+import { useQuery } from '../../utils/hook';
 
 const Explore = () => {
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
-  const [selectedCategoryId, setSelectedCategoryId] = useState(-1);
+  const query = useQuery();
+
   const { data: collectionsResponse, loading: collectionsLoading } = GetCollections();
+  const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const { data: assetsResponse, loading: itemsLoading } = GetItems({
     collectionId: selectedCollectionId,
     categoryId: selectedCategoryId,
@@ -22,10 +26,16 @@ const Explore = () => {
     'filteredCollections',
   );
 
+  // Update collections when data fetched
   useEffect(() => {
-    const data = collectionsResponse?.collections?.collections ?? [];
-    if (data.length) {
+    const data = collectionsResponse?.collections?.collections;
+    if (Array.isArray(data)) {
+      // Update store
       actions.setCollections(data);
+      // Update default selectedCollectionId
+      if (!selectedCollectionId) {
+        setSelectedCollectionId(data[0].id);
+      }
     }
 
     return () => {
@@ -33,9 +43,10 @@ const Explore = () => {
     };
   }, [collectionsResponse]);
 
+  // Update assets by collectionId when data fetched
   useEffect(() => {
-    const data = assetsResponse?.assets?.assets ?? [];
-    if (data.length) {
+    const data = assetsResponse?.assets?.assets;
+    if (Array.isArray(data)) {
       actions.setAssets(data);
     }
 
@@ -66,6 +77,7 @@ const Explore = () => {
         <Container display="flex">
           <SideFilter
             data={filteredCollections}
+            loading={collectionsLoading}
             onSearch={handleSearch}
             onSelect={handleSelectCollection}
             onStatusChange={handleStatusChange}

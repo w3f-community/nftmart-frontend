@@ -1,11 +1,13 @@
-import React, { ChangeEventHandler, FC, useMemo, useState } from 'react';
+import React, { ChangeEventHandler, FC, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Button,
+  Center,
   Heading,
   Input,
   Radio,
   RadioGroup,
+  Spinner,
   Stack,
   Wrap,
   WrapItem,
@@ -32,17 +34,29 @@ const FAKE_CATEGORIES = [];
 
 export interface SideFilterProps {
   data: Collection[];
+  loading: boolean;
   onSearch: (v: string) => void;
   onSelect: (c: number) => void;
   onStatusChange: (s: number) => void;
 }
 
-const SideFilter: FC<SideFilterProps> = ({ data, onSearch, onStatusChange, onSelect }) => {
+const SideFilter: FC<SideFilterProps> = ({ data, loading, onSearch, onStatusChange, onSelect }) => {
   // TODO: is there a better way to manipulate status
   // TODO: add multiple select prop
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
+  const [selectedCollectionId, setSelectedCollectionId] = useState<number>(-1);
+
+  // Update default collectionId
+  useEffect(() => {
+    if (data.length && selectedCollectionId === -1) {
+      setSelectedCollectionId(data[0].id);
+    }
+
+    return () => {
+      //
+    };
+  }, [data]);
 
   const handleSelectStatus = (status: number) => {
     if (selectedStatusSet.has(status)) {
@@ -106,19 +120,31 @@ const SideFilter: FC<SideFilterProps> = ({ data, onSearch, onStatusChange, onSel
               {t('form.collection')}
             </Heading>
             <Input placeholder={t('form.collection.placeholder')} onChange={handleSearch} />
-            <RadioGroup onChange={handleSelectCollection} value={selectedCollectionId}>
-              <Stack>
-                {!!data.length &&
-                  data.map(({ id, name }) => (
+            {loading && (
+              <Center height="88px">
+                <Spinner />
+              </Center>
+            )}
+
+            {!loading && !data.length && (
+              <Empty image={null} description={t('explore.collections.empty')} />
+            )}
+
+            {!loading && !!data.length && (
+              <RadioGroup
+                onChange={handleSelectCollection}
+                value={selectedCollectionId}
+                defaultValue={data[0].id}
+              >
+                <Stack>
+                  {data.map(({ id, name }) => (
                     <Radio value={id} kye={id} checked={id === selectedCollectionId}>
                       {name}
                     </Radio>
                   ))}
-                {!data.length && (
-                  <Empty image={null} description={t('explore.collections.empty')} />
-                )}
-              </Stack>
-            </RadioGroup>
+                </Stack>
+              </RadioGroup>
+            )}
           </Stack>
         </Stack>
       </Box>
