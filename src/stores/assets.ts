@@ -9,7 +9,7 @@ export interface FilterTypes {
 }
 
 export type Collection = {
-  title: string;
+  name: string;
   id: number;
 };
 
@@ -43,6 +43,9 @@ const filterAssets = (assets: Work[], { status = -1, category = -1, collection =
     .filter(({ collectionId }) => collection === -1 || collectionId === collection);
 
 export const actions = {
+  setCollections(collections: Collection[]) {
+    store.setState({ collections })
+  },
   setAssets(assets: Work[]) {
     store.setState({ assets, filteredAssets: assets });
   },

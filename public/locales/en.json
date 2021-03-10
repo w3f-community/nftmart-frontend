@@ -26,6 +26,7 @@
   "form.collection.placeholder": "Filter Collections",
   "form.filter": "Filter Collections",
   "form.status": "Status",
+  "form.sort.auto": "Auto",
 
   "type.all": "All",
   "type.digital": "Digital Art",
@@ -64,5 +65,6 @@
   "user.edit.email": "邮箱：",
   "user.edit.twitter": "Twitter：",
 
-  "list.total.result": "{{count}}个结果"
+  "list.total.result": "{{count}}个结果",
+  "list.empty": "No collections were found"
 }

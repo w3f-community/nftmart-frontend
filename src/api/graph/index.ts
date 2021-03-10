@@ -15,22 +15,57 @@ export const getClient = () => {
   return client;
 };
 
+const GET_MY_WALLET = gql`
+  query {
+    user {
+      wallet {
+        id
+      }
+      hasMore
+    }
+  }
+`;
+
+const GET_MY_COLLECTIONS = gql`
+  query {
+    collections(user: "A") {
+      collections {
+        categoryId
+      }
+      hasMore
+    }
+  }
+`;
+
 const GET_COLLECTIONS = gql`
   query {
-    collections
+    collections {
+      collections {
+        name
+        id
+      }
+      hasMore
+    }
   }
 `;
 
 const GET_ITEMS = gql`
-  query {
-    assets(page: 1) {
+  query GetItems($page: Int, $pageSize: Int, $collectionId: Int, $categoryId: Int, $status: Int) {
+    assets(
+      page: $page
+      pageSize: $pageSize
+      collectionId: $collectionId
+      status: $status
+      categoryId: $categoryId
+    ) {
       assets {
         id
-        Name
-        Status
-        PicUrl
-        categoryId
+        name
+        picUrl
         price
+        status
+        categoryId
+        collectionId
       }
       hasMore
     }
@@ -40,7 +75,7 @@ const GET_ITEMS = gql`
 // export query result for collections , use fetchMore to load more paginations
 export const GetItems = (vars = {}) => {
   return useQuery(GET_ITEMS, {
-    variables: { offset: 0, limit: 20, ...vars },
+    variables: { page: 1, pageSize: 100000, ...vars },
   });
 };
 

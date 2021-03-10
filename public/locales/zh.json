@@ -25,6 +25,7 @@
   "form.collection": "集合",
   "form.collection.placeholder": "过滤集合",
   "form.status": "状态",
+  "form.sort.auto": "自动排序",
 
   "type.all": "全部",
   "type.digital": "数字艺术品",
@@ -37,7 +38,7 @@
   "home.new-create": "新创建",
   "home.new-strike": "最近成交",
   "home.more": "查看更多",
-  "home.empty": "没有找到集合的结果",
+  "home.empty": "没有找到任何结果",
 
   "footer.aboutus.title": "About Us",
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
@@ -63,5 +64,6 @@
   "user.edit.email": "邮箱：",
   "user.edit.twitter": "Twitter：",
 
-  "list.total.result": "{{count}}个结果"
+  "list.total.result": "{{count}}个结果",
+  "list.empty": "没有找到任何结果"
 }

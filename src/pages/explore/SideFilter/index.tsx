@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import {
   Box,
   Button,
@@ -13,6 +13,7 @@ import {
 
 import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
+import { Collection } from '../../../stores/assets';
 
 const STATUS_MAP: Record<string, number> = {
   'nav.list-sale': 0,
@@ -28,11 +29,19 @@ const QUERY_MAP: Record<string, string> = {
 
 const FAKE_CATEGORIES = [];
 
-const SideFilter = () => {
+export interface SideFilterProps {
+  data: Collection[];
+  onSearch: (v: string) => void;
+  onSelect: (c: number) => void;
+  onStatusChange: (s: number) => void;
+}
+
+const SideFilter: FC<SideFilterProps> = ({ data, onSearch, onStatusChange, onSelect }) => {
   // TODO: is there a better way to manipulate status
   // TODO: add multiple select prop
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
 
   const handleSelectStatus = (status: number) => {
     if (selectedStatusSet.has(status)) {
@@ -42,6 +51,12 @@ const SideFilter = () => {
     }
 
     setSelectedStatus(Array.from(selectedStatusSet));
+  };
+
+  const handleSelectCollection = (val: number | string) => {
+    const result = Number(val);
+    setSelectedCollectionId(result);
+    onSelect(result);
   };
 
   return (
@@ -85,12 +100,13 @@ const SideFilter = () => {
               {t('form.collection')}
             </Heading>
             <Input placeholder={t('form.collection.placeholder')} />
-            <RadioGroup>
+            <RadioGroup onChange={handleSelectCollection} value={selectedCollectionId}>
               <Stack>
-                <Radio>Hashmasks</Radio>
-                <Radio>CryptoPunks</Radio>
-                <Radio>SperRare</Radio>
-                <Radio>Raible</Radio>
+                {data.map(({ id, name }) => (
+                  <Radio value={id} kye={id} checked={id === selectedCollectionId}>
+                    {name}
+                  </Radio>
+                ))}
               </Stack>
             </RadioGroup>
           </Stack>

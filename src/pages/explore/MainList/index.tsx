@@ -1,11 +1,13 @@
 import React, { FC, useState } from 'react';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
 import Collection from '../../../components/collection';
 import NSelect from '../../../components/nSelect';
+import { Work } from '../../../types';
+import Empty from '../../../components/empty';
 
 const typeMap: Record<string, number> = {
   all: 1,
@@ -70,8 +72,8 @@ const Helpers: FC<Helpers> = ({ count, onSort }) => {
   const suffix = `result${count > 1 ? 's' : ''}`;
   const options = [
     { value: 1, title: t('form.sort.auto') },
-    { value: 2, title: t('form.sort.other') },
-    { value: 3, title: t('form.sort.latest') },
+    // { value: 2, title: t('form.sort.other') },
+    // { value: 3, title: t('form.sort.latest') },
   ];
 
   const result = (
@@ -100,41 +102,18 @@ const Helpers: FC<Helpers> = ({ count, onSort }) => {
   );
 };
 
-const MainList = () => {
-  const [count, setCount] = useState(16178);
+export interface MainListProps {
+  data: Work[];
+  onTypeChange: (type: number) => void
+}
 
-  const list = [
-    {
-      id: 1,
-      collection_id: 0,
-      category_id: -1,
-      name: '饕餮史蒂芬',
-      picture: '史蒂芬史蒂芬是否第三方',
-      metadata: '元数据',
-      external_links: '外部链接说明',
-      describe: '描述',
-      status: 0,
-      price: 0,
-      address: '0x12541254189999',
-    },
-    {
-      id: 2,
-      collection_id: 4,
-      category_id: 1,
-      name: '饕餮',
-      picture: '史蒂芬史蒂芬是否第三方',
-      metadata: '元数据',
-      external_links: '外部链接说明',
-      describe: '描述',
-      status: 0,
-      price: 0,
-      address: '0x12541254189999',
-    },
-  ];
+const MainList: FC<MainListProps> = ({ data, onTypeChange }) => {
+  const count = data.length;
 
-  const handleFilterChange = (type: string) => {
+  const handleFilterChange = (type: number) => {
     // type
     console.log('CHANGED type:', type);
+    onTypeChange(type)
   };
 
   const handleSorting = (sort: any) => {
@@ -147,15 +126,19 @@ const MainList = () => {
 
       <Helpers onSort={handleSorting} count={count} />
 
-      <Box display="flex" flexWrap="wrap">
-        {list.map(({ name, price, id }) => (
-          <Link to={`/detail/${id}`}>
-            <Box ml="16px" mb="16px">
-              <Collection name={name} price={price} key={id} />
-            </Box>
-          </Link>
-        ))}
-      </Box>
+      {!!count && (
+        <SimpleGrid columns={4}>
+          {data.map((work) => (
+            <Link to={`/detail/${work.id}`} key={work.id}>
+              <Box ml="16px" mb="16px">
+                <Collection {...work} />
+              </Box>
+            </Link>
+          ))}
+        </SimpleGrid>
+      )}
+
+      {!count && <Empty description={t('list.empty')} />}
     </Box>
   );
 };
