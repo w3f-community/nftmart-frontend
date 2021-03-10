@@ -141,7 +141,7 @@ const SideFilter: FC<SideFilterProps> = ({
                 );
               })}
               {/* Placeholder */}
-              <WrapItem flex={1}></WrapItem>
+              {/* <WrapItem flex={1}></WrapItem> */}
             </Wrap>
           </Stack>
 
