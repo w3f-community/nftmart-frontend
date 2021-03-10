@@ -20,7 +20,7 @@ const STATUS_MAP: Record<number, string> = {
   3: 'recent',
 };
 
-const groupByStatus = groupBy<Work>(({ Status }) => STATUS_MAP[Status]);
+const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 
 const Page = () => {
   const { loading, error, data: response } = GetItems();
@@ -32,10 +32,10 @@ const Page = () => {
 
   // State Effect
   useEffect(() => {
-    const newAssets = response?.assets?.assets;
+    const newAssets = response?.assets?.assets || [];
     if (newAssets.length) {
       setWorkListMap(groupByStatus(newAssets));
-      store.setState({ assets: newAssets });
+      actions.setAssets(newAssets);
     }
     return () => {
       //
@@ -61,7 +61,7 @@ const Page = () => {
 
   // Events
   const handleFilter = (categoryId: number) => {
-    actions.filterAssets({ category: categoryId })
+    actions.filterAssets({ category: categoryId });
   };
 
   // Component

@@ -11,7 +11,7 @@ import { toFixedDecimals } from '../../utils';
 
 type CollectionProps = {
   isSet?: boolean;
-} & Work;
+} & Partial<Work>;
 
 export type MotionBoxProps = Omit<ChakraProps, keyof MotionProps> &
   MotionProps & {
@@ -32,7 +32,7 @@ export const MotionBox = motion.custom(
 
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
-  const { Name, price, PicUrl, isSet = false } = props;
+  const { name, price, picUrl, isSet = false } = props;
 
   return (
     <MotionBox
@@ -48,10 +48,7 @@ const Collection = (props: CollectionProps) => {
       flexDirection="column"
       justifyContent="space-around"
     >
-      <Image
-        src={PicUrl as string}
-        fallback={<Shimmer height={195} width={231} />}
-      />
+      <Image src={picUrl as string} fallback={<Shimmer height={195} width={231} />} />
       <Box
         mt="16px"
         display="flex"
@@ -78,12 +75,12 @@ const Collection = (props: CollectionProps) => {
         flex="1"
       >
         <Box pr={2} flex="2" overflow="hidden" textOverflow="ellipsis">
-          {Name}
+          {name}
         </Box>
         <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
           <Flex align="center" height="22px">
             {isSet && <Box src={PriceIcon} as="img" alt="" mr="4px" />}
-            <Box>{toFixedDecimals(price, 0)}</Box>
+            <Box>{toFixedDecimals(price!, 0)}</Box>
           </Flex>
         </Box>
       </Box>

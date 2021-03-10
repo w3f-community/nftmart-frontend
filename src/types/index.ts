@@ -1,13 +1,14 @@
 export interface Work {
   id: number;
-  Name: string;
-  PicUrl?: string;
-  Status: number;
-  Address: string;
-  Describe: string;
-  Metadata: string;
-  ExternalLinks: string;
+  name: string;
+  picUrl?: string;
+  status: number;
+  address: string;
+  describe: string;
+  metadata: string;
+  externalLinks: string;
   price: number;
+  latestPrice?: number;
   categoryId: number;
   collectionId: number;
   createdAt: string;
