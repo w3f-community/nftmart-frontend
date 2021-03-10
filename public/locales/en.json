@@ -69,5 +69,8 @@
   "user.edit.twitter": "Twitter：",
 
   "list.total.result": "{{count}}个结果",
-  "list.empty": "No collections were found"
+  "list.empty": "No collections were found",
+
+  "lang.en": "English",
+  "lang.zh": "Chinese"
 }
