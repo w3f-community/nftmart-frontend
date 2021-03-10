@@ -58,7 +58,7 @@ export const TOKEN_TRANSFERABLE_BURNABLE = 0b00000011;
 // class metadata
 export const CLASS_METADATA = {
   name: '', // name of nft asset
-  banerUrl: '', // banner media url of class
+  bannerUrl: '', // banner media url of class
   externalUrl: '', // website url
   description: '', // nft desc
 };

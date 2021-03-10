@@ -46,6 +46,7 @@
   "footer.copyright": "© 2021 NFTmark",
 
   "create.title": "创建作品",
+  "create.collection.title": "创建作品集",
   "create.save": "保存",
   "create.collection.name": "所属作品集：",
   "create.name": "名称：",

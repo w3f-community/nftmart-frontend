@@ -16,6 +16,7 @@ import './i18n';
 import Home from './pages/home';
 import Explore from './pages/explore';
 import Wallet from './pages/wallet';
+import Create from './pages/create';
 import CreateCollection from './pages/create-collection';
 import EditUser from './pages/edit-user';
 import Detail from './pages/detail';
@@ -31,8 +32,8 @@ const ControlledLayout = () => {
           <Route exact strict path="/profile" component={EditUser} />
           <Route exact strict path="/wallet" component={Wallet} />
           <Route exact strict path="/detail/*" component={Detail} />
-
-          <Route exact strict path="/create" component={CreateCollection} />
+          <Route exact strict path="/create" component={Create} />
+          <Route exact strict path="/create-collection" component={CreateCollection} />
         </Switch>
       </PolkaProvider>
       <Footer />
