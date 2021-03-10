@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { ChangeEventHandler, FC, useMemo, useState } from 'react';
 import {
   Box,
   Button,
@@ -14,6 +14,7 @@ import {
 import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
 import { Collection } from '../../../stores/assets';
+import Empty from '../../../components/empty';
 
 const STATUS_MAP: Record<string, number> = {
   'nav.list-sale': 0,
@@ -59,6 +60,11 @@ const SideFilter: FC<SideFilterProps> = ({ data, onSearch, onStatusChange, onSel
     onSelect(result);
   };
 
+  const handleSearch: ChangeEventHandler<HTMLInputElement> = ({ target: { value } }) => {
+    // TODO: add debounce
+    onSearch(value);
+  };
+
   return (
     // Columns
     <Box width="321px">
@@ -99,14 +105,18 @@ const SideFilter: FC<SideFilterProps> = ({ data, onSearch, onStatusChange, onSel
             <Heading as="h4" size="md">
               {t('form.collection')}
             </Heading>
-            <Input placeholder={t('form.collection.placeholder')} />
+            <Input placeholder={t('form.collection.placeholder')} onChange={handleSearch} />
             <RadioGroup onChange={handleSelectCollection} value={selectedCollectionId}>
               <Stack>
-                {data.map(({ id, name }) => (
-                  <Radio value={id} kye={id} checked={id === selectedCollectionId}>
-                    {name}
-                  </Radio>
-                ))}
+                {!!data.length &&
+                  data.map(({ id, name }) => (
+                    <Radio value={id} kye={id} checked={id === selectedCollectionId}>
+                      {name}
+                    </Radio>
+                  ))}
+                {!data.length && (
+                  <Empty image={null} description={t('explore.collections.empty')} />
+                )}
               </Stack>
             </RadioGroup>
           </Stack>

@@ -17,6 +17,7 @@ export interface AssetStore extends FilterTypes {
   assets: Work[];
   filteredAssets: Work[];
   collections: Collection[];
+  filteredCollections: Collection[];
 }
 
 const store = new Rekv<AssetStore>({
@@ -32,11 +33,16 @@ const store = new Rekv<AssetStore>({
 
   // Store collections title and id
   collections: [],
+  // Search filtered collections
+  filteredCollections: [],
 });
 
 export default store;
 
-const filterAssets = (assets: Work[], { status = -1, category = -1, collection = -1 }: Partial<FilterTypes>) =>
+const filterAssets = (
+  assets: Work[],
+  { status = -1, category = -1, collection = -1 }: Partial<FilterTypes>,
+) =>
   assets
     .filter(({ status: assetStatus }) => status === -1 || assetStatus === status)
     .filter(({ categoryId }) => category === -1 || categoryId === category)
@@ -44,7 +50,7 @@ const filterAssets = (assets: Work[], { status = -1, category = -1, collection =
 
 export const actions = {
   setCollections(collections: Collection[]) {
-    store.setState({ collections })
+    store.setState({ collections, filteredCollections: collections });
   },
   setAssets(assets: Work[]) {
     store.setState({ assets, filteredAssets: assets });
@@ -58,5 +64,11 @@ export const actions = {
         filteredAssets,
       };
     });
+  },
+  filterCollectionsByName(val: string) {
+    // TODO: Search algos
+    store.setState(({ collections }) => ({
+      filteredCollections: collections.filter(({ name }) => name.toLowerCase().includes(val)),
+    }));
   },
 };

@@ -6,6 +6,7 @@ import MainList from './MainList';
 import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
 import { GetCollections, GetItems } from '../../api/graph';
+import { debounce } from '../../utils';
 
 const Explore = () => {
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
@@ -14,7 +15,10 @@ const Explore = () => {
     collectionId: selectedCollectionId,
   });
 
-  const { filteredAssets, collections } = store.useState('filteredAssets', 'collections');
+  const { filteredAssets, filteredCollections } = store.useState(
+    'filteredAssets',
+    'filteredCollections',
+  );
 
   useEffect(() => {
     const data = collectionsResponse?.collections?.collections ?? [];
@@ -42,9 +46,9 @@ const Explore = () => {
     setSelectedCollectionId(collectionId);
   };
 
-  const handleSearch = (value: string) => {
-    //
-  };
+  const handleSearch = debounce((value: string) => {
+    actions.filterCollectionsByName(value);
+  }, 233);
 
   const handleStatusChange = (status: number) => {
     //
@@ -59,7 +63,7 @@ const Explore = () => {
       <Box pt="20px" pb="24px">
         <Container display="flex">
           <SideFilter
-            data={collections}
+            data={filteredCollections}
             onSearch={handleSearch}
             onSelect={handleSelectCollection}
             onStatusChange={handleStatusChange}
