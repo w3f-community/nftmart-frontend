@@ -2,10 +2,19 @@
 import { globalStore } from 'rekv';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
+import { web3FromAddress } from '@polkadot/extension-dapp';
 import { bnToBn } from '@polkadot/util';
 import store from '../../stores/account';
-import { TYPES, NODE_URL, TOKEN_TRANSFERABLE_BURNABLE } from '../../constants';
-import { hexToUtf8 } from '../../utils';
+import {
+  TYPES,
+  NODE_URL,
+  TOKEN_TRANSFERABLE_BURNABLE,
+  MetaData,
+  CLASS_METADATA,
+} from '../../constants';
+import { hexToUtf8, txLog } from '../../utils';
+
+const WebSocket = require('rpc-websockets').Client;
 
 let api: any = null;
 
@@ -20,7 +29,7 @@ const nftDeposit = async (metadata: any, quantity: any) => {
     console.log(_);
     return bnToBn(depositAll);
   } catch (e) {
-    // console.log(e);
+    console.log(e);
     return null;
   }
 };
@@ -31,10 +40,13 @@ export const initPolkadotApi = () => {
   api = true;
   setSS58Format(50);
   const wsProvider = new WsProvider(NODE_URL);
-  ApiPromise.create({ provider: wsProvider, types: TYPES }).then((res) => {
+  const ws = new WebSocket(NODE_URL);
+
+  ApiPromise.create({ provider: wsProvider, types: TYPES }).then((res: any) => {
+    res.ws = ws;
     globalStore.setState({ api: res });
     api = res;
-    // console.log('api inited ......');
+    console.log('api inited ......');
   });
 };
 
@@ -60,7 +72,7 @@ export const getClassById = async (id: number) => {
   clazz.adminList = JSON.parse(adminList);
   // console.log(clazz);
   clazz.metadata = hexToUtf8(clazz.metadata);
-  // console.log(clazz);
+  console.log(clazz);
   return clazz;
 };
 
@@ -77,19 +89,13 @@ export const getNftsById = async (classId: number, id: string) => {
 
 // create collections
 // cb is callback for trx on chain   (status) => { ... }
-export const createClass = async ({
-  name = '',
-  desc = '',
-  metadata = {},
-  signer = null,
-  cb = null,
-}) => {
-  const { address } = globalStore.useState('address');
+export const createClass = async ({ address = '', metadata = CLASS_METADATA, cb = txLog }) => {
+  const injector = await web3FromAddress(address);
+  const { name, description } = metadata;
   const metadataStr = JSON.stringify(metadata);
   const res = await api.tx.nftmart
-    .createClass(metadataStr, name, desc, TOKEN_TRANSFERABLE_BURNABLE)
-    .signAndSend(address, { signer }, cb);
-
+    .createClass(metadataStr, name, description, TOKEN_TRANSFERABLE_BURNABLE)
+    .signAndSend(address, { signer: injector.signer }, cb);
   return res;
 };
 
@@ -98,12 +104,12 @@ export const createClass = async ({
 export const mintNft = async ({
   address = '',
   classID = 0,
-  nftMetadata = {},
+  metadata = {},
   quantity = 1,
-  signer = null,
-  cb = null,
+  cb = txLog,
 }) => {
-  const metadataStr = JSON.stringify(nftMetadata);
+  const injector = await web3FromAddress(address);
+  const metadataStr = JSON.stringify(metadata);
   const balancesNeeded = await nftDeposit(metadataStr, bnToBn(quantity));
   if (balancesNeeded === null) return null;
   const classInfo = await api.query.ormlNft.classes(classID);
@@ -124,6 +130,6 @@ export const mintNft = async ({
     ),
   ];
   const batchExtrinsic = api.tx.utility.batchAll(txs);
-  const res = await batchExtrinsic.signAndSend(address, { signer }, cb);
+  const res = await batchExtrinsic.signAndSend(address, { signer: injector.signer }, cb);
   return res;
 };

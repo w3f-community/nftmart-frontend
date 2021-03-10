@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { compose, filter, groupBy } from 'ramda';
 import { Center, Container, Text } from '@chakra-ui/react';
-
+import { globalStore } from 'rekv';
 import { GetItems } from '../../api/graph';
 import CommLayout from '../../layouts/common';
 
@@ -9,7 +9,7 @@ import TypeFilter from './TypeFilter';
 import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
-import Up from '../../components/uploader';
+import { createClass, getClassById, mintNft } from '../../api/polka';
 
 type ListMap = Record<string, Work[]>;
 
@@ -23,12 +23,35 @@ const groupByStatus = groupBy<Work>(({ Status }) => STATUS_MAP[Status]);
 
 const Page = () => {
   const { loading, error, data: response } = GetItems();
+  const { account } = globalStore.useState('account');
 
   const originalAssets: Work[] = response?.assets?.assets ?? [];
 
   const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(originalAssets));
   const [stickyFilter, setStickyFilter] = useState(false);
   const [typeFilterHeight, setTypeFilterHeight] = useState(338);
+
+  const create = () => {
+    const metadata = {
+      name: 'second nft class',
+      description: 'this is my second nft class',
+      url: 'http://www.baidu.com',
+      externalUrl: '123',
+      bannerUrl: '123',
+    };
+    createClass({ address: account.address, metadata });
+  };
+
+  const mint = () => {
+    const metadata = {
+      name: 'second nft class',
+      description: 'this is my second nft class',
+      url: 'http://www.baidu.com',
+      externalUrl: '123',
+      bannerUrl: '123',
+    };
+    mintNft({ address: account.address, metadata, classID: 15 });
+  };
 
   // State Effect
   useEffect(() => {
@@ -79,7 +102,9 @@ const Page = () => {
     <CommLayout>
       <TypeFilter onFilter={handleFilter} sticky={stickyFilter} top={typeFilterHeight} />
       {error ? errorBox : <Works loading={loading} data={workListMap} />}
-      <Up></Up>
+      <button onClick={() => create()}>create</button>|
+      <button onClick={() => getClassById(8)}>get</button>|
+      <button onClick={() => mint()}>mint</button>
     </CommLayout>
   );
 };

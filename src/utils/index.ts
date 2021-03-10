@@ -39,3 +39,16 @@ export const hexToUtf8 = (s: string) => {
       .replace(/[0-9a-f]{2}/g, '%$&'), // add '%' before each 2 characters
   );
 };
+
+// trx log
+export const txLog = (result: any) => {
+  console.log(`Current status is ${result.status}`);
+
+  if (result.status.isInBlock) {
+    console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
+  } else if (result.status.isFinalized) {
+    console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+    // unsub();
+    // cb();
+  }
+};
