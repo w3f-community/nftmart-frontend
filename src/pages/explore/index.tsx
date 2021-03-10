@@ -10,9 +10,11 @@ import { debounce } from '../../utils';
 
 const Explore = () => {
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
+  const [selectedCategoryId, setSelectedCategoryId] = useState(-1);
   const { data: collectionsResponse, loading: collectionsLoading } = GetCollections();
   const { data: assetsResponse, loading: itemsLoading } = GetItems({
     collectionId: selectedCollectionId,
+    categoryId: selectedCategoryId,
   });
 
   const { filteredAssets, filteredCollections } = store.useState(
@@ -55,7 +57,7 @@ const Explore = () => {
   };
 
   const handleTypeChange = (type: number) => {
-    //
+    setSelectedCategoryId(type);
   };
 
   return (
@@ -69,7 +71,7 @@ const Explore = () => {
             onStatusChange={handleStatusChange}
           />
           {/* TODO: sorting event */}
-          <MainList data={filteredAssets} onTypeChange={handleTypeChange} />
+          <MainList data={filteredAssets} onTypeChange={handleTypeChange} loading={itemsLoading} />
         </Container>
       </Box>
     </Layout>

@@ -75,7 +75,7 @@ const GET_ITEMS = gql`
 // export query result for collections , use fetchMore to load more paginations
 export const GetItems = (vars = {}) => {
   return useQuery(GET_ITEMS, {
-    variables: { page: 1, pageSize: 100000, ...vars },
+    variables: { page: 1, pageSize: 10, ...vars },
   });
 };
 

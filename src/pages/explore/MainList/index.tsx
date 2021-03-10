@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { t } from '../../../i18n';
@@ -10,12 +10,12 @@ import { Work } from '../../../types';
 import Empty from '../../../components/empty';
 
 const typeMap: Record<string, number> = {
-  all: 1,
-  digital: 2,
-  virtual: 3,
-  sport: 4,
-  collect: 5,
-  other: 6,
+  all: -1,
+  digital: 1,
+  virtual: 2,
+  sport: 3,
+  collect: 4,
+  other: 5,
 };
 
 /** 类型选择 Type filter, use for filtering different types of works */
@@ -25,25 +25,28 @@ export interface TypeFiltersProps {
 }
 
 const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
-  const [selectedType, setSelectedType] = useState('all');
+  const [selectedType, setSelectedType] = useState(-1);
 
-  const handleSelect = (type: string) => {
+  const handleSelect = (type: number) => {
     setSelectedType(type);
-    // TODO: which property should we use?
     onChange(type);
   };
 
-  const renderFilter = (type: string) => (
-    <Box
-      key={typeMap[type]}
-      cursor="pointer"
-      _hover={{ color: colors.text.black }}
-      color={selectedType === type ? colors.text.black : ''}
-      onClick={() => handleSelect(type)}
-    >
-      {t(`type.${type}`)}
-    </Box>
-  );
+  const renderFilter = (key: string) => {
+    const value = typeMap[key];
+
+    return (
+      <Box
+        key={value}
+        cursor="pointer"
+        _hover={{ color: colors.text.black }}
+        color={value === selectedType ? colors.text.black : ''}
+        onClick={() => handleSelect(value)}
+      >
+        {t(`type.${key}`)}
+      </Box>
+    );
+  };
 
   return (
     <Box
@@ -104,16 +107,15 @@ const Helpers: FC<Helpers> = ({ count, onSort }) => {
 
 export interface MainListProps {
   data: Work[];
-  onTypeChange: (type: number) => void
+  loading?: boolean;
+  onTypeChange: (type: number) => void;
 }
 
-const MainList: FC<MainListProps> = ({ data, onTypeChange }) => {
+const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
   const count = data.length;
 
   const handleFilterChange = (type: number) => {
-    // type
-    console.log('CHANGED type:', type);
-    onTypeChange(type)
+    onTypeChange(type);
   };
 
   const handleSorting = (sort: any) => {
@@ -124,21 +126,30 @@ const MainList: FC<MainListProps> = ({ data, onTypeChange }) => {
     <Box flex={1}>
       <TypeFilters onChange={handleFilterChange} />
 
-      <Helpers onSort={handleSorting} count={count} />
-
-      {!!count && (
-        <SimpleGrid columns={4}>
-          {data.map((work) => (
-            <Link to={`/detail/${work.id}`} key={work.id}>
-              <Box ml="16px" mb="16px">
-                <Collection {...work} />
-              </Box>
-            </Link>
-          ))}
-        </SimpleGrid>
+      {loading && (
+        <Center height="100%">
+          <Spinner />
+        </Center>
       )}
 
-      {!count && <Empty description={t('list.empty')} />}
+      {!loading && (
+        <>
+          <Helpers onSort={handleSorting} count={count} />
+          {!!count && (
+            <SimpleGrid columns={4}>
+              {data.map((work) => (
+                <Link to={`/detail/${work.id}`} key={work.id}>
+                  <Box ml="16px" mb="16px">
+                    <Collection {...work} />
+                  </Box>
+                </Link>
+              ))}
+            </SimpleGrid>
+          )}
+
+          {!count && <Empty description={t('list.empty')} />}
+        </>
+      )}
     </Box>
   );
 };
