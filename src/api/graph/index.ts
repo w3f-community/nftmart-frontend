@@ -16,9 +16,10 @@ export const getClient = () => {
 };
 
 const GET_MY_WALLET = gql`
-  query {
-    user {
+  query GetMyWallet($user: int) {
+    wallet(user: $user) {
       wallet {
+        name
         id
       }
       hasMore
@@ -27,10 +28,11 @@ const GET_MY_WALLET = gql`
 `;
 
 const GET_MY_COLLECTIONS = gql`
-  query {
-    collections(user: "A") {
+  query GetMyCollections($user: Int) {
+    myCollections(user: $user) {
       collections {
-        categoryId
+        name
+        id
       }
       hasMore
     }
@@ -38,8 +40,8 @@ const GET_MY_COLLECTIONS = gql`
 `;
 
 const GET_COLLECTIONS = gql`
-  query {
-    collections {
+  query GetCollections($page: Int, $pageSize: Int, $id: Int) {
+    collections(page: $page, pageSize: $pageSize, id: $id) {
       collections {
         name
         id
@@ -82,6 +84,20 @@ export const GetItems = (vars = {}) => {
 // export query result for collections , use fetchMore to load more paginations
 export const GetCollections = (vars = {}) => {
   return useQuery(GET_COLLECTIONS, {
-    variables: { offset: 0, limit: 20, ...vars },
+    variables: { page: 1, pageSize: 10, ...vars },
+  });
+};
+
+// export query result for collections , use fetchMore to load more paginations
+export const GetMyCollections = (vars = {}) => {
+  return useQuery(GET_MY_COLLECTIONS, {
+    variables: { page: 1, pageSize: 10, ...vars },
+  });
+};
+
+// export query result for collections , use fetchMore to load more paginations
+export const GetMyWallet = (vars = {}) => {
+  return useQuery(GET_MY_WALLET, {
+    variables: { page: 1, pageSize: 10, ...vars },
   });
 };
