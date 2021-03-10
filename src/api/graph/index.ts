@@ -74,28 +74,28 @@ const GET_ITEMS = gql`
   }
 `;
 
-// export query result for collections , use fetchMore to load more paginations
+// export query result for collections, use fetchMore to load more paginations
 export const GetItems = (vars = {}) => {
   return useQuery(GET_ITEMS, {
     variables: { page: 1, pageSize: 10, ...vars },
   });
 };
 
-// export query result for collections , use fetchMore to load more paginations
+// export query result for collections, use fetchMore to load more paginations
 export const GetCollections = (vars = {}) => {
   return useQuery(GET_COLLECTIONS, {
     variables: { page: 1, pageSize: 10, ...vars },
   });
 };
 
-// export query result for collections , use fetchMore to load more paginations
+// export query result for my collecetions, use fetchMore to load more paginations
 export const GetMyCollections = (vars = {}) => {
   return useQuery(GET_MY_COLLECTIONS, {
     variables: { page: 1, pageSize: 10, ...vars },
   });
 };
 
-// export query result for collections , use fetchMore to load more paginations
+// export query result for my wallet, use fetchMore to load more paginations
 export const GetMyWallet = (vars = {}) => {
   return useQuery(GET_MY_WALLET, {
     variables: { page: 1, pageSize: 10, ...vars },
