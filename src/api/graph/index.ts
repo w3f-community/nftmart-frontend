@@ -16,8 +16,8 @@ export const getClient = () => {
 };
 
 const GET_MY_WALLET = gql`
-  query GetMyWallet($user: int) {
-    wallet(user: $user) {
+  query GetMyWallet($page: Int, $pageSize: Int, $id: Int, $user: int) {
+    wallet(page: $page, pageSize: $pageSize, id: $id, user: $user) {
       wallet {
         name
         id
@@ -28,8 +28,8 @@ const GET_MY_WALLET = gql`
 `;
 
 const GET_MY_COLLECTIONS = gql`
-  query GetMyCollections($user: Int) {
-    myCollections(user: $user) {
+  query GetMyCollections($page: Int, $pageSize: Int, $id: Int, $user: Int) {
+    myCollections(page: $page, pageSize: $pageSize, id: $id, user: $user) {
       collections {
         name
         id
