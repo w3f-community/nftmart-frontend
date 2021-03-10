@@ -17,35 +17,62 @@ import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
 import { Collection } from '../../../stores/assets';
 import Empty from '../../../components/empty';
+import { useQuery } from '../../../utils/hook';
 
 const STATUS_MAP: Record<string, number> = {
-  'nav.list-sale': 0,
-  'nav.latest-create': 1,
-  'nav.latest-strike': 2,
+  'nav.explore.all': -1,
+  'nav.list-sale': 1,
+  'nav.latest-create': 2,
+  'nav.latest-strike': 3,
 };
 
 const QUERY_MAP: Record<string, string> = {
+  all: 'nav.explore.all',
   listing: 'nav.list-sale',
   new: 'nav.latest-create',
   recent: 'nav.latest-strike',
 };
 
-const FAKE_CATEGORIES = [];
-
 export interface SideFilterProps {
   data: Collection[];
+  singleStatus?: boolean;
   loading: boolean;
   onSearch: (v: string) => void;
-  onSelect: (c: number) => void;
+  onSelectCollection: (c: number) => void;
   onStatusChange: (s: number) => void;
 }
 
-const SideFilter: FC<SideFilterProps> = ({ data, loading, onSearch, onStatusChange, onSelect }) => {
-  // TODO: is there a better way to manipulate status
-  // TODO: add multiple select prop
+const SideFilter: FC<SideFilterProps> = ({
+  data,
+  loading,
+  singleStatus,
+  onSearch,
+  onStatusChange,
+  onSelectCollection,
+}) => {
+  const query = useQuery();
+  const statusQueryValue = STATUS_MAP[QUERY_MAP[query.get('status') ?? 'all']];
+
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
+
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>(-1);
+
+  // Update status base on router
+  useEffect(() => {
+    if (singleStatus) {
+      selectedStatusSet.clear();
+    }
+    if (selectedStatusSet.has(statusQueryValue)) {
+      selectedStatusSet.delete(statusQueryValue);
+    } else {
+      selectedStatusSet.add(statusQueryValue);
+    }
+    setSelectedStatus(Array.from(selectedStatusSet));
+    return () => {
+      //
+    };
+  }, [statusQueryValue]);
 
   // Update default collectionId
   useEffect(() => {
@@ -59,19 +86,22 @@ const SideFilter: FC<SideFilterProps> = ({ data, loading, onSearch, onStatusChan
   }, [data]);
 
   const handleSelectStatus = (status: number) => {
+    if (singleStatus) {
+      selectedStatusSet.clear();
+    }
     if (selectedStatusSet.has(status)) {
       selectedStatusSet.delete(status);
     } else {
       selectedStatusSet.add(status);
     }
-
     setSelectedStatus(Array.from(selectedStatusSet));
+    onStatusChange(status);
   };
 
   const handleSelectCollection = (val: number | string) => {
     const result = Number(val);
     setSelectedCollectionId(result);
-    onSelect(result);
+    onSelectCollection(result);
   };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = ({ target: { value } }) => {
@@ -92,7 +122,7 @@ const SideFilter: FC<SideFilterProps> = ({ data, loading, onSearch, onStatusChan
             <Wrap direction="row" spacing={4}>
               {Object.keys(STATUS_MAP).map((key) => {
                 const status = STATUS_MAP[key];
-                const isSelected = selectedStatusSet.has(status);
+                const isSelected = !selectedStatus.length || selectedStatusSet.has(status);
                 const color = isSelected ? colors.primary : colors.text.gray;
 
                 return (

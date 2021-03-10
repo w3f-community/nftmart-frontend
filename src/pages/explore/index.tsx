@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
+import { useHistory } from 'react-router-dom';
 
 import SideFilter from './SideFilter';
 import MainList from './MainList';
@@ -9,14 +10,31 @@ import { GetCollections, GetItems } from '../../api/graph';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
 
+// TODO
+const STATUS_MAP: Record<any, any> = {
+  all: -1,
+  listing: 1,
+  new: 2,
+  recent: 3,
+  '-1': 'all',
+  '1': 'listing',
+  '2': 'new',
+  '3': 'recent',
+};
+
 const Explore = () => {
   const query = useQuery();
+  const history = useHistory();
+
+  const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
   const { data: collectionsResponse, loading: collectionsLoading } = GetCollections();
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
-
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
+  const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
+
   const { data: assetsResponse, loading: itemsLoading } = GetItems({
+    status: selectedStatus,
     collectionId: selectedCollectionId,
     categoryId: selectedCategoryId,
   });
@@ -25,6 +43,14 @@ const Explore = () => {
     'filteredAssets',
     'filteredCollections',
   );
+
+  // Update status
+  useEffect(() => {
+    setSelectedStatus(statusQueryValue);
+    return () => {
+      //
+    };
+  }, [statusQueryValue]);
 
   // Update collections when data fetched
   useEffect(() => {
@@ -64,7 +90,9 @@ const Explore = () => {
   }, 233);
 
   const handleStatusChange = (status: number) => {
-    //
+    setSelectedStatus(status);
+    const statusString = STATUS_MAP[String(status)];
+    history.push(`explore?status=${statusString}`);
   };
 
   const handleTypeChange = (type: number) => {
@@ -79,8 +107,9 @@ const Explore = () => {
             data={filteredCollections}
             loading={collectionsLoading}
             onSearch={handleSearch}
-            onSelect={handleSelectCollection}
+            onSelectCollection={handleSelectCollection}
             onStatusChange={handleStatusChange}
+            singleStatus
           />
           {/* TODO: sorting event */}
           <MainList data={filteredAssets} onTypeChange={handleTypeChange} loading={itemsLoading} />
