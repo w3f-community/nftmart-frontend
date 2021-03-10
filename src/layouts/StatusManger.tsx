@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Box, Button, Text } from '@chakra-ui/react';
 
@@ -6,7 +6,7 @@ import colors from '../themes/colors';
 
 import walletLogo from '../assets/polkadot.png';
 
-const Manager = ({ children }) => {
+const Manager: FC = ({ children }) => {
   const status = false;
   return (
     <Box>
