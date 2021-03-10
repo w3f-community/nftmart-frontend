@@ -3,6 +3,7 @@
 
   "nav.home": "Home",
   "nav.explore": "Explore",
+  "nav.explore.all": "All",
   "nav.list-sale": "Listing",
   "nav.latest-create": "New Releases",
   "nav.latest-strike": "Sold Recently",
@@ -26,6 +27,7 @@
   "form.collection.placeholder": "Filter Collections",
   "form.filter": "Filter Collections",
   "form.status": "Status",
+  "form.sort.auto": "Auto",
 
   "type.all": "All",
   "type.digital": "Digital Art",
@@ -39,6 +41,8 @@
   "home.new-strike": "Latest Strike",
   "home.more": "More",
   "home.empty": "No collections were found",
+
+  "explore.collections.empty": "No result were found",
 
   "footer.aboutus.title": "About Us",
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
@@ -64,5 +68,6 @@
   "user.edit.email": "邮箱：",
   "user.edit.twitter": "Twitter：",
 
-  "list.total.result": "{{count}}个结果"
+  "list.total.result": "{{count}}个结果",
+  "list.empty": "No collections were found"
 }

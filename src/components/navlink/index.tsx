@@ -9,7 +9,7 @@ const NavLink = () => {
 
   const renderLink = (title: string) => {
     const path = NAV_MAP[title];
-    const active = location.pathname === path;
+    const active = location.pathname + location.search === path;
 
     return (
       <NLink
