@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
 import { Center, Container, Text } from '@chakra-ui/react';
 
+import { globalStore } from 'rekv';
 import store, { actions } from '../../stores/assets';
 
 import { GetItems } from '../../api/graph';
@@ -11,6 +12,7 @@ import TypeFilter from './TypeFilter';
 import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
+import { createClass, getClassById, mintNft } from '../../api/polka';
 
 type ListMap = Record<string, Work[]>;
 
@@ -25,10 +27,33 @@ const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 const Page = () => {
   const { loading, error, data: response } = GetItems();
   const { assets } = store.useState('assets', 'filteredAssets');
+  const { account } = globalStore.useState('account');
 
   const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(assets));
   const [stickyFilter, setStickyFilter] = useState(false);
   const [typeFilterHeight] = useState(338);
+
+  const create = () => {
+    const metadata = {
+      name: 'second nft class',
+      description: 'this is my second nft class',
+      url: 'http://www.baidu.com',
+      externalUrl: '123',
+      bannerUrl: '123',
+    };
+    createClass({ address: account.address, metadata });
+  };
+
+  const mint = () => {
+    const metadata = {
+      name: 'second nft class',
+      description: 'this is my second nft class',
+      url: 'http://www.baidu.com',
+      externalUrl: '123',
+      bannerUrl: '123',
+    };
+    mintNft({ address: account.address, metadata, classID: 15 });
+  };
 
   // State Effect
   useEffect(() => {
@@ -77,6 +102,9 @@ const Page = () => {
     <CommLayout>
       <TypeFilter onFilter={handleFilter} sticky={stickyFilter} top={typeFilterHeight} />
       {error ? errorBox : <Works loading={loading} data={workListMap} />}
+      <button onClick={() => create()}>create</button>|
+      <button onClick={() => getClassById(8)}>get</button>|
+      <button onClick={() => mint()}>mint</button>
     </CommLayout>
   );
 };

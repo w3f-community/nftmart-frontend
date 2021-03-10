@@ -9,6 +9,7 @@ import theme from './themes';
 import Header from './components/header';
 import Footer from './components/footer';
 import { getClient } from './api/graph';
+import Manager from './layouts/StatusManger';
 
 import './i18n';
 
@@ -44,7 +45,6 @@ export const App = () => {
     <ApolloProvider client={getClient()}>
       <ChakraProvider theme={theme}>
         <CSSReset />
-
         <HashRouter>
           <TransHOC>
             <ControlledLayout />
