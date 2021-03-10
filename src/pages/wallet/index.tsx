@@ -75,18 +75,17 @@ const Wallet = () => {
     };
   }, [collectionsResponse]);
 
-  if (!collectionsResponse)
-    // Update assets by collectionId when data fetched
-    useEffect(() => {
-      const data = assetsResponse?.assets?.assets;
-      if (Array.isArray(data)) {
-        actions.setAssets(data);
-      }
+  // Update assets by collectionId when data fetched
+  useEffect(() => {
+    const data = assetsResponse?.assets?.assets;
+    if (Array.isArray(data)) {
+      actions.setAssets(data);
+    }
 
-      return () => {
-        //
-      };
-    }, [assetsResponse]);
+    return () => {
+      //
+    };
+  }, [assetsResponse]);
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);
