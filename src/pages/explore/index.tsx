@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container } from '@chakra-ui/react';
+import { Box, Center, Container } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 
 import SideFilter from './SideFilter';
@@ -9,6 +9,8 @@ import store, { actions } from '../../stores/assets';
 import { GetCollections, GetItems } from '../../api/graph';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
+import Empty from '../../components/empty';
+import { t } from '../../i18n';
 
 // TODO
 const STATUS_MAP: Record<any, any> = {
@@ -28,10 +30,16 @@ const Explore = () => {
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
-  const { data: collectionsResponse, loading: collectionsLoading } = GetCollections();
+  const {
+    data: collectionsResponse,
+    loading: collectionsLoading,
+    error: collectionsError,
+  } = GetCollections();
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
+
+  const collectionsData = collectionsResponse?.collections?.collections;
 
   const { data: assetsResponse, loading: itemsLoading } = GetItems({
     status: selectedStatus,
@@ -54,13 +62,12 @@ const Explore = () => {
 
   // Update collections when data fetched
   useEffect(() => {
-    const data = collectionsResponse?.collections?.collections;
-    if (Array.isArray(data)) {
+    if (Array.isArray(collectionsData)) {
       // Update store
-      actions.setCollections(data);
+      actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      if (!selectedCollectionId) {
-        setSelectedCollectionId(data[0].id);
+      if (!selectedCollectionId && collectionsData.length) {
+        setSelectedCollectionId(collectionsData[0].id);
       }
     }
 
@@ -104,7 +111,8 @@ const Explore = () => {
       <Box pt="20px" pb="24px">
         <Container display="flex">
           <SideFilter
-            data={filteredCollections}
+            // FIXME: Here using a simple error handling
+            data={collectionsError ? [] : filteredCollections}
             loading={collectionsLoading}
             onSearch={handleSearch}
             onSelectCollection={handleSelectCollection}
@@ -112,7 +120,18 @@ const Explore = () => {
             singleStatus
           />
           {/* TODO: sorting event */}
-          <MainList data={filteredAssets} onTypeChange={handleTypeChange} loading={itemsLoading} />
+          {!!collectionsData?.length && (
+            <MainList
+              data={filteredAssets}
+              onTypeChange={handleTypeChange}
+              loading={itemsLoading}
+            />
+          )}
+          {!collectionsData?.length && (
+            <Center height="444px" flex={1}>
+              <Empty description={t('list.empty')} />
+            </Center>
+          )}
         </Container>
       </Box>
     </Layout>

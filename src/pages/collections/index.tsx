@@ -5,7 +5,7 @@ import SideFilter from './SideFilter';
 import MainList from './MainList';
 import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
-import { GetItems, GetMyWallet } from '../../api/graph';
+import { GetItems, GetMyCollections } from '../../api/graph';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
 import { t } from '../../i18n';
@@ -24,7 +24,7 @@ const STATUS_MAP: Record<any, any> = {
 };
 
 // TODO: Error handling
-const Wallet = () => {
+const MyCollections = () => {
   const query = useQuery();
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
@@ -33,12 +33,12 @@ const Wallet = () => {
     data: collectionsResponse,
     loading: collectionsLoading,
     error: collectionsError,
-  } = GetMyWallet();
+  } = GetMyCollections();
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
 
-  const collectionsData = collectionsResponse?.collections?.collections;
+  const collectionsData = collectionsResponse?.myCollections?.collections;
 
   const { data: assetsResponse, loading: itemsLoading } = GetItems({
     status: selectedStatus,
@@ -105,6 +105,10 @@ const Wallet = () => {
     setSelectedCategoryId(type);
   };
 
+  const handleCreateCollection = () => {
+    //
+  };
+
   return (
     <Layout>
       <Box pt="20px" pb="24px">
@@ -112,12 +116,13 @@ const Wallet = () => {
           <SideFilter
             // FIXME: Here using a simple error handling
             data={collectionsError ? [] : filteredCollections}
-            header={t('wallet.title')}
+            header={t('quick-area.works')}
             loading={collectionsLoading}
             onSearch={handleSearch}
             onSelectCollection={handleSelectCollection}
             onStatusChange={handleStatusChange}
-            singleStatus
+            onCreateCollection={handleCreateCollection}
+            noStatus
           />
           {/* TODO: sorting event */}
           {!!collectionsData?.length && (
@@ -138,4 +143,4 @@ const Wallet = () => {
   );
 };
 
-export default Wallet;
+export default MyCollections;
