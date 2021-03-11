@@ -108,7 +108,7 @@ const Wallet = () => {
   return (
     <Layout>
       <Box pt="20px" pb="24px">
-        <Container display="flex">
+        <Container display="flex" minHeight="100vh">
           <SideFilter
             // FIXME: Here using a simple error handling
             data={collectionsError ? [] : filteredCollections}
