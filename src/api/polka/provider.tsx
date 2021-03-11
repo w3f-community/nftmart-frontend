@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Center, Spinner, Button, Box, Text } from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Center, Spinner, Button, Box, Text, Heading } from '@chakra-ui/react';
 import { globalStore } from 'rekv';
 import {
   web3Accounts,
@@ -10,6 +10,9 @@ import {
   // web3ListRpcProviders,
   // web3UseRpcProvider,
 } from '@polkadot/extension-dapp';
+
+// import { createClass, getClassById, mintNft } from '..//polka';
+import walletLogo from '../../assets/polkadot.png';
 import { initPolkadotApi } from './index';
 import { t } from '../../i18n';
 
@@ -25,7 +28,7 @@ const provider = ({ children }: Props) => {
   // extension inject status
   const [injected, setInjected] = useState(false);
 
-  const accessAvailable = api && injected && accounts;
+  const accessAvailable = useMemo(() => api && injected && accounts, [api, injected, accounts]);
 
   useEffect(() => {
     const initExtension = async () => {
@@ -37,7 +40,6 @@ const provider = ({ children }: Props) => {
         // get accounts info in extension
         const injectedAccounts = await web3Accounts();
         if (injectedAccounts.length !== 0) {
-          // console.log(injectedAccounts)
           // treat first account as signer
           const injector = await web3FromSource(injectedAccounts[0].meta.source);
           globalStore.setState({
@@ -66,7 +68,7 @@ const provider = ({ children }: Props) => {
     initExtension();
   }, []);
 
-  return <>{children}</>;
+  return children;
 
   return (
     <>
@@ -75,9 +77,17 @@ const provider = ({ children }: Props) => {
       ) : (
         <Center h="100vh" w="100vw">
           {!injected ? (
-            <Box>
-              <Text>{t('extension.dowload')}</Text>
-              <Button onClick={() => window.open('https://polkadot.js.org/extension/', '_blank')}>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <Heading as="h4" size="md">
+                {t('extension.dowload')}
+              </Heading>
+              <Box alt="waleet_logo" as="img" src={walletLogo} width="160px" margin="30px auto" />
+              <Button
+                width="160px"
+                variant="primary"
+                onClick={() => window.open('https://polkadot.js.org/extension/', '_blank')}
+                isFullWidth
+              >
                 {t('download')}
               </Button>
             </Box>
@@ -92,7 +102,9 @@ const provider = ({ children }: Props) => {
                   size="xl"
                 />
               ) : (
-                <Text>{t('extension.account')}</Text>
+                <Heading as="h4" size="md">
+                  {t('extension.account')}
+                </Heading>
               )}
             </Box>
           )}
