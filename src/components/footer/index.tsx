@@ -34,6 +34,7 @@ export default function Uploader() {
       minHeight="232px"
       backgroundColor="#373F60"
       border="1px solid #979797"
+      className="page-footer"
     >
       <Container
         display="flex"
