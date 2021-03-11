@@ -1,20 +1,21 @@
 import React from 'react';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
 import Card from '../../../components/card';
+import { t } from '../../../i18n';
 
 const HistoryEventCard = () => {
   return (
     <Card
-      title="历史事件"
+      title={t('detail.title.event')}
       body={
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>事件</Th>
-              <Th isNumeric>价格</Th>
-              <Th>来源</Th>
-              <Th>目标</Th>
-              <Th isNumeric>时间</Th>
+              <Th>{t('detail.event.event')}</Th>
+              <Th isNumeric>{t('detail.event.price')}</Th>
+              <Th>{t('detail.event.source')}</Th>
+              <Th>{t('detail.event.target')}</Th>
+              <Th isNumeric>{t('detail.event.date')}</Th>
             </Tr>
           </Thead>
           <Tbody>

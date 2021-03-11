@@ -3,6 +3,7 @@ import { Box, Button, Heading, Stack, Flex, Text } from '@chakra-ui/react';
 import Card from '../../../components/card';
 import colors from '../../../themes/colors';
 import Meta from '../Meta';
+import { t } from '../../../i18n';
 
 export interface InnerCardProps {
   price: number | string;
@@ -13,7 +14,7 @@ const InnerCard: FC<InnerCardProps> = ({ price, onPurchase }) => (
   <Card
     title={
       <Box>
-        <Text color={colors.text.gray}>当前价格</Text>
+        <Text color={colors.text.gray}>{t('detail.current-price')}</Text>
         <Button
           variant="primary"
           width="180px"
@@ -21,7 +22,7 @@ const InnerCard: FC<InnerCardProps> = ({ price, onPurchase }) => (
           float="right"
           onClick={() => onPurchase()}
         >
-          立即购买
+          {t('detail.purchase')}
         </Button>
       </Box>
     }
@@ -36,21 +37,22 @@ const InnerCard: FC<InnerCardProps> = ({ price, onPurchase }) => (
 
 export interface PurchaseCardProps {
   name: string;
+  price: number | string;
+  owner?: string;
   onPurchase: () => void;
 }
 
-const PurchaseCard: FC<PurchaseCardProps> = ({ name, onPurchase }) => {
+const PurchaseCard: FC<PurchaseCardProps> = ({ name, owner, price, onPurchase }) => {
   return (
     <Card title={<Text color={colors.primary}>NFTbox [ICON]</Text>} noHeadBorder>
-      <Stack>
+      <Stack marginTop="-1rem" spacing={4}>
         <Flex justify="space-between" align="flex-end">
-          <Heading size="lg">{name}</Heading>
-          <Meta description="Owned by" who="vrlandlord" />
+          <Heading as="h2" size="lg">
+            {name}
+          </Heading>
+          {owner && <Meta description="Owned by" who={owner} />}
         </Flex>
-        <InnerCard
-          price="12"
-          onPurchase={onPurchase}
-        ></InnerCard>
+        <InnerCard price={price} onPurchase={onPurchase}></InnerCard>
       </Stack>
     </Card>
   );

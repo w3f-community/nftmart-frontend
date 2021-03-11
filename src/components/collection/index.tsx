@@ -2,12 +2,15 @@ import React from 'react';
 import { forwardRef, ChakraProps, chakra, ComponentWithAs, Box, Flex } from '@chakra-ui/react';
 import { motion, MotionProps, isValidMotionProp } from 'framer-motion';
 import Image, { Shimmer } from 'react-shimmer';
+import { Link, useHistory } from 'react-router-dom';
+import { omit } from 'ramda';
 
 import colors from '../../themes/colors';
 import PriceIcon from '../../assets/home/icon_price.png';
 import { t } from '../../i18n';
 import { Work } from '../../types';
 import { toFixedDecimals } from '../../utils';
+import { actions } from '../../stores/assets';
 
 type CollectionProps = {
   isSet?: boolean;
@@ -32,10 +35,18 @@ export const MotionBox = motion.custom(
 
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
-  const { name, price, picUrl, isSet = false } = props;
+  const { id, name, price, picUrl, isSet = false } = props;
+  const history = useHistory();
 
+  const handleCollectionClick = () => {
+    actions.selectAsset(omit(['isSet'], props as Work));
+    history.push(`/detail/${id}`);
+  };
+
+  // TODO: Might wanna move link outside
   return (
     <MotionBox
+      onClick={handleCollectionClick}
       width="231px"
       height="310px"
       backgroundColor="#fff"

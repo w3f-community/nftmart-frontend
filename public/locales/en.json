@@ -43,8 +43,25 @@
   "home.empty": "No collections were found",
 
   "explore.collections.empty": "No result were found",
-  
+
   "wallet.title": "My Wallet",
+
+  "detail.no-description": "No description available.",
+  "detail.no-metadata": "No metadata available.",
+  "detail.no-about": "No about available.",
+  "detail.current-price": "Current Price",
+  "detail.purchase": "Purchase",
+  "detail.title.intro": "Intro",
+  "detail.title.metadata": "Metadata",
+  "detail.title.about": "About",
+  "detail.title.price": "Price History",
+  "detail.title.event": "Event History",
+
+  "detail.event.event": "Event",
+  "detail.event.price": "Price",
+  "detail.event.source": "Source",
+  "detail.event.target": "Target",
+  "detail.event.date": "Date",
 
   "footer.aboutus.title": "About Us",
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
@@ -72,5 +89,7 @@
   "user.edit.twitter": "Twitter：",
 
   "list.total.result": "{{count}}个结果",
-  "list.empty": "No collections were found"
+  "list.empty": "No collections were found",
+
+  "network.retry": "Retry"
 }

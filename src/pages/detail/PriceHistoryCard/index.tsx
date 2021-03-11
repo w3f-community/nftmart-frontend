@@ -5,10 +5,11 @@ import Card from '../../../components/card';
 import NSelect from '../../../components/nSelect';
 import colors from '../../../themes/colors';
 import PriceHistoryChart from '../PriceHistoryChart';
+import { t } from '../../../i18n';
 
 const PriceHistoryCard = () => {
   return (
-    <Card title="历史成交价">
+    <Card title={t('detail.title.price')}>
       <Stack spacing={4}>
         <Stack direction="row" spacing={4}>
           <NSelect

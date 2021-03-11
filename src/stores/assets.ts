@@ -15,6 +15,7 @@ export type Collection = {
 
 export interface AssetStore extends FilterTypes {
   assets: Work[];
+  selectedAsset: Work | null;
   filteredAssets: Work[];
   collections: Collection[];
   filteredCollections: Collection[];
@@ -22,6 +23,7 @@ export interface AssetStore extends FilterTypes {
 
 const store = new Rekv<AssetStore>({
   assets: [],
+  selectedAsset: null,
   filteredAssets: [],
   // filtering properties
   // status id
@@ -54,6 +56,9 @@ export const actions = {
   },
   setAssets(assets: Work[]) {
     store.setState({ assets, filteredAssets: assets });
+  },
+  selectAsset(asset: Work) {
+    store.setState({ selectedAsset: asset });
   },
   filterAssets(filterTypes: Partial<FilterTypes>) {
     store.setState((s) => {
