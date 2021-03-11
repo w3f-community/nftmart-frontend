@@ -45,6 +45,23 @@
 
   "wallet.title": "我的钱包",
 
+  "detail.no-description": "暂时没有介绍",
+  "detail.no-metadata": "暂时没有元数据",
+  "detail.no-about": "暂时没有关于",
+  "detail.current-price": "Current Price",
+  "detail.purchase": "立即购买",
+  "detail.title.intro": "介绍",
+  "detail.title.metadata": "元数据",
+  "detail.title.about": "关于",
+  "detail.title.price": "历史成交价",
+  "detail.title.event": "历史事件",
+
+  "detail.event.event": "事件",
+  "detail.event.price": "价格",
+  "detail.event.source": "来源",
+  "detail.event.target": "目标",
+  "detail.event.date": "时间",
+
   "footer.aboutus.title": "About Us",
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
   "footer.follow": "Follow Us",

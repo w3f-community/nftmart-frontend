@@ -52,13 +52,21 @@ const GET_COLLECTIONS = gql`
 `;
 
 const GET_ITEMS = gql`
-  query GetItems($page: Int, $pageSize: Int, $collectionId: Int, $categoryId: Int, $status: Int) {
+  query GetItems(
+    $page: Int
+    $pageSize: Int
+    $collectionId: Int
+    $categoryId: Int
+    $status: Int
+    $id: Int
+  ) {
     assets(
       page: $page
       pageSize: $pageSize
       collectionId: $collectionId
       status: $status
       categoryId: $categoryId
+      id: $id
     ) {
       assets {
         id

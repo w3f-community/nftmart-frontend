@@ -32,7 +32,7 @@ const ControlledLayout = () => {
           <Route exact strict path="/explore" component={Explore} />
           <Route exact strict path="/profile" component={EditUser} />
           <Route exact strict path="/wallet" component={Wallet} />
-          <Route exact strict path="/detail/*" component={Detail} />
+          <Route exact strict path="/detail/:id" component={Detail} />
           <Route exact strict path="/collections" component={MyCollections} />
           <Route exact strict path="/create" component={Create} />
           <Route exact strict path="/create-collection" component={CreateCollection} />

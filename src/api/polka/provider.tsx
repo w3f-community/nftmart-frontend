@@ -53,6 +53,8 @@ const provider = ({ children }: Props) => {
 
       // subscribe and update defaultaccount
       const unsubscribe = await web3AccountsSubscribe(async (reInjectedAccounts) => {
+        // console.log(reInjectedAccounts);
+
         if (!reInjectedAccounts.length) {
           return;
         }
@@ -68,7 +70,7 @@ const provider = ({ children }: Props) => {
     initExtension();
   }, []);
 
-  return children;
+  // return children;
 
   return (
     <>
