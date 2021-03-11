@@ -60,7 +60,7 @@
   "detail.modal.purchase.title": "Checkout Confirm",
   "detail.modal.purchase.subtitle": "Is this item you'd like to buy?",
   "detail.modal.purchase.item": "Item",
-  "detail.modal.purchase.count": "Number",
+  "detail.modal.purchase.count": "Qty.",
   "detail.modal.purchase.price": "Price",
   "detail.modal.purchase.confirm": "Continue",
 

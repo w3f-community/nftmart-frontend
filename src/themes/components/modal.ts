@@ -3,6 +3,9 @@ import colors from '../colors';
 
 const Modal: ComponentStyleConfig = {
   baseStyle: {
+    dialog: {
+      borderRadius: '3px',
+    },
     header: {
       px: 6,
       pt: 6,
