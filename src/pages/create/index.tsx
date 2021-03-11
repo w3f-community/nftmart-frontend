@@ -36,10 +36,10 @@ const CreateCollection = () => {
 
   return (
     <Layout>
-      <Box paddingTop={2}>
+      <Box padding={2}>
         <Container
           width="880px"
-          height="600px"
+          minHeight="100vh"
           backgroundColor="#fff"
           mt="20px"
           mb="148px"

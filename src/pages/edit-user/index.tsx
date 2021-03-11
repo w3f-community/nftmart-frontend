@@ -27,10 +27,10 @@ const UserEdit = () => {
 
   return (
     <Layout>
-      <Box paddingTop={2}>
+      <Box padding={2}>
         <Container
           width="880px"
-          height="600px"
+          minHeight="100vh"
           backgroundColor="#fff"
           borderBottomRadius="4px"
           m="20px auto 148px"
