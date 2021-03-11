@@ -37,14 +37,15 @@ const InnerCard: FC<InnerCardProps> = ({ price, onPurchase }) => (
 
 export interface PurchaseCardProps {
   name: string;
+  category: string;
   price: number | string;
   owner?: string;
   onPurchase: () => void;
 }
 
-const PurchaseCard: FC<PurchaseCardProps> = ({ name, owner, price, onPurchase }) => {
+const PurchaseCard: FC<PurchaseCardProps> = ({ category, name, owner, price, onPurchase }) => {
   return (
-    <Card title={<Text color={colors.primary}>NFTbox [ICON]</Text>} noHeadBorder>
+    <Card title={<Text color={colors.primary}>{category} [ICON]</Text>} noHeadBorder>
       <Stack marginTop="-1rem" spacing={4}>
         <Flex justify="space-between" align="flex-end">
           <Heading as="h2" size="lg">

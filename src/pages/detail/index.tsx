@@ -20,7 +20,7 @@ import bgSrc from '../../assets/background-demo.jpeg';
 import PurchaseModal from './PurchaseModal';
 import SalesSettingModal from './SalesSettingModal';
 import { t } from '../../i18n';
-import { GetItems } from '../../api/graph';
+import { GetCollections, GetItems } from '../../api/graph';
 import { toFixedDecimals } from '../../utils';
 
 const data = {
@@ -39,12 +39,18 @@ const data = {
 const Detail: FC = () => {
   const params = useParams<{ id: string }>();
 
-  const { data: assetsResponse } = GetItems({ id: Number(params?.id) ?? -1 });
+  const { data: assetsResponse } = GetItems({ id: Number(params?.id) ?? -1, pageSize: 1 });
 
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [settingOpen, setSettingOpen] = useState(false);
+  const [categoryName, setCategoryName] = useState('');
 
   const { selectedAsset } = store.useState('selectedAsset');
+
+  const { data: collectionsResponse } = GetCollections({
+    id: selectedAsset?.collectionId,
+    pageSize: 1,
+  });
 
   useEffect(() => {
     const assets = assetsResponse?.assets?.assets ?? [];
@@ -56,6 +62,13 @@ const Detail: FC = () => {
       //
     };
   }, [assetsResponse]);
+
+  useEffect(() => {
+    const collections = collectionsResponse?.collections?.collections ?? [];
+    if (!categoryName && collections[0]) {
+      setCategoryName(collections[0].name);
+    }
+  }, [collectionsResponse]);
 
   if (!selectedAsset) {
     return (
@@ -107,6 +120,7 @@ const Detail: FC = () => {
         right={
           <>
             <PurchaseCard
+              category={categoryName}
               name={selectedAsset.name}
               price={toFixedDecimals(selectedAsset.price, 8)}
               onPurchase={() => setPurchaseOpen(true)}
@@ -118,6 +132,9 @@ const Detail: FC = () => {
       />
 
       <PurchaseModal
+        item={selectedAsset}
+        count={1}
+        category={categoryName}
         open={purchaseOpen}
         onClose={handlePurchaseClose}
         onConfirm={handlePurchaseConfirm}

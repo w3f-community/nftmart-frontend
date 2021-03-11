@@ -38,10 +38,11 @@ const Explore = () => {
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
+  const [pageNumber, setPageNumber] = useState(1)
 
   const collectionsData = collectionsResponse?.collections?.collections;
 
-  const { data: assetsResponse, loading: itemsLoading } = GetItems({
+  const { data: assetsResponse, loading: itemsLoading, fetchMore } = GetItems({
     status: selectedStatus,
     collectionId: selectedCollectionId,
     categoryId: selectedCategoryId,

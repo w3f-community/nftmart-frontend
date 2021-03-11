@@ -26,7 +26,7 @@ const STATUS_MAP: Record<number, string> = {
 const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 
 const Page = () => {
-  const { loading, error, data: response, refetch } = GetItems();
+  const { loading, error, data: response, refetch } = GetItems({ pageSize: 30 });
   const { assets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
 
