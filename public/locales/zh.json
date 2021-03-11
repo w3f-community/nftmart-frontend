@@ -71,5 +71,7 @@
   "user.edit.twitter": "Twitter：",
 
   "list.total.result": "{{count}}个结果",
-  "list.empty": "没有找到任何结果"
+  "list.empty": "没有找到任何结果",
+
+  "network.retry": "点击重试"
 }

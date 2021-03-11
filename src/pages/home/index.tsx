@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
-import { Center, Container, Text } from '@chakra-ui/react';
+import { Button, Center, Container, Flex, Text } from '@chakra-ui/react';
 
 import { globalStore } from 'rekv';
 import store, { actions } from '../../stores/assets';
@@ -13,6 +13,7 @@ import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
 import { createClass, getClassById, mintNft } from '../../api/polka';
+import { t } from '../../i18n';
 
 type ListMap = Record<string, Work[]>;
 
@@ -25,7 +26,7 @@ const STATUS_MAP: Record<number, string> = {
 const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 
 const Page = () => {
-  const { loading, error, data: response } = GetItems();
+  const { loading, error, data: response, refetch } = GetItems();
   const { assets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
 
@@ -92,9 +93,12 @@ const Page = () => {
   // Component
   const errorBox = (
     <Container height={300}>
-      <Center height="100%">
+      <Flex direction="column" height="100%">
         <Text color={colors.text.gray}>{error?.message}</Text>
-      </Center>
+        <Button variant="primary" onClick={() => refetch()}>
+          {t('network.retry')}
+        </Button>
+      </Flex>
     </Container>
   );
 

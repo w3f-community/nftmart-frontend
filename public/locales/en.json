@@ -43,7 +43,7 @@
   "home.empty": "No collections were found",
 
   "explore.collections.empty": "No result were found",
-  
+
   "wallet.title": "My Wallet",
 
   "footer.aboutus.title": "About Us",
@@ -72,5 +72,7 @@
   "user.edit.twitter": "Twitter：",
 
   "list.total.result": "{{count}}个结果",
-  "list.empty": "No collections were found"
+  "list.empty": "No collections were found",
+
+  "network.retry": "Retry"
 }
