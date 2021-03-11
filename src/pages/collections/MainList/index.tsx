@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Center, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { IoMdAddCircle } from 'react-icons/io';
 
 import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
-import Collection from '../../../components/collection';
+import Collection, { MotionBox } from '../../../components/collection';
 import NSelect from '../../../components/nSelect';
 import { Work } from '../../../types';
 import Empty from '../../../components/empty';
@@ -109,9 +110,10 @@ export interface MainListProps {
   data: Work[];
   loading?: boolean;
   onTypeChange: (type: number) => void;
+  onCreateAsset: () => void;
 }
 
-const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
+const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsset }) => {
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
@@ -143,6 +145,33 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
           <Helpers onSort={handleSorting} count={count} />
           {!!count && (
             <SimpleGrid columns={4}>
+              {onCreateAsset && (
+                <MotionBox
+                  onClick={onCreateAsset}
+                  color={colors.primary}
+                  backgroundColor="#fff"
+                  borderRadius="4px"
+                  cursor="pointer"
+                  _hover={{ boxShadow: 'lg' }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  userSelect="none"
+                  ml="16px"
+                  mb="16px"
+                >
+                  <Box mt={6} mb={2}>
+                    <IoMdAddCircle size={99} />
+                  </Box>
+                  <Heading as="h4" size="sm">
+                    {t('create.title')}
+                  </Heading>
+                </MotionBox>
+              )}
+
               {data.map((work) => (
                 <Link to={`/detail/${work.id}`} key={work.id}>
                   <Box ml="16px" mb="16px">

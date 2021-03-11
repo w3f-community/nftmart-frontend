@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, Container } from '@chakra-ui/react';
+import { useHistory } from 'react-router-dom';
 
 import SideFilter from './SideFilter';
 import MainList from './MainList';
@@ -26,6 +27,7 @@ const STATUS_MAP: Record<any, any> = {
 // TODO: Error handling
 const MyCollections = () => {
   const query = useQuery();
+  const history = useHistory();
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
@@ -106,7 +108,11 @@ const MyCollections = () => {
   };
 
   const handleCreateCollection = () => {
-    //
+    history.push('/create-collection');
+  };
+
+  const handleCreateWork = () => {
+    history.push(`/create?collectionId=${selectedCollectionId}`);
   };
 
   return (
@@ -130,6 +136,7 @@ const MyCollections = () => {
               data={filteredAssets}
               onTypeChange={handleTypeChange}
               loading={itemsLoading}
+              onCreateAsset={handleCreateWork}
             />
           )}
           {!collectionsData?.length && (
