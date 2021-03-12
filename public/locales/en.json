@@ -10,7 +10,7 @@
 
   "quick-area.wallet": "Wallet",
   "quick-area.works": "Works",
-  "quick-area.works.create": "Create",
+  "quick-area.works.create": "Create Collection",
   "quick-area.profile.edit": "Edit Profile",
 
   "extension.dowload": "Please download Polkadot extension",
@@ -30,11 +30,11 @@
   "form.sort.auto": "Auto",
 
   "type.all": "All",
-  "type.digital": "Digital Art",
+  "type.arts": "Digital Art",
   "type.virtual": "Virtual",
   "type.sport": "Sport",
-  "type.collect": "Collect",
-  "type.other": "Other",
+  "type.collection": "Collection",
+  "type.others": "Other",
 
   "home.new-list": "New List",
   "home.new-create": "New Creation",
