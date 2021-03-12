@@ -46,7 +46,7 @@ const CreateCollection: FC = () => {
     borderBottomColor: '#F3F4F8',
   };
   return (
-    <Layout>
+    <Layout title="title.create-collections">
       <Box padding={2}>
         <Container
           width="880px"

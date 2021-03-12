@@ -91,7 +91,7 @@ const Detail: FC = () => {
   };
 
   return (
-    <Box>
+    <Box title="title.detail">
       <Alert
         // onDestroy={handleDestroy}
         onSetting={() => setSettingOpen(true)}
