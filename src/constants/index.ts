@@ -55,9 +55,9 @@ export const NAV_MAP: Record<string, string> = {
 
 export const USER_LINKS: Record<string, string> = {
   'quick-area.wallet': '/wallet',
-  'quick-area.works': '/collections',
-  'quick-area.works.create': '/create-collection',
-  'quick-area.profile.edit': '/profile',
+  'quick-area.collections': '/collections',
+  'quick-area.nft.create': '/create',
+  // 'quick-area.profile.edit': '/profile',
 };
 
 // TODO: Change to env variables
@@ -109,3 +109,5 @@ export type MetaData = {
   traits?: [];
   backgroundColor: string;
 };
+
+export const NATIVE_CURRENCY_ID = 0;

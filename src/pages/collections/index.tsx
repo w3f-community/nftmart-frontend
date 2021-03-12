@@ -123,7 +123,7 @@ const MyCollections = () => {
           <SideFilter
             // FIXME: Here using a simple error handling
             data={collectionsError ? [] : filteredCollections}
-            header={t('quick-area.works')}
+            header={t('quick-area.collections')}
             loading={collectionsLoading}
             onSearch={handleSearch}
             onSelectCollection={handleSelectCollection}

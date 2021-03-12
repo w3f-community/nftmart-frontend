@@ -13,7 +13,20 @@ import TypeFilter from './TypeFilter';
 import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
-import { createClass, getClassById, mintNft, getCategories, getAllNfts } from '../../api/polka';
+import {
+  createClass,
+  getClassById,
+  mintNft,
+  getCategories,
+  getAllNfts,
+  getAllOrders,
+  createOrder,
+  takeOrder,
+  updateOrderPrice,
+  deleteOrder,
+  queryClassByAddress,
+  queryNftByAddress,
+} from '../../api/polka';
 
 type ListMap = Record<string, Work[]>;
 
@@ -35,9 +48,50 @@ const Page = () => {
   const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(assets));
   const [stickyFilter, setStickyFilter] = useState(false);
 
+  const listOrder = () => {
+    const order = {
+      address: account.address,
+      price: 20,
+      categoryId: 0,
+      classId: 17,
+      tokenId: 0,
+    };
+    createOrder(order);
+  };
+  const takerOrder = () => {
+    const order = {
+      address: account.address,
+      classId: 17,
+      tokenId: 0,
+      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
+      price: 20,
+    };
+    takeOrder(order);
+  };
+  const updateOrder = () => {
+    const order = {
+      address: account.address,
+      price: 50,
+      classId: 17,
+      tokenId: 0,
+      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
+    };
+    updateOrderPrice(order);
+  };
+
+  const delOrder = () => {
+    const order = {
+      address: account.address,
+      classId: 17,
+      tokenId: 0,
+      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
+    };
+    deleteOrder(order);
+  };
+
   const create = () => {
     const metadata = {
-      name: 'second nft class',
+      name: 'nft class',
       description: 'this is my second nft class',
       url: 'http://www.baidu.com',
       externalUrl: '123',
@@ -48,13 +102,13 @@ const Page = () => {
 
   const mint = () => {
     const metadata = {
-      name: 'second nft class',
+      name: 'nft',
       description: 'this is my second nft class',
       url: 'http://www.baidu.com',
       externalUrl: '123',
       bannerUrl: '123',
     };
-    mintNft({ address: account.address, metadata, classID: 15 });
+    mintNft({ address: account.address, metadata, classId: 17 });
   };
 
   // State Effect
@@ -111,8 +165,23 @@ const Page = () => {
       <button onClick={() => getClassById(8)}>get</button>|
       <button onClick={() => mint()}>mint</button>
       <br />
-      <button onClick={() => getCategories()}>getCate</button>
-      <button onClick={() => getAllNfts()}>getAllNFTs</button>
+      <button onClick={() => getCategories()}>getCate</button>|
+      <button onClick={() => getAllNfts()}>getAllNFTs</button>|
+      <button onClick={() => getAllOrders()}>getAllOrders</button>|
+      <br />
+      <button onClick={() => listOrder()}>createOrder</button>|
+      <button onClick={() => takerOrder()}>takeOrder</button>|
+      <button onClick={() => updateOrder()}>updateOrderPrice</button>|
+      <button onClick={() => delOrder()}>deleteOrder</button>|
+      <br />
+      <button onClick={() => queryClassByAddress({ address: account.address })}>
+        queryClassByAddress
+      </button>
+      |
+      <button onClick={() => queryNftByAddress({ address: account.address })}>
+        queryNftByAddress
+      </button>
+      |
     </CommLayout>
   );
 };

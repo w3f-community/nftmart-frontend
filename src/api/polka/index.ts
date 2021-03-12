@@ -1,6 +1,6 @@
 // import { useState } from 'react';
 import { globalStore } from 'rekv';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { bnToBn } from '@polkadot/util';
@@ -11,11 +11,13 @@ import {
   TYPES,
   NODE_URL,
   TOKEN_TRANSFERABLE_BURNABLE,
-  MetaData,
   CLASS_METADATA,
+  NATIVE_CURRENCY_ID,
 } from '../../constants';
+
 import { hexToUtf8, txLog } from '../../utils';
 
+const unit = bnToBn('1000000000000');
 const WebSocket = require('rpc-websockets').Client;
 
 let api: any = null;
@@ -107,10 +109,11 @@ export const getCategories = async () => {
 };
 
 // get nft by class id
-const getAllNftsByClassId = async (classID: number) => {
-  const nextTokenId = await api.query.ormlNft.nextTokenId(classID);
+const getAllNftsByClassId = async (classId: number) => {
+  console.log(classId);
+  const nextTokenId = await api.query.ormlNft.nextTokenId(classId);
   // let tokenCount = 0;
-  let classInfo = await api.query.ormlNft.classes(classID);
+  let classInfo = await api.query.ormlNft.classes(classId);
   if (classInfo.isSome) {
     const arr = [];
     classInfo = classInfo.unwrap();
@@ -118,7 +121,7 @@ const getAllNftsByClassId = async (classID: number) => {
     // console.log(classInfo.toString());
     // console.log(accountInfo.toString());
     for (let i = 0; i < nextTokenId; i += 1) {
-      arr.push(api.query.ormlNft.tokens(classID, i));
+      arr.push(api.query.ormlNft.tokens(classId, i));
     }
     const res = await Promise.all(arr);
     return res.map((n) => {
@@ -132,18 +135,10 @@ const getAllNftsByClassId = async (classID: number) => {
 };
 
 // get all nfts
-export const getAllNfts = async (classID?: number) => {
-  if (classID === undefined) {
+export const getAllNfts = async (classId?: number) => {
+  if (classId === undefined) {
     const allClasses = await api.query.ormlNft.classes.entries();
     const arr: any[] = [];
-    // for (const c of allClasses) {
-    //   let key = c[0];
-    //   const len = key.length;
-    //   key = key.buffer.slice(len - 4, len);
-    //   const classID = new Uint32Array(key)[0];
-    //   arr.push(getAllNftsByClassId(classID));
-    // }
-
     allClasses.forEach((c: any) => {
       let key = c[0];
       const len = key.length;
@@ -160,11 +155,98 @@ export const getAllNfts = async (classID?: number) => {
         .filter(identity)
     );
   }
-  const res = await getAllNftsByClassId(classID);
+  const res = await getAllNftsByClassId(classId);
   return res;
 };
 
-// post api
+// get all orders
+export const getAllOrders = async () => {
+  const allOrders = await api.query.nftmart.orders.entries();
+  const ss58Format = 50;
+  const keyring = new Keyring({ type: 'sr25519', ss58Format });
+
+  const arr = allOrders.map(async (order: any) => {
+    const key = order[0];
+    const keyLen = key.length;
+    const orderOwner = keyring.encodeAddress(new Uint8Array(key.buffer.slice(keyLen - 32, keyLen)));
+
+    const classId = new Uint32Array(key.slice(keyLen - 4 - 8 - 32 - 16, keyLen - 8 - 32 - 16))[0];
+    const tokenIdRaw = new Uint32Array(key.slice(keyLen - 8 - 32 - 16, keyLen - 32 - 16));
+
+    const tokenIdLow32 = tokenIdRaw[0];
+    const tokenIdHigh32 = tokenIdRaw[1];
+    const tokenId = tokenIdLow32;
+    let nft = await api.query.ormlNft.tokens(classId, tokenId);
+    if (nft.isSome) {
+      nft = nft.unwrap();
+    }
+
+    const data = order[1].toHuman();
+    data.orderOwner = orderOwner;
+    data.classId = classId;
+    data.tokenId = tokenId;
+    data.nft = nft;
+
+    return data;
+  });
+  const orders = await Promise.all(arr);
+  return orders;
+};
+
+// query users class
+export const queryNftByAddress = async ({ address = '' }) => {
+  const nfts = await api.query.ormlNft.tokensByOwner.entries(address);
+
+  const arr = nfts.map(async (clzToken: any) => {
+    const clzTokenObj = clzToken[0];
+    const len = clzTokenObj.length;
+
+    const classId = new Uint32Array(clzTokenObj.slice(len - 4 - 8, len - 8))[0];
+    const tokenIdRaw = new Uint32Array(clzTokenObj.slice(len - 8, len));
+
+    const tokenIdLow32 = tokenIdRaw[0];
+    // const tokenIdHigh32 = tokenIdRaw[1];
+    const tokenId = tokenIdLow32;
+
+    let nft = await api.query.ormlNft.tokens(classId, tokenId);
+    if (nft.isSome) {
+      nft = nft.unwrap();
+      return nft;
+    }
+    return null;
+  });
+  const res = await Promise.all(arr);
+  console.log(res, 'nft by user');
+  return res;
+};
+
+// query users class
+export const queryClassByAddress = async ({ address = '' }) => {
+  const allClasses = await api.query.ormlNft.classes.entries();
+
+  const arr = allClasses.map(async (clz: any) => {
+    let key = clz[0];
+    const len = key.length;
+    key = key.buffer.slice(len - 4, len);
+    const classId = new Uint32Array(key)[0];
+    const clazz = clz[1].toJSON();
+    clazz.metadata = hexToUtf8(clazz.metadata.slice(2));
+    clazz.classId = classId;
+    clazz.adminList = await api.query.proxy.proxies(clazz.owner);
+    const res = clazz.adminList[0].map((admin: any) => {
+      if (admin.delegate.toString() === address) {
+        return clazz;
+      }
+      return null;
+    });
+    return res.length > 0 ? res[0] : null;
+  });
+  const res = await Promise.all(arr);
+  console.log(res, 'class by user');
+  return res;
+};
+
+// === post api ====
 
 // create collections
 // cb is callback for trx on chain   (status) => { ... }
@@ -182,7 +264,7 @@ export const createClass = async ({ address = '', metadata = CLASS_METADATA, cb 
 // cb is callback for trx on chain   (status) => { ... }
 export const mintNft = async ({
   address = '',
-  classID = 0,
+  classId = 0,
   metadata = {},
   quantity = 1,
   cb = txLog,
@@ -191,7 +273,7 @@ export const mintNft = async ({
   const metadataStr = JSON.stringify(metadata);
   const balancesNeeded = await nftDeposit(metadataStr, bnToBn(quantity));
   if (balancesNeeded === null) return null;
-  const classInfo = await api.query.ormlNft.classes(classID);
+  const classInfo = await api.query.ormlNft.classes(classId);
   if (!classInfo.isSome) {
     // console.log('classInfo not exist');
     return null;
@@ -205,10 +287,103 @@ export const mintNft = async ({
     api.tx.proxy.proxy(
       ownerOfClass,
       null,
-      api.tx.nftmart.mint(address, classID, metadataStr, quantity),
+      api.tx.nftmart.mint(address, classId, metadataStr, quantity),
     ),
   ];
   const batchExtrinsic = api.tx.utility.batchAll(txs);
   const res = await batchExtrinsic.signAndSend(address, { signer: injector.signer }, cb);
   return res;
+};
+
+// create order
+export const createOrder = async ({
+  address = '', // address of current user
+  categoryId = 0, // category id
+  deposit = 200, // stake number of NMT
+  price = 1, // list price
+  classId = 0, // class id
+  tokenId = 0, // token id
+  during = 1000, // during block num ,need to be conver from timestamp
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  const currentBlockNumber = bnToBn(await api.query.system.number());
+
+  // convert on chain precision
+  const priceAmount = unit.mul(bnToBn(price));
+  const depositAmount = unit.mul(bnToBn(deposit));
+  const call = api.tx.nftmart.submitOrder(
+    NATIVE_CURRENCY_ID,
+    priceAmount,
+    categoryId,
+    classId,
+    tokenId,
+    depositAmount,
+    currentBlockNumber.add(bnToBn(during)),
+  );
+  // const feeInfo = await call.paymentInfo(account);
+  await call.signAndSend(address, { signer: injector.signer }, cb);
+};
+
+// take order
+export const takeOrder = async ({
+  address = '', // address of current user
+  ownerAddress = '', // owner address
+  classId = 0, // class id
+  tokenId = 0, // token id
+  price = 0, // order price
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+  if (order.isSome) {
+    const priceAmount = unit.mul(bnToBn(price));
+    order = order.unwrap();
+    const call = api.tx.nftmart.takeOrder(classId, tokenId, priceAmount, ownerAddress);
+    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
+    return res;
+  }
+  return null;
+};
+
+// delete order
+export const updateOrderPrice = async ({
+  address = '', // address of current user
+  ownerAddress = '', // owner address
+  classId = 0, // class id
+  tokenId = 0, // token id
+  price = 0, // new price
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+
+  if (order.isSome) {
+    // convert on chain precision
+    const priceAmount = unit.mul(bnToBn(price));
+    order = order.unwrap();
+    const call = api.tx.nftmart.updateOrderPrice(classId, tokenId, priceAmount);
+    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
+    return res;
+  }
+  return null;
+};
+
+// delete order
+export const deleteOrder = async ({
+  address = '', // address of current user
+  ownerAddress = '', // owner address
+  classId = 0, // class id
+  tokenId = 0, // token id
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+  if (order.isSome) {
+    order = order.unwrap();
+    const call = api.tx.nftmart.removeOrder(classId, tokenId);
+    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
+    return res;
+  }
+  return null;
 };
