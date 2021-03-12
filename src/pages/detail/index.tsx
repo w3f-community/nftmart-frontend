@@ -17,36 +17,29 @@ import IntroCard from './IntroCard';
 import MetaCard from './MetaCard';
 import AboutCard from './AboutCard';
 
-import bgSrc from '../../assets/background-demo.jpeg';
 import PurchaseModal from './PurchaseModal';
 import SalesSettingModal from './SalesSettingModal';
-import { GetItems } from '../../api/graph';
-import { toFixedDecimals } from '../../utils';
 
-const data = {
-  collection_id: 0,
-  category_id: -1,
-  name: '饕餮史蒂芬',
-  picture: '史蒂芬史蒂芬是否第三方',
-  metadata: '元数据',
-  external_links: '外部链接说明',
-  describe:
-    'NFTmart 主链上的NFT资产，将兼容主流的 NFT 协议。每个账号都可以创建属于自己的NFT资产，为了方便每个账号创建不同系列的 NFT 资产，每个账号还可以创建“集合”',
-  status: 0,
-  address: '0x12541254189999',
-};
+import { GetCollections, GetItems } from '../../api/graph';
+import { toFixedDecimals } from '../../utils';
 
 const Detail: FC = () => {
   const { t } = useTranslation();
 
   const params = useParams<{ id: string }>();
 
-  const { data: assetsResponse } = GetItems({ id: Number(params?.id) ?? -1 });
+  const { data: assetsResponse } = GetItems({ id: Number(params?.id) ?? -1, pageSize: 1 });
 
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [settingOpen, setSettingOpen] = useState(false);
+  const [categoryName, setCategoryName] = useState('');
 
   const { selectedAsset } = store.useState('selectedAsset');
+
+  const { data: collectionsResponse } = GetCollections({
+    id: selectedAsset?.collectionId,
+    pageSize: 1,
+  });
 
   useEffect(() => {
     const assets = assetsResponse?.assets?.assets ?? [];
@@ -58,6 +51,13 @@ const Detail: FC = () => {
       //
     };
   }, [assetsResponse]);
+
+  useEffect(() => {
+    const collections = collectionsResponse?.collections?.collections ?? [];
+    if (!categoryName && collections[0]) {
+      setCategoryName(collections[0].name);
+    }
+  }, [collectionsResponse]);
 
   if (!selectedAsset) {
     return (
@@ -109,6 +109,7 @@ const Detail: FC = () => {
         right={
           <>
             <PurchaseCard
+              category={categoryName}
               name={selectedAsset.name}
               price={toFixedDecimals(selectedAsset.price, 8)}
               onPurchase={() => setPurchaseOpen(true)}
@@ -120,6 +121,9 @@ const Detail: FC = () => {
       />
 
       <PurchaseModal
+        item={selectedAsset}
+        count={1}
+        category={categoryName}
         open={purchaseOpen}
         onClose={handlePurchaseClose}
         onConfirm={handlePurchaseConfirm}

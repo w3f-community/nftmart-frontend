@@ -20,47 +20,56 @@ import colors from '../../themes/colors';
 import ImageCard from './ImageCard';
 import Meta from './Meta';
 
-import bgSrc from '../../assets/background-demo.jpeg';
+// import bgSrc from '../../assets/background-demo.jpeg';
+import { t } from '../../i18n';
+import { Work } from '../../types';
 
 export interface PurchaseModalProps {
   open: boolean;
+  count: number;
+  item: Work;
+  category: string;
   onClose: () => void;
   onConfirm: () => void;
 }
 
-const data = {
-  name: '',
-  type: '',
-  owner: '',
-  count: 1,
-  price: 1,
-};
+const PurchaseModal: FC<PurchaseModalProps> = ({
+  category,
+  count,
+  item,
+  open,
+  onClose,
+  onConfirm,
+}) => {
+  const { picUrl, name, price } = item;
+  const owner = '';
 
-const PurchaseModal: FC<PurchaseModalProps> = ({ open, onClose, onConfirm }) => {
-  const item = (
+  const itemColumnNode = (
     <Container>
       <Stack direction="row" justifyContent="space-between">
         <Flex flex={2} align="center">
-          <ImageCard src={bgSrc} />
+          <ImageCard src={picUrl!} width={90} height={60} />
         </Flex>
         <Stack flex={2} justifyContent="space-between">
           <Flex flex={1}>
-            <Text color={colors.text.gray}>category</Text>
+            <Text color={colors.text.gray}>{category}</Text>
           </Flex>
           <Flex flex={2}>
             <Heading as="h4" size="md">
-              title
+              {name}
             </Heading>
           </Flex>
           <Flex flex={1} align="flex-end">
-            <Meta
-              description="Owned by"
-              who="Who"
-              fontSize="0.75rem"
-              cursor="text"
-              userSelect="auto"
-              whoProps={{ color: colors.text.gray }}
-            />
+            {owner && (
+              <Meta
+                description="Owned by"
+                who={owner}
+                fontSize="0.75rem"
+                cursor="text"
+                userSelect="auto"
+                whoProps={{ color: colors.text.gray }}
+              />
+            )}
           </Flex>
         </Stack>
       </Stack>
@@ -72,18 +81,19 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ open, onClose, onConfirm }) => 
       <Stack>
         <Flex color={colors.text.gray} align="center">
           <Flex flex={4}>
-            <Text>item</Text>
+            <Text>{t('detail.modal.purchase.item')}</Text>
           </Flex>
-          <Flex flex={2}>count</Flex>
+          <Flex flex={2}>{t('detail.modal.purchase.count')}</Flex>
           <Flex flex={1} justify="flex-end">
-            price
+            {t('detail.modal.purchase.price')}
           </Flex>
         </Flex>
         <Flex align="center">
-          <Flex flex={4}>{item}</Flex>
-          <Flex flex={2}>count</Flex>
+          {/* First column with picture and title */}
+          <Flex flex={4}>{itemColumnNode}</Flex>
+          <Flex flex={2}>{count}</Flex>
           <Flex flex={1} justify="flex-end">
-            <Text color={colors.primary}>price</Text>
+            <Text color={colors.primary}>{price}</Text>
           </Flex>
         </Flex>
       </Stack>
@@ -91,23 +101,23 @@ const PurchaseModal: FC<PurchaseModalProps> = ({ open, onClose, onConfirm }) => 
   );
 
   return (
-    <Modal isOpen={open} onClose={onClose} size="lg" isCentered>
+    <Modal isOpen={open} onClose={onClose} size="lg"  isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
           <Heading as="h3" size="md">
-            Modal Title
+            {t('detail.modal.purchase.title')}
           </Heading>
         </ModalHeader>
         <ModalCloseButton />
         <Box paddingX={6} marginTop={-3}>
-          <Text color={colors.text.gray}>Sub title</Text>
+          <Text color={colors.text.gray}>{t('detail.modal.purchase.subtitle')}</Text>
         </Box>
         <ModalBody>{itemCard}</ModalBody>
 
         <ModalFooter display="flex" justifyContent="center">
           <Button variant="primary" onClick={onConfirm}>
-            Confirm
+            {t('detail.modal.purchase.confirm')}
           </Button>
         </ModalFooter>
       </ModalContent>

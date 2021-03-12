@@ -24,7 +24,7 @@ const provider = ({ children }: Props) => {
     store.setState({ categories });
   };
   initPolkadotApi(queryCategories);
-  
+
   const { t } = useTranslation();
 
   const { api, accounts = null } = globalStore.useState('api', 'accounts');

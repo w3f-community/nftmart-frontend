@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
-import { Button, Center, Container, Flex, Text } from '@chakra-ui/react';
+import { Button, Container, Flex, Text } from '@chakra-ui/react';
 
 import { globalStore } from 'rekv';
 import { useTranslation } from 'react-i18next';
@@ -26,9 +26,9 @@ const STATUS_MAP: Record<number, string> = {
 const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 
 const Page = () => {
+  const { loading, error, data: response, refetch } = GetItems({ pageSize: 30 });
   const { t } = useTranslation();
 
-  const { loading, error, data: response, refetch } = GetItems();
   const { assets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
 

@@ -26,6 +26,7 @@ export interface TypeFiltersProps {
 
 const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
   const { t } = useTranslation();
+
   const [selectedType, setSelectedType] = useState(-1);
 
   const handleSelect = (type: number) => {
@@ -73,6 +74,8 @@ export interface Helpers {
 }
 
 const Helpers: FC<Helpers> = ({ count, onSort }) => {
+  const { t } = useTranslation();
+
   const suffix = `result${count > 1 ? 's' : ''}`;
   const options = [
     { value: 1, title: t('form.sort.auto') },
@@ -113,6 +116,7 @@ export interface MainListProps {
 }
 
 const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
+  const { t } = useTranslation();
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {

@@ -56,6 +56,13 @@
   "detail.title.price": "历史成交价",
   "detail.title.event": "历史事件",
 
+  "detail.modal.purchase.title": "购买确认",
+  "detail.modal.purchase.subtitle": "以下是本次购买的明细，请确认",
+  "detail.modal.purchase.item": "项目",
+  "detail.modal.purchase.count": "数量",
+  "detail.modal.purchase.price": "价格",
+  "detail.modal.purchase.confirm": "确认",
+
   "detail.event.event": "事件",
   "detail.event.price": "价格",
   "detail.event.source": "来源",

@@ -20,7 +20,7 @@ const obj = {
       position: 'relative',
     },
 
-    footer: {
+    'footer.page-footer': {
       position: 'absolute',
       left: 0,
       right: 0,

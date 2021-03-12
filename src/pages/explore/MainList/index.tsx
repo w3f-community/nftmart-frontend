@@ -24,6 +24,49 @@ export interface TypeFiltersProps {
   onChange: (val: any) => void;
 }
 
+const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
+  const { t } = useTranslation();
+
+  const [selectedType, setSelectedType] = useState(-1);
+
+  const handleSelect = (type: number) => {
+    setSelectedType(type);
+    onChange(type);
+  };
+
+  const renderFilter = (key: string) => {
+    const value = typeMap[key];
+
+    return (
+      <Box
+        key={value}
+        cursor="pointer"
+        _hover={{ color: colors.text.black }}
+        color={value === selectedType ? colors.text.black : ''}
+        onClick={() => handleSelect(value)}
+      >
+        {t(`type.${key}`)}
+      </Box>
+    );
+  };
+
+  return (
+    <Box
+      display="flex"
+      justifyContent="space-evenly"
+      alignItems="center"
+      ml="16px"
+      height="60px"
+      borderRadius="4px"
+      backgroundColor="#fff"
+      boxShadow="base"
+      color={colors.text.gray}
+    >
+      {Object.keys(typeMap).map(renderFilter)}
+    </Box>
+  );
+};
+
 /** 展示 结果 与 排序选择 */
 export interface Helpers {
   count: number;
@@ -72,49 +115,8 @@ export interface MainListProps {
 }
 
 const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
-  const [count, setCount] = useState<number>(0);
   const { t } = useTranslation();
-
-  const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
-    const [selectedType, setSelectedType] = useState(-1);
-
-    const handleSelect = (type: number) => {
-      setSelectedType(type);
-      onChange(type);
-    };
-
-    const renderFilter = (key: string) => {
-      const value = typeMap[key];
-
-      return (
-        <Box
-          key={value}
-          cursor="pointer"
-          _hover={{ color: colors.text.black }}
-          color={value === selectedType ? colors.text.black : ''}
-          onClick={() => handleSelect(value)}
-        >
-          {t(`type.${key}`)}
-        </Box>
-      );
-    };
-
-    return (
-      <Box
-        display="flex"
-        justifyContent="space-evenly"
-        alignItems="center"
-        ml="16px"
-        height="60px"
-        borderRadius="4px"
-        backgroundColor="#fff"
-        boxShadow="base"
-        color={colors.text.gray}
-      >
-        {Object.keys(typeMap).map(renderFilter)}
-      </Box>
-    );
-  };
+  const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     if (Array.isArray(data)) {
