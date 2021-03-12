@@ -2,10 +2,10 @@ import React from 'react';
 import { forwardRef, ChakraProps, chakra, ComponentWithAs, Box, Flex } from '@chakra-ui/react';
 import { motion, MotionProps, isValidMotionProp } from 'framer-motion';
 import Image, { Shimmer } from 'react-shimmer';
+import { useTranslation } from 'react-i18next';
 
 import colors from '../../themes/colors';
 import PriceIcon from '../../assets/home/icon_price.png';
-import { t } from '../../i18n';
 import { Work } from '../../types';
 import { toFixedDecimals } from '../../utils';
 
@@ -32,6 +32,7 @@ export const MotionBox = motion.custom(
 
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
+  const { t } = useTranslation();
   const { name, price, picUrl, isSet = false } = props;
 
   return (

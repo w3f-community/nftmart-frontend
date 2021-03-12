@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container } from '@chakra-ui/react';
-import { t } from '../../i18n';
+import { useTranslation } from 'react-i18next';
 import LogoImg from '../../assets/footer_logo.png';
 import GithubLogo from '../../assets/footer_icon_github.png';
 import GithubLogoHover from '../../assets/footer_icon_github_s.png';
@@ -16,6 +16,7 @@ import InsLogo from '../../assets/footer_icon_ins.png';
 import InsLogoHover from '../../assets/footer_icon_ins_s.png';
 
 export default function Uploader() {
+  const { t } = useTranslation();
   const iconList = [
     { src: GithubLogo, hoverSrc: GithubLogoHover, id: 0 },
     { src: TwitterLogo, hoverSrc: TwitterLogoHover, id: 1 },

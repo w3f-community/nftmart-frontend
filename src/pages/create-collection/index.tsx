@@ -10,12 +10,14 @@ import {
   Textarea,
   Select,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
 import colors from '../../themes/colors';
-import { t } from '../../i18n';
 import Layout from '../../layouts/common';
 
 const CreateCollection = () => {
+  const { t } = useTranslation();
+
   const formLableLayout = {
     width: '240px',
     height: '48px',

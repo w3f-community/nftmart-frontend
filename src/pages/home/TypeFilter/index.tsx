@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 import { Box, Container, Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 
 import BannerBg from '../../../assets/home/banner.png';
 import colors from '../../../themes/colors';
-import { t } from '../../../i18n';
 import { Z_INDEXES } from '../../../constants';
 
 const BannerImg = styled.img({
@@ -76,6 +76,8 @@ export interface TypeFilterProps {
 }
 
 const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky, top }) => {
+  const { t } = useTranslation();
+
   const [selectedTypeId, setSelectedTypeId] = useState(0);
 
   const typeList = [

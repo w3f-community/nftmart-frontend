@@ -15,7 +15,6 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
-import { t } from '../../i18n';
 
 const TRANSLATIONS: Record<string, string> = {
   en: 'lang.en',
@@ -23,7 +22,7 @@ const TRANSLATIONS: Record<string, string> = {
 };
 
 const ChangeLanguage = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [lang, setLang] = useState(i18n.language);
   const [opening, setOpening] = useState(false);

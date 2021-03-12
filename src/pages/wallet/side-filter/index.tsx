@@ -10,8 +10,7 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
-
-import { t } from '../../../i18n';
+import { useTranslation } from 'react-i18next';
 
 const statusMap = {
   'nav.list-sale': 'a',
@@ -20,6 +19,8 @@ const statusMap = {
 };
 
 const SideFilter = () => {
+  const { t } = useTranslation();
+
   return (
     // Columns
     <Box width="321px">

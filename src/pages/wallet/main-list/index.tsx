@@ -1,10 +1,12 @@
 import React from 'react';
 import { Flex, Box, Container, Text, Button, color } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+
 import Collection from '../../../components/collection';
-import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
 
 const MainList = () => {
+  const { t } = useTranslation();
   const list = [
     { name: '星空', price: 1, id: 0 },
     { name: '星空', price: 1, id: 1 },
