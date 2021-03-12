@@ -109,3 +109,5 @@ export type MetaData = {
   traits?: [];
   backgroundColor: string;
 };
+
+export const NATIVE_CURRENCY_ID = 0;

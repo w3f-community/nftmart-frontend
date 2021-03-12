@@ -75,14 +75,13 @@ export const hexToUtf8 = (s: string) => {
 };
 
 // trx log
-export const txLog = (result: any) => {
+export const txLog = (result: any, cb = (res: any) => res) => {
   console.log(`Current status is ${result.status}`);
 
   if (result.status.isInBlock) {
     console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
   } else if (result.status.isFinalized) {
     console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
-    // unsub();
-    // cb();
   }
+  cb(result);
 };

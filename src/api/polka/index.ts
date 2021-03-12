@@ -9,11 +9,12 @@ import {
   TYPES,
   NODE_URL,
   TOKEN_TRANSFERABLE_BURNABLE,
-  MetaData,
   CLASS_METADATA,
+  NATIVE_CURRENCY_ID,
 } from '../../constants';
 import { hexToUtf8, txLog } from '../../utils';
 
+const unit = bnToBn('1000000000000');
 const WebSocket = require('rpc-websockets').Client;
 
 let api: any = null;
@@ -208,7 +209,7 @@ export const getAllOrders = async () => {
   return orders;
 };
 
-// post api
+// === post api ====
 
 // create collections
 // cb is callback for trx on chain   (status) => { ... }
@@ -255,4 +256,95 @@ export const mintNft = async ({
   const batchExtrinsic = api.tx.utility.batchAll(txs);
   const res = await batchExtrinsic.signAndSend(address, { signer: injector.signer }, cb);
   return res;
+};
+
+// create order
+export const createOrder = async ({
+  address = '', // address of current user
+  categoryId = 0, // category id
+  deposit = 200, // stake number of NMT
+  price = 1, // list price
+  classId = 0, // class id
+  tokenId = 0, // token id
+  during = 1000, // during block num ,need to be conver from timestamp
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  const currentBlockNumber = bnToBn(await api.query.system.number());
+
+  // convert on chain precision
+  const priceAmount = unit.mul(bnToBn(price));
+  const depositAmount = unit.mul(bnToBn(deposit));
+  const call = api.tx.nftmart.submitOrder(
+    NATIVE_CURRENCY_ID,
+    priceAmount,
+    categoryId,
+    classId,
+    tokenId,
+    depositAmount,
+    currentBlockNumber.add(bnToBn(during)),
+  );
+  // const feeInfo = await call.paymentInfo(account);
+  await call.signAndSend(address, { signer: injector.signer }, cb);
+};
+
+// take order
+export const takeOrder = async ({
+  address = '', // address of current user
+  ownerAddress = '', // owner address
+  classId = 0, // class id
+  tokenId = 0, // token id
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+  if (order.isSome) {
+    order = order.unwrap();
+    const call = api.tx.nftmart.takeOrder(classId, tokenId, order.price, ownerAddress);
+    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
+    return res;
+  }
+  return null;
+};
+
+// delete order
+export const updateOrderPrice = async ({
+  address = '', // address of current user
+  ownerAddress = '', // owner address
+  classId = 0, // class id
+  tokenId = 0, // token id
+  price = 0, // new price
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+
+  if (order.isSome) {
+    // convert on chain precision
+    const priceAmount = unit.mul(bnToBn(price));
+    order = order.unwrap();
+    const call = api.tx.nftmart.updateOrderPrice(classId, tokenId, priceAmount);
+    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
+    return res;
+  }
+  return null;
+};
+
+// delete order
+export const deleteOrder = async ({
+  address = '', // address of current user
+  ownerAddress = '', // owner address
+  classId = 0, // class id
+  tokenId = 0, // token id
+  cb = txLog,
+}) => {
+  const injector = await web3FromAddress(address);
+  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+  if (order.isSome) {
+    order = order.unwrap();
+    const call = api.tx.nftmart.removeOrder(classId, tokenId);
+    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
+    return res;
+  }
+  return null;
 };

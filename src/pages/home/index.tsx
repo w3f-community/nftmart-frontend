@@ -20,6 +20,10 @@ import {
   getCategories,
   getAllNfts,
   getAllOrders,
+  createOrder,
+  takeOrder,
+  updateOrderPrice,
+  deleteOrder,
 } from '../../api/polka';
 
 type ListMap = Record<string, Work[]>;
@@ -43,9 +47,49 @@ const Page = () => {
   const [stickyFilter, setStickyFilter] = useState(false);
   const [typeFilterHeight] = useState(338);
 
+  const listOrder = () => {
+    const order = {
+      address: account.address,
+      price: 20,
+      categoryId: 0,
+      classId: 17,
+      tokenId: 0,
+    };
+    createOrder(order);
+  };
+  const takerOrder = () => {
+    const order = {
+      address: account.address,
+      classId: 17,
+      tokenId: 0,
+      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
+    };
+    takeOrder(order);
+  };
+  const updateOrder = () => {
+    const order = {
+      address: account.address,
+      price: 50,
+      classId: 17,
+      tokenId: 0,
+      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
+    };
+    updateOrderPrice(order);
+  };
+
+  const delOrder = () => {
+    const order = {
+      address: account.address,
+      classId: 17,
+      tokenId: 0,
+      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
+    };
+    deleteOrder(order);
+  };
+
   const create = () => {
     const metadata = {
-      name: 'second nft class',
+      name: 'nft class',
       description: 'this is my second nft class',
       url: 'http://www.baidu.com',
       externalUrl: '123',
@@ -56,13 +100,13 @@ const Page = () => {
 
   const mint = () => {
     const metadata = {
-      name: 'second nft class',
+      name: 'nft',
       description: 'this is my second nft class',
       url: 'http://www.baidu.com',
       externalUrl: '123',
       bannerUrl: '123',
     };
-    mintNft({ address: account.address, metadata, classID: 15 });
+    mintNft({ address: account.address, metadata, classID: 17 });
   };
 
   // State Effect
@@ -122,6 +166,11 @@ const Page = () => {
       <button onClick={() => getCategories()}>getCate</button>|
       <button onClick={() => getAllNfts()}>getAllNFTs</button>|
       <button onClick={() => getAllOrders()}>getAllOrders</button>|
+      <br />
+      <button onClick={() => listOrder()}>createOrder</button>|
+      <button onClick={() => takerOrder()}>takeOrder</button>|
+      <button onClick={() => updateOrder()}>updateOrderPrice</button>|
+      <button onClick={() => delOrder()}>deleteOrder</button>|
     </CommLayout>
   );
 };
