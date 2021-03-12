@@ -74,6 +74,7 @@ export interface Helpers {
 }
 
 const Helpers: FC<Helpers> = ({ count, onSort }) => {
+  const { t } = useTranslation();
   const suffix = `result${count > 1 ? 's' : ''}`;
   const options = [
     { value: 1, title: t('form.sort.auto') },
@@ -115,6 +116,7 @@ export interface MainListProps {
 }
 
 const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsset }) => {
+  const { t } = useTranslation();
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {

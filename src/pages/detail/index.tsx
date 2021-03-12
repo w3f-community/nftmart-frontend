@@ -23,19 +23,6 @@ import SalesSettingModal from './SalesSettingModal';
 import { GetCollections, GetItems } from '../../api/graph';
 import { toFixedDecimals } from '../../utils';
 
-const data = {
-  collection_id: 0,
-  category_id: -1,
-  name: '饕餮史蒂芬',
-  picture: '史蒂芬史蒂芬是否第三方',
-  metadata: '元数据',
-  external_links: '外部链接说明',
-  describe:
-    'NFTmart 主链上的NFT资产，将兼容主流的 NFT 协议。每个账号都可以创建属于自己的NFT资产，为了方便每个账号创建不同系列的 NFT 资产，每个账号还可以创建“集合”',
-  status: 0,
-  address: '0x12541254189999',
-};
-
 const Detail: FC = () => {
   const { t } = useTranslation();
 
