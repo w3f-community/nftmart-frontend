@@ -98,7 +98,6 @@ export const getCategories = async () => {
     const cate = data.toHuman();
     cate.id = cateId;
     cate.metadata = JSON.parse(cate.metadata);
-    console.log(cateId, cate);
     return cate;
   });
 

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Box, Center, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,46 +6,51 @@ import { useTranslation } from 'react-i18next';
 import colors from '../../../themes/colors';
 import Collection from '../../../components/collection';
 import NSelect from '../../../components/nSelect';
-import { Work } from '../../../types';
 import Empty from '../../../components/empty';
+import { Category, Work } from '../../../types';
 
-const typeMap: Record<string, number> = {
-  all: -1,
-  digital: 1,
-  virtual: 2,
-  sport: 3,
-  collect: 4,
-  other: 5,
-};
+import categoriesStore from '../../../stores/categories';
 
 /** 类型选择 Type filter, use for filtering different types of works */
-
 export interface TypeFiltersProps {
   onChange: (val: any) => void;
 }
 
 const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [selectedType, setSelectedType] = useState(-1);
+
+  const { categories } = categoriesStore.useState('categories');
+
+  const typeList = useMemo<Category[]>(() => {
+    if (categories?.length) {
+      const first = { id: -1, name: t(`type.all`) };
+      const rest = categories.map((metaCategory: { id: number; metadata: { name: string } }) => ({
+        name: t(`type.${metaCategory.metadata.name}`),
+        id: metaCategory.id,
+      }));
+      return [first, ...rest];
+    }
+
+    return [];
+  }, [categories, i18n.language]);
 
   const handleSelect = (type: number) => {
     setSelectedType(type);
     onChange(type);
   };
 
-  const renderFilter = (key: string) => {
-    const value = typeMap[key];
-
+  const renderFilter = ({ name, id }: Category) => {
     return (
       <Box
-        key={value}
+        key={name}
         cursor="pointer"
         _hover={{ color: colors.text.black }}
-        color={value === selectedType ? colors.text.black : ''}
-        onClick={() => handleSelect(value)}
+        color={id === selectedType ? colors.text.black : ''}
+        onClick={() => handleSelect(id)}
       >
-        {t(`type.${key}`)}
+        {name}
       </Box>
     );
   };
@@ -62,7 +67,7 @@ const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
       boxShadow="base"
       color={colors.text.gray}
     >
-      {Object.keys(typeMap).map(renderFilter)}
+      {typeList.map(renderFilter)}
     </Box>
   );
 };
