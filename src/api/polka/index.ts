@@ -34,7 +34,7 @@ const nftDeposit = async (metadata: any, quantity: any) => {
   }
 };
 
-export const initPolkadotApi = () => {
+export const initPolkadotApi = (cb?: any) => {
   if (api) return;
   // set ss58Format
   api = true;
@@ -47,6 +47,7 @@ export const initPolkadotApi = () => {
     globalStore.setState({ api: res });
     api = res;
     console.log('api inited ......');
+    if (cb) cb();
   });
 };
 
@@ -83,6 +84,25 @@ export const getNftsById = async (classId: number, id: string) => {
   nft.class = await getClassById(classId);
   // console.log(nft);
   return nft;
+};
+
+// query all categories
+export const getCategories = async () => {
+  let categories = await api.query.nftmart.categories.entries();
+  categories = categories.map((category: any) => {
+    let key = category[0];
+    const data = category[1].unwrap();
+    const len = key.length;
+    key = key.buffer.slice(len - 4, len);
+    const cateId = new Uint32Array(key)[0];
+    const cate = data.toHuman();
+    cate.id = cateId;
+    cate.metadata = JSON.parse(cate.metadata);
+    console.log(cateId, cate);
+    return cate;
+  });
+
+  return categories;
 };
 
 // post api

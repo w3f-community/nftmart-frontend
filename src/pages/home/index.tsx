@@ -13,7 +13,7 @@ import TypeFilter from './TypeFilter';
 import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
-import { createClass, getClassById, mintNft } from '../../api/polka';
+import { createClass, getClassById, mintNft, getCategories } from '../../api/polka';
 
 type ListMap = Record<string, Work[]>;
 
@@ -111,6 +111,8 @@ const Page = () => {
       <button onClick={() => create()}>create</button>|
       <button onClick={() => getClassById(8)}>get</button>|
       <button onClick={() => mint()}>mint</button>
+      <br />
+      <button onClick={() => getCategories()}>getCate</button>
     </CommLayout>
   );
 };
