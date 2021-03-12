@@ -1,6 +1,6 @@
 // import { useState } from 'react';
 import { globalStore } from 'rekv';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { bnToBn } from '@polkadot/util';
@@ -136,14 +136,6 @@ export const getAllNfts = async (classID?: number) => {
   if (classID === undefined) {
     const allClasses = await api.query.ormlNft.classes.entries();
     const arr: any[] = [];
-    // for (const c of allClasses) {
-    //   let key = c[0];
-    //   const len = key.length;
-    //   key = key.buffer.slice(len - 4, len);
-    //   const classID = new Uint32Array(key)[0];
-    //   arr.push(getAllNftsByClassId(classID));
-    // }
-
     allClasses.forEach((c: any) => {
       let key = c[0];
       const len = key.length;
@@ -156,6 +148,64 @@ export const getAllNfts = async (classID?: number) => {
   }
   const res = await getAllNftsByClassId(classID);
   return res;
+};
+
+// get all orders
+export const getAllOrders = async () => {
+  const allOrders = await api.query.nftmart.orders.entries();
+  const ss58Format = 50;
+  const keyring = new Keyring({ type: 'sr25519', ss58Format });
+
+  // for (let order of allOrders) {
+  // 	let key = order[0];
+  // 	let keyLen = key.length;
+  // 	const orderOwner = keyring.encodeAddress(new Uint8Array(key.buffer.slice(keyLen - 32, keyLen)));
+
+  // 	const classID = new Uint32Array(key.slice(keyLen - 4 - 8 - 32 - 16, keyLen - 8 - 32 - 16))[0];
+  // 	const tokenIDRaw = new Uint32Array(key.slice(keyLen - 8 - 32 - 16, keyLen - 32 - 16));
+
+  // 	const tokenIDLow32 = tokenIDRaw[0];
+  // 	const tokenIDHigh32 = tokenIDRaw[1];
+  // 	const tokenID = u32ToU64(tokenIDLow32, tokenIDHigh32);
+
+  // 	let nft = await api.query.ormlNft.tokens(classID, tokenID);
+  // 	if (nft.isSome) {
+  // 		nft = nft.unwrap();
+  // 	}
+
+  // 	let data = order[1].toHuman();
+  // 	data.orderOwner = orderOwner;
+  // 	data.classID = classID;
+  // 	data.tokenID = tokenID;
+  // 	data.nft = nft;
+  // 	console.log("%s", JSON.stringify(data));
+  // }
+  const arr = allOrders.map(async (order: any) => {
+    const key = order[0];
+    const keyLen = key.length;
+    const orderOwner = keyring.encodeAddress(new Uint8Array(key.buffer.slice(keyLen - 32, keyLen)));
+
+    const classID = new Uint32Array(key.slice(keyLen - 4 - 8 - 32 - 16, keyLen - 8 - 32 - 16))[0];
+    const tokenIDRaw = new Uint32Array(key.slice(keyLen - 8 - 32 - 16, keyLen - 32 - 16));
+
+    const tokenIDLow32 = tokenIDRaw[0];
+    const tokenIDHigh32 = tokenIDRaw[1];
+    const tokenID = tokenIDLow32;
+    let nft = await api.query.ormlNft.tokens(classID, tokenID);
+    if (nft.isSome) {
+      nft = nft.unwrap();
+    }
+
+    const data = order[1].toHuman();
+    data.orderOwner = orderOwner;
+    data.classID = classID;
+    data.tokenID = tokenID;
+    data.nft = nft;
+
+    return data;
+  });
+  const orders = await Promise.all(arr);
+  return orders;
 };
 
 // post api
