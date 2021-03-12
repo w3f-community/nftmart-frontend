@@ -34,7 +34,6 @@ const Page = () => {
 
   const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(assets));
   const [stickyFilter, setStickyFilter] = useState(false);
-  const [typeFilterHeight] = useState(338);
 
   const create = () => {
     const metadata = {

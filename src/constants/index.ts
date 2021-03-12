@@ -56,7 +56,7 @@ export const NAV_MAP: Record<string, string> = {
 export const USER_LINKS: Record<string, string> = {
   'quick-area.wallet': '/wallet',
   'quick-area.works': '/collections',
-  'quick-area.works.create': '/create',
+  'quick-area.works.create': '/create-collection',
   'quick-area.profile.edit': '/profile',
 };
 

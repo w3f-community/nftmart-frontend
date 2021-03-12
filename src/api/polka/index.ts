@@ -4,6 +4,8 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { bnToBn } from '@polkadot/util';
+import { identity } from 'ramda';
+
 import store from '../../stores/account';
 import {
   TYPES,
@@ -106,7 +108,6 @@ export const getCategories = async () => {
 
 // get nft by class id
 const getAllNftsByClassId = async (classID: number) => {
-  console.log(classID);
   const nextTokenId = await api.query.ormlNft.nextTokenId(classID);
   // let tokenCount = 0;
   let classInfo = await api.query.ormlNft.classes(classID);
@@ -122,9 +123,8 @@ const getAllNftsByClassId = async (classID: number) => {
     const res = await Promise.all(arr);
     return res.map((n) => {
       if (n.isEmpty) return null;
-      const nft = n.unwrap();
-      nft.classInfo = classInfo;
-      console.log(nft);
+      const nft = n.toHuman();
+      nft.classInfo = classInfo.toHuman();
       return nft;
     });
   }
@@ -152,7 +152,13 @@ export const getAllNfts = async (classID?: number) => {
       arr.push(getAllNftsByClassId(cid));
     });
     const res = await Promise.all(arr);
-    return res;
+    return (
+      res
+        .filter((nfts) => !!nfts?.length)
+        .flat(1)
+        // .flatMap((nft: { metadata: string }) => ({ ...nft, metadata: JSON.parse(nft.metadata) }))
+        .filter(identity)
+    );
   }
   const res = await getAllNftsByClassId(classID);
   return res;
