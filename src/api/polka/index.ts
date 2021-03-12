@@ -105,6 +105,60 @@ export const getCategories = async () => {
   return categories;
 };
 
+// get nft by class id
+const getAllNftsByClassId = async (classID: number) => {
+  console.log(classID);
+  const nextTokenId = await api.query.ormlNft.nextTokenId(classID);
+  // let tokenCount = 0;
+  let classInfo = await api.query.ormlNft.classes(classID);
+  if (classInfo.isSome) {
+    const arr = [];
+    classInfo = classInfo.unwrap();
+    // const accountInfo = await api.query.system.account(classInfo.owner);
+    // console.log(classInfo.toString());
+    // console.log(accountInfo.toString());
+    for (let i = 0; i < nextTokenId; i += 1) {
+      arr.push(api.query.ormlNft.tokens(classID, i));
+    }
+    const res = await Promise.all(arr);
+    return res.map((n) => {
+      if (n.isEmpty) return null;
+      const nft = n.unwrap();
+      nft.classInfo = classInfo;
+      console.log(nft);
+      return nft;
+    });
+  }
+  return [];
+};
+
+// get all nfts
+export const getAllNfts = async (classID?: number) => {
+  if (classID === undefined) {
+    const allClasses = await api.query.ormlNft.classes.entries();
+    const arr: any[] = [];
+    // for (const c of allClasses) {
+    //   let key = c[0];
+    //   const len = key.length;
+    //   key = key.buffer.slice(len - 4, len);
+    //   const classID = new Uint32Array(key)[0];
+    //   arr.push(getAllNftsByClassId(classID));
+    // }
+
+    allClasses.forEach((c: any) => {
+      let key = c[0];
+      const len = key.length;
+      key = key.buffer.slice(len - 4, len);
+      const cid = new Uint32Array(key)[0];
+      arr.push(getAllNftsByClassId(cid));
+    });
+    const res = await Promise.all(arr);
+    return res;
+  }
+  const res = await getAllNftsByClassId(classID);
+  return res;
+};
+
 // post api
 
 // create collections

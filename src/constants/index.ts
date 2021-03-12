@@ -1,12 +1,22 @@
 export const TYPES = {
   Properties: 'u8',
   NFTMetadata: 'Vec<u8>',
+  BlockNumber: 'u32',
+  BlockNumberOf: 'BlockNumber',
+
+  OrderData: {
+    currencyId: 'Compact<CurrencyIdOf>',
+    price: 'Compact<Balance>',
+    deposit: 'Compact<Balance>',
+    deadline: 'Compact<BlockNumberOf>',
+    categoryId: 'Compact<CategoryIdOf>',
+  },
 
   CategoryId: 'u32',
   CategoryIdOf: 'CategoryId',
   CategoryData: {
     metadata: 'NFTMetadata',
-    nftCount: 'Balance',
+    nftCount: 'Compact<Balance>',
   },
 
   CurrencyId: 'u32',
