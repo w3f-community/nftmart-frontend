@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   Popover,
@@ -12,18 +12,22 @@ import {
   Text,
   Icon,
   Flex,
+  Box,
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
+
 import NLink from '../link';
 import { USER_LINKS } from '../../constants';
 
-const Login = () => {
+export interface LoginProps {
+  avatar?: string;
+  username?: string;
+}
+
+const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
   const location = useLocation();
 
   const [opening, setOpening] = useState(false);
-
-  const avatar = '';
-  const username = 'Username';
 
   // Link render helper
   const renderLink = (title: string) => {
@@ -56,14 +60,16 @@ const Login = () => {
       cursor="pointer"
       spacing={2}
       px={2}
-      maxWidth="233px"
       // _hover={{ backgroundColor: colors.bg.light1 }}
     >
       <Avatar size="sm" src={avatar} />
       <Flex align="center">
-        <Text fontSize="sm" fontWeight="bold" userSelect="none" isTruncated>
-          {username}
-        </Text>
+        <Box maxWidth="120px">
+          <Text fontSize="sm" fontWeight="bold" userSelect="none" isTruncated>
+            {username}
+          </Text>
+        </Box>
+
         <Icon
           marginLeft={0}
           marginInlineStart={0}
