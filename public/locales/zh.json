@@ -9,8 +9,8 @@
   "nav.latest-strike": "最新成交",
 
   "quick-area.wallet": "我的钱包",
-  "quick-area.works": "我的作品",
-  "quick-area.works.create": "创建作品集",
+  "quick-area.collections": "我的作品集",
+  "quick-area.nft.create": "创建作品",
   "quick-area.profile.edit": "资料编辑",
 
   "extension.dowload": "请下载 Polkadot 钱包插件",

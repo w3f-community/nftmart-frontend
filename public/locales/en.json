@@ -9,8 +9,8 @@
   "nav.latest-strike": "Sold Recently",
 
   "quick-area.wallet": "Wallet",
-  "quick-area.works": "Works",
-  "quick-area.works.create": "Create Collection",
+  "quick-area.collections": "My Collections",
+  "quick-area.nft.create": "Create NFT",
   "quick-area.profile.edit": "Edit Profile",
 
   "extension.dowload": "Please download Polkadot extension",

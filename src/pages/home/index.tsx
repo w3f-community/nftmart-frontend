@@ -24,6 +24,8 @@ import {
   takeOrder,
   updateOrderPrice,
   deleteOrder,
+  queryClassByAddress,
+  queryNftByAddress,
 } from '../../api/polka';
 
 type ListMap = Record<string, Work[]>;
@@ -63,6 +65,7 @@ const Page = () => {
       classId: 17,
       tokenId: 0,
       ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
+      price: 20,
     };
     takeOrder(order);
   };
@@ -106,7 +109,7 @@ const Page = () => {
       externalUrl: '123',
       bannerUrl: '123',
     };
-    mintNft({ address: account.address, metadata, classID: 17 });
+    mintNft({ address: account.address, metadata, classId: 17 });
   };
 
   // State Effect
@@ -171,6 +174,15 @@ const Page = () => {
       <button onClick={() => takerOrder()}>takeOrder</button>|
       <button onClick={() => updateOrder()}>updateOrderPrice</button>|
       <button onClick={() => delOrder()}>deleteOrder</button>|
+      <br />
+      <button onClick={() => queryClassByAddress({ address: account.address })}>
+        queryClassByAddress
+      </button>
+      |
+      <button onClick={() => queryNftByAddress({ address: account.address })}>
+        queryNftByAddress
+      </button>
+      |
     </CommLayout>
   );
 };
