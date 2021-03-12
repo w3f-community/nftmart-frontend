@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, Container } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import SideFilter from './SideFilter';
 import MainList from './MainList';
@@ -9,7 +10,6 @@ import store, { actions } from '../../stores/assets';
 import { GetItems, GetMyCollections } from '../../api/graph';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
-import { t } from '../../i18n';
 import Empty from '../../components/empty';
 
 // TODO
@@ -26,6 +26,7 @@ const STATUS_MAP: Record<any, any> = {
 
 // TODO: Error handling
 const MyCollections = () => {
+  const { t } = useTranslation();
   const query = useQuery();
   const history = useHistory();
 

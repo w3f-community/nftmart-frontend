@@ -3,7 +3,7 @@ import { Box, Center, Flex, Heading, SimpleGrid, Spinner, Text } from '@chakra-u
 import { Link } from 'react-router-dom';
 import { IoMdAddCircle } from 'react-icons/io';
 
-import { t } from '../../../i18n';
+import { useTranslation } from 'react-i18next';
 import colors from '../../../themes/colors';
 import Collection, { MotionBox } from '../../../components/collection';
 import NSelect from '../../../components/nSelect';
@@ -26,6 +26,7 @@ export interface TypeFiltersProps {
 }
 
 const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
+  const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState(-1);
 
   const handleSelect = (type: number) => {

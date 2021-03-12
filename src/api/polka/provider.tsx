@@ -7,11 +7,11 @@ import {
   web3FromSource,
   web3AccountsSubscribe,
 } from '@polkadot/extension-dapp';
+import { useTranslation } from 'react-i18next';
 
 import walletLogo from '../../assets/polkadot.png';
 import { initPolkadotApi, getCategories } from './index';
 import store from '../../stores/categories';
-import { t } from '../../i18n';
 
 interface Props {
   children: React.ReactNode;
@@ -24,6 +24,8 @@ const provider = ({ children }: Props) => {
     store.setState({ categories });
   };
   initPolkadotApi(queryCategories);
+  
+  const { t } = useTranslation();
 
   const { api, accounts = null } = globalStore.useState('api', 'accounts');
   // extension inject status

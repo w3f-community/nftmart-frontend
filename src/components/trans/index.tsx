@@ -1,4 +1,6 @@
-import React, { useEffect, ReactNode, useState } from 'react';
+import React, { ReactNode, Suspense } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { Spinner } from '@chakra-ui/react';
 
 import i18n from '../../i18n';
 
@@ -8,30 +10,10 @@ type ContainerProps = {
 };
 
 const Container = ({ children }: ContainerProps) => {
-  const [i18nObj, seti18n] = useState({ isInitialized: false });
-
-  useEffect(() => {
-    const init = async () => {
-      await i18n.init({
-        backend: {
-          loadPath: `./locales/{{lng}}.json`,
-        },
-        react: {
-          useSuspense: true,
-        },
-        fallbackLng: 'en',
-        preload: ['en'],
-        keySeparator: false,
-        interpolation: { escapeValue: false },
-        debug: true,
-      });
-      seti18n(i18n);
-    };
-    if (!i18nObj.isInitialized) {
-      init();
-    }
-  }, [i18nObj.isInitialized]);
-
-  return <>{i18nObj.isInitialized && children}</>;
+  return (
+    <Suspense fallback={<Spinner />}>
+      <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+    </Suspense>
+  );
 };
 export default Container;
