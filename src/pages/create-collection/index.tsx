@@ -27,6 +27,7 @@ const schema = Yup.object().shape({
 
 const CreateCollection: FC = () => {
   const { t } = useTranslation();
+
   const formLabelLayout = {
     width: '240px',
     height: '48px',
