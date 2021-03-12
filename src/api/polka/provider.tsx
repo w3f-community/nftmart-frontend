@@ -10,11 +10,11 @@ import {
   // web3ListRpcProviders,
   // web3UseRpcProvider,
 } from '@polkadot/extension-dapp';
+import { useTranslation } from 'react-i18next';
 
 // import { createClass, getClassById, mintNft } from '..//polka';
 import walletLogo from '../../assets/polkadot.png';
 import { initPolkadotApi } from './index';
-import { t } from '../../i18n';
 
 interface Props {
   children: React.ReactNode;
@@ -23,6 +23,7 @@ interface Props {
 const provider = ({ children }: Props) => {
   // init polkadot api
   initPolkadotApi();
+  const { t } = useTranslation();
 
   const { api, accounts = null } = globalStore.useState('api', 'accounts');
   // extension inject status

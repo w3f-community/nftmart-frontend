@@ -13,7 +13,7 @@ import {
   WrapItem,
 } from '@chakra-ui/react';
 
-import { t } from '../../../i18n';
+import { useTranslation } from 'react-i18next';
 import colors from '../../../themes/colors';
 import { Collection } from '../../../stores/assets';
 import Empty from '../../../components/empty';
@@ -50,6 +50,7 @@ const SideFilter: FC<SideFilterProps> = ({
   onStatusChange,
   onSelectCollection,
 }) => {
+  const { t } = useTranslation();
   const query = useQuery();
   const statusQueryValue = STATUS_MAP[QUERY_MAP[query.get('status') ?? 'all']];
 

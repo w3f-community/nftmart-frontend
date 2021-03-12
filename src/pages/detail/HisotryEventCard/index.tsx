@@ -1,9 +1,11 @@
 import React from 'react';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+
 import Card from '../../../components/card';
-import { t } from '../../../i18n';
 
 const HistoryEventCard = () => {
+  const { t } = useTranslation();
   return (
     <Card
       title={t('detail.title.event')}

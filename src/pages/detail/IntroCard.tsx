@@ -1,11 +1,13 @@
 import React, { FC } from 'react';
 import { Stack, Text } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 import Card from '../../components/card';
 import colors from '../../themes/colors';
-import { t } from '../../i18n';
 
 const IntroCard: FC<{ description: string }> = ({ description }) => {
+  const { t } = useTranslation();
+
   return (
     <Card title={t('detail.title.intro')}>
       <Stack>

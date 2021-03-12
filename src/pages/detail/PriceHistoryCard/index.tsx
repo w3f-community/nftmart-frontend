@@ -1,13 +1,15 @@
 import React from 'react';
 import { Stack, Flex, Heading, Text } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 import Card from '../../../components/card';
 import NSelect from '../../../components/nSelect';
 import colors from '../../../themes/colors';
 import PriceHistoryChart from '../PriceHistoryChart';
-import { t } from '../../../i18n';
 
 const PriceHistoryCard = () => {
+  const { t } = useTranslation();
+
   return (
     <Card title={t('detail.title.price')}>
       <Stack spacing={4}>

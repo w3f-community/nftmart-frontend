@@ -3,6 +3,7 @@ import { groupBy } from 'ramda';
 import { Button, Center, Container, Flex, Text } from '@chakra-ui/react';
 
 import { globalStore } from 'rekv';
+import { useTranslation } from 'react-i18next';
 import store, { actions } from '../../stores/assets';
 
 import { GetItems } from '../../api/graph';
@@ -13,7 +14,6 @@ import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
 import { createClass, getClassById, mintNft } from '../../api/polka';
-import { t } from '../../i18n';
 
 type ListMap = Record<string, Work[]>;
 
@@ -26,6 +26,8 @@ const STATUS_MAP: Record<number, string> = {
 const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 
 const Page = () => {
+  const { t } = useTranslation();
+
   const { loading, error, data: response, refetch } = GetItems();
   const { assets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
