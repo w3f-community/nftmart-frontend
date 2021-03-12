@@ -24,7 +24,7 @@ const TRANSLATIONS: Record<string, string> = {
 const ChangeLanguage = () => {
   const { i18n, t } = useTranslation();
 
-  const [lang, setLang] = useState(i18n.language);
+  const [lang, setLang] = useState(i18n.language || 'en');
   const [opening, setOpening] = useState(false);
 
   const handleSelectLang = (l: string) => {
