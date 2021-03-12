@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
-import { Container, Flex, Text } from '@chakra-ui/react';
+import { Container, Flex } from '@chakra-ui/react';
+import Image, { Shimmer } from 'react-shimmer';
+
 import NavLink from '../navlink';
 import Login from '../login';
-import { Z_INDEXES } from '../../constants';
 import ChangeLanguage from '../changeLanguage';
+import LogoSrc from '../../assets/logo.png';
+import { Z_INDEXES } from '../../constants';
 
 export interface HeaderProps {
   sticky?: boolean;
@@ -32,10 +35,12 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
         alignItems="center"
       >
         <Flex justify="center" mr={8}>
-          <Text>
-            {/* <img /> */}
-            NFT Mark
-          </Text>
+          <Image
+            NativeImgProps={{ style: { height: 22, width: 120 } }}
+            src={LogoSrc}
+            fallback={<Shimmer width={120} height={22} />}
+            fadeIn
+          />
         </Flex>
 
         <Flex flex="1 1 auto">
