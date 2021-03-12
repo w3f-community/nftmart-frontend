@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
-import { Button, Center, Container, Flex, Text } from '@chakra-ui/react';
+import { Button, Container, Flex, Text } from '@chakra-ui/react';
 
 import { globalStore } from 'rekv';
+import { useTranslation } from 'react-i18next';
 import store, { actions } from '../../stores/assets';
 
 import { GetItems } from '../../api/graph';
@@ -12,8 +13,7 @@ import TypeFilter from './TypeFilter';
 import Works from './Works';
 import { Work } from '../../types';
 import colors from '../../themes/colors';
-import { createClass, getClassById, mintNft } from '../../api/polka';
-import { t } from '../../i18n';
+import { createClass, getClassById, mintNft, getCategories } from '../../api/polka';
 
 type ListMap = Record<string, Work[]>;
 
@@ -27,6 +27,8 @@ const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 
 const Page = () => {
   const { loading, error, data: response, refetch } = GetItems({ pageSize: 30 });
+  const { t } = useTranslation();
+
   const { assets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
 
@@ -109,6 +111,8 @@ const Page = () => {
       <button onClick={() => create()}>create</button>|
       <button onClick={() => getClassById(8)}>get</button>|
       <button onClick={() => mint()}>mint</button>
+      <br />
+      <button onClick={() => getCategories()}>getCate</button>
     </CommLayout>
   );
 };

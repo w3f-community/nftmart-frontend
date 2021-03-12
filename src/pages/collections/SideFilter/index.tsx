@@ -14,8 +14,8 @@ import {
   WrapItem,
 } from '@chakra-ui/react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import { useTranslation } from 'react-i18next';
 
-import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
 import { Collection } from '../../../stores/assets';
 import Empty from '../../../components/empty';
@@ -58,6 +58,7 @@ const SideFilter: FC<SideFilterProps> = ({
   onSelectCollection,
   onCreateCollection,
 }) => {
+  const { t } = useTranslation();
   const query = useQuery();
   const statusQueryValue = STATUS_MAP[QUERY_MAP[query.get('status') ?? 'all']];
 

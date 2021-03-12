@@ -3,6 +3,7 @@ import { Container, Flex, Text } from '@chakra-ui/react';
 import NavLink from '../navlink';
 import Login from '../login';
 import { Z_INDEXES } from '../../constants';
+import ChangeLanguage from '../changeLanguage';
 
 export interface HeaderProps {
   sticky?: boolean;
@@ -39,6 +40,10 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
 
         <Flex flex="1 1 auto">
           <NavLink />
+        </Flex>
+
+        <Flex>
+          <ChangeLanguage />
         </Flex>
 
         <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">

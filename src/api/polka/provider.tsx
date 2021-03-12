@@ -6,15 +6,12 @@ import {
   web3Enable,
   web3FromSource,
   web3AccountsSubscribe,
-  // web3FromAddress,
-  // web3ListRpcProviders,
-  // web3UseRpcProvider,
 } from '@polkadot/extension-dapp';
+import { useTranslation } from 'react-i18next';
 
-// import { createClass, getClassById, mintNft } from '..//polka';
 import walletLogo from '../../assets/polkadot.png';
-import { initPolkadotApi } from './index';
-import { t } from '../../i18n';
+import { initPolkadotApi, getCategories } from './index';
+import store from '../../stores/categories';
 
 interface Props {
   children: React.ReactNode;
@@ -22,7 +19,13 @@ interface Props {
 
 const provider = ({ children }: Props) => {
   // init polkadot api
-  initPolkadotApi();
+  const queryCategories = async () => {
+    const categories = await getCategories();
+    store.setState({ categories });
+  };
+  initPolkadotApi(queryCategories);
+
+  const { t } = useTranslation();
 
   const { api, accounts = null } = globalStore.useState('api', 'accounts');
   // extension inject status

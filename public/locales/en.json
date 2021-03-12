@@ -98,5 +98,7 @@
   "list.total.result": "{{count}}个结果",
   "list.empty": "No collections were found",
 
+  "lang.en": "English",
+  "lang.zh": "Chinese",
   "network.retry": "Retry"
 }

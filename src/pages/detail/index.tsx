@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import store, { actions } from '../../stores/assets';
 
@@ -16,10 +17,9 @@ import IntroCard from './IntroCard';
 import MetaCard from './MetaCard';
 import AboutCard from './AboutCard';
 
-import bgSrc from '../../assets/background-demo.jpeg';
 import PurchaseModal from './PurchaseModal';
 import SalesSettingModal from './SalesSettingModal';
-import { t } from '../../i18n';
+
 import { GetCollections, GetItems } from '../../api/graph';
 import { toFixedDecimals } from '../../utils';
 
@@ -37,6 +37,8 @@ const data = {
 };
 
 const Detail: FC = () => {
+  const { t } = useTranslation();
+
   const params = useParams<{ id: string }>();
 
   const { data: assetsResponse } = GetItems({ id: Number(params?.id) ?? -1, pageSize: 1 });

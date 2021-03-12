@@ -11,12 +11,12 @@ import {
   Button,
   Center,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import * as Yup from 'yup';
 
 import Layout from '../../layouts/common';
 import colors from '../../themes/colors';
-import { t } from '../../i18n';
 import { CLASS_METADATA } from '../../constants';
 
 const schema = Yup.object().shape({
@@ -26,6 +26,8 @@ const schema = Yup.object().shape({
 });
 
 const CreateCollection: FC = () => {
+  const { t } = useTranslation();
+
   const formLabelLayout = {
     width: '240px',
     height: '48px',

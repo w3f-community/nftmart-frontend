@@ -12,8 +12,8 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
-import { t } from '../../../i18n';
 import colors from '../../../themes/colors';
 import { Collection } from '../../../stores/assets';
 import Empty from '../../../components/empty';
@@ -52,6 +52,7 @@ const SideFilter: FC<SideFilterProps> = ({
   onStatusChange,
   onSelectCollection,
 }) => {
+  const { t } = useTranslation();
   const query = useQuery();
   const statusQueryValue = STATUS_MAP[QUERY_MAP[query.get('status') ?? 'all']];
 
@@ -123,7 +124,9 @@ const SideFilter: FC<SideFilterProps> = ({
           borderTopLeftRadius={6}
           borderTopRightRadius={6}
         >
-          <Heading as="h4" size="md">{header}</Heading>
+          <Heading as="h4" size="md">
+            {header}
+          </Heading>
         </Box>
       )}
       {/* Card */}
