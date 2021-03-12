@@ -44,12 +44,32 @@
 
   "explore.collections.empty": "No result were found",
 
+  "wallet.title": "My Wallet",
+
+  "detail.no-description": "No description available.",
+  "detail.no-metadata": "No metadata available.",
+  "detail.no-about": "No about available.",
+  "detail.current-price": "Current Price",
+  "detail.purchase": "Purchase",
+  "detail.title.intro": "Intro",
+  "detail.title.metadata": "Metadata",
+  "detail.title.about": "About",
+  "detail.title.price": "Price History",
+  "detail.title.event": "Event History",
+
+  "detail.event.event": "Event",
+  "detail.event.price": "Price",
+  "detail.event.source": "Source",
+  "detail.event.target": "Target",
+  "detail.event.date": "Date",
+
   "footer.aboutus.title": "About Us",
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
   "footer.follow": "Follow Us",
   "footer.copyright": "© 2021 NFTmark",
 
   "create.title": "创建作品",
+  "create.collection.title": "创建作品集",
   "create.save": "保存",
   "create.collection.name": "所属作品集：",
   "create.name": "名称：",
@@ -72,5 +92,6 @@
   "list.empty": "No collections were found",
 
   "lang.en": "English",
-  "lang.zh": "Chinese"
+  "lang.zh": "Chinese",
+  "network.retry": "Retry"
 }

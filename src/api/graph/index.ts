@@ -16,9 +16,10 @@ export const getClient = () => {
 };
 
 const GET_MY_WALLET = gql`
-  query {
-    user {
+  query GetMyWallet($page: Int, $pageSize: Int, $id: Int, $user: int) {
+    wallet(page: $page, pageSize: $pageSize, id: $id, user: $user) {
       wallet {
+        name
         id
       }
       hasMore
@@ -27,10 +28,11 @@ const GET_MY_WALLET = gql`
 `;
 
 const GET_MY_COLLECTIONS = gql`
-  query {
-    collections(user: "A") {
+  query GetMyCollections($page: Int, $pageSize: Int, $id: Int, $user: Int) {
+    myCollections(page: $page, pageSize: $pageSize, id: $id, user: $user) {
       collections {
-        categoryId
+        name
+        id
       }
       hasMore
     }
@@ -38,8 +40,8 @@ const GET_MY_COLLECTIONS = gql`
 `;
 
 const GET_COLLECTIONS = gql`
-  query {
-    collections {
+  query GetCollections($page: Int, $pageSize: Int, $id: Int) {
+    collections(page: $page, pageSize: $pageSize, id: $id) {
       collections {
         name
         id
@@ -50,13 +52,21 @@ const GET_COLLECTIONS = gql`
 `;
 
 const GET_ITEMS = gql`
-  query GetItems($page: Int, $pageSize: Int, $collectionId: Int, $categoryId: Int, $status: Int) {
+  query GetItems(
+    $page: Int
+    $pageSize: Int
+    $collectionId: Int
+    $categoryId: Int
+    $status: Int
+    $id: Int
+  ) {
     assets(
       page: $page
       pageSize: $pageSize
       collectionId: $collectionId
       status: $status
       categoryId: $categoryId
+      id: $id
     ) {
       assets {
         id
@@ -72,16 +82,30 @@ const GET_ITEMS = gql`
   }
 `;
 
-// export query result for collections , use fetchMore to load more paginations
+// export query result for collections, use fetchMore to load more paginations
 export const GetItems = (vars = {}) => {
   return useQuery(GET_ITEMS, {
     variables: { page: 1, pageSize: 10, ...vars },
   });
 };
 
-// export query result for collections , use fetchMore to load more paginations
+// export query result for collections, use fetchMore to load more paginations
 export const GetCollections = (vars = {}) => {
   return useQuery(GET_COLLECTIONS, {
-    variables: { offset: 0, limit: 20, ...vars },
+    variables: { page: 1, pageSize: 10, ...vars },
+  });
+};
+
+// export query result for my collecetions, use fetchMore to load more paginations
+export const GetMyCollections = (vars = {}) => {
+  return useQuery(GET_MY_COLLECTIONS, {
+    variables: { page: 1, pageSize: 10, ...vars },
+  });
+};
+
+// export query result for my wallet, use fetchMore to load more paginations
+export const GetMyWallet = (vars = {}) => {
+  return useQuery(GET_MY_WALLET, {
+    variables: { page: 1, pageSize: 10, ...vars },
   });
 };

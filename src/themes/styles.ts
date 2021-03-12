@@ -16,6 +16,16 @@ const obj = {
         textDecoration: 'none',
       },
     },
+    '#root': {
+      position: 'relative',
+    },
+
+    footer: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: '-233px',
+    },
 
     ':focus': {
       outline: 'none',

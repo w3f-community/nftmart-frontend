@@ -7,7 +7,7 @@ import SideFilter from './SideFilter';
 import MainList from './MainList';
 import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
-import { GetCollections, GetItems } from '../../api/graph';
+import { GetItems, GetMyCollections } from '../../api/graph';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
 import Empty from '../../components/empty';
@@ -24,9 +24,9 @@ const STATUS_MAP: Record<any, any> = {
   '3': 'recent',
 };
 
-const Explore = () => {
+// TODO: Error handling
+const MyCollections = () => {
   const { t } = useTranslation();
-
   const query = useQuery();
   const history = useHistory();
 
@@ -36,12 +36,12 @@ const Explore = () => {
     data: collectionsResponse,
     loading: collectionsLoading,
     error: collectionsError,
-  } = GetCollections();
+  } = GetMyCollections();
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
 
-  const collectionsData = collectionsResponse?.collections?.collections;
+  const collectionsData = collectionsResponse?.myCollections?.collections;
 
   const { data: assetsResponse, loading: itemsLoading } = GetItems({
     status: selectedStatus,
@@ -68,7 +68,7 @@ const Explore = () => {
       // Update store
       actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      if (!selectedCollectionId && collectionsData.length) {
+      if (!selectedCollectionId) {
         setSelectedCollectionId(collectionsData[0].id);
       }
     }
@@ -100,12 +100,20 @@ const Explore = () => {
 
   const handleStatusChange = (status: number) => {
     setSelectedStatus(status);
-    const statusString = STATUS_MAP[String(status)];
-    history.push(`explore?status=${statusString}`);
+    // const statusString = STATUS_MAP[String(status)];
+    // history.push(`explore?status=${statusString}`);
   };
 
   const handleTypeChange = (type: number) => {
     setSelectedCategoryId(type);
+  };
+
+  const handleCreateCollection = () => {
+    history.push('/create-collection');
+  };
+
+  const handleCreateWork = () => {
+    history.push(`/create?collectionId=${selectedCollectionId}`);
   };
 
   return (
@@ -115,11 +123,13 @@ const Explore = () => {
           <SideFilter
             // FIXME: Here using a simple error handling
             data={collectionsError ? [] : filteredCollections}
+            header={t('quick-area.works')}
             loading={collectionsLoading}
             onSearch={handleSearch}
             onSelectCollection={handleSelectCollection}
             onStatusChange={handleStatusChange}
-            singleStatus
+            onCreateCollection={handleCreateCollection}
+            noStatus
           />
           {/* TODO: sorting event */}
           {!!collectionsData?.length && (
@@ -127,6 +137,7 @@ const Explore = () => {
               data={filteredAssets}
               onTypeChange={handleTypeChange}
               loading={itemsLoading}
+              onCreateAsset={handleCreateWork}
             />
           )}
           {!collectionsData?.length && (
@@ -140,4 +151,4 @@ const Explore = () => {
   );
 };
 
-export default Explore;
+export default MyCollections;

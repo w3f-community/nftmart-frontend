@@ -1,12 +1,22 @@
 import React from 'react';
-import { Box, Container, FormControl, FormLabel, Input, Button, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Button,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  Textarea,
+  Select,
+} from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 
-const UserEdit = () => {
+const CreateCollection = () => {
   const { t } = useTranslation();
 
   const formLableLayout = {
@@ -20,7 +30,6 @@ const UserEdit = () => {
     mr: '0',
     lineHeight: '47px',
   };
-
   const formInputLayout = {
     variant: 'flushed',
     size: 'lg',
@@ -35,8 +44,9 @@ const UserEdit = () => {
           width="880px"
           minHeight="100vh"
           backgroundColor="#fff"
-          borderBottomRadius="4px"
-          m="20px auto 148px"
+          mt="20px"
+          mb="148px"
+          borderRadius="4px"
         >
           <Box
             height="48px"
@@ -47,7 +57,7 @@ const UserEdit = () => {
             lineHeight="47px"
             color={colors.text.black}
           >
-            {t('user.edit.title')}
+            {t('create.title')}
           </Box>
           <Container p="0 20px">
             <Formik
@@ -70,13 +80,13 @@ const UserEdit = () => {
                       display="flex"
                       alignItems="center"
                     >
-                      <FormLabel {...formLableLayout}>{t('user.edit.nickname')}</FormLabel>
-                      <Input
-                        _placeholder={{ color: colors.text.lightGray }}
-                        id="name"
-                        placeholder={t('user.edit.placeholder')}
-                        {...formInputLayout}
-                      />
+                      <FormLabel {...formLableLayout}>{t('create.collection.name')}</FormLabel>
+                      <Select {...formInputLayout}>
+                        <option value="" color={colors.text.black}>
+                          Hashmasks
+                        </option>
+                      </Select>
+                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -93,24 +103,14 @@ const UserEdit = () => {
                       display="flex"
                       alignItems="center"
                     >
-                      <FormLabel {...formLableLayout}>{t('user.edit.avator')}</FormLabel>
-                      <Container
-                        height="48px"
-                        lineHeight="48px"
-                        borderBottom="1px solid #F3F4F8"
-                        display="flex"
-                        alignItems="center"
-                      >
-                        <FormLabel htmlFor="file" width="32px" mb="0">
-                          <Image
-                            width="32px"
-                            height="32px"
-                            borderRadius="50%"
-                            src="https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/02/02/ChMkJ1bKxg6IdZk5AAK3PMpO-zEAALHfgDer-EAArdU066.jpg"
-                          />
-                        </FormLabel>
-                        <Input display="none" type="file" id="file" />
-                      </Container>
+                      <FormLabel {...formLableLayout}>{t('create.name')}</FormLabel>
+                      <Input
+                        _placeholder={{ color: colors.text.lightGray }}
+                        id="name"
+                        placeholder={t('create.name.placeholder')}
+                        {...formInputLayout}
+                      />
+                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -127,13 +127,20 @@ const UserEdit = () => {
                       display="flex"
                       alignItems="center"
                     >
-                      <FormLabel {...formLableLayout}>{t('user.edit.email')}</FormLabel>
-                      <Input
-                        _placeholder={{ color: colors.text.lightGray }}
-                        id="name"
-                        placeholder={t('user.edit.placeholder')}
-                        {...formInputLayout}
-                      />
+                      <FormLabel {...formLableLayout}>{t('create.img')}</FormLabel>
+                      <FormLabel htmlFor="file" width="100%" mb="0">
+                        <Box
+                          height="48px"
+                          fontSize="14px"
+                          color={colors.text.lightGray}
+                          lineHeight="48px"
+                          borderBottom="1px solid #F3F4F8"
+                        >
+                          {t('create.img.placeholder')}
+                        </Box>
+                      </FormLabel>
+                      <Input display="none" type="file" id="file" />
+                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -150,13 +157,36 @@ const UserEdit = () => {
                       display="flex"
                       alignItems="center"
                     >
-                      <FormLabel {...formLableLayout}>{t('user.edit.twitter')}</FormLabel>
-                      <Input
+                      <FormLabel {...formLableLayout}>{t('create.link')}</FormLabel>
+                      <Input {...formInputLayout} />
+                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="name">
+                  {({
+                    field,
+                    form,
+                  }: {
+                    field: Record<string, unknown>;
+                    form: { errors: { name: string }; touched: { name: string } };
+                  }) => (
+                    <FormControl
+                      isInvalid={!!(form.errors.name && form.touched.name)}
+                      display="flex"
+                      alignItems="center"
+                    >
+                      <FormLabel {...formLableLayout} height="96px">
+                        {t('create.intro')}
+                      </FormLabel>
+                      <Textarea
                         _placeholder={{ color: colors.text.lightGray }}
                         id="name"
-                        placeholder={t('user.edit.placeholder')}
+                        placeholder={t('create.intro.placeholder')}
                         {...formInputLayout}
+                        height="96px"
                       />
+                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -181,4 +211,4 @@ const UserEdit = () => {
   );
 };
 
-export default UserEdit;
+export default CreateCollection;

@@ -11,6 +11,7 @@ import {
   Avatar,
   Text,
   Icon,
+  Flex,
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import NLink from '../link';
@@ -53,16 +54,22 @@ const Login = () => {
       direction="row"
       alignItems="center"
       cursor="pointer"
-      spacing={4}
+      spacing={2}
       px={2}
       maxWidth="233px"
       // _hover={{ backgroundColor: colors.bg.light1 }}
     >
       <Avatar size="sm" src={avatar} />
-      <Text fontSize="sm" fontWeight="bold" userSelect="none" isTruncated>
-        {username}
-      </Text>
-      {opening ? <Icon as={IoMdArrowDropup} /> : <Icon as={IoMdArrowDropdown} />}
+      <Flex align="center">
+        <Text fontSize="sm" fontWeight="bold" userSelect="none" isTruncated>
+          {username}
+        </Text>
+        <Icon
+          marginLeft={0}
+          marginInlineStart={0}
+          as={opening ? IoMdArrowDropup : IoMdArrowDropdown}
+        />
+      </Flex>
     </Stack>
   );
 
