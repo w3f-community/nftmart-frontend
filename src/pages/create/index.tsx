@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Box,
   Container,
@@ -9,35 +9,45 @@ import {
   Input,
   Textarea,
   Select,
+  Flex,
+  useToast,
 } from '@chakra-ui/react';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 
+import { globalStore } from 'rekv';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
+import Upload from '../../components/upload';
+import { mintNft } from '../../api/polka';
+
+const formLableLayout = {
+  width: '240px',
+  height: '48px',
+  htmlFor: 'name',
+  fontSize: '14px',
+  color: colors.text.gray,
+  borderBottom: '1px solid #F3F4F8',
+  mb: '0',
+  mr: '0',
+  lineHeight: '47px',
+};
+
+const formInputLayout = {
+  variant: 'flushed',
+  size: 'lg',
+  fontSize: '14px',
+  borderBottomColor: '#F3F4F8',
+};
 
 const CreateCollection = () => {
   const { t } = useTranslation();
-
-  const formLableLayout = {
-    width: '240px',
-    height: '48px',
-    htmlFor: 'name',
-    fontSize: '14px',
-    color: colors.text.gray,
-    borderBottom: '1px solid #F3F4F8',
-    mb: '0',
-    mr: '0',
-    lineHeight: '47px',
-  };
-
-  const formInputLayout = {
-    variant: 'flushed',
-    size: 'lg',
-    fontSize: '14px',
-    borderBottomColor: '#F3F4F8',
-  };
-
+  const toast = useToast();
+  const { account } = globalStore.useState('account');
+  const mint = useCallback(async (formValue: any, cb) => {
+    const { classId, ...others } = formValue;
+    mintNft({ address: account.address, metadata: { ...others }, classId, cb });
+  }, []);
   return (
     <Layout title="title.create">
       <Box padding={2}>
@@ -63,41 +73,48 @@ const CreateCollection = () => {
           <Container p="0 20px">
             <Formik
               initialValues={{
-                type: '',
+                classId: '',
                 name: '',
-                description: '',
                 url: '',
                 externalUrl: '',
-                backgroundColor: '',
-                traits: [],
+                description: '',
               }}
               onSubmit={(formValue, formAction) => {
-                console.log('aaa');
+                mint(formValue, () => {
+                  toast({
+                    title: 'success',
+                    status: 'success',
+                    position: 'top',
+                    duration: 3000,
+                  });
+                  formAction.setSubmitting(false);
+                  formAction.resetForm();
+                });
               }}
             >
               {(props: FormikProps<any>) => {
                 return (
                   <Form>
-                    <Field name="name">
+                    <Field name="classId">
                       {({
                         field,
                         form,
                       }: {
                         field: Record<string, unknown>;
-                        form: { errors: { name: string }; touched: { name: string } };
+                        form: { errors: { classId: string }; touched: { classId: string } };
                       }) => (
-                        <FormControl
-                          isInvalid={!!(form.errors.name && form.touched.name)}
-                          display="flex"
-                          alignItems="center"
-                        >
-                          <FormLabel {...formLableLayout}>{t('create.collection.name')}</FormLabel>
-                          <Select {...formInputLayout} {...field}>
-                            <option value="" color={colors.text.black}>
-                              Hashmasks
-                            </option>
-                          </Select>
-                          <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                        <FormControl isInvalid={!!(form.errors.classId && form.touched.classId)}>
+                          <Flex>
+                            <FormLabel {...formLableLayout}>
+                              {t('create.collection.name')}
+                            </FormLabel>
+                            <Select {...formInputLayout} {...field}>
+                              <option value="" color={colors.text.black}>
+                                Hashmasks
+                              </option>
+                            </Select>
+                          </Flex>
+                          <FormErrorMessage pl="188px">{form.errors.classId}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -109,95 +126,94 @@ const CreateCollection = () => {
                         field: Record<string, unknown>;
                         form: { errors: { name: string }; touched: { name: string } };
                       }) => (
-                        <FormControl
-                          isInvalid={!!(form.errors.name && form.touched.name)}
-                          display="flex"
-                          alignItems="center"
-                        >
-                          <FormLabel {...formLableLayout}>{t('create.name')}</FormLabel>
-                          <Input
-                            _placeholder={{ color: colors.text.lightGray }}
-                            id="name"
-                            placeholder={t('create.name.placeholder')}
-                            {...formInputLayout}
-                          />
-                          <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                        <FormControl isInvalid={!!(form.errors.name && form.touched.name)}>
+                          <Flex>
+                            <FormLabel {...formLableLayout}>{t('create.name')}</FormLabel>
+                            <Input
+                              id="name"
+                              placeholder={t('create.name.placeholder')}
+                              _placeholder={{ color: colors.text.lightGray }}
+                              {...formInputLayout}
+                              {...field}
+                            />
+                          </Flex>
+                          <FormErrorMessage pl="188px">{form.errors.name}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="name">
+                    <Field name="url">
                       {({
                         field,
                         form,
                       }: {
                         field: Record<string, unknown>;
-                        form: { errors: { name: string }; touched: { name: string } };
+                        form: { errors: { url: string }; touched: { url: string } };
                       }) => (
-                        <FormControl
-                          isInvalid={!!(form.errors.name && form.touched.name)}
-                          display="flex"
-                          alignItems="center"
-                        >
-                          <FormLabel {...formLableLayout}>{t('create.img')}</FormLabel>
-                          <FormLabel htmlFor="file" width="100%" mb="0">
-                            <Box
-                              height="48px"
-                              fontSize="14px"
-                              color={colors.text.lightGray}
-                              lineHeight="48px"
-                              borderBottom="1px solid #F3F4F8"
-                            >
-                              {t('create.img.placeholder')}
-                            </Box>
-                          </FormLabel>
-                          <Input display="none" type="file" id="file" />
+                        <FormControl isInvalid={!!(form.errors.url && form.touched.url)}>
+                          <Flex>
+                            <FormLabel {...formLableLayout} htmlFor="url">
+                              {t('create.img')}
+                            </FormLabel>
+                            <Upload
+                              id="url"
+                              {...field}
+                              onChange={(url) => {
+                                props.setFieldValue('url', url);
+                              }}
+                            />
+                          </Flex>
                           <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="name">
+                    <Field name="externalUrl">
                       {({
                         field,
                         form,
                       }: {
                         field: Record<string, unknown>;
-                        form: { errors: { name: string }; touched: { name: string } };
+                        form: { errors: { externalUrl: string }; touched: { externalUrl: string } };
                       }) => (
                         <FormControl
-                          isInvalid={!!(form.errors.name && form.touched.name)}
+                          isInvalid={!!(form.errors.externalUrl && form.touched.externalUrl)}
                           display="flex"
                           alignItems="center"
                         >
-                          <FormLabel {...formLableLayout}>{t('create.link')}</FormLabel>
-                          <Input {...formInputLayout} />
-                          <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                          <Flex>
+                            <FormLabel {...formLableLayout} htmlFor="externalUrl">
+                              {t('create.link')}
+                            </FormLabel>
+                            <Input id="externalUrl" {...formInputLayout} {...field} />
+                          </Flex>
+                          <FormErrorMessage>{form.errors.externalUrl}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="name">
+                    <Field name="description">
                       {({
                         field,
                         form,
                       }: {
                         field: Record<string, unknown>;
-                        form: { errors: { name: string }; touched: { name: string } };
+                        form: { errors: { description: string }; touched: { description: string } };
                       }) => (
                         <FormControl
-                          isInvalid={!!(form.errors.name && form.touched.name)}
-                          display="flex"
-                          alignItems="center"
+                          isInvalid={!!(form.errors.description && form.touched.description)}
                         >
-                          <FormLabel {...formLableLayout} height="96px">
-                            {t('create.intro')}
-                          </FormLabel>
-                          <Textarea
-                            _placeholder={{ color: colors.text.lightGray }}
-                            id="name"
-                            placeholder={t('create.intro.placeholder')}
-                            {...formInputLayout}
-                            height="96px"
-                          />
-                          <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                          <Flex>
+                            <FormLabel htmlFor="description" {...formLableLayout} height="96px">
+                              {t('create.intro')}
+                            </FormLabel>
+                            <Textarea
+                              _placeholder={{ color: colors.text.lightGray }}
+                              id="description"
+                              placeholder={t('create.intro.placeholder')}
+                              {...formInputLayout}
+                              {...field}
+                              height="96px"
+                            />
+                          </Flex>
+                          <FormErrorMessage>{form.errors.description}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>

@@ -11,6 +11,7 @@ import {
   Button,
   Center,
   Flex,
+  useToast,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field, FormikProps } from 'formik';
@@ -32,31 +33,32 @@ const schema = Yup.object().shape({
   externalUrl: Yup.string().max(200, 'Too Long!').required('Required'),
 });
 
+const formLabelLayout = {
+  width: '240px',
+  height: '48px',
+  htmlFor: 'name',
+  fontSize: '14px',
+  color: colors.text.gray,
+  borderBottom: '1px solid #F3F4F8',
+  mb: '0',
+  mr: '0',
+  lineHeight: '47px',
+};
+const formInputLayout = {
+  variant: 'flushed',
+  size: 'lg',
+  fontSize: '14px',
+  borderBottomColor: '#F3F4F8',
+};
+
 const CreateCollection: FC = () => {
   const { t } = useTranslation();
-
-  const formLabelLayout = {
-    width: '240px',
-    height: '48px',
-    htmlFor: 'name',
-    fontSize: '14px',
-    color: colors.text.gray,
-    borderBottom: '1px solid #F3F4F8',
-    mb: '0',
-    mr: '0',
-    lineHeight: '47px',
-  };
-  const formInputLayout = {
-    variant: 'flushed',
-    size: 'lg',
-    fontSize: '14px',
-    borderBottomColor: '#F3F4F8',
-  };
+  const toast = useToast();
 
   const { account } = globalStore.useState('account');
 
-  const create = useCallback((formValue) => {
-    createClass({ address: account.address, metadata: formValue });
+  const create = useCallback((formValue, cb) => {
+    createClass({ address: account.address, metadata: formValue, cb });
   }, []);
 
   return (
@@ -91,8 +93,16 @@ const CreateCollection: FC = () => {
                 externalUrl: '',
               }}
               onSubmit={(values, formActions) => {
-                console.log(values, 'values');
-                create(values);
+                create(values, () => {
+                  toast({
+                    title: 'success',
+                    status: 'success',
+                    position: 'top',
+                    duration: 3000,
+                  });
+                  formActions.setSubmitting(false);
+                  formActions.resetForm();
+                });
               }}
               validationSchema={schema}
             >

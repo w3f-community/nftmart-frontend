@@ -21,9 +21,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, ...rest }
     try {
       setLoadingStatus(true);
       const added = await ipfs.add(files[0], {
-        progress: (arg: any) => {
-          setLoadingStatus(true);
-        },
+        progress: (arg: any) => arg,
       });
       console.log(added.cid.toString(), '=============');
       setValue(added.cid.toString());
@@ -39,17 +37,23 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, ...rest }
       saveToIpfs(event.target.files);
     }
   }, []);
+
   useEffect(() => {
-    if (valueFromProp && valueFromProp !== value) {
+    if (valueFromProp !== value) {
       setValue(valueFromProp);
     }
   }, []);
+
   useEffect(() => {
     if (onChange) onChange(value);
   }, [value]);
   const view = (
     <Box>
-      {value ? <Image w="100px" h="30px" src={`${IPFS_GET_SERVER}/${value}`} /> : <Text>上传</Text>}
+      {value ? (
+        <Image w="100px" h="30px" src={`${IPFS_GET_SERVER}/${value}`} />
+      ) : (
+        <Text fontSize="14px">上传</Text>
+      )}
     </Box>
   );
   return (
