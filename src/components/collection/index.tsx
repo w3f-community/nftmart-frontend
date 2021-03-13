@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   forwardRef,
   ChakraProps,
@@ -15,7 +15,6 @@ import { useHistory } from 'react-router-dom';
 import { omit } from 'ramda';
 
 import colors from '../../themes/colors';
-import PriceIcon from '../../assets/home/icon_price.png';
 import { Work } from '../../types';
 import { toFixedDecimals } from '../../utils';
 import { actions } from '../../stores/assets';
@@ -50,10 +49,12 @@ const Collection = (props: CollectionProps) => {
 
   const picUrl = `${IPFS_GET_SERVER}${bannerUrl}`;
 
-  const handleCollectionClick = () => {
+  const dispense = () => {
     actions.selectAsset(omit(['isSet'], props as Work));
     history.push(`/detail/${id}`);
   };
+
+  const handleCollectionClick = useCallback(dispense, [id]);
 
   // TODO: Might wanna move link outside
   return (
