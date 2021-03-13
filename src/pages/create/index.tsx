@@ -39,7 +39,7 @@ const CreateCollection = () => {
   };
 
   return (
-    <Layout>
+    <Layout title="title.create">
       <Box padding={2}>
         <Container
           width="880px"

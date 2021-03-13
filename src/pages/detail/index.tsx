@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 import store, { actions } from '../../stores/assets';
 
@@ -92,6 +93,7 @@ const Detail: FC = () => {
 
   return (
     <Box>
+      <Helmet title={t('title.detail', { name: selectedAsset.name })} />
       <Alert
         // onDestroy={handleDestroy}
         onSetting={() => setSettingOpen(true)}

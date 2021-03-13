@@ -117,7 +117,7 @@ const MyCollections = () => {
   };
 
   return (
-    <Layout>
+    <Layout title="title.collections">
       <Box pt="20px" pb="24px">
         <Container display="flex" minHeight="100vh">
           <SideFilter
