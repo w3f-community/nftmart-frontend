@@ -1,5 +1,13 @@
 {
   "site.title": "NFTmart",
+  "title.home": "Home | NFTmart",
+  "title.explore": "Explore | NFTmart",
+  "title.wallet": "My Wallet | NFTmart",
+  "title.profile": "Profile | NFTmart",
+  "title.detail": "{{name}} Detail | NFTmart",
+  "title.collections": "My Collections | NFTmart",
+  "title.create": "Create | NFTmart",
+  "title.create-collection": "Create Collection | NFTmart",
 
   "nav.home": "Home",
   "nav.explore": "Explore",

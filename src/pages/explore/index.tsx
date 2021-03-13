@@ -110,7 +110,7 @@ const Explore = () => {
   };
 
   return (
-    <Layout>
+    <Layout title="title.explore">
       <Box pt="20px" pb="24px">
         <Container display="flex" minHeight="100vh">
           <SideFilter

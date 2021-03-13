@@ -29,7 +29,7 @@ const UserEdit = () => {
   };
 
   return (
-    <Layout>
+    <Layout title="title.profile">
       <Box padding={2}>
         <Container
           width="880px"

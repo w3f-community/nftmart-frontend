@@ -108,7 +108,7 @@ const Wallet = () => {
   };
 
   return (
-    <Layout>
+    <Layout title="title.wallet">
       <Box pt="20px" pb="24px">
         <Container display="flex" minHeight="100vh">
           <SideFilter
