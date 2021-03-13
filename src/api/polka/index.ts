@@ -249,6 +249,7 @@ export const createClass = async ({ address = '', metadata = CLASS_METADATA, cb 
   const res = await api.tx.nftmart
     .createClass(metadataStr, name, description, TOKEN_TRANSFERABLE_BURNABLE)
     .signAndSend(address, { signer: injector.signer }, cb);
+  console.log(res, res);
   return res;
 };
 
