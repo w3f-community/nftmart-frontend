@@ -80,7 +80,7 @@ export interface TypeFilterProps {
 const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky }) => {
   const { t, i18n } = useTranslation();
 
-  const [selectedTypeId, setSelectedTypeId] = useState(0);
+  const [selectedTypeId, setSelectedTypeId] = useState(-1);
   const { categories } = categoriesStore.useState('categories');
 
   const typeList = useMemo<Category[]>(() => {

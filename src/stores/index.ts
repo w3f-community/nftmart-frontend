@@ -1,9 +1,5 @@
 import Rekv from 'rekv';
 
-const store = new Rekv({
-  address: '',
-});
-
 Rekv.delegate = {
   beforeUpdate: ({ state }) => {
     console.log('beforeUpdate', state);
@@ -15,5 +11,9 @@ Rekv.delegate = {
     console.log('afterUpdate', state);
   },
 };
+
+const store = new Rekv({
+  address: '',
+});
 
 export default store;

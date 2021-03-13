@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
-import { Box, Flex, Stack, Text, Button, Container, Center } from '@chakra-ui/react';
+import { Box, Stack, Text, Button, Container, Center, BoxProps } from '@chakra-ui/react';
 import colors from '../../../themes/colors';
 
-export interface AlertProps {
+export interface AlertProps extends BoxProps {
   onSetting: () => void;
 }
 
-const Alert: FC<AlertProps> = ({ onSetting }) => {
+const Alert: FC<AlertProps> = ({ onSetting, ...boxProps }) => {
   return (
-    <Box height="80px" backgroundColor="#e9ecff" display="flex" alignItems="center">
+    <Box height="80px" backgroundColor="#e9ecff" display="flex" alignItems="center" {...boxProps}>
       <Container>
         <Stack direction="row" justifyContent="flex-end">
           <Center>

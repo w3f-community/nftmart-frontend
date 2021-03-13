@@ -1,11 +1,11 @@
-import { compose, filter, head, prop } from 'ramda';
+import { pick } from 'ramda';
 import Rekv from 'rekv';
 import { Work } from '../types';
 
 export interface FilterTypes {
   status: number;
-  category: number;
-  collection: number;
+  categoryId: number;
+  collectionId: number;
 }
 
 export type Collection = {
@@ -15,57 +15,72 @@ export type Collection = {
 
 export interface AssetStore extends FilterTypes {
   assets: Work[];
+  myAssets: Work[];
   selectedAsset: Work | null;
   filteredAssets: Work[];
   collections: Collection[];
+  myCollections: Collection[];
   filteredCollections: Collection[];
 }
 
 const store = new Rekv<AssetStore>({
   assets: [],
+  myAssets: [],
   selectedAsset: null,
   filteredAssets: [],
   // filtering properties
   // status id
   status: -1,
   // category id
-  category: -1,
+  categoryId: -1,
   // collection id
-  collection: -1,
+  collectionId: -1,
 
   // Store collections title and id
   collections: [],
+  //
+  myCollections: [],
   // Search filtered collections
   filteredCollections: [],
 });
 
 export default store;
 
+// filter assets by filter types
 const filterAssets = (
   assets: Work[],
-  { status = -1, category = -1, collection = -1 }: Partial<FilterTypes>,
+  { status = -1, categoryId: category = -1, collectionId: collection = -1 }: Partial<FilterTypes>,
 ) =>
   assets
     .filter(({ status: assetStatus }) => status === -1 || assetStatus === status)
     .filter(({ categoryId }) => category === -1 || categoryId === category)
-    .filter(({ collectionId }) => collection === -1 || collectionId === collection);
+    .filter(({ classId: collectionId }) => collection === -1 || collectionId === collection);
+
+const takeFilterTypes = pick(['status', 'categoryId', 'collectionId']);
 
 export const actions = {
   setCollections(collections: Collection[]) {
     store.setState({ collections, filteredCollections: collections });
   },
   setAssets(assets: Work[]) {
-    store.setState({ assets, filteredAssets: assets });
+    store.setState((s) => ({
+      ...s,
+      assets,
+      filteredAssets: filterAssets(assets, takeFilterTypes(s)),
+    }));
+    console.log('current state', store.currentState);
   },
   selectAsset(asset: Work) {
     store.setState({ selectedAsset: asset });
   },
   filterAssets(filterTypes: Partial<FilterTypes>) {
     store.setState((s) => {
-      const filteredAssets = filterAssets(s.assets, filterTypes);
+      const originalFilterTypes = takeFilterTypes(s);
+      const filteredAssets = filterAssets(s.assets, { ...originalFilterTypes, ...filterTypes });
 
       return {
         ...s,
+        ...filterTypes,
         filteredAssets,
       };
     });

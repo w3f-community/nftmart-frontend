@@ -181,7 +181,7 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsse
               )}
 
               {data.map((work) => (
-                <Link to={`/detail/${work.id}`} key={work.id}>
+                <Link to={`/detail/${work.tokenId}`} key={work.tokenId}>
                   <Box ml="16px" mb="16px">
                     <Collection {...work} />
                   </Box>
