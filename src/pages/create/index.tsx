@@ -46,7 +46,7 @@ const CreateCollection = () => {
   const { account } = globalStore.useState('account');
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
-    mintNft({ address: account.address, metadata: { ...others }, classId, cb });
+    mintNft({ address: account.address, metadata: { ...others }, classId: 19, cb });
   }, []);
   return (
     <Layout title="title.create">
@@ -150,7 +150,7 @@ const CreateCollection = () => {
                         form: { errors: { url: string }; touched: { url: string } };
                       }) => (
                         <FormControl isInvalid={!!(form.errors.url && form.touched.url)}>
-                          <Flex>
+                          <Flex align="center">
                             <FormLabel {...formLableLayout} htmlFor="url">
                               {t('create.img')}
                             </FormLabel>
@@ -162,7 +162,7 @@ const CreateCollection = () => {
                               }}
                             />
                           </Flex>
-                          <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                          <FormErrorMessage>{form.errors.url}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -201,7 +201,7 @@ const CreateCollection = () => {
                           isInvalid={!!(form.errors.description && form.touched.description)}
                         >
                           <Flex>
-                            <FormLabel htmlFor="description" {...formLableLayout} height="96px">
+                            <FormLabel {...formLableLayout} height="96px" htmlFor="description">
                               {t('create.intro')}
                             </FormLabel>
                             <Textarea
@@ -223,6 +223,7 @@ const CreateCollection = () => {
                         backgroundColor={colors.primary}
                         fontSize="14px"
                         color="#fff"
+                        isLoading={props.isSubmitting}
                         _hover={{ backgroundColor: colors.primary }}
                         _focus={{ backgroundColor: colors.primary }}
                       >
