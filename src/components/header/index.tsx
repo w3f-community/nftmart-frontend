@@ -5,7 +5,7 @@ import { globalStore } from 'rekv';
 
 import NavLink from '../navlink';
 import Login from '../login';
-import ChangeLanguage from '../changeLanguage';
+// import ChangeLanguage from '../changeLanguage';
 import LogoSrc from '../../assets/logo.png';
 import { Z_INDEXES } from '../../constants';
 
@@ -52,9 +52,9 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
           <NavLink />
         </Flex>
 
-        <Flex>
+        {/* <Flex>
           <ChangeLanguage />
-        </Flex>
+        </Flex> */}
 
         {account?.meta && (
           <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">
