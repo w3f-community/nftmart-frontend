@@ -4,7 +4,7 @@
   "title.explore": "浏览 | NFTmart",
   "title.wallet": "我的钱包 | NFTmart",
   "title.profile": "资料编辑 | NFTmart",
-  "title.detail": "详情 | NFTmart",
+  "title.detail": "{{name}} 详情 | NFTmart",
   "title.collections": "我的作品 | NFTmart",
   "title.create": "创建作品 | NFTmart",
   "title.create-collection": "创建作品集 | NFTmart",
