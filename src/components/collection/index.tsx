@@ -1,5 +1,13 @@
 import React from 'react';
-import { forwardRef, ChakraProps, chakra, ComponentWithAs, Box, Flex } from '@chakra-ui/react';
+import {
+  forwardRef,
+  ChakraProps,
+  chakra,
+  ComponentWithAs,
+  Box,
+  Flex,
+  Center,
+} from '@chakra-ui/react';
 import { motion, MotionProps, isValidMotionProp } from 'framer-motion';
 import Image, { Shimmer } from 'react-shimmer';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +19,7 @@ import PriceIcon from '../../assets/home/icon_price.png';
 import { Work } from '../../types';
 import { toFixedDecimals } from '../../utils';
 import { actions } from '../../stores/assets';
+import { IPFS_GET_SERVER } from '../../constants';
 
 type CollectionProps = {
   isSet?: boolean;
@@ -36,8 +45,10 @@ export const MotionBox = motion.custom(
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
   const { t } = useTranslation();
-  const { id, name, price, picUrl, isSet = false } = props;
+  const { tokenId: id, name, price, bannerUrl, isSet = false } = props;
   const history = useHistory();
+
+  const picUrl = `${IPFS_GET_SERVER}${bannerUrl}`;
 
   const handleCollectionClick = () => {
     actions.selectAsset(omit(['isSet'], props as Work));
@@ -60,7 +71,10 @@ const Collection = (props: CollectionProps) => {
       flexDirection="column"
       justifyContent="space-around"
     >
-      <Image src={picUrl as string} fallback={<Shimmer height={195} width={231} />} />
+      <Center height={195} width={231} borderBottom={`1px solid ${colors.divider.dark}`}>
+        <Image src={picUrl as string} fallback={<Shimmer height={195} width={231} />} />
+      </Center>
+
       <Box
         mt="16px"
         display="flex"
@@ -72,9 +86,11 @@ const Collection = (props: CollectionProps) => {
         color={colors.text.gray}
       >
         <Box userSelect="none">{t('component.collection.title')}</Box>
-        <Box userSelect="none" flex="1" textAlign="right">
-          {t('component.collection.price')}
-        </Box>
+        {price && (
+          <Box userSelect="none" flex="1" textAlign="right">
+            {t('component.collection.price')}
+          </Box>
+        )}
       </Box>
       <Box
         mt="8px"
@@ -87,14 +103,16 @@ const Collection = (props: CollectionProps) => {
         flex="1"
       >
         <Box pr={2} flex="2" overflow="hidden" textOverflow="ellipsis">
-          {name}
+          <Flex align="center">{name}</Flex>
         </Box>
-        <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
-          <Flex align="center" height="22px">
-            {isSet && <Box src={PriceIcon} as="img" alt="" mr="4px" />}
-            <Box>{toFixedDecimals(price!, 0)}</Box>
-          </Flex>
-        </Box>
+        {price && (
+          <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
+            <Flex align="flex-start">
+              {/* {isSet && <Box src={PriceIcon} as="img" alt="" mr="4px" />} */}
+              <Box>{typeof price === 'number' ? toFixedDecimals(price, 0) : price}</Box>
+            </Flex>
+          </Box>
+        )}
       </Box>
     </MotionBox>
   );

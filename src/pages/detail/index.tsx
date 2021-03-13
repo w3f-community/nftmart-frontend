@@ -38,7 +38,7 @@ const Detail: FC = () => {
   const { selectedAsset } = store.useState('selectedAsset');
 
   const { data: collectionsResponse } = GetCollections({
-    id: selectedAsset?.collectionId,
+    id: selectedAsset?.classId,
     pageSize: 1,
   });
 
@@ -95,6 +95,7 @@ const Detail: FC = () => {
     <Box>
       <Helmet title={t('title.detail', { name: selectedAsset.name })} />
       <Alert
+        marginTop="77px"
         // onDestroy={handleDestroy}
         onSetting={() => setSettingOpen(true)}
       />
@@ -102,8 +103,8 @@ const Detail: FC = () => {
       <DetailContainer
         left={
           <>
-            <ImageCard src={selectedAsset.picUrl ?? 'image placeholder'} />
-            <IntroCard description={selectedAsset.describe ?? t('detail.no-description')} />
+            <ImageCard src={selectedAsset.bannerUrl ?? 'image placeholder'} />
+            <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
             <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
             <AboutCard about={undefined ?? t('detail.no-about')} />
           </>
@@ -113,7 +114,11 @@ const Detail: FC = () => {
             <PurchaseCard
               category={categoryName}
               name={selectedAsset.name}
-              price={toFixedDecimals(selectedAsset.price, 8)}
+              price={
+                typeof selectedAsset.price === 'number'
+                  ? toFixedDecimals(selectedAsset.price, 8)
+                  : selectedAsset.price ?? ''
+              }
               onPurchase={() => setPurchaseOpen(true)}
             />
             <PriceHistoryCard />

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { Box, Container, Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,9 @@ import { useTranslation } from 'react-i18next';
 import BannerBg from '../../../assets/home/banner.png';
 import colors from '../../../themes/colors';
 import { Z_INDEXES } from '../../../constants';
+import { Category } from '../../../types';
+
+import categoriesStore from '../../../stores/categories';
 
 const BannerImg = styled.img({
   height: '100%',
@@ -72,22 +75,26 @@ const TypeItem = styled.li`
 export interface TypeFilterProps {
   onFilter?: (v: number) => void;
   sticky?: boolean;
-  top: number;
 }
 
-const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky, top }) => {
-  const { t } = useTranslation();
+const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky }) => {
+  const { t, i18n } = useTranslation();
 
-  const [selectedTypeId, setSelectedTypeId] = useState(0);
+  const [selectedTypeId, setSelectedTypeId] = useState(-1);
+  const { categories } = categoriesStore.useState('categories');
 
-  const typeList = [
-    // { name: t('type.all'), id: 0 },
-    { name: t('type.digital'), id: 1 },
-    { name: t('type.virtual'), id: 2 },
-    { name: t('type.sport'), id: 3 },
-    { name: t('type.collect'), id: 4 },
-    { name: t('type.other'), id: 5 },
-  ];
+  const typeList = useMemo<Category[]>(() => {
+    if (categories?.length) {
+      const first = { id: -1, name: t(`type.all`) };
+      const rest = categories.map((metaCategory: { id: number; metadata: { name: string } }) => ({
+        name: t(`type.${metaCategory.metadata.name}`),
+        id: metaCategory.id,
+      }));
+      return [first, ...rest];
+    }
+
+    return [];
+  }, [categories, i18n.language]);
 
   const handleTypeClick = (id: number) => {
     setSelectedTypeId(id);

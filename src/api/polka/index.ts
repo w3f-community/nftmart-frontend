@@ -4,6 +4,8 @@ import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { bnToBn } from '@polkadot/util';
+import { identity } from 'ramda';
+
 import store from '../../stores/account';
 import {
   TYPES,
@@ -12,7 +14,9 @@ import {
   CLASS_METADATA,
   NATIVE_CURRENCY_ID,
 } from '../../constants';
+
 import { hexToUtf8, txLog } from '../../utils';
+import { Work } from '../../types';
 
 const unit = bnToBn('1000000000000');
 const WebSocket = require('rpc-websockets').Client;
@@ -107,7 +111,6 @@ export const getCategories = async () => {
 
 // get nft by class id
 const getAllNftsByClassId = async (classId: number) => {
-  console.log(classId);
   const nextTokenId = await api.query.ormlNft.nextTokenId(classId);
   // let tokenCount = 0;
   let classInfo = await api.query.ormlNft.classes(classId);
@@ -123,32 +126,64 @@ const getAllNftsByClassId = async (classId: number) => {
     const res = await Promise.all(arr);
     return res.map((n) => {
       if (n.isEmpty) return null;
-      const nft = n.unwrap();
-      nft.classInfo = classInfo;
-      console.log(nft);
+      const nft = n.toHuman();
+      nft.classInfo = classInfo.toHuman();
       return nft;
     });
   }
   return [];
 };
 
+// const mapNFTStoAssetType = () => {
+
+//   .filter((nfts) => !!nfts?.length)
+//   .flat(1)
+//   // .flatMap((nft: { metadata: string }) => ({ ...nft, metadata: JSON.parse(nft.metadata) }))
+//   .filter(identity)
+// }
+
+const filterNonMetaNFT = (nft: null | any) => {
+  if (!nft) return false;
+
+  try {
+    JSON.parse(nft.metadata);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const getClassId = (c: any) => {
+  let key = c[0];
+  const len = key.length;
+  key = key.buffer.slice(len - 4, len);
+  return new Uint32Array(key)[0];
+};
+
+const mapNFTsToAsset = (NFTS: any[], cid: number) =>
+  NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
+    .filter(filterNonMetaNFT)
+    .map((nft) => ({
+      ...nft,
+      ...JSON.parse(nft.metadata),
+      classId: cid,
+    }));
+
 // get all nfts
-export const getAllNfts = async (classId?: number) => {
+export const getAllNfts = async (classId?: number): Promise<Work[]> => {
   if (classId === undefined) {
     const allClasses = await api.query.ormlNft.classes.entries();
-    const arr: any[] = [];
-    allClasses.forEach((c: any) => {
-      let key = c[0];
-      const len = key.length;
-      key = key.buffer.slice(len - 4, len);
-      const cid = new Uint32Array(key)[0];
-      arr.push(getAllNftsByClassId(cid));
-    });
-    const res = await Promise.all(arr);
-    return res;
+    const result = await Promise.all(
+      allClasses.map(async (c: any) => {
+        const cid = getClassId(c);
+        const nfts: any = await getAllNftsByClassId(cid);
+        return mapNFTsToAsset(nfts, cid);
+      }),
+    );
+    // flatten list of list by depth 1
+    return result.flat();
   }
-  const res = await getAllNftsByClassId(classId);
-  return res;
+  return mapNFTsToAsset(await getAllNftsByClassId(classId), classId);
 };
 
 // get all orders
@@ -170,7 +205,7 @@ export const getAllOrders = async () => {
     const tokenId = tokenIdLow32;
     let nft = await api.query.ormlNft.tokens(classId, tokenId);
     if (nft.isSome) {
-      nft = nft.unwrap();
+      nft = nft.unwrap().toHuman();
     }
 
     const data = order[1].toHuman();

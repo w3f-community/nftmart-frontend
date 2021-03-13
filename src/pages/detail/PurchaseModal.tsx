@@ -41,7 +41,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
   onClose,
   onConfirm,
 }) => {
-  const { picUrl, name, price } = item;
+  const { bannerUrl: picUrl, name, price } = item;
   const owner = '';
 
   const itemColumnNode = (
@@ -101,7 +101,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
   );
 
   return (
-    <Modal isOpen={open} onClose={onClose} size="lg"  isCentered>
+    <Modal isOpen={open} onClose={onClose} size="lg" isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>

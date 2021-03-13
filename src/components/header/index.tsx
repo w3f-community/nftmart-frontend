@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Container, Flex } from '@chakra-ui/react';
 import Image, { Shimmer } from 'react-shimmer';
+import { globalStore } from 'rekv';
 
 import NavLink from '../navlink';
 import Login from '../login';
@@ -12,7 +13,11 @@ export interface HeaderProps {
   sticky?: boolean;
 }
 
+const formatAddress = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-4)}`;
+
 const Header: FC<HeaderProps> = ({ sticky }) => {
+  const { account } = globalStore.useState('account');
+
   return (
     <Flex
       as="header"
@@ -51,9 +56,11 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
           <ChangeLanguage />
         </Flex>
 
-        <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">
-          <Login />
-        </Flex>
+        {account?.meta && (
+          <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">
+            <Login username={formatAddress(account.address)} avatar={account.meta.avatar} />
+          </Flex>
+        )}
       </Container>
     </Flex>
   );

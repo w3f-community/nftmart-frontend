@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
-import { Button, Container, Flex, Text } from '@chakra-ui/react';
-
-import { globalStore } from 'rekv';
+import { Container, Flex } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
+import { globalStore } from 'rekv';
 import store, { actions } from '../../stores/assets';
-
-import { GetItems } from '../../api/graph';
 import CommLayout from '../../layouts/common';
-
 import TypeFilter from './TypeFilter';
 import Works from './Works';
-import { Work } from '../../types';
-import colors from '../../themes/colors';
+import { Order, Work } from '../../types';
 import {
   createClass,
   getClassById,
@@ -27,27 +23,35 @@ import {
   queryClassByAddress,
   queryNftByAddress,
 } from '../../api/polka';
+import { useAssetsQuery } from '../../api/query';
 
 type ListMap = Record<string, Work[]>;
 
 const STATUS_MAP: Record<number, string> = {
   1: 'listing',
   2: 'new',
-  3: 'recent',
+  // 3: 'recent',
 };
 
 const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
+// const groupByStatus = (orders, assets) => {
+//   const listMap = new Map();
+
+// }
 
 const Page = () => {
-  const { loading, error, data: response, refetch } = GetItems({ pageSize: 30 });
+  const { data: assetsData, isLoading, error } = useAssetsQuery();
+  // FIXME: Add type instead of any
+  const ordersQuery = useQuery<Order[]>('getOrders', getAllOrders as any);
+
   const { t } = useTranslation();
 
-  const { assets } = store.useState('assets', 'filteredAssets');
+  const { filteredAssets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
 
-  const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(assets));
-  const [stickyFilter, setStickyFilter] = useState(false);
-  const [typeFilterHeight] = useState(338);
+  const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(filteredAssets));
+  // TODO: sticky animation
+  const [stickyFilter] = useState(false);
 
   const listOrder = () => {
     const order = {
@@ -112,56 +116,82 @@ const Page = () => {
     mintNft({ address: account.address, metadata, classId: 17 });
   };
 
-  // State Effect
+  // Update assets store after query
   useEffect(() => {
-    const newAssets = response?.assets?.assets || [];
-    if (newAssets.length) {
-      setWorkListMap(groupByStatus(newAssets));
+    const orders = ordersQuery.data;
+    const assets = assetsData;
+
+    if (Array.isArray(orders) && orders.length && Array.isArray(assets) && assets.length) {
+      const newAssets = assets.map((asset) => {
+        const givenOrder = orders.find(
+          (order) => order.classId === asset.classId && order.tokenId === asset.tokenId,
+        );
+        if (givenOrder) {
+          return {
+            ...asset,
+            status: 1,
+            price: givenOrder.price,
+            categoryId: Number(givenOrder.categoryId),
+          };
+        }
+        return { ...asset, status: 2, price: undefined, categoryId: -1 };
+      });
+
       actions.setAssets(newAssets);
     }
+
     return () => {
       //
     };
-  }, [response]);
+  }, [ordersQuery.data]);
+
+  // Update worklist after filteredAssets change
+  useEffect(() => {
+    setWorkListMap(groupByStatus(filteredAssets));
+    return () => {
+      // cleanup
+    };
+  }, [filteredAssets]);
 
   // Update sticky header UI
-  useEffect(() => {
-    const listenter = () => {
-      if (window.pageYOffset > 80 && !stickyFilter) {
-        setStickyFilter(true);
-        return;
-      }
+  // useEffect(() => {
+  //   const listenter = () => {
+  //     if (window.pageYOffset > 80 && !stickyFilter) {
+  //       setStickyFilter(true);
+  //       return;
+  //     }
 
-      setStickyFilter(false);
-    };
+  //     setStickyFilter(false);
+  //   };
 
-    window.addEventListener('scroll', listenter);
-    return () => {
-      window.removeEventListener('scroll', listenter);
-    };
-  }, []);
+  //   window.addEventListener('scroll', listenter);
+  //   return () => {
+  //     window.removeEventListener('scroll', listenter);
+  //   };
+  // }, []);
 
   // Events
   const handleFilter = (categoryId: number) => {
-    actions.filterAssets({ category: categoryId });
+    actions.filterAssets({ categoryId });
   };
 
   // Component
   const errorBox = (
     <Container height={300}>
       <Flex direction="column" height="100%">
-        <Text color={colors.text.gray}>{error?.message}</Text>
-        <Button variant="primary" onClick={() => refetch()}>
-          {t('network.retry')}
-        </Button>
+        Error on fetching data
+        {/* <Text color={colors.text.gray}>{error?.message}</Text> */}
+        {/* <Button variant="primary" onClick={() => refetch()}> */}
+        {t('network.retry')}
+        {/* </Button> */}
       </Flex>
     </Container>
   );
 
   return (
     <CommLayout title="title.home">
-      <TypeFilter onFilter={handleFilter} sticky={stickyFilter} top={typeFilterHeight} />
-      {error ? errorBox : <Works loading={loading} data={workListMap} />}
+      <TypeFilter onFilter={handleFilter} sticky={stickyFilter} />
+      {error ? errorBox : <Works loading={isLoading} data={workListMap} />}
       <button onClick={() => create()}>create</button>|
       <button onClick={() => getClassById(8)}>get</button>|
       <button onClick={() => mint()}>mint</button>

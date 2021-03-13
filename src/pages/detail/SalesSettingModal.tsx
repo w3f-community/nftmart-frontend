@@ -110,7 +110,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
                             <InputRightAddon
                               color={colors.text.gray}
                               userSelect="none"
-                              children="suffix"
+                              children="NMT"
                               height="auto"
                             />
                           </InputGroup>

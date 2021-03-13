@@ -1,21 +1,30 @@
 export interface Work {
-  id: number;
+  tokenId: number;
   name: string;
-  picUrl?: string;
+  bannerUrl?: string;
   status: number;
   address: string;
-  describe: string;
+  description: string;
   metadata: string;
   externalLinks: string;
-  price: number;
+  price?: number | string;
   latestPrice?: number;
   categoryId: number;
-  collectionId: number;
+  classId: number;
   createdAt: string;
   updatedAt: string;
+  owner: string;
 }
 
 export interface Category {
   id: number;
   name: string;
+}
+
+export interface Order {
+  classId: number;
+  tokenId: number;
+  price: string;
+  owner: string;
+  categoryId: number;
 }

@@ -3,12 +3,15 @@ import * as React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import { ApolloProvider } from '@apollo/client';
+import { QueryClientProvider } from 'react-query';
+
 import PolkaProvider from './api/polka/provider';
 import TransHOC from './components/trans';
 import theme from './themes';
 import Header from './components/header';
 import Footer from './components/footer';
 import { getClient } from './api/graph';
+import { queryClient } from './api/query';
 
 import './i18n';
 
@@ -44,15 +47,17 @@ const ControlledLayout = () => {
 
 export const App = () => {
   return (
-    <ApolloProvider client={getClient()}>
-      <ChakraProvider theme={theme}>
-        <CSSReset />
-        <HashRouter>
-          <TransHOC>
-            <ControlledLayout />
-          </TransHOC>
-        </HashRouter>
-      </ChakraProvider>
-    </ApolloProvider>
+    <QueryClientProvider client={queryClient}>
+      <ApolloProvider client={getClient()}>
+        <ChakraProvider theme={theme}>
+          <CSSReset />
+          <HashRouter>
+            <TransHOC>
+              <ControlledLayout />
+            </TransHOC>
+          </HashRouter>
+        </ChakraProvider>
+      </ApolloProvider>
+    </QueryClientProvider>
   );
 };
