@@ -91,6 +91,8 @@
   "create.img": "图片：",
   "create.img.placeholder": "尺寸350*350",
   "create.link": "外部链接：",
+  "create.url": "链接：",
+  "create.url.placeholder": "链接：",
   "create.link.placeholder": "关于资产介绍的外部信息链接",
   "create.intro": "介绍：",
   "create.intro.placeholder": "请输入描述(200字之内）",

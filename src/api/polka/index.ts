@@ -242,25 +242,20 @@ export const queryClassByAddress = async ({ address = '' }) => {
 
 // create collections
 // cb is callback for trx on chain   (status) => { ... }
-export const createClass = async ({ address = '', metadata = CLASS_METADATA, cb = txLog }) => {
+export const createClass = async ({ address = '', metadata = CLASS_METADATA, cb }) => {
   const injector = await web3FromAddress(address);
   const { name, description } = metadata;
   const metadataStr = JSON.stringify(metadata);
   const res = await api.tx.nftmart
     .createClass(metadataStr, name, description, TOKEN_TRANSFERABLE_BURNABLE)
-    .signAndSend(address, { signer: injector.signer }, cb);
+    .signAndSend(address, { signer: injector.signer }, (result) => txLog(result, cb));
+  console.log(res, res);
   return res;
 };
 
 // mint nft under class
 // cb is callback for trx on chain   (status) => { ... }
-export const mintNft = async ({
-  address = '',
-  classId = 0,
-  metadata = {},
-  quantity = 1,
-  cb = txLog,
-}) => {
+export const mintNft = async ({ address = '', classId = 0, metadata = {}, quantity = 1, cb }) => {
   const injector = await web3FromAddress(address);
   const metadataStr = JSON.stringify(metadata);
   const balancesNeeded = await nftDeposit(metadataStr, bnToBn(quantity));
@@ -283,7 +278,9 @@ export const mintNft = async ({
     ),
   ];
   const batchExtrinsic = api.tx.utility.batchAll(txs);
-  const res = await batchExtrinsic.signAndSend(address, { signer: injector.signer }, cb);
+  const res = await batchExtrinsic.signAndSend(address, { signer: injector.signer }, (result) =>
+    txLog(result, cb),
+  );
   return res;
 };
 

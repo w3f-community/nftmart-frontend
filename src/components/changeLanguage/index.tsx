@@ -33,11 +33,11 @@ const ChangeLanguage = () => {
   };
 
   // Link render helper
-  const renderButton = (title: string) => {
+  const renderButton = (title: string, idx: string | number | null | undefined) => {
     const path = TRANSLATIONS[title];
 
     return (
-      <Button variant="ghost" onClick={() => handleSelectLang(title)}>
+      <Button key={idx} variant="ghost" onClick={() => handleSelectLang(title)}>
         {t(path)}
       </Button>
     );
