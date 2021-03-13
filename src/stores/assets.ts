@@ -68,7 +68,6 @@ export const actions = {
       assets,
       filteredAssets: filterAssets(assets, takeFilterTypes(s)),
     }));
-    console.log('current state', store.currentState);
   },
   selectAsset(asset: Work) {
     store.setState({ selectedAsset: asset });

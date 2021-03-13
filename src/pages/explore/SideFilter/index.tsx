@@ -22,8 +22,8 @@ import { useQuery } from '../../../utils/hook';
 const STATUS_MAP: Record<string, number> = {
   'nav.explore.all': -1,
   'nav.list-sale': 1,
-  'nav.latest-create': 2,
-  'nav.latest-strike': 3,
+  // 'nav.latest-create': 2,
+  // 'nav.latest-strike': 3,
 };
 
 const QUERY_MAP: Record<string, string> = {
@@ -76,15 +76,15 @@ const SideFilter: FC<SideFilterProps> = ({
   }, [statusQueryValue]);
 
   // Update default collectionId
-  useEffect(() => {
-    if (data.length && selectedCollectionId === -1) {
-      setSelectedCollectionId(data[0].id);
-    }
+  // useEffect(() => {
+  //   if (data.length && selectedCollectionId === -1) {
+  //     setSelectedCollectionId(data[0].id);
+  //   }
 
-    return () => {
-      //
-    };
-  }, [data]);
+  //   return () => {
+  //     //
+  //   };
+  // }, [data]);
 
   const handleSelectStatus = (status: number) => {
     if (singleStatus) {
@@ -165,9 +165,10 @@ const SideFilter: FC<SideFilterProps> = ({
               <RadioGroup
                 onChange={handleSelectCollection}
                 value={selectedCollectionId}
-                defaultValue={data[0].id}
+                defaultValue={-1}
               >
                 <Stack>
+                  <Radio value={-1}>{t('nav.explore.all')}</Radio>
                   {data.map(({ id, name }) => (
                     <Radio value={id} kye={id} checked={id === selectedCollectionId}>
                       {name}
