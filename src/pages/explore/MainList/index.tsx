@@ -79,7 +79,8 @@ export interface Helpers {
 
 const Helpers: FC<Helpers> = ({ count, onSort }) => {
   const { t } = useTranslation();
-  const suffix = `result${count > 1 ? 's' : ''}`;
+
+  const countText = t(`list.total.result${count > 1 ? 's' : ''}`, { count });
   const options = [
     { value: 1, title: t('form.sort.auto') },
     // { value: 2, title: t('form.sort.other') },
@@ -88,9 +89,7 @@ const Helpers: FC<Helpers> = ({ count, onSort }) => {
 
   const result = (
     <Box>
-      <Text color={colors.text.gray}>
-        {count} {suffix}
-      </Text>
+      <Text color={colors.text.gray}>{countText}</Text>
     </Box>
   );
 

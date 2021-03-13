@@ -103,6 +103,7 @@
   "user.edit.twitter": "Twitter：",
 
   "list.total.result": "{{count}}个结果",
+  "list.total.results": "{{count}}个结果",
   "list.empty": "没有找到任何结果",
 
   "lang.en": "英文",
