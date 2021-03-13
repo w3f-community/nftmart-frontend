@@ -158,7 +158,7 @@ const Page = () => {
   );
 
   return (
-    <CommLayout>
+    <CommLayout title="title.home">
       <TypeFilter onFilter={handleFilter} sticky={stickyFilter} />
       {error ? errorBox : <Works loading={loading} data={workListMap} />}
       <button onClick={() => create()}>create</button>|
