@@ -15,7 +15,7 @@ export const queryClient = new QueryClient({
     // },
 
     queries: {
-      retry: false,
+      // retry: false,
       // queryFn: defaultQueryFn
     },
   },

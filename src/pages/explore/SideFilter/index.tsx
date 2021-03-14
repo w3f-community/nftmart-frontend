@@ -174,7 +174,7 @@ const SideFilter: FC<SideFilterProps> = ({
                   {data.map(({ id, name }) => {
                     console.log(id, selectedCollectionId);
                     return (
-                      <Radio value={`id:${id}`} kye={`key:${id}`}>
+                      <Radio value={`id:${id}`} key={`key:${id}`}>
                         {name}
                       </Radio>
                     );

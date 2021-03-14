@@ -195,7 +195,7 @@ const SideFilter: FC<SideFilterProps> = ({
                 <Stack>
                   <Radio value={DEFUALT_COLLECTION_ID}>{t('nav.explore.all')}</Radio>
                   {data.map(({ id, name }) => (
-                    <Radio value={id} kye={id} checked={id === selectedCollectionId}>
+                    <Radio value={id} key={id} checked={id === selectedCollectionId}>
                       {name}
                     </Radio>
                   ))}
