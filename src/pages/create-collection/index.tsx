@@ -28,7 +28,7 @@ import { createClass } from '../../api/polka';
 const schema = Yup.object().shape({
   name: Yup.string().max(50, 'Too Long!').required('Required'),
   description: Yup.string().max(200, 'Too Long!').required('Required'),
-  bannerUrl: Yup.string().required('Required'),
+  // bannerUrl: Yup.string().required('Required'),
   url: Yup.string().max(200, 'Too Long!').required('Required'),
   externalUrl: Yup.string().max(200, 'Too Long!').required('Required'),
 });
@@ -87,21 +87,33 @@ const CreateCollection: FC = () => {
             <Formik
               initialValues={{
                 name: '',
-                bannerUrl: '',
+                // bannerUrl: '',
                 description: '',
                 url: '',
                 externalUrl: '',
               }}
               onSubmit={(values, formActions) => {
-                create(values, () => {
-                  toast({
-                    title: 'success',
-                    status: 'success',
-                    position: 'top',
-                    duration: 3000,
-                  });
-                  formActions.setSubmitting(false);
-                  formActions.resetForm();
+                create(values, {
+                  success: () => {
+                    toast({
+                      title: 'success',
+                      status: 'success',
+                      position: 'top',
+                      duration: 3000,
+                    });
+                    formActions.setSubmitting(false);
+                    formActions.resetForm();
+                  },
+                  error: (err: any) => {
+                    toast({
+                      title: 'success',
+                      status: 'error',
+                      position: 'top',
+                      duration: 3000,
+                      description: err,
+                    });
+                    formActions.setSubmitting(false);
+                  },
                 });
               }}
               validationSchema={schema}
@@ -135,36 +147,34 @@ const CreateCollection: FC = () => {
                         );
                       }}
                     </Field>
-                    <Field name="bannerUrl">
+                    <Field name="url">
                       {({
                         field,
                         form,
                       }: {
                         field: Record<string, unknown>;
-                        form: { errors: { bannerUrl: string }; touched: { bannerUrl: string } };
+                        form: { errors: { url: string }; touched: { url: string } };
                       }) => {
                         return (
-                          <FormControl
-                            isInvalid={!!(form.errors.bannerUrl && form.touched.bannerUrl)}
-                          >
+                          <FormControl isInvalid={!!(form.errors.url && form.touched.url)}>
                             <Flex align="center">
-                              <FormLabel {...formLabelLayout} htmlFor="bannerUrl">
+                              <FormLabel {...formLabelLayout} htmlFor="url">
                                 {t('create.img')}
                               </FormLabel>
                               <Upload
-                                id="bannerUrl"
+                                id="url"
                                 {...field}
                                 onChange={(v) => {
-                                  props.setFieldValue('bannerUrl', v);
+                                  props.setFieldValue('url', v);
                                 }}
                               />
                             </Flex>
-                            <FormErrorMessage pl="188px">{form.errors.bannerUrl}</FormErrorMessage>
+                            <FormErrorMessage pl="188px">{form.errors.url}</FormErrorMessage>
                           </FormControl>
                         );
                       }}
                     </Field>
-                    <Field name="url">
+                    {/* <Field name="url">
                       {({
                         field,
                         form,
@@ -189,7 +199,7 @@ const CreateCollection: FC = () => {
                           </FormControl>
                         );
                       }}
-                    </Field>
+                    </Field> */}
                     <Field name="externalUrl">
                       {({
                         field,

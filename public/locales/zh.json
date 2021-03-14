@@ -96,6 +96,7 @@
   "create.link.placeholder": "关于资产介绍的外部信息链接",
   "create.intro": "介绍：",
   "create.intro.placeholder": "请输入描述(200字之内）",
+  "create.upload": "上传",
 
   "user.edit.title": "资料修改",
   "user.edit.nickname": "昵称：",

@@ -2,6 +2,8 @@ import React, { FC, useState, useCallback, useEffect } from 'react';
 import { Input, Image, Spinner, Box, Text } from '@chakra-ui/react';
 import { IPFS_POST_SERVER, IPFS_GET_SERVER } from '../../constants';
 
+import { t } from '../../i18n';
+
 const ipfsClient = require('ipfs-http-client');
 
 export interface UploadProps {
@@ -50,9 +52,9 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, ...rest }
   const view = (
     <Box>
       {value ? (
-        <Image w="100px" h="30px" src={`${IPFS_GET_SERVER}/${value}`} />
+        <Image w="350px" h="350px" src={`${IPFS_GET_SERVER}/${value}`} />
       ) : (
-        <Text fontSize="14px">上传</Text>
+        <Text fontSize="14px">{t('create.upload')}</Text>
       )}
     </Box>
   );

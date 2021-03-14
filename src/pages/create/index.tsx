@@ -46,7 +46,7 @@ const CreateCollection = () => {
   const { account } = globalStore.useState('account');
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
-    mintNft({ address: account.address, metadata: { ...others }, classId: 19, cb });
+    mintNft({ address: account.address, metadata: { ...others }, classId: 0, cb });
   }, []);
   return (
     <Layout title="title.create">
@@ -80,15 +80,27 @@ const CreateCollection = () => {
                 description: '',
               }}
               onSubmit={(formValue, formAction) => {
-                mint(formValue, () => {
-                  toast({
-                    title: 'success',
-                    status: 'success',
-                    position: 'top',
-                    duration: 3000,
-                  });
-                  formAction.setSubmitting(false);
-                  formAction.resetForm();
+                mint(formValue, {
+                  success: () => {
+                    toast({
+                      title: 'success',
+                      status: 'success',
+                      position: 'top',
+                      duration: 3000,
+                    });
+                    formAction.setSubmitting(false);
+                    formAction.resetForm();
+                  },
+                  error: (error: string) => {
+                    toast({
+                      title: 'success',
+                      status: 'error',
+                      position: 'top',
+                      duration: 3000,
+                      description: error,
+                    });
+                    formAction.setSubmitting(false);
+                  },
                 });
               }}
             >
