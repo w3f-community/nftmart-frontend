@@ -25,6 +25,15 @@ const noop = () => null;
 
 let api: any = null;
 
+const ss58Format = 50;
+const keyring = new Keyring({ type: 'sr25519', ss58Format });
+
+const formatAddressByKeyring = (address: string) => {
+  const decodedAddress = keyring.encodeAddress(address).toString();
+  console.log(decodedAddress);
+  return decodedAddress;
+};
+
 // query gas needed
 const nftDeposit = async (metadata: any, quantity: any) => {
   try {
@@ -79,21 +88,29 @@ interface classMetadata {
 }
 
 const mapClassToCollection = async (clazz: any) => {
-  const metadata: classMetadata = JSON.parse(clazz.metadata);
-  const collection = omit(['data', 'metadata', 'classID', 'totalIssuance'], clazz);
+  // FIXME: there some error in the backend, which miss { at the start of the string
+  const originalString = clazz.metadata.trim().startsWith('{')
+    ? clazz.metadata
+    : `{ ${clazz.metadata}`;
+  const metadata: classMetadata = JSON.parse(originalString);
+  const collection = omit(['data', 'metadata', 'classId', 'totalIssuance'], clazz);
 
   return {
     ...collection,
     ...metadata,
-    classId: clazz.classID,
-    id: clazz.classID,
+    classId: clazz.classId ?? clazz.classID,
+    id: clazz.classId ?? clazz.classID,
     totalIssuance: Number(clazz.totalIssuance),
   };
 };
 
 const filterUnparsableClass = (clazz: any) => {
   try {
-    JSON.parse(clazz.metadata);
+    // FIXME: there some error in the backend, which miss { at the start of the string
+    const originalString = clazz.metadata.trim().startsWith('{')
+      ? clazz.metadata
+      : `{ ${clazz.metadata}`;
+    JSON.parse(originalString);
     return true;
   } catch (e) {
     return false;
@@ -191,7 +208,8 @@ const filterNonMetaNFT = (nft: null | any) => {
   if (!nft) return false;
 
   try {
-    JSON.parse(nft.metadata);
+    const originalString = nft.metadata.trim().startsWith('{') ? nft.metadata : `{ ${nft.metadata}`;
+    JSON.parse(originalString);
     return true;
   } catch {
     return false;
@@ -205,14 +223,21 @@ const getClassId = (c: any) => {
   return new Uint32Array(key)[0];
 };
 
-const mapNFTsToAsset = (NFTS: any[], cid: number) =>
-  NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
+const mapNFTsToAsset = (NFTS: any[], cid: number) => {
+  return NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
     .filter(filterNonMetaNFT)
-    .map((nft) => ({
-      ...nft,
-      ...JSON.parse(nft.metadata),
-      classId: cid,
-    }));
+    .map((nft) => {
+      const originalString = nft.metadata.trim().startsWith('{')
+        ? nft.metadata
+        : `{ ${nft.metadata}`;
+
+      return {
+        ...nft,
+        ...JSON.parse(originalString),
+        classId: cid,
+      };
+    });
+};
 
 // get all nfts
 export const getAllNfts = async (classId?: number): Promise<Work[]> => {
@@ -234,8 +259,6 @@ export const getAllNfts = async (classId?: number): Promise<Work[]> => {
 // get all orders
 export const getAllOrders = async () => {
   const allOrders = await api.query.nftmart.orders.entries();
-  const ss58Format = 50;
-  const keyring = new Keyring({ type: 'sr25519', ss58Format });
 
   const arr = allOrders.map(async (order: any) => {
     const key = order[0];
@@ -282,7 +305,7 @@ export const queryNftByAddress = async ({ address = '' }) => {
 
     let nft = await api.query.ormlNft.tokens(classId, tokenId);
     if (nft.isSome) {
-      nft = nft.unwrap();
+      nft = nft.toHuman();
       return nft.map((n: any) => mapNFTsToAsset(n, classId));
     }
     return null;
@@ -293,8 +316,6 @@ export const queryNftByAddress = async ({ address = '' }) => {
 
 // query users class
 export const queryClassByAddress = async ({ address = '' }) => {
-  console.log(address);
-
   const allClasses = await api.query.ormlNft.classes.entries();
 
   const arr = allClasses.map(async (clz: any) => {
@@ -307,21 +328,20 @@ export const queryClassByAddress = async ({ address = '' }) => {
     clazz.classId = classId;
     clazz.adminList = await api.query.proxy.proxies(clazz.owner);
 
-    console.log(clazz);
-
     const res = clazz.adminList[0].map((admin: any) => {
-      console.log('admin', admin);
+      const adminAddress = admin.delegate.toString();
+      console.log('cl', clazz);
+      console.log('check admin list', adminAddress, address);
 
-      if (admin.delegate.toString() === address) {
+      if (adminAddress === address) {
         return clazz;
       }
       return null;
     });
     return res.length > 0 ? res[0] : null;
   });
-  const res = await Promise.all(arr);
-  console.log(res, 'class by user');
-  return res;
+  const res = (await Promise.all(arr)).filter(filterUnparsableClass).map(mapClassToCollection);
+  return Promise.all(res);
 };
 
 // === post api ====
@@ -333,7 +353,7 @@ export const createClass = async ({
   metadata = CLASS_METADATA,
   cb = { success: noop, error: (err: any) => err },
 }) => {
-  console.log(address);
+  console.log('create address', address);
   try {
     const injector = await web3FromAddress(address);
     const { name, description } = metadata;

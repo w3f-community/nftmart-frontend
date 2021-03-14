@@ -15,22 +15,22 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import colors from '../../../themes/colors';
-import { Collection } from '../../../stores/assets';
+import { Collection } from '../../../types';
 import Empty from '../../../components/empty';
 import { useQuery } from '../../../utils/hook';
 
 const STATUS_MAP: Record<string, number> = {
   'nav.explore.all': -1,
   'nav.list-sale': 1,
-  'nav.latest-create': 2,
-  'nav.latest-strike': 3,
+  // 'nav.latest-create': 2,
+  // 'nav.latest-strike': 3,
 };
 
 const QUERY_MAP: Record<string, string> = {
   all: 'nav.explore.all',
   listing: 'nav.list-sale',
-  new: 'nav.latest-create',
-  recent: 'nav.latest-strike',
+  // new: 'nav.latest-create',
+  // recent: 'nav.latest-strike',
 };
 
 export interface SideFilterProps {

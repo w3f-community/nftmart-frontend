@@ -53,7 +53,7 @@ const MyCollections = () => {
   } = useMyCollectionsQuery(account.address);
 
   const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(account.address);
-
+  
   const { filteredAssets, filteredCollections } = store.useState(
     'filteredAssets',
     'filteredCollections',

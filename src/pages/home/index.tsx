@@ -49,6 +49,8 @@ const Page = () => {
   const { filteredAssets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
 
+  console.log(assetsData, filteredAssets);
+
   const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(filteredAssets));
   // TODO: sticky animation
   const [stickyFilter] = useState(false);
@@ -119,10 +121,10 @@ const Page = () => {
   // Update assets store after query
   useEffect(() => {
     const orders = ordersQuery.data;
-    const assets = assetsData;
+    let assets = assetsData?.slice();
 
-    if (Array.isArray(orders) && orders.length && Array.isArray(assets) && assets.length) {
-      const newAssets = assets.map((asset) => {
+    if (Array.isArray(orders) && Array.isArray(assets)) {
+      assets = assets.map((asset) => {
         const givenOrder = orders.find(
           (order) => order.classId === asset.classId && order.tokenId === asset.tokenId,
         );
@@ -136,14 +138,14 @@ const Page = () => {
         }
         return { ...asset, status: 2, price: undefined, categoryId: -1 };
       });
-
-      actions.setAssets(newAssets);
     }
 
+    actions.setAssets(assets ?? []);
+    console.log(store.currentState);
     return () => {
       //
     };
-  }, [ordersQuery.data]);
+  }, [ordersQuery.data, assetsData]);
 
   // Update worklist after filteredAssets change
   useEffect(() => {

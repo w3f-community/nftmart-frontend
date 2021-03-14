@@ -1,7 +1,7 @@
 export interface Work {
   tokenId: number;
   name: string;
-  bannerUrl?: string;
+  url?: string;
   status: number;
   address: string;
   description: string;

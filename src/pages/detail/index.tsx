@@ -103,7 +103,7 @@ const Detail: FC = () => {
       <DetailContainer
         left={
           <>
-            <ImageCard src={selectedAsset.bannerUrl ?? 'image placeholder'} />
+            <ImageCard src={selectedAsset.url ?? 'image placeholder'} />
             <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
             <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
             <AboutCard about={undefined ?? t('detail.no-about')} />

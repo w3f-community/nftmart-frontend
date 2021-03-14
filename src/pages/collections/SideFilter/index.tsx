@@ -17,7 +17,7 @@ import { IoMdAddCircleOutline } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
 
 import colors from '../../../themes/colors';
-import { Collection } from '../../../stores/assets';
+import { Collection } from '../../../types';
 import Empty from '../../../components/empty';
 import { useQuery } from '../../../utils/hook';
 

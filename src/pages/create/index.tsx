@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { SelectControl } from 'formik-chakra-ui';
 
 import { globalStore } from 'rekv';
 import colors from '../../themes/colors';
@@ -48,7 +49,14 @@ const CreateCollection = () => {
   const { data: classes } = useMyCollectionsQuery(account.address);
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
-    mintNft({ address: account.address, metadata: { ...others }, classId: 0, cb });
+    const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
+    const normalizedFormData = {
+      address: account.address,
+      metadata: { ...others },
+      classId: normalizedClassId,
+      cb,
+    };
+    mintNft(normalizedFormData);
   }, []);
   return (
     <Layout title="title.create">
@@ -82,6 +90,8 @@ const CreateCollection = () => {
                 description: '',
               }}
               onSubmit={(formValue, formAction) => {
+                console.log('submitting', formValue);
+
                 mint(formValue, {
                   success: () => {
                     toast({
@@ -122,14 +132,19 @@ const CreateCollection = () => {
                             <FormLabel {...formLableLayout}>
                               {t('create.collection.name')}
                             </FormLabel>
-                            <Select {...formInputLayout} {...field}>
+                            <SelectControl
+                              {...field}
+                              selectProps={formInputLayout}
+                              name="classId"
+                              defaultValue={classes?.[0].classId}
+                            >
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option value={clazz.classId} color={colors.text.black}>
                                     {clazz.name}
                                   </option>
                                 ))}
-                            </Select>
+                            </SelectControl>
                           </Flex>
                           <FormErrorMessage pl="240px">{form.errors.classId}</FormErrorMessage>
                         </FormControl>

@@ -44,10 +44,10 @@ export const MotionBox = motion.custom(
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
   const { t } = useTranslation();
-  const { tokenId: id, name, price, bannerUrl, isSet = false } = props;
+  const { tokenId: id, name, price, url, isSet = false } = props;
   const history = useHistory();
 
-  const picUrl = `${IPFS_GET_SERVER}${bannerUrl}`;
+  const picUrl = `${IPFS_GET_SERVER}${url}`;
 
   const dispense = () => {
     actions.selectAsset(omit(['isSet'], props as Work));
@@ -73,7 +73,11 @@ const Collection = (props: CollectionProps) => {
       justifyContent="space-around"
     >
       <Center height={195} width={231} borderBottom={`1px solid ${colors.divider.dark}`}>
-        <Image src={picUrl as string} fallback={<Shimmer height={195} width={231} />} />
+        <Image
+          NativeImgProps={{ style: { width: 231, height: 195 } }}
+          src={picUrl as string}
+          fallback={<Shimmer height={195} width={231} />}
+        />
       </Center>
 
       <Box

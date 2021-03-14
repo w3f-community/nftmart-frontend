@@ -151,46 +151,44 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsse
       {!loading && (
         <>
           <Helpers onSort={handleSorting} count={count} />
-          {!!count && (
-            <SimpleGrid columns={4}>
-              {onCreateAsset && (
-                <MotionBox
-                  onClick={onCreateAsset}
-                  color={colors.primary}
-                  backgroundColor="#fff"
-                  borderRadius="4px"
-                  cursor="pointer"
-                  _hover={{ boxShadow: 'lg' }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  userSelect="none"
-                  ml="16px"
-                  mb="16px"
-                >
-                  <Box mt={6} mb={2}>
-                    <IoMdAddCircle size={99} />
-                  </Box>
-                  <Heading as="h4" size="sm">
-                    {t('create.title')}
-                  </Heading>
-                </MotionBox>
-              )}
+          <SimpleGrid columns={4}>
+            {onCreateAsset && (
+              <MotionBox
+                onClick={onCreateAsset}
+                color={colors.primary}
+                backgroundColor="#fff"
+                borderRadius="4px"
+                cursor="pointer"
+                _hover={{ boxShadow: 'lg' }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                userSelect="none"
+                ml="16px"
+                mb="16px"
+              >
+                <Box mt={6} mb={2}>
+                  <IoMdAddCircle size={99} />
+                </Box>
+                <Heading as="h4" size="sm">
+                  {t('create.title')}
+                </Heading>
+              </MotionBox>
+            )}
 
-              {data.map((work) => (
+            {!!count &&
+              data.map((work) => (
                 <Link to={`/detail/${work.tokenId}`} key={work.tokenId}>
                   <Box ml="16px" mb="16px">
                     <Collection {...work} />
                   </Box>
                 </Link>
               ))}
-            </SimpleGrid>
-          )}
-
-          {!count && <Empty description={t('list.empty')} />}
+            {!count && <Empty description={t('list.empty')} />}
+          </SimpleGrid>
         </>
       )}
     </Box>

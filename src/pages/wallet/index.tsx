@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, Container } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { globalStore } from 'rekv';
 
 import SideFilter from './SideFilter';
 import MainList from './MainList';
 import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
-import { GetItems, GetMyWallet } from '../../api/graph';
+import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
 import Empty from '../../components/empty';
@@ -15,12 +16,12 @@ import Empty from '../../components/empty';
 const STATUS_MAP: Record<any, any> = {
   all: -1,
   listing: 1,
-  new: 2,
-  recent: 3,
+  // new: 2,
+  // recent: 3,
   '-1': 'all',
   '1': 'listing',
-  '2': 'new',
-  '3': 'recent',
+  // '2': 'new',
+  // '3': 'recent',
 };
 
 // TODO: Error handling
@@ -31,22 +32,18 @@ const Wallet = () => {
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
+  const { account } = globalStore.useState();
+
   const {
-    data: collectionsResponse,
-    loading: collectionsLoading,
+    data: collectionsData,
+    isLoading: collectionsLoading,
     error: collectionsError,
-  } = GetMyWallet();
+  } = useMyCollectionsQuery(account.address);
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
 
-  const collectionsData = collectionsResponse?.collections?.collections;
-
-  const { data: assetsResponse, loading: itemsLoading } = GetItems({
-    status: selectedStatus,
-    collectionId: selectedCollectionId,
-    categoryId: selectedCategoryId,
-  });
+  const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(account.address);
 
   const { filteredAssets, filteredCollections } = store.useState(
     'filteredAssets',
@@ -75,11 +72,11 @@ const Wallet = () => {
     return () => {
       //
     };
-  }, [collectionsResponse]);
+  }, [collectionsData]);
 
   // Update assets by collectionId when data fetched
   useEffect(() => {
-    const data = assetsResponse?.assets?.assets;
+    const data = assetsData;
     if (Array.isArray(data)) {
       actions.setAssets(data);
     }
@@ -87,7 +84,7 @@ const Wallet = () => {
     return () => {
       //
     };
-  }, [assetsResponse]);
+  }, [assetsData]);
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);
