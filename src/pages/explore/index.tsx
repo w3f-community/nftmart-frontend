@@ -53,7 +53,6 @@ const Explore = () => {
   // });
 
   const { data: assetsData, isLoading: itemsLoading } = useAssetsQuery();
-  console.log(assetsData);
 
   const {
     data: collectionsQueryData,

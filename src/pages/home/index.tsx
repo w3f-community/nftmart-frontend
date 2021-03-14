@@ -40,7 +40,7 @@ const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 // }
 
 const Page = () => {
-  const { data: assetsData, isLoading, error } = useAssetsQuery();
+  const { data: assetsData, isLoading, error, refetch } = useAssetsQuery();
   // FIXME: Add type instead of any
   const ordersQuery = useQuery<Order[]>('getOrders', getAllOrders as any);
 
