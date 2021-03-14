@@ -85,7 +85,7 @@ const Wallet = () => {
       //
     };
   }, [assetsData]);
-  
+
   // Filter assets
   useEffect(() => {
     actions.filterAssets({
@@ -97,7 +97,6 @@ const Wallet = () => {
       // cleanup
     };
   }, [selectedCategoryId, selectedCollectionId, selectedStatus]);
-
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);

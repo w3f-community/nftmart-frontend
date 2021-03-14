@@ -37,9 +37,9 @@ const TypeFilters: FC<TypeFiltersProps> = ({ onChange }) => {
   const typeList = useMemo<Category[]>(() => {
     if (categories?.length) {
       const first = { id: -1, name: t(`type.all`) };
-      const rest = categories.map((metaCategory: { id: number; metadata: { name: string } }) => ({
-        name: t(`type.${metaCategory.metadata.name}`),
-        id: metaCategory.id,
+      const rest = categories.map((cat, idx) => ({
+        name: t(`type.${cat}`),
+        id: idx,
       }));
       return [first, ...rest];
     }
@@ -212,7 +212,7 @@ const MainList: FC<MainListProps> = ({
 
             {!!count &&
               data.map((work) => (
-                <Link to={`/detail/${work.tokenId}`} key={work.tokenId}>
+                <Link to={`/detail/${work.classId}/${work.tokenId}`} key={work.tokenId}>
                   <Box ml="16px" mb="16px">
                     <Collection {...work} key={`${work.classId}-${work.tokenId}`} />
                   </Box>

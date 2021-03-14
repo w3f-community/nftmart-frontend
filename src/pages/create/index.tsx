@@ -138,11 +138,7 @@ const CreateCollection = () => {
                             <FormLabel {...formLableLayout}>
                               {t('create.collection.name')}
                             </FormLabel>
-                            <SelectControl
-                              {...field}
-                              selectProps={formInputLayout}
-                              name="classId"
-                            >
+                            <SelectControl {...field} selectProps={formInputLayout} name="classId">
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option value={clazz.classId} color={colors.text.black}>

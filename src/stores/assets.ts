@@ -65,7 +65,7 @@ export const actions = {
       filteredAssets: filterAssets(assets, takeFilterTypes(s)),
     }));
   },
-  selectAsset(asset: Work) {
+  selectAsset(asset: any) {
     store.setState({ selectedAsset: asset });
   },
   setFilters(filterTypes: Partial<FilterTypes>) {
