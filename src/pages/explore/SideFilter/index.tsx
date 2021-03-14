@@ -42,6 +42,8 @@ export interface SideFilterProps {
   onStatusChange: (s: number) => void;
 }
 
+const DEFUALT_COLLECTION_ID = 'id:-1';
+
 const SideFilter: FC<SideFilterProps> = ({
   data,
   loading,
@@ -57,7 +59,7 @@ const SideFilter: FC<SideFilterProps> = ({
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
 
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number>(-1);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<string>(DEFUALT_COLLECTION_ID);
 
   // Update status base on router
   useEffect(() => {
@@ -99,10 +101,10 @@ const SideFilter: FC<SideFilterProps> = ({
     onStatusChange(status);
   };
 
-  const handleSelectCollection = (val: number | string) => {
-    const result = Number(val);
-    setSelectedCollectionId(result);
-    onSelectCollection(result);
+  const handleSelectCollection = (val: string) => {
+    const [prefix, id] = val.split(':');
+    setSelectedCollectionId(val);
+    onSelectCollection(+id);
   };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = ({ target: { value } }) => {
@@ -165,15 +167,18 @@ const SideFilter: FC<SideFilterProps> = ({
               <RadioGroup
                 onChange={handleSelectCollection}
                 value={selectedCollectionId}
-                defaultValue={-1}
+                defaultValue={DEFUALT_COLLECTION_ID}
               >
                 <Stack>
-                  <Radio value={-1}>{t('nav.explore.all')}</Radio>
-                  {data.map(({ id, name }) => (
-                    <Radio value={id} kye={id} checked={id === selectedCollectionId}>
-                      {name}
-                    </Radio>
-                  ))}
+                  <Radio value={DEFUALT_COLLECTION_ID}>{t('nav.explore.all')}</Radio>
+                  {data.map(({ id, name }) => {
+                    console.log(id, selectedCollectionId);
+                    return (
+                      <Radio value={`id:${id}`} kye={`key:${id}`}>
+                        {name}
+                      </Radio>
+                    );
+                  })}
                 </Stack>
               </RadioGroup>
             )}
