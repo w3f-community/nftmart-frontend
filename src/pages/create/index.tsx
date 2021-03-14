@@ -15,8 +15,11 @@ import { useTranslation } from 'react-i18next';
 
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
+import { useCollectionsQuery } from '../../api/query';
 
 const CreateCollection = () => {
+  const { data: classes } = useCollectionsQuery();
+
   const { t } = useTranslation();
 
   const formLableLayout = {
@@ -63,7 +66,7 @@ const CreateCollection = () => {
             <Formik
               initialValues={{ email: '', password: '' }}
               onSubmit={() => {
-                console.log('aaa');
+                
               }}
             >
               <Form>
@@ -82,9 +85,12 @@ const CreateCollection = () => {
                     >
                       <FormLabel {...formLableLayout}>{t('create.collection.name')}</FormLabel>
                       <Select {...formInputLayout}>
-                        <option value="" color={colors.text.black}>
-                          Hashmasks
-                        </option>
+                        {classes?.length &&
+                          classes.map((clazz) => (
+                            <option value={clazz.classId} color={colors.text.black}>
+                              {clazz.name}
+                            </option>
+                          ))}
                       </Select>
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
