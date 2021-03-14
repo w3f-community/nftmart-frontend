@@ -108,7 +108,7 @@ const Helpers: FC<Helpers> = ({ count, onSort }) => {
   return (
     <Flex justify="space-between" align="center" ml="16px" py="16px">
       {result}
-      {sorter}
+      {/* {sorter} */}
     </Flex>
   );
 };
@@ -169,6 +169,7 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsse
                 userSelect="none"
                 ml="16px"
                 mb="16px"
+                height="310px"
               >
                 <Box mt={6} mb={2}>
                   <IoMdAddCircle size={99} />
@@ -187,7 +188,7 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsse
                   </Box>
                 </Link>
               ))}
-            {!count && <Empty description={t('list.empty')} />}
+            {/* {!count && <Empty description={t('list.empty')} />} */}
           </SimpleGrid>
         </>
       )}

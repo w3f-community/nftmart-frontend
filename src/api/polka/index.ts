@@ -223,20 +223,19 @@ const getClassId = (c: any) => {
   return new Uint32Array(key)[0];
 };
 
+const mapNFTToAsset = (NFT: any, cid: number) => {
+  const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
+
+  return {
+    ...NFT,
+    ...JSON.parse(originalString),
+    classId: cid,
+  };
+};
 const mapNFTsToAsset = (NFTS: any[], cid: number) => {
   return NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
     .filter(filterNonMetaNFT)
-    .map((nft) => {
-      const originalString = nft.metadata.trim().startsWith('{')
-        ? nft.metadata
-        : `{ ${nft.metadata}`;
-
-      return {
-        ...nft,
-        ...JSON.parse(originalString),
-        classId: cid,
-      };
-    });
+    .map((n) => mapNFTToAsset(n, cid));
 };
 
 // get all nfts
@@ -306,7 +305,7 @@ export const queryNftByAddress = async ({ address = '' }) => {
     let nft = await api.query.ormlNft.tokens(classId, tokenId);
     if (nft.isSome) {
       nft = nft.toHuman();
-      return nft.map((n: any) => mapNFTsToAsset(n, classId));
+      return mapNFTToAsset(nft, classId);
     }
     return null;
   });
