@@ -45,8 +45,8 @@ export default function Uploader() {
         flexWrap="wrap"
         paddingBottom={5}
       >
-        <Box mt="100px">
-          <Box as="img" src={LogoImg} alt="" width="180px"></Box>
+        <Box alignSelf="center">
+          <Box as="img" src={LogoImg} alt="" width="200px" height="auto"></Box>
         </Box>
         <Box width="663px" mt="60px">
           <Box lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
