@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   forwardRef,
   ChakraProps,
@@ -15,7 +15,6 @@ import { useHistory } from 'react-router-dom';
 import { omit } from 'ramda';
 
 import colors from '../../themes/colors';
-import PriceIcon from '../../assets/home/icon_price.png';
 import { Work } from '../../types';
 import { toFixedDecimals } from '../../utils';
 import { actions } from '../../stores/assets';
@@ -45,15 +44,17 @@ export const MotionBox = motion.custom(
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
   const { t } = useTranslation();
-  const { classId, tokenId: id, name, price, bannerUrl, isSet = false } = props;
+  const { classId, tokenId: id, name, price, isSet = false, url } = props;
   const history = useHistory();
 
-  const picUrl = `${IPFS_GET_SERVER}${bannerUrl}`;
+  const picUrl = `${IPFS_GET_SERVER}${url}`;
 
-  const handleCollectionClick = () => {
+  const dispense = () => {
     actions.selectAsset(omit(['isSet'], props as Work));
     history.push(`/detail/${classId}/${id}`);
   };
+
+  const handleCollectionClick = useCallback(dispense, [classId, id]);
 
   // TODO: Might wanna move link outside
   return (
@@ -72,7 +73,11 @@ const Collection = (props: CollectionProps) => {
       justifyContent="space-around"
     >
       <Center height={195} width={231} borderBottom={`1px solid ${colors.divider.dark}`}>
-        <Image src={picUrl as string} fallback={<Shimmer height={195} width={231} />} />
+        <Image
+          NativeImgProps={{ style: { width: 231, height: 195 } }}
+          src={picUrl as string}
+          fallback={<Shimmer height={195} width={231} />}
+        />
       </Center>
 
       <Box

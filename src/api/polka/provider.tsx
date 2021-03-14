@@ -21,7 +21,6 @@ const provider = ({ children }: Props) => {
   // init polkadot api
   const queryCategories = async () => {
     let categories = await getCategories();
-    console.log(categories, '======= cata');
     categories = categories.map((cat: any) => {
       return cat.metadata.name;
     });

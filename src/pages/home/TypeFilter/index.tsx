@@ -86,9 +86,9 @@ const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky }) => {
   const typeList = useMemo<Category[]>(() => {
     if (categories?.length) {
       const first = { id: -1, name: t(`type.all`) };
-      const rest = categories.map((metaCategory: { id: number; metadata: { name: string } }) => ({
-        name: t(`type.${metaCategory.metadata.name}`),
-        id: metaCategory.id,
+      const rest = categories.map((cat, idx) => ({
+        name: t(`type.${cat}`),
+        id: idx,
       }));
       return [first, ...rest];
     }

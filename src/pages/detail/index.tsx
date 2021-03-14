@@ -45,10 +45,10 @@ const Detail: FC = () => {
 
   const { selectedAsset } = store.useState('selectedAsset');
 
-  const { data: collectionsResponse } = GetCollections({
-    id: selectedAsset?.classId,
-    pageSize: 1,
-  });
+  // const { data: collectionsResponse } = GetCollections({
+  //   id: selectedAsset?.classId,
+  //   pageSize: 1,
+  // });
 
   // useEffect(() => {
   //   const assets = assetsResponse?.assets?.assets ?? [];
@@ -70,7 +70,6 @@ const Detail: FC = () => {
   const fetchData = async (cid = '', tid = '') => {
     if (+cid < 0 || +tid < 0) return;
     const res = await getNft(cid, tid);
-
     const order = await getOrder(cid, tid, res.owner);
     res.order = order;
     actions.selectAsset(res);
@@ -230,6 +229,9 @@ const Detail: FC = () => {
               onCancel={handleCancelOrder}
               isOwner={selectedAsset.owner === account.address}
             />
+            <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
+            {/* <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
+            <ClassInfo about={selectedAsset.class ?? t('detail.no-about')} /> */}
             <PriceHistoryCard />
             <HistoryEventCard />
           </>

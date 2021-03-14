@@ -15,15 +15,15 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import colors from '../../../themes/colors';
-import { Collection } from '../../../stores/assets';
+import { Collection } from '../../../types';
 import Empty from '../../../components/empty';
 import { useQuery } from '../../../utils/hook';
 
 const STATUS_MAP: Record<string, number> = {
   'nav.explore.all': -1,
   'nav.list-sale': 1,
-  'nav.latest-create': 2,
-  'nav.latest-strike': 3,
+  // 'nav.latest-create': 2,
+  // 'nav.latest-strike': 3,
 };
 
 const QUERY_MAP: Record<string, string> = {
@@ -42,6 +42,8 @@ export interface SideFilterProps {
   onStatusChange: (s: number) => void;
 }
 
+const DEFUALT_COLLECTION_ID = 'id:-1';
+
 const SideFilter: FC<SideFilterProps> = ({
   data,
   loading,
@@ -57,7 +59,7 @@ const SideFilter: FC<SideFilterProps> = ({
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
 
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number>(-1);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<string>(DEFUALT_COLLECTION_ID);
 
   // Update status base on router
   useEffect(() => {
@@ -76,15 +78,15 @@ const SideFilter: FC<SideFilterProps> = ({
   }, [statusQueryValue]);
 
   // Update default collectionId
-  useEffect(() => {
-    if (data.length && selectedCollectionId === -1) {
-      setSelectedCollectionId(data[0].id);
-    }
+  // useEffect(() => {
+  //   if (data.length && selectedCollectionId === -1) {
+  //     setSelectedCollectionId(data[0].id);
+  //   }
 
-    return () => {
-      //
-    };
-  }, [data]);
+  //   return () => {
+  //     //
+  //   };
+  // }, [data]);
 
   const handleSelectStatus = (status: number) => {
     if (singleStatus) {
@@ -99,10 +101,10 @@ const SideFilter: FC<SideFilterProps> = ({
     onStatusChange(status);
   };
 
-  const handleSelectCollection = (val: number | string) => {
-    const result = Number(val);
-    setSelectedCollectionId(result);
-    onSelectCollection(result);
+  const handleSelectCollection = (val: string) => {
+    const [prefix, id] = val.split(':');
+    setSelectedCollectionId(val);
+    onSelectCollection(+id);
   };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = ({ target: { value } }) => {
@@ -165,14 +167,18 @@ const SideFilter: FC<SideFilterProps> = ({
               <RadioGroup
                 onChange={handleSelectCollection}
                 value={selectedCollectionId}
-                defaultValue={data[0].id}
+                defaultValue={DEFUALT_COLLECTION_ID}
               >
                 <Stack>
-                  {data.map(({ id, name }) => (
-                    <Radio value={id} kye={id} checked={id === selectedCollectionId}>
-                      {name}
-                    </Radio>
-                  ))}
+                  <Radio value={DEFUALT_COLLECTION_ID}>{t('nav.explore.all')}</Radio>
+                  {data.map(({ id, name }) => {
+                    console.log(id, selectedCollectionId);
+                    return (
+                      <Radio value={`id:${id}`} kye={`key:${id}`}>
+                        {name}
+                      </Radio>
+                    );
+                  })}
                 </Stack>
               </RadioGroup>
             )}

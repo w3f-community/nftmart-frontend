@@ -5,7 +5,7 @@ import { globalStore } from 'rekv';
 
 import NavLink from '../navlink';
 import Login from '../login';
-import ChangeLanguage from '../changeLanguage';
+// import ChangeLanguage from '../changeLanguage';
 import LogoSrc from '../../assets/logo.png';
 import { Z_INDEXES } from '../../constants';
 
@@ -33,7 +33,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
       zIndex={Z_INDEXES.header}
     >
       <Container
-        py={4}
+        py={2}
         maxW={1200}
         display="flex"
         justifyContent="space-between"
@@ -41,7 +41,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
       >
         <Flex justify="center" mr={8}>
           <Image
-            NativeImgProps={{ style: { height: 22, width: 120 } }}
+            NativeImgProps={{ style: { height: 60, width: 'auto' } }}
             src={LogoSrc}
             fallback={<Shimmer width={120} height={22} />}
             fadeIn
@@ -52,9 +52,9 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
           <NavLink />
         </Flex>
 
-        <Flex>
+        {/* <Flex>
           <ChangeLanguage />
-        </Flex>
+        </Flex> */}
 
         {account?.meta && (
           <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">

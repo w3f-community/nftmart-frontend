@@ -4,7 +4,7 @@ import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { bnToBn } from '@polkadot/util';
-import { identity } from 'ramda';
+import { omit } from 'ramda';
 
 import store from '../../stores/account';
 import {
@@ -24,6 +24,15 @@ const WebSocket = require('rpc-websockets').Client;
 const noop = () => null;
 
 let api: any = null;
+
+const ss58Format = 50;
+const keyring = new Keyring({ type: 'sr25519', ss58Format });
+
+const formatAddressByKeyring = (address: string) => {
+  const decodedAddress = keyring.encodeAddress(address).toString();
+  console.log(decodedAddress);
+  return decodedAddress;
+};
 
 // query gas needed
 const nftDeposit = async (metadata: any, quantity: any) => {
@@ -71,6 +80,65 @@ export const getBalance = async (address: string) => {
   return balance;
 };
 
+interface classMetadata {
+  name: string;
+  description: string;
+  url: string;
+  externalUrl: string;
+}
+
+const mapClassToCollection = async (clazz: any) => {
+  // FIXME: there some error in the backend, which miss { at the start of the string
+  const originalString = clazz.metadata.trim().startsWith('{')
+    ? clazz.metadata
+    : `{ ${clazz.metadata}`;
+  const metadata: classMetadata = JSON.parse(originalString);
+  const collection = omit(['data', 'metadata', 'classId', 'totalIssuance'], clazz);
+
+  return {
+    ...collection,
+    ...metadata,
+    classId: clazz.classId ?? clazz.classID,
+    id: clazz.classId ?? clazz.classID,
+    totalIssuance: Number(clazz.totalIssuance),
+  };
+};
+
+const filterUnparsableClass = (clazz: any) => {
+  try {
+    // FIXME: there some error in the backend, which miss { at the start of the string
+    const originalString = clazz.metadata.trim().startsWith('{')
+      ? clazz.metadata
+      : `{ ${clazz.metadata}`;
+    JSON.parse(originalString);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// get all classes
+export const getClasses = async () => {
+  // let classCount = 0
+  const allClasses = await api.query.ormlNft.classes.entries();
+  const data = await Promise.all(
+    allClasses.map(async (c: any) => {
+      let key = c[0];
+      const len = key.length;
+      key = key.buffer.slice(len - 4, len);
+      const classId = new Uint32Array(key)[0];
+      const clazz = c[1].toHuman();
+      clazz.classId = classId;
+      clazz.adminList = await api.query.proxy.proxies(clazz.owner);
+      clazz.adminList = clazz.adminList.map((admin: any) => admin.toHuman());
+      // classCount++;
+      return clazz;
+    }),
+  );
+  const result = data.filter(filterUnparsableClass).map(mapClassToCollection);
+  return Promise.all(result);
+};
+
 // get class by class id
 export const getClassById = async (id: string) => {
   const res = await api.query.ormlNft.classes(id); // todo metadata parse
@@ -86,11 +154,14 @@ export const getClassById = async (id: string) => {
 // get nfts by class and id
 export const getNft = async (classId: string, id: string) => {
   const res = await api.query.ormlNft.tokens(classId, id); // todo metadata parse
-  const nft = JSON.parse(res.unwrap());
-  nft.metadata = JSON.parse(hexToUtf8(nft.metadata));
-  nft.class = await getClassById(classId);
-  // console.log(nft);
-  return nft;
+  if (res.isSome) {
+    const nft = JSON.parse(res.unwrap());
+    nft.metadata = JSON.parse(hexToUtf8(nft.metadata));
+    nft.class = await getClassById(classId);
+    // console.log(nft);
+    return nft;
+  }
+  return null;
 };
 
 // get order by params
@@ -136,29 +207,23 @@ const getAllNftsByClassId = async (classId: number) => {
       arr.push(api.query.ormlNft.tokens(classId, i));
     }
     const res = await Promise.all(arr);
-    return res.map((n) => {
+    return res.map((n, idx) => {
       if (n.isEmpty) return null;
       const nft = n.toHuman();
       nft.classInfo = classInfo.toHuman();
+      nft.tokenId = idx;
       return nft;
     });
   }
   return [];
 };
 
-// const mapNFTStoAssetType = () => {
-
-//   .filter((nfts) => !!nfts?.length)
-//   .flat(1)
-//   // .flatMap((nft: { metadata: string }) => ({ ...nft, metadata: JSON.parse(nft.metadata) }))
-//   .filter(identity)
-// }
-
 const filterNonMetaNFT = (nft: null | any) => {
   if (!nft) return false;
 
   try {
-    JSON.parse(nft.metadata);
+    const originalString = nft.metadata.trim().startsWith('{') ? nft.metadata : `{ ${nft.metadata}`;
+    JSON.parse(originalString);
     return true;
   } catch {
     return false;
@@ -172,14 +237,21 @@ const getClassId = (c: any) => {
   return new Uint32Array(key)[0];
 };
 
-const mapNFTsToAsset = (NFTS: any[], cid: number) =>
-  NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
+const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
+  const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
+
+  return {
+    ...NFT,
+    ...JSON.parse(originalString),
+    classId: cid,
+    tokenId: tid,
+  };
+};
+const mapNFTsToAsset = (NFTS: any[], cid: number) => {
+  return NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
     .filter(filterNonMetaNFT)
-    .map((nft) => ({
-      ...nft,
-      ...JSON.parse(nft.metadata),
-      classId: cid,
-    }));
+    .map((n) => mapNFTToAsset(n, cid));
+};
 
 // get all nfts
 export const getAllNfts = async (classId?: number): Promise<Work[]> => {
@@ -193,7 +265,7 @@ export const getAllNfts = async (classId?: number): Promise<Work[]> => {
       }),
     );
     // flatten list of list by depth 1
-    return result.flat();
+    return result.flat() as Work[];
   }
   return mapNFTsToAsset(await getAllNftsByClassId(classId), classId);
 };
@@ -201,8 +273,6 @@ export const getAllNfts = async (classId?: number): Promise<Work[]> => {
 // get all orders
 export const getAllOrders = async () => {
   const allOrders = await api.query.nftmart.orders.entries();
-  const ss58Format = 50;
-  const keyring = new Keyring({ type: 'sr25519', ss58Format });
 
   const arr = allOrders.map(async (order: any) => {
     const key = order[0];
@@ -249,14 +319,13 @@ export const queryNftByAddress = async ({ address = '' }) => {
 
     let nft = await api.query.ormlNft.tokens(classId, tokenId);
     if (nft.isSome) {
-      nft = nft.unwrap();
-      return nft;
+      nft = nft.toHuman();
+      return mapNFTToAsset(nft, classId, tokenId);
     }
     return null;
   });
   const res = await Promise.all(arr);
-  console.log(res, 'nft by user');
-  return res;
+  return res.filter(filterNonMetaNFT);
 };
 
 // query users class
@@ -272,17 +341,21 @@ export const queryClassByAddress = async ({ address = '' }) => {
     clazz.metadata = hexToUtf8(clazz.metadata.slice(2));
     clazz.classId = classId;
     clazz.adminList = await api.query.proxy.proxies(clazz.owner);
+
     const res = clazz.adminList[0].map((admin: any) => {
-      if (admin.delegate.toString() === address) {
+      const adminAddress = admin.delegate.toString();
+      console.log('cl', clazz);
+      console.log('check admin list', adminAddress, address);
+
+      if (adminAddress === address) {
         return clazz;
       }
       return null;
     });
     return res.length > 0 ? res[0] : null;
   });
-  const res = await Promise.all(arr);
-  console.log(res, 'class by user');
-  return res;
+  const res = (await Promise.all(arr)).filter(filterUnparsableClass).map(mapClassToCollection);
+  return Promise.all(res);
 };
 
 // === post api ====
@@ -294,6 +367,7 @@ export const createClass = async ({
   metadata = CLASS_METADATA,
   cb = { success: noop, error: (err: any) => err },
 }) => {
+  console.log('create address', address);
   try {
     const injector = await web3FromAddress(address);
     const { name, description } = metadata;

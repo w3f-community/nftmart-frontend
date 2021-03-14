@@ -37,20 +37,24 @@ export const TYPES = {
     properties: 'Properties',
     name: 'Vec<u8>',
     description: 'Vec<u8>',
+    createBlock: 'Compact<BlockNumberOf>',
   },
 
   TokenId: 'u64',
   TokenIdOf: 'TokenId',
   TokenInfoOf: { metadata: 'NFTMetadata', owner: 'AccountId', data: 'TokenData' },
-  TokenData: { deposit: 'Compact<Balance>' },
+  TokenData: {
+    deposit: 'Compact<Balance>',
+    createBlock: 'Compact<BlockNumberOf>',
+  },
 };
 
 export const NAV_MAP: Record<string, string> = {
   'nav.home': '/',
   'nav.explore': '/explore?status=all',
   'nav.list-sale': '/explore?status=listing',
-  'nav.latest-create': '/explore?status=new',
-  'nav.latest-strike': '/explore?status=recent',
+  // 'nav.latest-create': '/explore?status=new',
+  // 'nav.latest-strike': '/explore?status=recent',
 };
 
 export const USER_LINKS: Record<string, string> = {
@@ -64,13 +68,13 @@ export const USER_LINKS: Record<string, string> = {
 export const DBURL = 'http://localhost:8888/graphql';
 export const IPFS_POST_SERVER = 'https://ipfs-api.bcdata.top'; // ipfs node
 export const IPFS_GET_SERVER = 'https://ipfs-web.bcdata.top/ipfs/'; // query with cid server
-// export const NODE_URL = 'wss://dot.bcdata.top/';
+export const NODE_URL = 'wss://dot.bcdata.top/';
 
 // test
 // export const DBURL = 'http://localhost:8888/graphql';
 // export const IPFS_POST_SERVER = 'http://59.110.115.146:5001'; // ipfs node
 // export const IPFS_GET_SERVER = 'http://59.110.115.146:8080/ipfs/'; // query with cid server
-export const NODE_URL = 'ws://8.136.111.191:9944';
+// export const NODE_URL = 'ws://8.136.111.191:9944';
 
 // 	 Token can be transferred
 // 	Transferable = 0b00000001

@@ -1,18 +1,12 @@
 import { pick } from 'ramda';
 import Rekv from 'rekv';
-import { Work } from '../types';
+import { Work, Collection } from '../types';
 
 export interface FilterTypes {
   status: number;
   categoryId: number;
   collectionId: number;
 }
-
-export type Collection = {
-  name: string;
-  id: number;
-};
-
 export interface AssetStore extends FilterTypes {
   assets: Work[];
   myAssets: Work[];
@@ -68,9 +62,8 @@ export const actions = {
       assets,
       filteredAssets: filterAssets(assets, takeFilterTypes(s)),
     }));
-    console.log('current state', store.currentState);
   },
-  selectAsset(asset: Work) {
+  selectAsset(asset: any) {
     store.setState({ selectedAsset: asset });
   },
   filterAssets(filterTypes: Partial<FilterTypes>) {

@@ -34,7 +34,7 @@ const schema = Yup.object().shape({
 });
 
 const formLabelLayout = {
-  width: '240px',
+  flex: '0 0 240px',
   height: '48px',
   htmlFor: 'name',
   fontSize: '14px',
@@ -142,7 +142,7 @@ const CreateCollection: FC = () => {
                                 {...field}
                               />
                             </Flex>
-                            <FormErrorMessage pl="188px">{form.errors.name}</FormErrorMessage>
+                            <FormErrorMessage pl="240px">{form.errors.name}</FormErrorMessage>
                           </FormControl>
                         );
                       }}
@@ -157,19 +157,31 @@ const CreateCollection: FC = () => {
                       }) => {
                         return (
                           <FormControl isInvalid={!!(form.errors.url && form.touched.url)}>
-                            <Flex align="center">
-                              <FormLabel {...formLabelLayout} htmlFor="url">
+                            <Flex>
+                              <FormLabel
+                                {...formLabelLayout}
+                                p="10px 0"
+                                lineHeight="auto"
+                                height="auto"
+                              >
                                 {t('create.img')}
                               </FormLabel>
-                              <Upload
-                                id="url"
-                                {...field}
-                                onChange={(v) => {
-                                  props.setFieldValue('url', v);
-                                }}
-                              />
+                              <FormLabel
+                                mb="0"
+                                flexGrow={1}
+                                htmlFor="url"
+                                borderBottom="1px solid #F3F4F8"
+                              >
+                                <Upload
+                                  id="url"
+                                  {...field}
+                                  onChange={(v) => {
+                                    props.setFieldValue('url', v);
+                                  }}
+                                />
+                              </FormLabel>
                             </Flex>
-                            <FormErrorMessage pl="188px">{form.errors.url}</FormErrorMessage>
+                            <FormErrorMessage pl="240px">{form.errors.url}</FormErrorMessage>
                           </FormControl>
                         );
                       }}
@@ -195,7 +207,7 @@ const CreateCollection: FC = () => {
                                 {...formInputLayout}
                               />
                             </Flex>
-                            <FormErrorMessage pl="188px">{form.errors.url}</FormErrorMessage>
+                            <FormErrorMessage pl="240px">{form.errors.url}</FormErrorMessage>
                           </FormControl>
                         );
                       }}
@@ -223,7 +235,7 @@ const CreateCollection: FC = () => {
                                 {...field}
                               />
                             </Flex>
-                            <FormErrorMessage pl="188px">
+                            <FormErrorMessage pl="240px">
                               {form.errors.externalUrl}
                             </FormErrorMessage>
                           </FormControl>
@@ -250,11 +262,12 @@ const CreateCollection: FC = () => {
                               id="description"
                               placeholder={t('create.intro.placeholder')}
                               height="96px"
+                              resize="none"
                               {...formInputLayout}
                               {...field}
                             />
                           </Flex>
-                          <FormErrorMessage pl="188px">{form.errors.description}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.description}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>

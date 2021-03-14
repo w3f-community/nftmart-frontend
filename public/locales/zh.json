@@ -28,7 +28,7 @@
   "login": "登录",
   "download": "下载",
 
-  "component.collection.title": "作品集",
+  "component.collection.title": "作品名称",
   "component.collection.price": "价格",
 
   "form.collection": "集合",
@@ -38,6 +38,7 @@
 
   "type.all": "全部",
   "type.arts": "数字艺术品",
+  "type.digital": "数字艺术品",
   "type.virtual": "虚拟世界",
   "type.sport": "运动",
   "type.collection": "收藏品",

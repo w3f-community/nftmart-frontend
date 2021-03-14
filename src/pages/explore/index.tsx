@@ -6,8 +6,9 @@ import { useTranslation } from 'react-i18next';
 import SideFilter from './SideFilter';
 import MainList from './MainList';
 import Layout from '../../layouts/common';
-import store, { actions } from '../../stores/assets';
+import store, { actions as assetsActions } from '../../stores/assets';
 import { GetCollections, GetItems } from '../../api/graph';
+import { useCollectionsQuery, useAssetsQuery } from '../../api/query';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
 import Empty from '../../components/empty';
@@ -32,29 +33,39 @@ const Explore = () => {
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
-  const {
-    data: collectionsResponse,
-    loading: collectionsLoading,
-    error: collectionsError,
-  } = GetCollections();
+  // const {
+  //   data: collectionsResponse,
+  //   // loading: collectionsLoading,
+  //   // error: collectionsError,
+  // } = GetCollections();
+
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
-  const [pageNumber, setPageNumber] = useState(1);
+  // const [pageNumber, setPageNumber] = useState(1);
 
-  const collectionsData = collectionsResponse?.collections?.collections;
+  // const collectionsData = collectionsResponse?.collections?.collections;
 
-  const { data: assetsResponse, loading: itemsLoading, fetchMore } = GetItems({
-    status: selectedStatus,
-    collectionId: selectedCollectionId,
-    categoryId: selectedCategoryId,
-  });
+  // const { data: assetsResponse, loading: itemsLoading } = GetItems({
+  //   status: selectedStatus,
+  //   collectionId: selectedCollectionId,
+  //   categoryId: selectedCategoryId,
+  // });
+
+  const { data: assetsData, isLoading: itemsLoading } = useAssetsQuery();
+
+  const {
+    data: collectionsQueryData,
+    isLoading: collectionsLoading,
+    error: collectionsError,
+  } = useCollectionsQuery();
 
   const { filteredAssets, filteredCollections } = store.useState(
     'filteredAssets',
     'filteredCollections',
   );
 
+  // ----- Effects
   // Update status
   useEffect(() => {
     setSelectedStatus(statusQueryValue);
@@ -63,40 +74,64 @@ const Explore = () => {
     };
   }, [statusQueryValue]);
 
-  // Update collections when data fetched
+  // Update filters
   useEffect(() => {
-    if (Array.isArray(collectionsData)) {
-      // Update store
-      actions.setCollections(collectionsData);
-      // Update default selectedCollectionId
-      if (!selectedCollectionId && collectionsData.length) {
-        setSelectedCollectionId(collectionsData[0].id);
-      }
+    assetsActions.filterAssets({
+      collectionId: selectedCollectionId,
+      categoryId: selectedCategoryId,
+      status: selectedStatus,
+    });
+
+    return () => {
+      // cleanup;
+    };
+  }, [selectedCategoryId, selectedStatus, selectedCollectionId]);
+
+  // Update collections when data fetched
+  // useEffect(() => {
+  //   if (Array.isArray(collectionsData)) {
+  //     // Update store
+  //     actions.setCollections(collectionsData);
+  //     // Update default selectedCollectionId
+  //     if (!selectedCollectionId && collectionsData.length) {
+  //       setSelectedCollectionId(collectionsData[0].id);
+  //     }
+  //   }
+
+  //   return () => {
+  //     //
+  //   };
+  // }, [collectionsResponse]);
+
+  useEffect(() => {
+    if (Array.isArray(collectionsQueryData) && collectionsQueryData.length) {
+      assetsActions.setCollections(collectionsQueryData);
     }
 
     return () => {
-      //
+      // cleanup
     };
-  }, [collectionsResponse]);
+  }, [collectionsQueryData]);
 
   // Update assets by collectionId when data fetched
   useEffect(() => {
-    const data = assetsResponse?.assets?.assets;
+    // const data = assetsResponse?.assets?.assets;
+    const data = assetsData;
     if (Array.isArray(data)) {
-      actions.setAssets(data);
+      assetsActions.setAssets(data);
     }
 
     return () => {
       //
     };
-  }, [assetsResponse]);
+  }, [assetsData]);
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);
   };
 
   const handleSearch = debounce((value: string) => {
-    actions.filterCollectionsByName(value);
+    assetsActions.filterCollectionsByName(value);
   }, 233);
 
   const handleStatusChange = (status: number) => {
@@ -123,14 +158,14 @@ const Explore = () => {
             singleStatus
           />
           {/* TODO: sorting event */}
-          {!!collectionsData?.length && (
+          {!!collectionsQueryData?.length && (
             <MainList
               data={filteredAssets}
               onTypeChange={handleTypeChange}
               loading={itemsLoading}
             />
           )}
-          {!collectionsData?.length && (
+          {!collectionsQueryData?.length && (
             <Center height="444px" flex={1}>
               <Empty description={t('list.empty')} />
             </Center>

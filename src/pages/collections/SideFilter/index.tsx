@@ -17,7 +17,7 @@ import { IoMdAddCircleOutline } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
 
 import colors from '../../../themes/colors';
-import { Collection } from '../../../stores/assets';
+import { Collection } from '../../../types';
 import Empty from '../../../components/empty';
 import { useQuery } from '../../../utils/hook';
 
@@ -35,6 +35,7 @@ const QUERY_MAP: Record<string, string> = {
   recent: 'nav.latest-strike',
 };
 
+const DEFUALT_COLLECTION_ID = -1;
 export interface SideFilterProps {
   data: Collection[];
   header?: string;
@@ -189,9 +190,10 @@ const SideFilter: FC<SideFilterProps> = ({
               <RadioGroup
                 onChange={handleSelectCollection}
                 value={selectedCollectionId}
-                defaultValue={data[0].id}
+                defaultValue={DEFUALT_COLLECTION_ID}
               >
                 <Stack>
+                  <Radio value={DEFUALT_COLLECTION_ID}>{t('nav.explore.all')}</Radio>
                   {data.map(({ id, name }) => (
                     <Radio value={id} kye={id} checked={id === selectedCollectionId}>
                       {name}

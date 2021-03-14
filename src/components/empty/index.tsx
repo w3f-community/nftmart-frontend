@@ -3,14 +3,16 @@ import { Box, Center, Text } from '@chakra-ui/react';
 import Image, { Shimmer } from 'react-shimmer';
 import colors from '../../themes/colors';
 
+import img from '../../assets/empty.png';
+
 export interface EmptyProps {
   image?: React.ReactNode;
   description?: string;
 }
 
-const DefaultImage = <Box height={233} width={188} backgroundColor={colors.divider.dark}></Box>;
+// const DefaultImage = <Box height={233} width={188} backgroundColor={colors.divider.dark} ></Box>;
 
-const Empty: FC<EmptyProps> = ({ image = DefaultImage, description }) => {
+const Empty: FC<EmptyProps> = ({ image = img, description }) => {
   const imageNode =
     typeof image === 'string' ? (
       <Image src={image} fallback={<Shimmer width={300} height={400} />} />
