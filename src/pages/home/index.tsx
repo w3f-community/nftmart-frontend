@@ -223,7 +223,7 @@ const Page = () => {
       <button onClick={() => updateOrder()}>updateOrderPrice</button>|
       <button onClick={() => delOrder()}>deleteOrder</button>|
       <br />
-      <button onClick={() => queryClassByAddress({ address: account.address })}>
+      <button onClick={() => queryClassByAddress({ address: 'account.address' })}>
         queryClassByAddress
       </button>
       |

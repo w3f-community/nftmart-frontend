@@ -43,7 +43,6 @@
   "type.virtual": "Virtual",
   "type.sport": "Sport",
   "type.collection": "Collection",
-  "type.digital": "Digital",
   "type.others": "Other",
 
   "home.new-list": "New List",
@@ -63,7 +62,7 @@
   "detail.purchase": "Buy",
   "detail.title.intro": "Intro",
   "detail.title.metadata": "Metadata",
-  "detail.title.about": "About",
+  "detail.title.class": "Collection info",
   "detail.title.price": "Price History",
   "detail.title.event": "Event History",
 
@@ -79,6 +78,12 @@
   "detail.event.source": "Source",
   "detail.event.target": "Target",
   "detail.event.date": "Date",
+
+  "detail.alert.list": "Listing at",
+
+  "detail.cancel": "Cancel Order",
+  "detail.cancel.success": "Order cancel success...",
+  "detail.purchase.success": "Order cancel success...",
 
   "footer.aboutus.title": "About Us",
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
@@ -127,5 +132,8 @@
   "sales-setting.title": "Sale Setup",
   "sales-setting.confirm": "Confirm",
   "sales-setting.onsale": "On Sale",
-  "sales-setting.destory": "Destory"
+  "sales-setting.destory": "Destory",
+
+  "order.coming.soon": "Order stats coming soon",
+  "event.coming.soon": "Events history coming soon"
 }

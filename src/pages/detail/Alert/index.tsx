@@ -2,12 +2,15 @@ import React, { FC } from 'react';
 import { Box, Stack, Text, Button, Container, Center, BoxProps } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import colors from '../../../themes/colors';
+// import { t } from '../../../i18n';
 
 export interface AlertProps extends BoxProps {
   onSetting: () => void;
+  order: any;
+  categories: string[];
 }
 
-const Alert: FC<AlertProps> = ({ onSetting, ...boxProps }) => {
+const Alert: FC<AlertProps> = ({ onSetting, order, categories, ...boxProps }) => {
   const { t } = useTranslation();
 
   return (
@@ -17,17 +20,17 @@ const Alert: FC<AlertProps> = ({ onSetting, ...boxProps }) => {
           <Center>
             <Box>
               <Text display="inline" color={colors.text.gray}>
-                {t('sales-setting.onsale')}
+                {t('detail.alert.list')}
               </Text>{' '}
               <Text as="span" color={colors.primary}>
-                {t('type.arts')} {t('type.sport')}
+                {t(categories[order.categoryId])}
               </Text>
             </Box>
           </Center>
-          <Button variant="default">{t('destory')}</Button>
-          <Button variant="primary" onClick={onSetting}>
-            {t('sales-setting.title')}
-          </Button>
+          {/* <Button variant="default">销毁</Button> */}
+          {/* <Button variant="primary" onClick={onSetting}>
+            {t(categories[order.categoryId])}
+          </Button> */}
         </Stack>
       </Container>
     </Box>

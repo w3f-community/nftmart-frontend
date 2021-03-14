@@ -20,7 +20,10 @@ interface Props {
 const provider = ({ children }: Props) => {
   // init polkadot api
   const queryCategories = async () => {
-    const categories = await getCategories();
+    let categories = await getCategories();
+    categories = categories.map((cat: any) => {
+      return cat.metadata.name;
+    });
     store.setState({ categories });
   };
   initPolkadotApi(queryCategories);

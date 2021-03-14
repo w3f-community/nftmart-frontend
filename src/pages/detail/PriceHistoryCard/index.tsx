@@ -14,7 +14,7 @@ const PriceHistoryCard = () => {
     <Card title={t('detail.title.price')}>
       <Stack spacing={4}>
         <Stack direction="row" spacing={4}>
-          <NSelect
+          {/* <NSelect
             options={[
               { title: '最近7天', value: 7 },
               { title: '最近30天', value: 30 },
@@ -34,7 +34,8 @@ const PriceHistoryCard = () => {
             <Heading as="h4" size="md">
               187,123
             </Heading>
-          </Flex>
+          </Flex> */}
+          <Flex>{t('order.coming.soon')}</Flex>
         </Stack>
 
         <PriceHistoryChart />

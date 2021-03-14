@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Center, Spinner } from '@chakra-ui/react';
+import { Box, Center, OrderedList, Spinner, useToast } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
+import { globalStore } from 'rekv';
 
 import store, { actions } from '../../stores/assets';
+import cateStore from '../../stores/categories';
 
 import Alert from './Alert';
 
@@ -16,21 +18,26 @@ import DetailContainer from './DetailContainer';
 import ImageCard from './ImageCard';
 import IntroCard from './IntroCard';
 import MetaCard from './MetaCard';
-import AboutCard from './AboutCard';
+import ClassInfo from './AboutCard';
 
 import PurchaseModal from './PurchaseModal';
 import SalesSettingModal from './SalesSettingModal';
 
 import { GetCollections, GetItems } from '../../api/graph';
+import { getNft, getOrder, deleteOrder, takeOrder } from '../../api/polka';
 import { toFixedDecimals } from '../../utils';
 import { IPFS_GET_SERVER } from '../../constants';
 
 const Detail: FC = () => {
   const { t } = useTranslation();
+  const toast = useToast();
 
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ classId: string; tokenId: string }>();
+  const { classId, tokenId } = params;
+  const { account } = globalStore.useState('account');
 
-  const { data: assetsResponse } = GetItems({ id: Number(params?.id) ?? -1, pageSize: 1 });
+  const { categories } = cateStore.useState('categories');
+  // const { data: assetsResponse } = GetItems({ id: Number(params?.token) ?? -1, pageSize: 1 });
 
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [settingOpen, setSettingOpen] = useState(false);
@@ -38,29 +45,39 @@ const Detail: FC = () => {
 
   const { selectedAsset } = store.useState('selectedAsset');
 
-  const { data: collectionsResponse } = GetCollections({
-    id: selectedAsset?.classId,
-    pageSize: 1,
-  });
+  // const { data: collectionsResponse } = GetCollections({
+  //   id: selectedAsset?.classId,
+  //   pageSize: 1,
+  // });
+
+  // useEffect(() => {
+  //   const assets = assetsResponse?.assets?.assets ?? [];
+  //   if (!selectedAsset && assets[0]) {
+  //     actions.selectAsset(assets[0]);
+  //   }
+
+  //   return () => {
+  //     //
+  //   };
+  // }, [assetsResponse]);
+
+  // useEffect(() => {
+  //   const collections = collectionsResponse?.collections?.collections ?? [];
+  //   if (!categoryName && collections[0]) {
+  //     setCategoryName(collections[0].name);
+  //   }
+  // }, [collectionsResponse]);
+  const fetchData = async (cid = '', tid = '') => {
+    if (+cid < 0 || +tid < 0) return;
+    const res = await getNft(cid, tid);
+    const order = await getOrder(cid, tid, res.owner);
+    res.order = order;
+    actions.selectAsset(res);
+  };
 
   useEffect(() => {
-    const assets = assetsResponse?.assets?.assets ?? [];
-    if (!selectedAsset && assets[0]) {
-      actions.selectAsset(assets[0]);
-    }
-
-    return () => {
-      //
-    };
-  }, [assetsResponse]);
-
-  useEffect(() => {
-    const collections = collectionsResponse?.collections?.collections ?? [];
-    if (!categoryName && collections[0]) {
-      setCategoryName(collections[0].name);
-    }
-  }, [collectionsResponse]);
-
+    fetchData(classId, tokenId);
+  }, [classId, tokenId]);
   if (!selectedAsset) {
     return (
       <Box height="100vh" width="100vw">
@@ -76,8 +93,73 @@ const Detail: FC = () => {
     setPurchaseOpen(false);
   };
 
-  const handlePurchaseConfirm = () => {
-    //
+  const handleCancelOrder = () => {
+    const deleParams = {
+      address: account.address,
+      ownerAddress: selectedAsset.owner,
+      classId,
+      tokenId,
+      cb: {
+        success: () => {
+          toast({
+            title: 'success',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            description: t('detail.cancel.success'),
+          });
+          fetchData();
+        },
+        error: (error: string) => {
+          toast({
+            title: 'success',
+            status: 'error',
+            position: 'top',
+            duration: 3000,
+            description: error,
+          });
+        },
+      },
+    };
+    deleteOrder(deleParams);
+  };
+
+  const handlePurchaseConfirm = (setLoading: any) => {
+    setLoading(true);
+    const price = selectedAsset.order.price.split(' ');
+    const purchaseParams = {
+      address: account.address,
+      ownerAddress: selectedAsset.owner,
+      classId,
+      tokenId,
+      price: price[0],
+      cb: {
+        success: () => {
+          toast({
+            title: 'success',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            description: t('detail.purchase.success'),
+          });
+          fetchData();
+          setLoading(false);
+          setPurchaseOpen(false);
+        },
+        error: (error: string) => {
+          toast({
+            title: 'success',
+            status: 'error',
+            position: 'top',
+            duration: 3000,
+            description: error,
+          });
+          setLoading(false);
+        },
+      },
+    };
+    console.log(purchaseParams);
+    takeOrder(purchaseParams);
   };
 
   const handleSettingClose = () => {
@@ -91,39 +173,67 @@ const Detail: FC = () => {
   const handleDestroy = () => {
     //
   };
+  let price = '';
+  if (selectedAsset.order) {
+    price =
+      typeof selectedAsset.order.price === 'number'
+        ? toFixedDecimals(selectedAsset.order.price, 8)
+        : selectedAsset.order.price ?? '';
+  }
 
   return (
     <Box>
       <Helmet title={t('title.detail', { name: selectedAsset.name })} />
-      <Alert
-        marginTop="77px"
-        // onDestroy={handleDestroy}
-        onSetting={() => setSettingOpen(true)}
-      />
+      {selectedAsset.order ? (
+        <Alert
+          order={selectedAsset.order}
+          categories={categories}
+          marginTop="77px"
+          // onDestroy={handleDestroy}
+          onSetting={() => setSettingOpen(true)}
+        />
+      ) : (
+        <Box h="40px" />
+      )}
 
       <DetailContainer
         left={
           <>
-            <ImageCard src={`${IPFS_GET_SERVER}${selectedAsset.url}` ?? 'image placeholder'} />
+            {selectedAsset.metadata && (
+              <ImageCard
+                src={`${IPFS_GET_SERVER}${selectedAsset.metadata.url}` ?? 'image placeholder'}
+              />
+            )}
+            {selectedAsset.metadata && (
+              <IntroCard
+                description={selectedAsset.metadata.description ?? t('detail.no-description')}
+              />
+            )}
+            <MetaCard
+              metadata={JSON.stringify(selectedAsset.metadata) ?? t('detail.no-metadata')}
+            />
+            {selectedAsset.class && selectedAsset.class.metadata && (
+              <ClassInfo about={selectedAsset.class ?? t('detail.no-about')} />
+            )}
           </>
         }
         right={
           <>
             <PurchaseCard
               category={categoryName}
-              name={selectedAsset.name}
-              price={
-                typeof selectedAsset.price === 'number'
-                  ? toFixedDecimals(selectedAsset.price, 8)
-                  : selectedAsset.price ?? ''
-              }
+              name={selectedAsset.metadata.name}
+              price={price}
               onPurchase={() => setPurchaseOpen(true)}
+              order={selectedAsset.order}
+              onSetting={() => setSettingOpen(true)}
+              onCancel={handleCancelOrder}
+              isOwner={selectedAsset.owner === account.address}
             />
             <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
-            <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
-            <AboutCard about={undefined ?? t('detail.no-about')} />
-            {/* <PriceHistoryCard />
-            <HistoryEventCard /> */}
+            {/* <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
+            <ClassInfo about={selectedAsset.class ?? t('detail.no-about')} /> */}
+            <PriceHistoryCard />
+            <HistoryEventCard />
           </>
         }
       />
@@ -141,6 +251,9 @@ const Detail: FC = () => {
         open={settingOpen}
         onClose={handleSettingClose}
         onConfirm={handleSettingConfirm}
+        categories={categories}
+        classId={classId}
+        tokenId={tokenId}
       />
     </Box>
   );

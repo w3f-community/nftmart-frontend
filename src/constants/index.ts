@@ -64,17 +64,22 @@ export const USER_LINKS: Record<string, string> = {
   // 'quick-area.profile.edit': '/profile',
 };
 
-// TODO: Change to env variables
+// online
 export const DBURL = 'http://localhost:8888/graphql';
-export const IPFS_POST_SERVER = 'http://59.110.115.146:5001'; // ipfs node
-export const IPFS_GET_SERVER = 'http://59.110.115.146:8080/ipfs/'; // query with cid server
-export const NODE_URL = 'ws://8.136.111.191:9944';
+export const IPFS_POST_SERVER = 'https://ipfs-api.bcdata.top'; // ipfs node
+export const IPFS_GET_SERVER = 'https://ipfs-web.bcdata.top/ipfs/'; // query with cid server
+export const NODE_URL = 'wss://dot.bcdata.top/';
+
+// test
+// export const DBURL = 'http://localhost:8888/graphql';
+// export const IPFS_POST_SERVER = 'http://59.110.115.146:5001'; // ipfs node
+// export const IPFS_GET_SERVER = 'http://59.110.115.146:8080/ipfs/'; // query with cid server
+// export const NODE_URL = 'ws://8.136.111.191:9944';
 
 // 	 Token can be transferred
 // 	Transferable = 0b00000001
 // 	 Token can be burned
 // 	Burnable = 0b00000010
-
 export const TOKEN_TRANSFERABLE_BURNABLE = 0b00000011;
 
 // class metadata
