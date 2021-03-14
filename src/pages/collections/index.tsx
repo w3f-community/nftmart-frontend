@@ -8,10 +8,10 @@ import SideFilter from './SideFilter';
 import MainList from './MainList';
 import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
-import { GetItems, GetMyCollections } from '../../api/graph';
 import { useMyCollectionsQuery, useMyAssetsQuery } from '../../api/query';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
+import { Collection } from '../../types';
 import Empty from '../../components/empty';
 
 // TODO
@@ -42,6 +42,7 @@ const MyCollections = () => {
   //   error: collectionsError,
   // } = useCollectionsQuery();
 
+  const [selectedCollection, setSelectedCollection] = useState<Collection>();
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
@@ -75,6 +76,7 @@ const MyCollections = () => {
       // Update default selectedCollectionId
       if (!selectedCollectionId) {
         setSelectedCollectionId(collectionsData[0].id);
+        setSelectedCollection(collectionsData[0]);
       }
     }
 
@@ -107,6 +109,8 @@ const MyCollections = () => {
   }, [selectedCategoryId, selectedCollectionId, selectedStatus]);
 
   const handleSelectCollection = (collectionId: number) => {
+    const collection = filteredCollections.find(({ id }) => id === collectionId);
+    setSelectedCollection(collection);
     setSelectedCollectionId(collectionId);
   };
 
@@ -151,6 +155,8 @@ const MyCollections = () => {
           {/* TODO: sorting event */}
           {!!collectionsData?.length && (
             <MainList
+              title={selectedCollection?.name}
+              description={selectedCollection?.description}
               data={filteredAssets}
               onTypeChange={handleTypeChange}
               loading={itemsLoading}

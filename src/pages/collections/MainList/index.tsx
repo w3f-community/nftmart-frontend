@@ -1,5 +1,15 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { Box, Center, Flex, Heading, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Divider,
+  Flex,
+  Heading,
+  SimpleGrid,
+  Spinner,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { IoMdAddCircle } from 'react-icons/io';
 
@@ -118,9 +128,18 @@ export interface MainListProps {
   loading?: boolean;
   onTypeChange: (type: number) => void;
   onCreateAsset: () => void;
+  title?: string;
+  description?: string;
 }
 
-const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsset }) => {
+const MainList: FC<MainListProps> = ({
+  title,
+  description,
+  data,
+  loading,
+  onTypeChange,
+  onCreateAsset,
+}) => {
   const { t } = useTranslation();
   const [count, setCount] = useState<number>(0);
 
@@ -138,9 +157,20 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange, onCreateAsse
     //
   };
 
+  const headerNode = title && (
+    <Box marginLeft="16px" paddingBottom={4}>
+      <Stack diretion="column">
+        <Heading>{title}</Heading>
+        <Text color={colors.text.gray}>{description}</Text>
+      </Stack>
+    </Box>
+  );
+
   return (
     <Box flex={1}>
-      <TypeFilters onChange={handleFilterChange} />
+      {/* <TypeFilters onChange={handleFilterChange} /> */}
+      {headerNode}
+      {title && <Divider marginLeft="16px" />}
 
       {loading && (
         <Center height="100%">
