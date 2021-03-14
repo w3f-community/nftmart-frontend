@@ -28,3 +28,9 @@ export interface Order {
   owner: string;
   categoryId: number;
 }
+
+export interface Collection {
+  name: string;
+  id: number;
+  classId: number;
+}

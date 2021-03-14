@@ -20,7 +20,7 @@ import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
 import { mintNft } from '../../api/polka';
-import { useCollectionsQuery } from '../../api/query';
+import { useMyCollectionsQuery } from '../../api/query';
 
 const formLableLayout = {
   width: '240px',
@@ -43,9 +43,9 @@ const formInputLayout = {
 
 const CreateCollection = () => {
   const { t } = useTranslation();
-  const { data: classes } = useCollectionsQuery();
   const toast = useToast();
   const { account } = globalStore.useState('account');
+  const { data: classes } = useMyCollectionsQuery(account.address);
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
     mintNft({ address: account.address, metadata: { ...others }, classId: 0, cb });
