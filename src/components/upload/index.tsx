@@ -3,6 +3,7 @@ import { Input, Image, Spinner, Box, Text } from '@chakra-ui/react';
 import { IPFS_POST_SERVER, IPFS_GET_SERVER } from '../../constants';
 
 import { t } from '../../i18n';
+import colors from '../../themes/colors';
 
 const ipfsClient = require('ipfs-http-client');
 
@@ -55,7 +56,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
       {value ? (
         <Image w="350px" h="350px" m="16px 0" src={`${IPFS_GET_SERVER}/${value}`} />
       ) : (
-        <Text fontSize="14px" lineHeight="47px" cursor="pointer" textAlign="center">
+        <Text fontSize="14px" lineHeight="47px" cursor="pointer" color={colors.success}>
           {t('create.upload')}
         </Text>
       )}
