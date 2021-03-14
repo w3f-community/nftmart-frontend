@@ -105,7 +105,6 @@ const Detail: FC = () => {
         left={
           <>
             <ImageCard src={`${IPFS_GET_SERVER}${selectedAsset.url}` ?? 'image placeholder'} />
-            <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
           </>
         }
         right={
@@ -120,6 +119,7 @@ const Detail: FC = () => {
               }
               onPurchase={() => setPurchaseOpen(true)}
             />
+            <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
             <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
             <AboutCard about={undefined ?? t('detail.no-about')} />
             {/* <PriceHistoryCard />

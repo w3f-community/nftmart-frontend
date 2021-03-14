@@ -73,9 +73,9 @@ const MyCollections = () => {
       // Update store
       actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      // if (!selectedCollectionId) {
-      //   setSelectedCollectionId(collectionsData[0].id);
-      // }
+      if (!selectedCollectionId) {
+        setSelectedCollectionId(collectionsData[0].id);
+      }
     }
 
     return () => {
