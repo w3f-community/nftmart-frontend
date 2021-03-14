@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   forwardRef,
   ChakraProps,
@@ -47,7 +47,7 @@ const Collection = (props: CollectionProps) => {
   const { classId, tokenId: id, name, price, isSet = false, url } = props;
   const history = useHistory();
 
-  const picUrl = `${IPFS_GET_SERVER}${url}`;
+  const picUrl = useMemo(() => `${IPFS_GET_SERVER}${url}`, []);
 
   const dispense = () => {
     actions.selectAsset(omit(['isSet'], props as Work));

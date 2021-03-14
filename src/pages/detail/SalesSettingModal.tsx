@@ -26,13 +26,12 @@ import {
 import { Field, FieldProps, Form, Formik } from 'formik';
 import * as yup from 'yup';
 import { globalStore } from 'rekv';
+import { useTranslation } from 'react-i18next';
 
 import NFormControl from '../../components/formControl';
 import colors from '../../themes/colors';
 import NSelect from '../../components/nSelect';
 import { createOrder } from '../../api/polka';
-
-import { t } from '../../i18n';
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
   <Alert status="error" color="white" backgroundColor={colors.failure}>
@@ -43,7 +42,7 @@ const ErrorMessage: FC<{ message: string }> = ({ message }) => (
 
 export interface SalesSettingModalProps {
   open: boolean;
-  onConfirm: () => void;
+  onAfterConfirm: (success: boolean) => void;
   onClose: () => void;
   categories: string[];
   classId: string;
@@ -52,7 +51,14 @@ export interface SalesSettingModalProps {
 
 // TODO: Translation messages
 const SalesSettingSchema = yup.object().shape({
-  price: yup.number().moreThan(1, 'number should more than 1 MFT').required('price is required'),
+  price: yup
+    .number()
+    .moreThan(
+      1,
+      // 'number should more than 1 MFT'
+    )
+    // 'price is required'
+    .required(),
   // expiration: yup.number(),
   category: yup.number().required(),
   pledge: yup.number().moreThan(200).required(),
@@ -61,15 +67,18 @@ const SalesSettingSchema = yup.object().shape({
 const SalesSettingModal: FC<SalesSettingModalProps> = ({
   open,
   onClose,
+  onAfterConfirm: onConfirm,
   categories = null,
   classId,
   tokenId,
 }) => {
   const [expirationOpen, setExpirationOpen] = useState(false);
+  const { t } = useTranslation();
   const { account } = globalStore.useState('account');
   const toast = useToast();
 
-  const handleSubmit = (values, actions) => {
+  // FIXME: Add types
+  const handleSubmit = (values: any, actions: any) => {
     const orderParams = {
       address: account.address,
       categoryId: values.category,
@@ -88,6 +97,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
           actions.setSubmitting(false);
           actions.resetForm();
           onClose();
+          onConfirm(true);
         },
         error: (error: string) => {
           toast({
@@ -99,11 +109,12 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
           });
           actions.setSubmitting(false);
           onClose();
+          onConfirm(false);
         },
       },
     };
-    console.log(orderParams);
-    createOrder(orderParams);
+    // TODO: update types
+    createOrder(orderParams as any);
   };
 
   return (
@@ -112,7 +123,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
       <ModalContent>
         <ModalHeader>
           <Heading as="h3" size="md">
-            detail.modal.sales-setting.title
+            {t('detail.modal.sales-setting.title')}
           </Heading>
         </ModalHeader>
         <ModalCloseButton />
@@ -143,8 +154,8 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
                       {({ field }: FieldProps) => (
                         <NFormControl
                           name="price"
-                          title="price"
-                          subtitle="price.subtitle"
+                          title={t('detail.modal.sales-setting.price')}
+                          subtitle={t('detail.modal.sales-setting.price.subtitle')}
                           // isInvalid={}
                         >
                           <InputGroup size="sm">
@@ -201,15 +212,19 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
                       {({ field, form }: FieldProps) => (
                         <NFormControl
                           name="category"
-                          title="category"
-                          subtitle="category.subtitle"
+                          title={t('detail.modal.sales-setting.category')}
+                          subtitle={t('detail.modal.sales-setting.category.subtitle')}
                           direction="vertical"
                         >
                           <RadioGroup
                             color={colors.text.gray}
-                            {...field}
+                            // {...field}
                             // value={field.value}
-                            onChange={(value) => form.setFieldValue('category', Number(value))}
+                            // Chakra treat value as string actually
+                            onChange={(value: string) => {
+                              const [_, id] = value.split(':');
+                              form.setFieldValue('category', Number(id));
+                            }}
                           >
                             <Stack direction="row" spacing={6}>
                               {/* <Radio value={1}>Hashmasks</Radio>
@@ -218,9 +233,14 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
                               <Radio value={4}>Raible</Radio> */}
                               {categories &&
                                 categories.map((cat, idx) => {
+                                  const isSelected = field.value === idx;
                                   return (
-                                    <Radio key={cat} value={idx}>
-                                      {t(cat)}
+                                    <Radio
+                                      key={cat}
+                                      value={`id:${idx}`}
+                                      isChecked={field.value === idx}
+                                    >
+                                      {t(`type.${cat}`)}
                                     </Radio>
                                   );
                                 })}
@@ -232,10 +252,18 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
 
                     <Field name="pledge">
                       {({ field }: FieldProps) => (
-                        <NFormControl title="pledge" subtitle="pledge.subtitle">
-                          <InputGroup size="sm">
+                        <NFormControl
+                          title={t('detail.modal.sales-setting.pledge')}
+                          subtitle={t('detail.modal.sales-setting.pledge.subtitle')}
+                        >
+                          <InputGroup size="sm" marginLeft={4}>
                             <Input {...field} type="number" height="auto" value={values.pledge} />
-                            <InputRightAddon children="suffix" height="auto" />
+                            <InputRightAddon
+                              color={colors.text.gray}
+                              userSelect="none"
+                              children="NMT"
+                              height="auto"
+                            />
                           </InputGroup>
                         </NFormControl>
                       )}

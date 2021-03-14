@@ -12,6 +12,7 @@ export interface InnerCardProps {
   order: any;
   onSetting: () => void;
   isOwner: boolean;
+  cancelLoading: boolean;
 }
 
 const InnerCard: FC<InnerCardProps> = ({
@@ -21,6 +22,7 @@ const InnerCard: FC<InnerCardProps> = ({
   order = null,
   onSetting,
   isOwner,
+  cancelLoading,
 }) => {
   const { t } = useTranslation();
 
@@ -49,6 +51,9 @@ const InnerCard: FC<InnerCardProps> = ({
                   height="50px"
                   float="right"
                   onClick={onCancel}
+                  isLoading={cancelLoading}
+                  // TODO: add translation
+                  loadingText="Canceling"
                 >
                   {t('detail.cancel')}
                 </Button>
@@ -74,11 +79,11 @@ const InnerCard: FC<InnerCardProps> = ({
       backgroundColor="#f9f8fd"
       noHeadBorder
     >
-      {order && (
-        <Box marginTop="-1rem">
-          <Heading display="inline">{price}</Heading> <Text display="inline">NMT</Text>
-        </Box>
-      )}
+      <Box marginTop="-1rem">
+        <Heading display="inline">{order ? price : 'No listed yet'}</Heading>{' '}
+        {/* TODO: price formatting */}
+        {order && <Text display="inline">{(price as string).includes('NMT') ? '' : 'NMT'}</Text>}
+      </Box>
     </Card>
   );
 };
@@ -92,6 +97,7 @@ export interface PurchaseCardProps {
   onSetting: any;
   onCancel: any;
   isOwner: boolean;
+  cancelLoading: boolean;
 }
 
 const PurchaseCard: FC<PurchaseCardProps> = ({
