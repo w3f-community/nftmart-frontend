@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
-import { Container, Flex, Button } from '@chakra-ui/react';
+import { Container, Button, Center } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { globalStore } from 'rekv';
@@ -40,7 +40,7 @@ const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 // }
 
 const Page = () => {
-  const { data: assetsData, isLoading, error } = useAssetsQuery();
+  const { data: assetsData, isLoading, error, refetch } = useAssetsQuery();
   // FIXME: Add type instead of any
   const ordersQuery = useQuery<Order[]>('getOrders', getAllOrders as any);
 
@@ -54,6 +54,7 @@ const Page = () => {
   const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(filteredAssets));
   // TODO: sticky animation
   const [stickyFilter] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(-1);
 
   const listOrder = () => {
     const order = {
@@ -118,6 +119,12 @@ const Page = () => {
     mintNft({ address: account.address, metadata, classId: 17 });
   };
 
+  // Update filters when mount
+  useEffect(() => {
+    refetch();
+    actions.setFilters({ categoryId: -1, collectionId: -1, status: -1 });
+  }, []);
+
   // Update assets store after query
   useEffect(() => {
     const orders = ordersQuery.data;
@@ -141,7 +148,7 @@ const Page = () => {
     }
 
     actions.setAssets(assets ?? []);
-    console.log(store.currentState);
+    console.log('effect changes', store.currentState);
     return () => {
       //
     };
@@ -154,6 +161,15 @@ const Page = () => {
       // cleanup
     };
   }, [filteredAssets]);
+
+  useEffect(() => {
+    actions.filterAssets({
+      categoryId: selectedCategoryId,
+    });
+    return () => {
+      // cleanup
+    };
+  }, [selectedCategoryId]);
 
   // Update sticky header UI
   // useEffect(() => {
@@ -174,19 +190,19 @@ const Page = () => {
 
   // Events
   const handleFilter = (categoryId: number) => {
-    actions.filterAssets({ categoryId });
+    setSelectedCategoryId(categoryId);
   };
 
   // Component
   const errorBox = (
     <Container height={300}>
-      <Flex direction="column" height="100%">
+      <Center flexDirection="column" height="100%">
         Error on fetching data
         {/* <Text color={colors.text.gray}>{error?.message}</Text> */}
         <Button variant="primary" onClick={() => refetch()}>
           {t('network.retry')}
         </Button>
-      </Flex>
+      </Center>
     </Container>
   );
 

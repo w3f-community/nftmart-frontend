@@ -53,7 +53,7 @@ const MyCollections = () => {
   } = useMyCollectionsQuery(account.address);
 
   const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(account.address);
-  
+
   const { filteredAssets, filteredCollections } = store.useState(
     'filteredAssets',
     'filteredCollections',
@@ -73,9 +73,9 @@ const MyCollections = () => {
       // Update store
       actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      // if (!selectedCollectionId) {
-      //   setSelectedCollectionId(collectionsData[0].id);
-      // }
+      if (!selectedCollectionId) {
+        setSelectedCollectionId(collectionsData[0].id);
+      }
     }
 
     return () => {
@@ -94,6 +94,17 @@ const MyCollections = () => {
       //
     };
   }, [assetsData]);
+
+  useEffect(() => {
+    actions.filterAssets({
+      categoryId: selectedCategoryId,
+      collectionId: selectedCollectionId,
+      status: selectedStatus,
+    });
+    return () => {
+      // cleanup
+    };
+  }, [selectedCategoryId, selectedCollectionId, selectedStatus]);
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);
@@ -118,7 +129,8 @@ const MyCollections = () => {
   };
 
   const handleCreateWork = () => {
-    history.push(`/create?collectionId=${selectedCollectionId}`);
+    const collectionId = selectedCollectionId ?? collectionsData?.[0].id;
+    history.push(`/create?collectionId=${collectionId}`);
   };
 
   return (

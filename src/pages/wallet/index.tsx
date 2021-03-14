@@ -32,7 +32,7 @@ const Wallet = () => {
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
-  const { account } = globalStore.useState();
+  const { account } = globalStore.useState('account');
 
   const {
     data: collectionsData,
@@ -85,6 +85,19 @@ const Wallet = () => {
       //
     };
   }, [assetsData]);
+  
+  // Filter assets
+  useEffect(() => {
+    actions.filterAssets({
+      categoryId: selectedCategoryId,
+      collectionId: selectedCollectionId,
+      status: selectedStatus,
+    });
+    return () => {
+      // cleanup
+    };
+  }, [selectedCategoryId, selectedCollectionId, selectedStatus]);
+
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);

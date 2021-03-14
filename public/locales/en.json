@@ -39,6 +39,7 @@
 
   "type.all": "All",
   "type.arts": "Digital Art",
+  "type.digital": "Digital Art",
   "type.virtual": "Virtual",
   "type.sport": "Sport",
   "type.collection": "Collection",
