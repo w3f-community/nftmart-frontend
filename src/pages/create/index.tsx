@@ -14,16 +14,18 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { SelectControl } from 'formik-chakra-ui';
 
 import { globalStore } from 'rekv';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
 import { mintNft } from '../../api/polka';
+import { useMyCollectionsQuery } from '../../api/query';
 
 const formLableLayout = {
-  width: '240px',
   height: '48px',
+  flex: '0 0 240px',
   htmlFor: 'name',
   fontSize: '14px',
   color: colors.text.gray,
@@ -44,9 +46,17 @@ const CreateCollection = () => {
   const { t } = useTranslation();
   const toast = useToast();
   const { account } = globalStore.useState('account');
+  const { data: classes } = useMyCollectionsQuery(account.address);
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
-    mintNft({ address: account.address, metadata: { ...others }, classId: 0, cb });
+    const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
+    const normalizedFormData = {
+      address: account.address,
+      metadata: { ...others },
+      classId: normalizedClassId,
+      cb,
+    };
+    mintNft(normalizedFormData);
   }, []);
   return (
     <Layout title="title.create">
@@ -80,6 +90,8 @@ const CreateCollection = () => {
                 description: '',
               }}
               onSubmit={(formValue, formAction) => {
+                console.log('submitting', formValue);
+
                 mint(formValue, {
                   success: () => {
                     toast({
@@ -120,13 +132,21 @@ const CreateCollection = () => {
                             <FormLabel {...formLableLayout}>
                               {t('create.collection.name')}
                             </FormLabel>
-                            <Select {...formInputLayout} {...field}>
-                              <option value="" color={colors.text.black}>
-                                Hashmasks
-                              </option>
-                            </Select>
+                            <SelectControl
+                              {...field}
+                              selectProps={formInputLayout}
+                              name="classId"
+                              defaultValue={classes?.[0].classId}
+                            >
+                              {classes?.length &&
+                                classes.map((clazz) => (
+                                  <option value={clazz.classId} color={colors.text.black}>
+                                    {clazz.name}
+                                  </option>
+                                ))}
+                            </SelectControl>
                           </Flex>
-                          <FormErrorMessage pl="188px">{form.errors.classId}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.classId}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -149,7 +169,7 @@ const CreateCollection = () => {
                               {...field}
                             />
                           </Flex>
-                          <FormErrorMessage pl="188px">{form.errors.name}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.name}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -162,19 +182,31 @@ const CreateCollection = () => {
                         form: { errors: { url: string }; touched: { url: string } };
                       }) => (
                         <FormControl isInvalid={!!(form.errors.url && form.touched.url)}>
-                          <Flex align="center">
-                            <FormLabel {...formLableLayout} htmlFor="url">
+                          <Flex>
+                            <FormLabel
+                              {...formLableLayout}
+                              p="10px 0"
+                              lineHeight="auto"
+                              height="auto"
+                            >
                               {t('create.img')}
                             </FormLabel>
-                            <Upload
-                              id="url"
-                              {...field}
-                              onChange={(url) => {
-                                props.setFieldValue('url', url);
-                              }}
-                            />
+                            <FormLabel
+                              mb="0"
+                              flexGrow={1}
+                              htmlFor="url"
+                              borderBottom="1px solid #F3F4F8"
+                            >
+                              <Upload
+                                id="url"
+                                {...field}
+                                onChange={(url) => {
+                                  props.setFieldValue('url', url);
+                                }}
+                              />
+                            </FormLabel>
                           </Flex>
-                          <FormErrorMessage>{form.errors.url}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.url}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -191,13 +223,13 @@ const CreateCollection = () => {
                           display="flex"
                           alignItems="center"
                         >
-                          <Flex>
+                          <Flex width="100%">
                             <FormLabel {...formLableLayout} htmlFor="externalUrl">
                               {t('create.link')}
                             </FormLabel>
                             <Input id="externalUrl" {...formInputLayout} {...field} />
                           </Flex>
-                          <FormErrorMessage>{form.errors.externalUrl}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.externalUrl}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -222,10 +254,11 @@ const CreateCollection = () => {
                               placeholder={t('create.intro.placeholder')}
                               {...formInputLayout}
                               {...field}
+                              resize="none"
                               height="96px"
                             />
                           </Flex>
-                          <FormErrorMessage>{form.errors.description}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.description}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>

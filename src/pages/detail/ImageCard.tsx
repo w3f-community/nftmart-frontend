@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import Image, { Shimmer } from 'react-shimmer';
 
 export interface ImageCardProps {
@@ -12,18 +12,19 @@ const ImageCard: FC<ImageCardProps> = ({ width = 466, height = 666, src }) => {
   return (
     <Box borderRadius="3px">
       {/* <AspectRatio maxHeight="666px" ratio={1}> */}
-      <Box borderRadius="3px">
+      <Center borderRadius="3px">
         <Image
           src={src}
           fallback={<Shimmer height={height} width={width} />}
           NativeImgProps={{
             style: {
               objectFit: 'cover',
-              maxWidth: '100%',
+              width: '100%',
+              height: '100%',
             },
           }}
         />
-      </Box>
+      </Center>
       {/* </AspectRatio> */}
     </Box>
   );

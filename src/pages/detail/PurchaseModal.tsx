@@ -41,7 +41,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
   onClose,
   onConfirm,
 }) => {
-  const { bannerUrl: picUrl, name, price } = item;
+  const { url: picUrl, name, price } = item;
   const owner = '';
 
   const itemColumnNode = (

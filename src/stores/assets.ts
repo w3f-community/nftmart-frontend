@@ -1,18 +1,12 @@
 import { pick } from 'ramda';
 import Rekv from 'rekv';
-import { Work } from '../types';
+import { Work, Collection } from '../types';
 
 export interface FilterTypes {
   status: number;
   categoryId: number;
   collectionId: number;
 }
-
-export type Collection = {
-  name: string;
-  id: number;
-};
-
 export interface AssetStore extends FilterTypes {
   assets: Work[];
   myAssets: Work[];

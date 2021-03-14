@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Box, Center, Container } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { globalStore } from 'rekv';
 
 import SideFilter from './SideFilter';
 import MainList from './MainList';
 import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
 import { GetItems, GetMyCollections } from '../../api/graph';
+import { useMyCollectionsQuery, useMyAssetsQuery } from '../../api/query';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
 import Empty from '../../components/empty';
@@ -16,12 +18,12 @@ import Empty from '../../components/empty';
 const STATUS_MAP: Record<any, any> = {
   all: -1,
   listing: 1,
-  new: 2,
-  recent: 3,
+  // new: 2,
+  // recent: 3,
   '-1': 'all',
   '1': 'listing',
-  '2': 'new',
-  '3': 'recent',
+  // '2': 'new',
+  // '3': 'recent',
 };
 
 // TODO: Error handling
@@ -32,23 +34,26 @@ const MyCollections = () => {
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
-  const {
-    data: collectionsResponse,
-    loading: collectionsLoading,
-    error: collectionsError,
-  } = GetMyCollections();
+  const { account } = globalStore.useState('account');
+
+  // const {
+  //   data: collectionsData,
+  //   isLoading: collectionsLoading,
+  //   error: collectionsError,
+  // } = useCollectionsQuery();
+
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
 
-  const collectionsData = collectionsResponse?.myCollections?.collections;
+  const {
+    data: collectionsData,
+    isLoading: collectionsLoading,
+    error: collectionsError,
+  } = useMyCollectionsQuery(account.address);
 
-  const { data: assetsResponse, loading: itemsLoading } = GetItems({
-    status: selectedStatus,
-    collectionId: selectedCollectionId,
-    categoryId: selectedCategoryId,
-  });
-
+  const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(account.address);
+  
   const { filteredAssets, filteredCollections } = store.useState(
     'filteredAssets',
     'filteredCollections',
@@ -68,19 +73,19 @@ const MyCollections = () => {
       // Update store
       actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      if (!selectedCollectionId) {
-        setSelectedCollectionId(collectionsData[0].id);
-      }
+      // if (!selectedCollectionId) {
+      //   setSelectedCollectionId(collectionsData[0].id);
+      // }
     }
 
     return () => {
       //
     };
-  }, [collectionsResponse]);
+  }, [collectionsData]);
 
   // Update assets by collectionId when data fetched
   useEffect(() => {
-    const data = assetsResponse?.assets?.assets;
+    const data = assetsData;
     if (Array.isArray(data)) {
       actions.setAssets(data);
     }
@@ -88,7 +93,7 @@ const MyCollections = () => {
     return () => {
       //
     };
-  }, [assetsResponse]);
+  }, [assetsData]);
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);
