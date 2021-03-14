@@ -53,8 +53,8 @@ export const NAV_MAP: Record<string, string> = {
   'nav.home': '/',
   'nav.explore': '/explore?status=all',
   'nav.list-sale': '/explore?status=listing',
-  'nav.latest-create': '/explore?status=new',
-  'nav.latest-strike': '/explore?status=recent',
+  // 'nav.latest-create': '/explore?status=new',
+  // 'nav.latest-strike': '/explore?status=recent',
 };
 
 export const USER_LINKS: Record<string, string> = {

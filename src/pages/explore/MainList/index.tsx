@@ -81,11 +81,6 @@ const Helpers: FC<Helpers> = ({ count, onSort }) => {
   const { t } = useTranslation();
 
   const countText = t(`list.total.result${count > 1 ? 's' : ''}`, { count });
-  const options = [
-    { value: 1, title: t('form.sort.auto') },
-    // { value: 2, title: t('form.sort.other') },
-    // { value: 3, title: t('form.sort.latest') },
-  ];
 
   const result = (
     <Box>
@@ -93,20 +88,28 @@ const Helpers: FC<Helpers> = ({ count, onSort }) => {
     </Box>
   );
 
-  const handleSelect = (value: any) => {
-    onSort(value);
-  };
+  // ------ Sorter ------
+  // const sortOptions = [
+  //   { value: 1, title: t('form.sort.auto') },
+  //   // { value: 2, title: t('form.sort.other') },
+  //   // { value: 3, title: t('form.sort.latest') },
+  // ];
 
-  const sorter = (
-    <Box>
-      <NSelect options={options} onSelect={handleSelect} />
-    </Box>
-  );
+  // const handleSelect = (value: any) => {
+  //   onSort(value);
+  // };
+
+  // Hiding
+  // const sorter = (
+  //   <Box>
+  //     <NSelect options={sortOptions} onSelect={handleSelect} />
+  //   </Box>
+  // );
 
   return (
     <Flex justify="space-between" align="center" ml="16px" py="16px">
       {result}
-      {sorter}
+      {/* {sorter} */}
     </Flex>
   );
 };
@@ -137,7 +140,7 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
 
   return (
     <Box flex={1}>
-      <TypeFilters onChange={handleFilterChange} />
+      {/* <TypeFilters onChange={handleFilterChange} /> */}
 
       {loading && (
         <Center height="100%">
@@ -148,6 +151,7 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
       {!loading && (
         <>
           <Helpers onSort={handleSorting} count={count} />
+
           {!!count && (
             <SimpleGrid columns={4}>
               {data.map((work) => (
