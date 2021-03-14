@@ -21,6 +21,8 @@ import { Work } from '../../types';
 const unit = bnToBn('1000000000000');
 const WebSocket = require('rpc-websockets').Client;
 
+const noop = () => null;
+
 let api: any = null;
 
 // query gas needed
@@ -320,14 +322,26 @@ export const queryClassByAddress = async ({ address = '' }) => {
 
 // create collections
 // cb is callback for trx on chain   (status) => { ... }
-export const createClass = async ({ address = '', metadata = CLASS_METADATA, cb = txLog }) => {
-  const injector = await web3FromAddress(address);
-  const { name, description } = metadata;
-  const metadataStr = JSON.stringify(metadata);
-  const res = await api.tx.nftmart
-    .createClass(metadataStr, name, description, TOKEN_TRANSFERABLE_BURNABLE)
-    .signAndSend(address, { signer: injector.signer }, cb);
-  return res;
+export const createClass = async ({
+  address = '',
+  metadata = CLASS_METADATA,
+  cb = { success: noop, error: (err: any) => err },
+}) => {
+  try {
+    const injector = await web3FromAddress(address);
+    const { name, description } = metadata;
+    const metadataStr = JSON.stringify(metadata);
+    const res = await api.tx.nftmart
+      .createClass(metadataStr, name, description, TOKEN_TRANSFERABLE_BURNABLE)
+      .signAndSend(address, { signer: injector.signer }, (result: any) =>
+        txLog(result, cb.success),
+      );
+    console.log(res, res);
+    return res;
+  } catch (error) {
+    cb.error(error.toString());
+    return null;
+  }
 };
 
 // mint nft under class
@@ -337,32 +351,41 @@ export const mintNft = async ({
   classId = 0,
   metadata = {},
   quantity = 1,
-  cb = txLog,
+  cb = { success: noop, error: (err: any) => err },
 }) => {
-  const injector = await web3FromAddress(address);
-  const metadataStr = JSON.stringify(metadata);
-  const balancesNeeded = await nftDeposit(metadataStr, bnToBn(quantity));
-  if (balancesNeeded === null) return null;
-  const classInfo = await api.query.ormlNft.classes(classId);
-  if (!classInfo.isSome) {
-    // console.log('classInfo not exist');
+  try {
+    const injector = await web3FromAddress(address);
+    const metadataStr = JSON.stringify(metadata);
+    const balancesNeeded = await nftDeposit(metadataStr, bnToBn(quantity));
+    if (balancesNeeded === null) return null;
+    const classInfo = await api.query.ormlNft.classes(classId);
+    if (!classInfo.isSome) {
+      // console.log('classInfo not exist');
+      return null;
+    }
+    const ownerOfClass = classInfo.unwrap().owner.toString();
+
+    const txs = [
+      // make sure `ownerOfClass0` has sufficient balances to mint nft.
+      api.tx.balances.transfer(ownerOfClass, balancesNeeded),
+      // mint nft.
+      api.tx.proxy.proxy(
+        ownerOfClass,
+        null,
+        api.tx.nftmart.mint(address, classId, metadataStr, quantity),
+      ),
+    ];
+    const batchExtrinsic = api.tx.utility.batchAll(txs);
+    const res = await batchExtrinsic.signAndSend(
+      address,
+      { signer: injector.signer },
+      (result: any) => txLog(result, cb.success),
+    );
+    return res;
+  } catch (error) {
+    cb.error(error.toString());
     return null;
   }
-  const ownerOfClass = classInfo.unwrap().owner.toString();
-
-  const txs = [
-    // make sure `ownerOfClass0` has sufficient balances to mint nft.
-    api.tx.balances.transfer(ownerOfClass, balancesNeeded),
-    // mint nft.
-    api.tx.proxy.proxy(
-      ownerOfClass,
-      null,
-      api.tx.nftmart.mint(address, classId, metadataStr, quantity),
-    ),
-  ];
-  const batchExtrinsic = api.tx.utility.batchAll(txs);
-  const res = await batchExtrinsic.signAndSend(address, { signer: injector.signer }, cb);
-  return res;
 };
 
 // create order

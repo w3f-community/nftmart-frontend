@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Box,
   Container,
@@ -9,37 +9,47 @@ import {
   Input,
   Textarea,
   Select,
+  Flex,
+  useToast,
 } from '@chakra-ui/react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 
+import { globalStore } from 'rekv';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
+import Upload from '../../components/upload';
+import { mintNft } from '../../api/polka';
 import { useCollectionsQuery } from '../../api/query';
 
+const formLableLayout = {
+  width: '240px',
+  height: '48px',
+  htmlFor: 'name',
+  fontSize: '14px',
+  color: colors.text.gray,
+  borderBottom: '1px solid #F3F4F8',
+  mb: '0',
+  mr: '0',
+  lineHeight: '47px',
+};
+
+const formInputLayout = {
+  variant: 'flushed',
+  size: 'lg',
+  fontSize: '14px',
+  borderBottomColor: '#F3F4F8',
+};
+
 const CreateCollection = () => {
-  const { data: classes } = useCollectionsQuery();
-
   const { t } = useTranslation();
-
-  const formLableLayout = {
-    width: '240px',
-    height: '48px',
-    htmlFor: 'name',
-    fontSize: '14px',
-    color: colors.text.gray,
-    borderBottom: '1px solid #F3F4F8',
-    mb: '0',
-    mr: '0',
-    lineHeight: '47px',
-  };
-  const formInputLayout = {
-    variant: 'flushed',
-    size: 'lg',
-    fontSize: '14px',
-    borderBottomColor: '#F3F4F8',
-  };
-
+  const { data: classes } = useCollectionsQuery();
+  const toast = useToast();
+  const { account } = globalStore.useState('account');
+  const mint = useCallback(async (formValue: any, cb) => {
+    const { classId, ...others } = formValue;
+    mintNft({ address: account.address, metadata: { ...others }, classId: 0, cb });
+  }, []);
   return (
     <Layout title="title.create">
       <Box padding={2}>
@@ -64,151 +74,182 @@ const CreateCollection = () => {
           </Box>
           <Container p="0 20px">
             <Formik
-              initialValues={{ email: '', password: '' }}
-              onSubmit={() => {
-                
+              initialValues={{
+                classId: '',
+                name: '',
+                url: '',
+                externalUrl: '',
+                description: '',
+              }}
+              onSubmit={(formValue, formAction) => {
+                mint(formValue, {
+                  success: () => {
+                    toast({
+                      title: 'success',
+                      status: 'success',
+                      position: 'top',
+                      duration: 3000,
+                    });
+                    formAction.setSubmitting(false);
+                    formAction.resetForm();
+                  },
+                  error: (error: string) => {
+                    toast({
+                      title: 'success',
+                      status: 'error',
+                      position: 'top',
+                      duration: 3000,
+                      description: error,
+                    });
+                    formAction.setSubmitting(false);
+                  },
+                });
               }}
             >
-              <Form>
-                <Field name="name">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    field: Record<string, unknown>;
-                    form: { errors: { name: string }; touched: { name: string } };
-                  }) => (
-                    <FormControl
-                      isInvalid={!!(form.errors.name && form.touched.name)}
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <FormLabel {...formLableLayout}>{t('create.collection.name')}</FormLabel>
-                      <Select {...formInputLayout}>
-                        {classes?.length &&
-                          classes.map((clazz) => (
-                            <option value={clazz.classId} color={colors.text.black}>
-                              {clazz.name}
-                            </option>
-                          ))}
-                      </Select>
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="name">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    field: Record<string, unknown>;
-                    form: { errors: { name: string }; touched: { name: string } };
-                  }) => (
-                    <FormControl
-                      isInvalid={!!(form.errors.name && form.touched.name)}
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <FormLabel {...formLableLayout}>{t('create.name')}</FormLabel>
-                      <Input
-                        _placeholder={{ color: colors.text.lightGray }}
-                        id="name"
-                        placeholder={t('create.name.placeholder')}
-                        {...formInputLayout}
-                      />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="name">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    field: Record<string, unknown>;
-                    form: { errors: { name: string }; touched: { name: string } };
-                  }) => (
-                    <FormControl
-                      isInvalid={!!(form.errors.name && form.touched.name)}
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <FormLabel {...formLableLayout}>{t('create.img')}</FormLabel>
-                      <FormLabel htmlFor="file" width="100%" mb="0">
-                        <Box
-                          height="48px"
-                          fontSize="14px"
-                          color={colors.text.lightGray}
-                          lineHeight="48px"
-                          borderBottom="1px solid #F3F4F8"
+              {(props: FormikProps<any>) => {
+                return (
+                  <Form>
+                    <Field name="classId">
+                      {({
+                        field,
+                        form,
+                      }: {
+                        field: Record<string, unknown>;
+                        form: { errors: { classId: string }; touched: { classId: string } };
+                      }) => (
+                        <FormControl isInvalid={!!(form.errors.classId && form.touched.classId)}>
+                          <Flex>
+                            <FormLabel {...formLableLayout}>
+                              {t('create.collection.name')}
+                            </FormLabel>
+                            <Select {...formInputLayout} {...field}>
+                              {classes?.length &&
+                                classes.map((clazz) => (
+                                  <option value={clazz.classId} color={colors.text.black}>
+                                    {clazz.name}
+                                  </option>
+                                ))}
+                            </Select>
+                          </Flex>
+                          <FormErrorMessage pl="188px">{form.errors.classId}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="name">
+                      {({
+                        field,
+                        form,
+                      }: {
+                        field: Record<string, unknown>;
+                        form: { errors: { name: string }; touched: { name: string } };
+                      }) => (
+                        <FormControl isInvalid={!!(form.errors.name && form.touched.name)}>
+                          <Flex>
+                            <FormLabel {...formLableLayout}>{t('create.name')}</FormLabel>
+                            <Input
+                              id="name"
+                              placeholder={t('create.name.placeholder')}
+                              _placeholder={{ color: colors.text.lightGray }}
+                              {...formInputLayout}
+                              {...field}
+                            />
+                          </Flex>
+                          <FormErrorMessage pl="188px">{form.errors.name}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="url">
+                      {({
+                        field,
+                        form,
+                      }: {
+                        field: Record<string, unknown>;
+                        form: { errors: { url: string }; touched: { url: string } };
+                      }) => (
+                        <FormControl isInvalid={!!(form.errors.url && form.touched.url)}>
+                          <Flex align="center">
+                            <FormLabel {...formLableLayout} htmlFor="url">
+                              {t('create.img')}
+                            </FormLabel>
+                            <Upload
+                              id="url"
+                              {...field}
+                              onChange={(url) => {
+                                props.setFieldValue('url', url);
+                              }}
+                            />
+                          </Flex>
+                          <FormErrorMessage>{form.errors.url}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="externalUrl">
+                      {({
+                        field,
+                        form,
+                      }: {
+                        field: Record<string, unknown>;
+                        form: { errors: { externalUrl: string }; touched: { externalUrl: string } };
+                      }) => (
+                        <FormControl
+                          isInvalid={!!(form.errors.externalUrl && form.touched.externalUrl)}
+                          display="flex"
+                          alignItems="center"
                         >
-                          {t('create.img.placeholder')}
-                        </Box>
-                      </FormLabel>
-                      <Input display="none" type="file" id="file" />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="name">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    field: Record<string, unknown>;
-                    form: { errors: { name: string }; touched: { name: string } };
-                  }) => (
-                    <FormControl
-                      isInvalid={!!(form.errors.name && form.touched.name)}
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <FormLabel {...formLableLayout}>{t('create.link')}</FormLabel>
-                      <Input {...formInputLayout} />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="name">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    field: Record<string, unknown>;
-                    form: { errors: { name: string }; touched: { name: string } };
-                  }) => (
-                    <FormControl
-                      isInvalid={!!(form.errors.name && form.touched.name)}
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <FormLabel {...formLableLayout} height="96px">
-                        {t('create.intro')}
-                      </FormLabel>
-                      <Textarea
-                        _placeholder={{ color: colors.text.lightGray }}
-                        id="name"
-                        placeholder={t('create.intro.placeholder')}
-                        {...formInputLayout}
-                        height="96px"
-                      />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Box textAlign="center" mt="21px">
-                  <Button
-                    type="submit"
-                    backgroundColor={colors.primary}
-                    fontSize="14px"
-                    color="#fff"
-                    _hover={{ backgroundColor: colors.primary }}
-                    _focus={{ backgroundColor: colors.primary }}
-                  >
-                    {t('create.save')}
-                  </Button>
-                </Box>
-              </Form>
+                          <Flex>
+                            <FormLabel {...formLableLayout} htmlFor="externalUrl">
+                              {t('create.link')}
+                            </FormLabel>
+                            <Input id="externalUrl" {...formInputLayout} {...field} />
+                          </Flex>
+                          <FormErrorMessage>{form.errors.externalUrl}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="description">
+                      {({
+                        field,
+                        form,
+                      }: {
+                        field: Record<string, unknown>;
+                        form: { errors: { description: string }; touched: { description: string } };
+                      }) => (
+                        <FormControl
+                          isInvalid={!!(form.errors.description && form.touched.description)}
+                        >
+                          <Flex>
+                            <FormLabel {...formLableLayout} height="96px" htmlFor="description">
+                              {t('create.intro')}
+                            </FormLabel>
+                            <Textarea
+                              _placeholder={{ color: colors.text.lightGray }}
+                              id="description"
+                              placeholder={t('create.intro.placeholder')}
+                              {...formInputLayout}
+                              {...field}
+                              height="96px"
+                            />
+                          </Flex>
+                          <FormErrorMessage>{form.errors.description}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Box textAlign="center" mt="21px">
+                      <Button
+                        type="submit"
+                        backgroundColor={colors.primary}
+                        fontSize="14px"
+                        color="#fff"
+                        isLoading={props.isSubmitting}
+                        _hover={{ backgroundColor: colors.primary }}
+                        _focus={{ backgroundColor: colors.primary }}
+                      >
+                        {t('create.save')}
+                      </Button>
+                    </Box>
+                  </Form>
+                );
+              }}
             </Formik>
           </Container>
         </Container>
