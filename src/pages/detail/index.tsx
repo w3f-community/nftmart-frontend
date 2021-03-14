@@ -23,6 +23,7 @@ import SalesSettingModal from './SalesSettingModal';
 
 import { GetCollections, GetItems } from '../../api/graph';
 import { toFixedDecimals } from '../../utils';
+import { IPFS_GET_SERVER } from '../../constants';
 
 const Detail: FC = () => {
   const { t } = useTranslation();
@@ -103,10 +104,8 @@ const Detail: FC = () => {
       <DetailContainer
         left={
           <>
-            <ImageCard src={selectedAsset.url ?? 'image placeholder'} />
+            <ImageCard src={`${IPFS_GET_SERVER}${selectedAsset.url}` ?? 'image placeholder'} />
             <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
-            <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
-            <AboutCard about={undefined ?? t('detail.no-about')} />
           </>
         }
         right={
@@ -121,8 +120,10 @@ const Detail: FC = () => {
               }
               onPurchase={() => setPurchaseOpen(true)}
             />
-            <PriceHistoryCard />
-            <HistoryEventCard />
+            <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
+            <AboutCard about={undefined ?? t('detail.no-about')} />
+            {/* <PriceHistoryCard />
+            <HistoryEventCard /> */}
           </>
         }
       />

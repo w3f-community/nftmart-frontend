@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
-import { Container, Flex } from '@chakra-ui/react';
+import { Container, Flex, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { globalStore } from 'rekv';
@@ -183,9 +183,9 @@ const Page = () => {
       <Flex direction="column" height="100%">
         Error on fetching data
         {/* <Text color={colors.text.gray}>{error?.message}</Text> */}
-        {/* <Button variant="primary" onClick={() => refetch()}> */}
-        {t('network.retry')}
-        {/* </Button> */}
+        <Button variant="primary" onClick={() => refetch()}>
+          {t('network.retry')}
+        </Button>
       </Flex>
     </Container>
   );

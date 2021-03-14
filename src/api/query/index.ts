@@ -46,11 +46,11 @@ export const useAssetsQuery = () => {
   };
 
   // use query
-  const { data: assetsData, isLoading, error } = useQuery<Work[]>(ASSETS_QUERY, queryAssetsAndMap, {
+  const { data: assetsData, isLoading, error, refetch } = useQuery<Work[]>(ASSETS_QUERY, queryAssetsAndMap, {
     staleTime: Infinity,
   });
 
-  return { data: assetsData, isLoading, error };
+  return { data: assetsData, isLoading, error, refetch };
 };
 
 export const useCollectionsQuery = () => {
