@@ -39,6 +39,7 @@ const Detail: FC = () => {
   const { categories } = cateStore.useState('categories');
   // const { data: assetsResponse } = GetItems({ id: Number(params?.token) ?? -1, pageSize: 1 });
 
+  const [cancelLoading, setCancelLoading] = useState(false);
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [settingOpen, setSettingOpen] = useState(false);
   const [categoryName, setCategoryName] = useState('');
@@ -70,6 +71,9 @@ const Detail: FC = () => {
   const fetchData = async (cid = '', tid = '') => {
     if (+cid < 0 || +tid < 0) return;
     const res = await getNft(cid, tid);
+    if (!res) {
+      // TODO: fix the null problem
+    }
     const order = await getOrder(cid, tid, res.owner);
     res.order = order;
     actions.selectAsset(res);
@@ -78,6 +82,7 @@ const Detail: FC = () => {
   useEffect(() => {
     fetchData(classId, tokenId);
   }, [classId, tokenId]);
+
   if (!selectedAsset) {
     return (
       <Box height="100vh" width="100vw">
@@ -94,6 +99,7 @@ const Detail: FC = () => {
   };
 
   const handleCancelOrder = () => {
+    setCancelLoading(true);
     const deleParams = {
       address: account.address,
       ownerAddress: selectedAsset.owner,
@@ -109,6 +115,7 @@ const Detail: FC = () => {
             description: t('detail.cancel.success'),
           });
           fetchData();
+          setCancelLoading(false);
         },
         error: (error: string) => {
           toast({
@@ -118,6 +125,7 @@ const Detail: FC = () => {
             duration: 3000,
             description: error,
           });
+          setCancelLoading(false);
         },
       },
     };
@@ -166,8 +174,11 @@ const Detail: FC = () => {
     setSettingOpen(false);
   };
 
-  const handleSettingConfirm = () => {
-    // TODO
+  const handleSettingConfirm = (success: boolean) => {
+    // refetch data
+    if (success) {
+      fetchData(classId, tokenId);
+    }
   };
 
   const handleDestroy = () => {
@@ -182,18 +193,15 @@ const Detail: FC = () => {
   }
 
   return (
-    <Box>
+    <Box marginTop="77px">
       <Helmet title={t('title.detail', { name: selectedAsset.name })} />
-      {selectedAsset.order ? (
+      {selectedAsset.order && (
         <Alert
           order={selectedAsset.order}
           categories={categories}
-          marginTop="77px"
           // onDestroy={handleDestroy}
           onSetting={() => setSettingOpen(true)}
         />
-      ) : (
-        <Box h="40px" />
       )}
 
       <DetailContainer
@@ -227,6 +235,7 @@ const Detail: FC = () => {
               order={selectedAsset.order}
               onSetting={() => setSettingOpen(true)}
               onCancel={handleCancelOrder}
+              cancelLoading={cancelLoading}
               isOwner={selectedAsset.owner === account.address}
             />
             <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
@@ -250,7 +259,7 @@ const Detail: FC = () => {
       <SalesSettingModal
         open={settingOpen}
         onClose={handleSettingClose}
-        onConfirm={handleSettingConfirm}
+        onAfterConfirm={handleSettingConfirm}
         categories={categories}
         classId={classId}
         tokenId={tokenId}

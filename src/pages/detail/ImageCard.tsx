@@ -10,9 +10,9 @@ export interface ImageCardProps {
 
 const ImageCard: FC<ImageCardProps> = ({ width = 466, height = 666, src }) => {
   return (
-    <Box borderRadius="3px">
+    <Box borderRadius="3px" minHeight="20vh" backgroundColor="white">
       {/* <AspectRatio maxHeight="666px" ratio={1}> */}
-      <Center borderRadius="3px">
+      <Center borderRadius="3px" height="100%">
         <Image
           src={src}
           fallback={<Shimmer height={height} width={width} />}

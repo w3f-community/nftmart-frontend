@@ -72,6 +72,15 @@
   "detail.modal.purchase.price": "价格",
   "detail.modal.purchase.confirm": "确认",
 
+  "order.setting": "售卖设置",
+  "detail.modal.sales-setting.title": "售卖设置",
+  "detail.modal.sales-setting.price": "Price",
+  "detail.modal.sales-setting.price.subtitle": "Price of this asset",
+  "detail.modal.sales-setting.category": "Category",
+  "detail.modal.sales-setting.category.subtitle": "Choose which categoy to list to",
+  "detail.modal.sales-setting.pledge": "Pledge",
+  "detail.modal.sales-setting.pledge.subtitle": "After being remove or sold, pledge would return to your hand.",
+
   "detail.event.event": "事件",
   "detail.event.price": "价格",
   "detail.event.source": "来源",
