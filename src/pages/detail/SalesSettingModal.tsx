@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import NFormControl from '../../components/formControl';
 import colors from '../../themes/colors';
@@ -52,6 +53,7 @@ const SalesSettingSchema = yup.object().shape({
 
 const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
   const [expirationOpen, setExpirationOpen] = useState(false);
+  const { t } = useTranslation();
 
   const handleSubmit = () => {
     console.log('submit call');
@@ -63,7 +65,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
       <ModalContent>
         <ModalHeader>
           <Heading as="h3" size="md">
-            detail.modal.sales-setting.title
+            {t('sales-setting.title')}
           </Heading>
         </ModalHeader>
         <ModalCloseButton />
@@ -94,8 +96,8 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
                       {({ field }: FieldProps) => (
                         <NFormControl
                           name="price"
-                          title="price"
-                          subtitle="price.subtitle"
+                          title={t('sales-setting.price')}
+                          subtitle={t('sales-setting.price.subtitle')}
                           // isInvalid={}
                         >
                           <InputGroup size="sm">
@@ -118,12 +120,15 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
                       )}
                     </Field>
 
-                    <NFormControl title="expiration" subtitle="expiration.subtitle">
+                    <NFormControl
+                      title={t('expiration')}
+                      subtitle={t('sales-setting.expiration.subtitle')}
+                    >
                       <Checkbox
                         color={colors.text.gray}
                         onChange={() => setExpirationOpen((check) => !check)}
                       >
-                        expiration date
+                        {t('sales-setting.expiration')}
                       </Checkbox>
                     </NFormControl>
 
@@ -133,7 +138,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
                           <Stack direction="row" spacing={5}>
                             {/* TODO: translation */}
                             <NSelect
-                              options={[{ title: '不修改', value: 0 }]}
+                              options={[{ title: t('sales-setting.expiration.noedit'), value: 0 }]}
                               onSelect={(val) => form.setFieldValue('expiration', val)}
                               suffix
                             />
@@ -153,7 +158,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
                         <NFormControl
                           name="category"
                           title="category"
-                          subtitle="category.subtitle"
+                          subtitle={t('sales-setting.category.subtitle')}
                           direction="vertical"
                         >
                           <RadioGroup
@@ -175,10 +180,13 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
 
                     <Field name="pledge">
                       {({ field }: FieldProps) => (
-                        <NFormControl title="pledge" subtitle="pledge.subtitle">
+                        <NFormControl
+                          title={t('pledge')}
+                          subtitle={t('sales-setting.pledge.subtitle')}
+                        >
                           <InputGroup size="sm">
                             <Input {...field} type="number" height="auto" value={values.pledge} />
-                            <InputRightAddon children="suffix" height="auto" />
+                            <InputRightAddon children="FIL" height="auto" />
                           </InputGroup>
                         </NFormControl>
                       )}
@@ -188,7 +196,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({ open, onClose }) => {
 
                 <ModalFooter display="flex" justifyContent="center">
                   <Button variant="primary" type="submit" isLoading={isSubmitting}>
-                    Confirm
+                    {t('sales-setting.confirm')}
                   </Button>
                 </ModalFooter>
               </Form>

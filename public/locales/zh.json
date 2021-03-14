@@ -41,6 +41,7 @@
   "type.virtual": "虚拟世界",
   "type.sport": "运动",
   "type.collection": "收藏品",
+  "type.digital": "数字",
   "type.others": "其他",
 
   "home.new-list": "新上架",
@@ -111,5 +112,20 @@
 
   "lang.en": "英文",
   "lang.zh": "中文",
-  "network.retry": "点击重试"
+  "network.retry": "点击重试",
+
+  "sales-setting.price": "价格",
+  "sales-setting.price.subtitle": "如果购买者同意这个价格，系统将自动成交",
+  "sales-setting.expiration": "报价有效期",
+  "sales-setting.expiration.subtitle": "添加一个报价有效期，有效期过后报价将自动失效",
+  "sales-setting.expiration.time": "失效时间",
+  "sales-setting.expiration.noedit": "不修改",
+  "sales-setting.category": "上架分类",
+  "sales-setting.category.subtitle": "选择展示在哪些分类，如果不选择既表示下架",
+  "sales-setting.pledge": "质押",
+  "sales-setting.pledge.subtitle": "本次至少需质押200FIL，成交或下架后自动退回",
+  "sales-setting.title": "售卖设置",
+  "sales-setting.confirm": "确认设置",
+  "sales-setting.onsale": "已上架",
+  "sales-setting.destory": "销毁"
 }

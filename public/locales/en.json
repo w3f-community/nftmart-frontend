@@ -42,6 +42,7 @@
   "type.virtual": "Virtual",
   "type.sport": "Sport",
   "type.collection": "Collection",
+  "type.digital": "Digital",
   "type.others": "Other",
 
   "home.new-list": "New List",
@@ -110,5 +111,20 @@
 
   "lang.en": "English",
   "lang.zh": "Chinese",
-  "network.retry": "Retry"
+  "network.retry": "Retry",
+
+  "sales-setting.price": "Price",
+  "sales-setting.price.subtitle": "If the buyer agrees to the price, the system will automatically close the deal.",
+  "sales-setting.expiration": "Expiration",
+  "sales-setting.expiration.subtitle": "Add a quotation validity period, and the quotation will automatically expire after the validity period",
+  "sales-setting.expiration.time": "Expiration Time",
+  "sales-setting.expiration.noedit": "No modification",
+  "sales-setting.category": "Category",
+  "sales-setting.category.subtitle": "Select which categories to display, if not, it means off the shelf.",
+  "sales-setting.pledge": "Pledge",
+  "sales-setting.pledge.subtitle": "At least 200fil should be pledged this time, which will be returned automatically after transaction or off the shelf.",
+  "sales-setting.title": "Sale Setup",
+  "sales-setting.confirm": "Confirm",
+  "sales-setting.onsale": "On Sale",
+  "sales-setting.destory": "Destory"
 }

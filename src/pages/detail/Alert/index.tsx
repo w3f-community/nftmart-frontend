@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Box, Stack, Text, Button, Container, Center, BoxProps } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import colors from '../../../themes/colors';
 
 export interface AlertProps extends BoxProps {
@@ -7,6 +8,8 @@ export interface AlertProps extends BoxProps {
 }
 
 const Alert: FC<AlertProps> = ({ onSetting, ...boxProps }) => {
+  const { t } = useTranslation();
+
   return (
     <Box height="80px" backgroundColor="#e9ecff" display="flex" alignItems="center" {...boxProps}>
       <Container>
@@ -14,16 +17,16 @@ const Alert: FC<AlertProps> = ({ onSetting, ...boxProps }) => {
           <Center>
             <Box>
               <Text display="inline" color={colors.text.gray}>
-                已上架
+                {t('sales-setting.onsale')}
               </Text>{' '}
               <Text as="span" color={colors.primary}>
-                数字艺术品 体育
+                {t('type.arts')} {t('type.sport')}
               </Text>
             </Box>
           </Center>
-          <Button variant="default">销毁</Button>
+          <Button variant="default">{t('destory')}</Button>
           <Button variant="primary" onClick={onSetting}>
-            售卖设置
+            {t('sales-setting.title')}
           </Button>
         </Stack>
       </Container>
