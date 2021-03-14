@@ -22,6 +22,7 @@ import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
 import { mintNft } from '../../api/polka';
 import { useMyCollectionsQuery } from '../../api/query';
+import { useQuery } from '../../utils/hook';
 
 const formLableLayout = {
   height: '48px',
@@ -43,6 +44,10 @@ const formInputLayout = {
 };
 
 const CreateCollection = () => {
+  const query = useQuery();
+
+  const collectionId = query.get('collectionId');
+
   const { t } = useTranslation();
   const toast = useToast();
   const { account } = globalStore.useState('account');
@@ -58,6 +63,7 @@ const CreateCollection = () => {
     };
     mintNft(normalizedFormData);
   }, []);
+
   return (
     <Layout title="title.create">
       <Box padding={2}>
@@ -83,7 +89,7 @@ const CreateCollection = () => {
           <Container p="0 20px">
             <Formik
               initialValues={{
-                classId: '',
+                classId: collectionId,
                 name: '',
                 url: '',
                 externalUrl: '',
@@ -136,7 +142,6 @@ const CreateCollection = () => {
                               {...field}
                               selectProps={formInputLayout}
                               name="classId"
-                              defaultValue={classes?.[0].classId}
                             >
                               {classes?.length &&
                                 classes.map((clazz) => (

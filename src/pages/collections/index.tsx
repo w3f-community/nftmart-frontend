@@ -129,7 +129,8 @@ const MyCollections = () => {
   };
 
   const handleCreateWork = () => {
-    history.push(`/create?collectionId=${selectedCollectionId}`);
+    const collectionId = selectedCollectionId ?? collectionsData?.[0].id;
+    history.push(`/create?collectionId=${collectionId}`);
   };
 
   return (
