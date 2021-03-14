@@ -5,7 +5,7 @@ import Card from '../../components/card';
 
 const AboutCard: FC<{ about: string }> = ({ about }) => {
   const { t } = useTranslation();
-  return <Card title={t('detail.title.about')}>{about}</Card>;
+  return <Card title={t('detail.title.class')}>{JSON.stringify(about)}</Card>;
 };
 
 export default AboutCard;

@@ -72,25 +72,35 @@ export const getBalance = async (address: string) => {
 };
 
 // get class by class id
-export const getClassById = async (id: number) => {
+export const getClassById = async (id: string) => {
   const res = await api.query.ormlNft.classes(id); // todo metadata parse
   // todo query creator
   const clazz = JSON.parse(res);
   const adminList = await api.query.proxy.proxies(clazz.owner); // query adminList of class
   clazz.adminList = JSON.parse(adminList);
   // console.log(clazz);
-  clazz.metadata = hexToUtf8(clazz.metadata);
-  console.log(clazz);
+  clazz.metadata = JSON.parse(hexToUtf8(clazz.metadata));
   return clazz;
 };
 
 // get nfts by class and id
-export const getNftsById = async (classId: number, id: string) => {
+export const getNft = async (classId: string, id: string) => {
   const res = await api.query.ormlNft.tokens(classId, id); // todo metadata parse
   const nft = JSON.parse(res.unwrap());
+  nft.metadata = JSON.parse(hexToUtf8(nft.metadata));
   nft.class = await getClassById(classId);
   // console.log(nft);
   return nft;
+};
+
+// get order by params
+export const getOrder = async (classId = '', tokenId = '', onerAddr = '') => {
+  const order = await api.query.nftmart.orders([classId, tokenId], onerAddr);
+  if (order.isSome) {
+    const res = order.toHuman();
+    return res;
+  }
+  return null;
 };
 
 // query all categories
@@ -353,26 +363,32 @@ export const createOrder = async ({
   price = 1, // list price
   classId = 0, // class id
   tokenId = 0, // token id
-  during = 1000, // during block num ,need to be conver from timestamp
-  cb = txLog,
+  during = 5000, // during block num ,need to be conver from timestamp
+  cb = { success: noop, error: (err: any) => err },
 }) => {
-  const injector = await web3FromAddress(address);
-  const currentBlockNumber = bnToBn(await api.query.system.number());
+  try {
+    const injector = await web3FromAddress(address);
+    const currentBlockNumber = bnToBn(await api.query.system.number());
 
-  // convert on chain precision
-  const priceAmount = unit.mul(bnToBn(price));
-  const depositAmount = unit.mul(bnToBn(deposit));
-  const call = api.tx.nftmart.submitOrder(
-    NATIVE_CURRENCY_ID,
-    priceAmount,
-    categoryId,
-    classId,
-    tokenId,
-    depositAmount,
-    currentBlockNumber.add(bnToBn(during)),
-  );
-  // const feeInfo = await call.paymentInfo(account);
-  await call.signAndSend(address, { signer: injector.signer }, cb);
+    // convert on chain precision
+    const priceAmount = unit.mul(bnToBn(price));
+    const depositAmount = unit.mul(bnToBn(deposit));
+    const call = api.tx.nftmart.submitOrder(
+      NATIVE_CURRENCY_ID,
+      priceAmount,
+      categoryId,
+      classId,
+      tokenId,
+      depositAmount,
+      currentBlockNumber.add(bnToBn(during)),
+    );
+    // const feeInfo = await call.paymentInfo(account);
+    await call.signAndSend(address, { signer: injector.signer }, (result: any) =>
+      txLog(result, cb.success),
+    );
+  } catch (error) {
+    cb.error(error.toString());
+  }
 };
 
 // take order
@@ -382,18 +398,25 @@ export const takeOrder = async ({
   classId = 0, // class id
   tokenId = 0, // token id
   price = 0, // order price
-  cb = txLog,
+  cb = { success: noop, error: (err: any) => err },
 }) => {
-  const injector = await web3FromAddress(address);
-  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
-  if (order.isSome) {
-    const priceAmount = unit.mul(bnToBn(price));
-    order = order.unwrap();
-    const call = api.tx.nftmart.takeOrder(classId, tokenId, priceAmount, ownerAddress);
-    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
-    return res;
+  try {
+    const injector = await web3FromAddress(address);
+    let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+    if (order.isSome) {
+      const priceAmount = unit.mul(bnToBn(price));
+      order = order.unwrap();
+      const call = api.tx.nftmart.takeOrder(classId, tokenId, priceAmount, ownerAddress);
+      const res = await call.signAndSend(address, { signer: injector.signer }, (result: any) =>
+        txLog(result, cb.success),
+      );
+      return res;
+    }
+    return null;
+  } catch (error) {
+    cb.error(error.toString());
+    return null;
   }
-  return null;
 };
 
 // delete order
@@ -425,15 +448,22 @@ export const deleteOrder = async ({
   ownerAddress = '', // owner address
   classId = 0, // class id
   tokenId = 0, // token id
-  cb = txLog,
+  cb = { success: noop, error: (err: any) => err },
 }) => {
-  const injector = await web3FromAddress(address);
-  let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
-  if (order.isSome) {
-    order = order.unwrap();
-    const call = api.tx.nftmart.removeOrder(classId, tokenId);
-    const res = await call.signAndSend(address, { signer: injector.signer }, cb);
-    return res;
+  try {
+    const injector = await web3FromAddress(address);
+    let order = await api.query.nftmart.orders([classId, tokenId], ownerAddress);
+    if (order.isSome) {
+      order = order.unwrap();
+      const call = api.tx.nftmart.removeOrder(classId, tokenId);
+      const res = await call.signAndSend(address, { signer: injector.signer }, (result: any) =>
+        txLog(result, cb.success),
+      );
+      return res;
+    }
+    return null;
+  } catch (error) {
+    cb.error(error.toString());
+    return null;
   }
-  return null;
 };

@@ -8,33 +8,77 @@ import Meta from '../Meta';
 export interface InnerCardProps {
   price: number | string;
   onPurchase: () => void;
+  onCancel: () => void;
+  order: any;
+  onSetting: () => void;
+  isOwner: boolean;
 }
 
-const InnerCard: FC<InnerCardProps> = ({ price, onPurchase }) => {
+const InnerCard: FC<InnerCardProps> = ({
+  price,
+  onPurchase,
+  onCancel,
+  order = null,
+  onSetting,
+  isOwner,
+}) => {
   const { t } = useTranslation();
 
   return (
     <Card
       title={
-        <Box>
-          <Text color={colors.text.gray}>{t('detail.current-price')}</Text>
-          <Button
-            variant="primary"
-            width="180px"
-            height="50px"
-            float="right"
-            onClick={() => onPurchase()}
-          >
-            {t('detail.purchase')}
-          </Button>
+        <Box p={4}>
+          {order && <Text color={colors.text.gray}>{t('detail.current-price')}</Text>}
+          {order ? (
+            <Box>
+              {!isOwner && (
+                <Button
+                  variant="primary"
+                  width="180px"
+                  height="50px"
+                  float="right"
+                  onClick={() => onPurchase()}
+                >
+                  {t('detail.purchase')}
+                </Button>
+              )}
+              {isOwner && (
+                <Button
+                  variant="primary"
+                  width="180px"
+                  height="50px"
+                  float="right"
+                  onClick={onCancel}
+                >
+                  {t('detail.cancel')}
+                </Button>
+              )}
+            </Box>
+          ) : (
+            <Box>
+              {isOwner && (
+                <Button
+                  variant="primary"
+                  width="180px"
+                  height="50px"
+                  float="right"
+                  onClick={() => onSetting()}
+                >
+                  {t('order.setting')}
+                </Button>
+              )}
+            </Box>
+          )}
         </Box>
       }
       backgroundColor="#f9f8fd"
       noHeadBorder
     >
-      <Box marginTop="-1rem">
-        <Heading display="inline">{price}</Heading> <Text display="inline">FEI</Text>
-      </Box>
+      {order && (
+        <Box marginTop="-1rem">
+          <Heading display="inline">{price}</Heading> <Text display="inline">NMT</Text>
+        </Box>
+      )}
     </Card>
   );
 };
@@ -45,13 +89,23 @@ export interface PurchaseCardProps {
   price: number | string;
   owner?: string;
   onPurchase: () => void;
+  onSetting: any;
+  onCancel: any;
+  isOwner: boolean;
 }
 
-const PurchaseCard: FC<PurchaseCardProps> = ({ category, name, owner, price, onPurchase }) => {
+const PurchaseCard: FC<PurchaseCardProps> = ({
+  category,
+  name,
+  owner,
+  price,
+  onPurchase,
+  ...rest
+}) => {
   const { t } = useTranslation();
 
   return (
-    <Card title={<Text color={colors.primary}>{category} [ICON]</Text>} noHeadBorder>
+    <Card title={<Text color={colors.primary}>{category}</Text>} noHeadBorder>
       <Stack marginTop="-1rem" spacing={4}>
         <Flex justify="space-between" align="flex-end">
           <Heading as="h2" size="lg">
@@ -59,7 +113,7 @@ const PurchaseCard: FC<PurchaseCardProps> = ({ category, name, owner, price, onP
           </Heading>
           {owner && <Meta description="Owned by" who={owner} />}
         </Flex>
-        <InnerCard price={price} onPurchase={onPurchase}></InnerCard>
+        <InnerCard price={price} onPurchase={onPurchase} {...rest}></InnerCard>
       </Stack>
     </Card>
   );

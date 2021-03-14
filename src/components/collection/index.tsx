@@ -45,14 +45,14 @@ export const MotionBox = motion.custom(
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
   const { t } = useTranslation();
-  const { tokenId: id, name, price, bannerUrl, isSet = false } = props;
+  const { classId, tokenId: id, name, price, bannerUrl, isSet = false } = props;
   const history = useHistory();
 
   const picUrl = `${IPFS_GET_SERVER}${bannerUrl}`;
 
   const handleCollectionClick = () => {
     actions.selectAsset(omit(['isSet'], props as Work));
-    history.push(`/detail/${id}`);
+    history.push(`/detail/${classId}/${id}`);
   };
 
   // TODO: Might wanna move link outside
