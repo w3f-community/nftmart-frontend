@@ -112,7 +112,7 @@ const PurchaseCard: FC<PurchaseCardProps> = ({
 
   return (
     <Card title={<Text color={colors.primary}>{category}</Text>} noHeadBorder>
-      <Stack marginTop="-1rem" spacing={4}>
+      <Stack marginTop={category ? '-1rem' : '-2rem'} spacing={4}>
         <Flex justify="space-between" align="flex-end">
           <Heading as="h2" size="lg">
             {name}

@@ -111,7 +111,7 @@
   "create.link.placeholder": "About External Link",
   "create.intro": "Introduction",
   "create.intro.placeholder": "At most 200 characters",
-  "create.upload": "Upload",
+  "create.upload": "Click here to upload image",
 
   "user.edit.title": "Edit Profile",
   "user.edit.nickname": "Name:",
