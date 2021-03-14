@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Box, Center, Container } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { globalStore } from 'rekv'
+import { globalStore } from 'rekv';
 
 import SideFilter from './SideFilter';
 import MainList from './MainList';
 import Layout from '../../layouts/common';
 import store, { actions } from '../../stores/assets';
 import { GetItems, GetMyCollections } from '../../api/graph';
-import { useMyCollectionsQuery, useCollectionsQuery } from '../../api/query';
+import { useMyCollectionsQuery, useMyAssetsQuery } from '../../api/query';
 import { debounce } from '../../utils';
 import { useQuery } from '../../utils/hook';
 import Empty from '../../components/empty';
@@ -34,13 +34,7 @@ const MyCollections = () => {
 
   const statusQueryValue = STATUS_MAP[query.get('status') ?? 'all'];
 
-  const { account } = globalStore.useState('account')
-
-  const {
-    data: collectionsData,
-    isLoading: collectionsLoading,
-    error: collectionsError,
-  } = useMyCollectionsQuery(account.address);
+  const { account } = globalStore.useState('account');
 
   // const {
   //   data: collectionsData,
@@ -52,11 +46,13 @@ const MyCollections = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
 
-  const { data: assetsResponse, loading: itemsLoading } = GetItems({
-    status: selectedStatus,
-    collectionId: selectedCollectionId,
-    categoryId: selectedCategoryId,
-  });
+  const {
+    data: collectionsData,
+    isLoading: collectionsLoading,
+    error: collectionsError,
+  } = useMyCollectionsQuery(account.address);
+
+  const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(account.address);
 
   const { filteredAssets, filteredCollections } = store.useState(
     'filteredAssets',
@@ -89,7 +85,7 @@ const MyCollections = () => {
 
   // Update assets by collectionId when data fetched
   useEffect(() => {
-    const data = assetsResponse?.assets?.assets;
+    const data = assetsData;
     if (Array.isArray(data)) {
       actions.setAssets(data);
     }
@@ -97,7 +93,7 @@ const MyCollections = () => {
     return () => {
       //
     };
-  }, [assetsResponse]);
+  }, [assetsData]);
 
   const handleSelectCollection = (collectionId: number) => {
     setSelectedCollectionId(collectionId);

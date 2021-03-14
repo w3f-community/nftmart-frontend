@@ -283,17 +283,18 @@ export const queryNftByAddress = async ({ address = '' }) => {
     let nft = await api.query.ormlNft.tokens(classId, tokenId);
     if (nft.isSome) {
       nft = nft.unwrap();
-      return nft;
+      return nft.map((n: any) => mapNFTsToAsset(n, classId));
     }
     return null;
   });
   const res = await Promise.all(arr);
-  console.log(res, 'nft by user');
-  return res;
+  return res.filter(filterNonMetaNFT);
 };
 
 // query users class
 export const queryClassByAddress = async ({ address = '' }) => {
+  console.log(address);
+
   const allClasses = await api.query.ormlNft.classes.entries();
 
   const arr = allClasses.map(async (clz: any) => {
@@ -305,7 +306,12 @@ export const queryClassByAddress = async ({ address = '' }) => {
     clazz.metadata = hexToUtf8(clazz.metadata.slice(2));
     clazz.classId = classId;
     clazz.adminList = await api.query.proxy.proxies(clazz.owner);
+
+    console.log(clazz);
+
     const res = clazz.adminList[0].map((admin: any) => {
+      console.log('admin', admin);
+
       if (admin.delegate.toString() === address) {
         return clazz;
       }
@@ -327,6 +333,7 @@ export const createClass = async ({
   metadata = CLASS_METADATA,
   cb = { success: noop, error: (err: any) => err },
 }) => {
+  console.log(address);
   try {
     const injector = await web3FromAddress(address);
     const { name, description } = metadata;

@@ -1,12 +1,13 @@
 import { useQuery } from 'react-query';
 import { Order, Work, Collection } from '../../types';
-import { getAllNfts, getAllOrders, getClasses, queryClassByAddress } from '../polka';
+import { getAllNfts, getAllOrders, getClasses, queryClassByAddress, queryNftByAddress } from '../polka';
 
 export * from './queryClient';
 
 const ASSETS_QUERY = 'getAssets';
 const COLLECTIONS_QUERY = 'getCollections';
 const MY_COLLECTIONS_QUERY = 'getMyCollections';
+const MY_ASSETS_QUERY = 'getMyAssets';
 
 export const useAssetsQuery = () => {
   // ----- helpers
@@ -63,6 +64,23 @@ export const useMyCollectionsQuery = (address: string) => {
   const { data, isLoading, error } = useQuery<Collection[]>(
     MY_COLLECTIONS_QUERY,
     queryClassesAndMap as any,
+    {
+      staleTime: 0,
+    },
+  );
+
+  return { data, isLoading, error };
+};
+
+export const useMyAssetsQuery = (address: string) => {
+  const queryNFTsAndMap = async () => {
+    const classes = await queryNftByAddress({ address });
+    return classes;
+  };
+
+  const { data, isLoading, error } = useQuery<Work[]>(
+    MY_ASSETS_QUERY,
+    queryNFTsAndMap as any,
     {
       staleTime: 0,
     },
