@@ -7,12 +7,13 @@ import { t } from '../../i18n';
 const ipfsClient = require('ipfs-http-client');
 
 export interface UploadProps {
+  boxProps?: Record<string, unknown>;
   id: string;
   value?: string;
   onChange?: (cid: string) => any;
 }
 
-const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, ...rest }) => {
+const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps, ...rest }) => {
   const [value, setValue] = useState(valueFromProp || '');
   const [isLoading, setLoadingStatus] = useState(false);
   const saveToIpfs = useCallback(async (files: any[]) => {
@@ -52,14 +53,16 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, ...rest }
   const view = (
     <Box>
       {value ? (
-        <Image w="350px" h="350px" src={`${IPFS_GET_SERVER}/${value}`} />
+        <Image w="350px" h="350px" m="16px 0" src={`${IPFS_GET_SERVER}/${value}`} />
       ) : (
-        <Text fontSize="14px">{t('create.upload')}</Text>
+        <Text fontSize="14px" lineHeight="47px">
+          {t('create.upload')}
+        </Text>
       )}
     </Box>
   );
   return (
-    <Box>
+    <Box {...boxProps}>
       <Input
         id={id}
         display="none"
