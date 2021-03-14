@@ -55,7 +55,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
       {value ? (
         <Image w="350px" h="350px" m="16px 0" src={`${IPFS_GET_SERVER}/${value}`} />
       ) : (
-        <Text fontSize="14px" lineHeight="47px">
+        <Text fontSize="14px" lineHeight="47px" cursor="pointer" textAlign="center">
           {t('create.upload')}
         </Text>
       )}
