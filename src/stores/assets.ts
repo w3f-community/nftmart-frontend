@@ -57,6 +57,8 @@ export const actions = {
     store.setState({ collections, filteredCollections: collections });
   },
   setAssets(assets: Work[]) {
+    console.log(store.currentState);
+
     store.setState((s) => ({
       ...s,
       assets,
@@ -65,6 +67,9 @@ export const actions = {
   },
   selectAsset(asset: any) {
     store.setState({ selectedAsset: asset });
+  },
+  setFilters(filterTypes: Partial<FilterTypes>) {
+    store.setState({ ...filterTypes });
   },
   filterAssets(filterTypes: Partial<FilterTypes>) {
     store.setState((s) => {
