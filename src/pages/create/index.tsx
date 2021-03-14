@@ -23,8 +23,8 @@ import { mintNft } from '../../api/polka';
 import { useMyCollectionsQuery } from '../../api/query';
 
 const formLableLayout = {
-  width: '240px',
   height: '48px',
+  flex: '0 0 240px',
   htmlFor: 'name',
   fontSize: '14px',
   color: colors.text.gray,
@@ -131,7 +131,7 @@ const CreateCollection = () => {
                                 ))}
                             </Select>
                           </Flex>
-                          <FormErrorMessage pl="188px">{form.errors.classId}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.classId}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -154,7 +154,7 @@ const CreateCollection = () => {
                               {...field}
                             />
                           </Flex>
-                          <FormErrorMessage pl="188px">{form.errors.name}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.name}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -167,19 +167,31 @@ const CreateCollection = () => {
                         form: { errors: { url: string }; touched: { url: string } };
                       }) => (
                         <FormControl isInvalid={!!(form.errors.url && form.touched.url)}>
-                          <Flex align="center">
-                            <FormLabel {...formLableLayout} htmlFor="url">
+                          <Flex>
+                            <FormLabel
+                              {...formLableLayout}
+                              p="10px 0"
+                              lineHeight="auto"
+                              height="auto"
+                            >
                               {t('create.img')}
                             </FormLabel>
-                            <Upload
-                              id="url"
-                              {...field}
-                              onChange={(url) => {
-                                props.setFieldValue('url', url);
-                              }}
-                            />
+                            <FormLabel
+                              mb="0"
+                              flexGrow={1}
+                              htmlFor="url"
+                              borderBottom="1px solid #F3F4F8"
+                            >
+                              <Upload
+                                id="url"
+                                {...field}
+                                onChange={(url) => {
+                                  props.setFieldValue('url', url);
+                                }}
+                              />
+                            </FormLabel>
                           </Flex>
-                          <FormErrorMessage>{form.errors.url}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.url}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -196,13 +208,13 @@ const CreateCollection = () => {
                           display="flex"
                           alignItems="center"
                         >
-                          <Flex>
+                          <Flex width="100%">
                             <FormLabel {...formLableLayout} htmlFor="externalUrl">
                               {t('create.link')}
                             </FormLabel>
                             <Input id="externalUrl" {...formInputLayout} {...field} />
                           </Flex>
-                          <FormErrorMessage>{form.errors.externalUrl}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.externalUrl}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -227,10 +239,11 @@ const CreateCollection = () => {
                               placeholder={t('create.intro.placeholder')}
                               {...formInputLayout}
                               {...field}
+                              resize="none"
                               height="96px"
                             />
                           </Flex>
-                          <FormErrorMessage>{form.errors.description}</FormErrorMessage>
+                          <FormErrorMessage pl="240px">{form.errors.description}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
