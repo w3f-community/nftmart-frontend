@@ -229,8 +229,7 @@ const Page = () => {
       |
       <button onClick={() => queryNftByAddress({ address: account.address })}>
         queryNftByAddress
-      </button>
-      | */}
+      </button> */}
     </CommLayout>
   );
 };
