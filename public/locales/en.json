@@ -87,6 +87,7 @@
   "detail.event.source": "Source",
   "detail.event.target": "Target",
   "detail.event.date": "Date",
+  "detail.info.owner": "Owner",
 
   "detail.alert.list": "Listing at",
 

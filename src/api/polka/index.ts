@@ -237,24 +237,21 @@ const getClassId = (c: any) => {
   return new Uint32Array(key)[0];
 };
 
-const mapNFTToAsset = (
-  NFT: any,
-  cid: number,
-  // tid?: number
-) => {
+const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
   const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
 
   return {
     ...NFT,
     ...JSON.parse(originalString),
     classId: cid,
-    // tokenId: tid,
+    tokenId: tid,
   };
 };
+
 const mapNFTsToAsset = (NFTS: any[], cid: number) => {
   return NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
     .filter(filterNonMetaNFT)
-    .map((n) => mapNFTToAsset(n, cid));
+    .map((n, idx) => mapNFTToAsset(n, cid, idx));
 };
 
 // get all nfts

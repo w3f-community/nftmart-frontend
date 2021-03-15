@@ -100,7 +100,7 @@ const Detail: FC = () => {
 
   const handleCancelOrder = () => {
     setCancelLoading(true);
-    const deleParams = {
+    const delParams = {
       address: account.address,
       ownerAddress: selectedAsset.owner,
       classId,
@@ -129,7 +129,7 @@ const Detail: FC = () => {
         },
       },
     };
-    deleteOrder(deleParams);
+    deleteOrder(delParams);
   };
 
   const handlePurchaseConfirm = (setLoading: any) => {
@@ -233,12 +233,13 @@ const Detail: FC = () => {
               price={price}
               onPurchase={() => setPurchaseOpen(true)}
               order={selectedAsset.order}
+              asset={selectedAsset}
               onSetting={() => setSettingOpen(true)}
               onCancel={handleCancelOrder}
               cancelLoading={cancelLoading}
               isOwner={selectedAsset.owner === account.address}
             />
-            <IntroCard description={selectedAsset.description ?? t('detail.no-description')} />
+            {/* <IntroCard description={selectedAsset.description ?? t('detail.no-description')} /> */}
             {/* <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
             <ClassInfo about={selectedAsset.class ?? t('detail.no-about')} /> */}
             <PriceHistoryCard />

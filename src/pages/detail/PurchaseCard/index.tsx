@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, Button, Heading, Stack, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Heading, Stack, Flex, Text, Badge } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import Card from '../../../components/card';
 import colors from '../../../themes/colors';
@@ -13,6 +13,7 @@ export interface InnerCardProps {
   onSetting: () => void;
   isOwner: boolean;
   cancelLoading: boolean;
+  asset: any;
 }
 
 const InnerCard: FC<InnerCardProps> = ({
@@ -23,6 +24,7 @@ const InnerCard: FC<InnerCardProps> = ({
   onSetting,
   isOwner,
   cancelLoading,
+  asset,
 }) => {
   const { t } = useTranslation();
 
@@ -98,14 +100,16 @@ export interface PurchaseCardProps {
   onCancel: any;
   isOwner: boolean;
   cancelLoading: boolean;
+  asset: any;
 }
 
 const PurchaseCard: FC<PurchaseCardProps> = ({
   category,
   name,
-  owner,
   price,
   onPurchase,
+  isOwner,
+  asset,
   ...rest
 }) => {
   const { t } = useTranslation();
@@ -117,9 +121,9 @@ const PurchaseCard: FC<PurchaseCardProps> = ({
           <Heading as="h2" size="lg">
             {name}
           </Heading>
-          {owner && <Meta description="Owned by" who={owner} />}
+          <Meta description="Owned by" who={isOwner ? 'You' : asset.owner} />
         </Flex>
-        <InnerCard price={price} onPurchase={onPurchase} {...rest}></InnerCard>
+        <InnerCard price={price} onPurchase={onPurchase} asset={asset} {...rest}></InnerCard>
       </Stack>
     </Card>
   );
