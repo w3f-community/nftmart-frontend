@@ -20,6 +20,7 @@ const NavLink = () => {
         fontWeight="bold"
         marginRight={8}
         bordered
+        key={title}
       />
     );
   };

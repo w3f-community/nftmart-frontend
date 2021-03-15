@@ -124,7 +124,7 @@
 
   "list.total.result": "{{count}} result",
   "list.total.results": "{{count}} results",
-  "list.empty": "No collections were found",
+  "list.empty": "No assets were found",
 
   "lang.en": "English",
   "lang.zh": "Chinese",

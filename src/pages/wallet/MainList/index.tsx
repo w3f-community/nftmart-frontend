@@ -152,9 +152,12 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
           {!!count && (
             <SimpleGrid columns={4}>
               {data.map((work) => (
-                <Link to={`/detail/${work.classId}/${work.tokenId}`} key={work.tokenId}>
+                <Link
+                  to={`/detail/${work.classId}/${work.tokenId}`}
+                  key={`${work.classId}-${work.tokenId}`}
+                >
                   <Box ml="16px" mb="16px">
-                    <Collection {...work} key={`${work.classId}-${work.tokenId}`} />
+                    <Collection {...work} />
                   </Box>
                 </Link>
               ))}
