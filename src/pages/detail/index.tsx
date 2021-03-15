@@ -114,7 +114,7 @@ const Detail: FC = () => {
             duration: 3000,
             description: t('detail.cancel.success'),
           });
-          fetchData();
+          fetchData(classId, tokenId);
           setCancelLoading(false);
         },
         error: (error: string) => {
@@ -150,7 +150,7 @@ const Detail: FC = () => {
             duration: 3000,
             description: t('detail.purchase.success'),
           });
-          fetchData();
+          fetchData(classId, tokenId);
           setLoading(false);
           setPurchaseOpen(false);
         },
