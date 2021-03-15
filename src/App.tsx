@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import * as React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route, useLocation } from 'react-router-dom';
 import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import { ApolloProvider } from '@apollo/client';
 import { QueryClientProvider } from 'react-query';
@@ -12,6 +12,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import { getClient } from './api/graph';
 import { queryClient } from './api/query';
+import { scrollTo } from './utils/ui';
 
 import './i18n';
 
@@ -25,6 +26,16 @@ import Detail from './pages/detail';
 import MyCollections from './pages/collections';
 
 const ControlledLayout = () => {
+  const location = useLocation();
+
+  // Scroll on top when route changes
+  React.useEffect(() => {
+    scrollTo(0);
+    return () => {
+      // cleanup
+    };
+  }, [location.pathname, location.search]);
+
   return (
     <>
       <Header sticky />
