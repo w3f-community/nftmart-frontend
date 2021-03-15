@@ -210,7 +210,7 @@ const Page = () => {
     <CommLayout title="title.home">
       <TypeFilter onFilter={handleFilter} sticky={stickyFilter} />
       {error ? errorBox : <Works loading={isLoading} data={workListMap} />}
-      <button onClick={() => create()}>create</button>|
+      {/* <button onClick={() => create()}>create</button>|
       <button onClick={() => getClassById(8)}>get</button>|
       <button onClick={() => mint()}>mint</button>
       <br />
@@ -230,7 +230,7 @@ const Page = () => {
       <button onClick={() => queryNftByAddress({ address: account.address })}>
         queryNftByAddress
       </button>
-      |
+      | */}
     </CommLayout>
   );
 };
