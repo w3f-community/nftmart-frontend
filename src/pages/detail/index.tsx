@@ -207,7 +207,7 @@ const Detail: FC = () => {
       <DetailContainer
         left={
           <>
-            {selectedAsset.metadata && (
+            {selectedAsset.metadata && selectedAsset.metadata.url && (
               <ImageCard
                 src={`${IPFS_GET_SERVER}${selectedAsset.metadata.url}` ?? 'image placeholder'}
               />

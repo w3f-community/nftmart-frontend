@@ -52,9 +52,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
           <NavLink />
         </Flex>
 
-        {/* <Flex>
-          <ChangeLanguage />
-        </Flex> */}
+        <Flex>{/* <ChangeLanguage /> */}</Flex>
 
         {account?.meta && (
           <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">
