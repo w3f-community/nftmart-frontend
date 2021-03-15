@@ -18,6 +18,9 @@ const obj = {
     },
     '#root': {
       position: 'relative',
+      minHeight: '100%',
+      display: 'flex',
+      flexDiretion: 'column',
     },
 
     'footer.page-footer': {

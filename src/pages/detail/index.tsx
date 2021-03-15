@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Center, OrderedList, Spinner, useToast } from '@chakra-ui/react';
+import { Box, Center, OrderedList, Spinner, Stack, Text, useToast } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
@@ -27,6 +27,8 @@ import { GetCollections, GetItems } from '../../api/graph';
 import { getNft, getOrder, deleteOrder, takeOrder } from '../../api/polka';
 import { toFixedDecimals } from '../../utils';
 import { IPFS_GET_SERVER } from '../../constants';
+import NotFound from '../notFound';
+import colors from '../../themes/colors';
 
 const Detail: FC = () => {
   const { t } = useTranslation();
@@ -39,6 +41,7 @@ const Detail: FC = () => {
   const { categories } = cateStore.useState('categories');
   // const { data: assetsResponse } = GetItems({ id: Number(params?.token) ?? -1, pageSize: 1 });
 
+  const [assetLoading, setAssetLoading] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [settingOpen, setSettingOpen] = useState(false);
@@ -70,13 +73,16 @@ const Detail: FC = () => {
   // }, [collectionsResponse]);
   const fetchData = async (cid = '', tid = '') => {
     if (+cid < 0 || +tid < 0) return;
+    setAssetLoading(true);
     const res = await getNft(cid, tid);
     if (!res) {
+      setAssetLoading(false);
       return;
     }
     const order = await getOrder(cid, tid, res.owner);
     res.order = order;
     actions.selectAsset(res);
+    setAssetLoading(false);
   };
 
   useEffect(() => {
@@ -87,12 +93,27 @@ const Detail: FC = () => {
   }, [classId, tokenId]);
 
   if (!selectedAsset) {
-    return (
+    return assetLoading ? (
       <Box height="100vh" width="100vw">
         <Center height="100%">
-          <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+          <Stack alignItems="center" spacing={6}>
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+            <Text color={colors.text.gray}>{t('detail.loading-text')}</Text>
+          </Stack>
         </Center>
       </Box>
+    ) : (
+      <NotFound
+        title={t('not-found.asset.title')}
+        subtitle={t('not-found.asset.subtitle')}
+        description={t('not-found.asset.description')}
+      />
     );
   }
 
@@ -195,7 +216,7 @@ const Detail: FC = () => {
   }
 
   return (
-    <Box marginTop="77px">
+    <Box marginTop="77px" width="100%">
       <Helmet title={t('title.detail', { name: selectedAsset.name })} />
       {selectedAsset.order && (
         <Alert

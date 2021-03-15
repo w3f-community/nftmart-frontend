@@ -13,7 +13,7 @@ const Layout = ({ children, title }: Props) => {
   return (
     <>
       <Helmet>{title && <title>{t(title)}</title>}</Helmet>
-      <Box marginTop="77px" as="main">
+      <Box marginTop="77px" as="main" flex="1 0 auto" maxWidth="100%">
         {children}
       </Box>
     </>
