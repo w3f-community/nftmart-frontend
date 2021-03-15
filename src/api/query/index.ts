@@ -114,9 +114,9 @@ export const useMyAssetsQuery = (address: string) => {
     return assets;
   };
 
-  const { data, isLoading, error } = useQuery<Work[]>(MY_ASSETS_QUERY, queryAssetsAndMap as any, {
+  const { data, isLoading, error, refetch } = useQuery<Work[]>([MY_ASSETS_QUERY, address], queryAssetsAndMap as any, {
     staleTime: Infinity,
   });
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch };
 };

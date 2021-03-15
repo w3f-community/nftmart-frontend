@@ -72,7 +72,7 @@ const Detail: FC = () => {
     if (+cid < 0 || +tid < 0) return;
     const res = await getNft(cid, tid);
     if (!res) {
-      // TODO: fix the null problem
+      return;
     }
     const order = await getOrder(cid, tid, res.owner);
     res.order = order;
@@ -81,6 +81,9 @@ const Detail: FC = () => {
 
   useEffect(() => {
     fetchData(classId, tokenId);
+    return () => {
+      actions.selectAsset(null);
+    };
   }, [classId, tokenId]);
 
   if (!selectedAsset) {

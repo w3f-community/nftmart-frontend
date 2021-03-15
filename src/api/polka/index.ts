@@ -239,10 +239,12 @@ const getClassId = (c: any) => {
 
 const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
   const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
+  const metadata = JSON.parse(originalString);
 
   return {
     ...NFT,
-    ...JSON.parse(originalString),
+    ...metadata,
+    metadata,
     classId: cid,
     tokenId: tid,
   };

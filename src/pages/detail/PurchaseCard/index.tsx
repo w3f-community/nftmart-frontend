@@ -31,7 +31,7 @@ const InnerCard: FC<InnerCardProps> = ({
   return (
     <Card
       title={
-        <Box p={4}>
+        <Box>
           {order && <Text color={colors.text.gray}>{t('detail.current-price')}</Text>}
           {order ? (
             <Box>
@@ -82,8 +82,14 @@ const InnerCard: FC<InnerCardProps> = ({
       noHeadBorder
     >
       <Box marginTop="-1rem">
-        <Text display="inline">{order ? price : t('detail.no.list')}</Text>{' '}
         {/* TODO: price formatting */}
+        {order ? (
+          <Heading size="lg" display="inline">
+            {price}
+          </Heading>
+        ) : (
+          <Text display="inline">{t('detail.no.list')}</Text>
+        )}{' '}
         {order && <Text display="inline">{(price as string).includes('NMT') ? '' : 'NMT'}</Text>}
       </Box>
     </Card>
