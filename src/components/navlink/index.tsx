@@ -9,17 +9,22 @@ const NavLink = () => {
 
   const renderLink = (title: string) => {
     const path = NAV_MAP[title];
-    const active = location.pathname + location.search === path;
+    const routePath = location.pathname + location.search;
+    // TODO: Mess state...
+    const isExplore =
+      path === '/explore' && (/^\/?explore\/?$/.test(routePath) || location.search.includes('all'));
+    const active = routePath === path;
 
     return (
       <NLink
         title={title}
         path={path}
-        active={active}
+        active={isExplore || active}
         bgSize="cover"
         fontWeight="bold"
         marginRight={8}
         bordered
+        key={title}
       />
     );
   };

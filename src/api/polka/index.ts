@@ -239,10 +239,12 @@ const getClassId = (c: any) => {
 
 const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
   const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
+  const metadata = JSON.parse(originalString);
 
   return {
     ...NFT,
-    ...JSON.parse(originalString),
+    ...metadata,
+    metadata,
     classId: cid,
     tokenId: tid,
   };
@@ -345,8 +347,8 @@ export const queryClassByAddress = async ({ address = '' }) => {
 
     const res = clazz.adminList[0].map((admin: any) => {
       const adminAddress = admin.delegate.toString();
-      console.log('cl', clazz);
-      console.log('check admin list', adminAddress, address);
+      // console.log('cl', clazz);
+      // console.log('check admin list', adminAddress, address);
 
       if (adminAddress === address) {
         return clazz;
@@ -368,7 +370,6 @@ export const createClass = async ({
   metadata = CLASS_METADATA,
   cb = { success: noop, error: (err: any) => err },
 }) => {
-  console.log('create address', address);
   try {
     const injector = await web3FromAddress(address);
     const { name, description } = metadata;
@@ -378,7 +379,7 @@ export const createClass = async ({
       .signAndSend(address, { signer: injector.signer }, (result: any) =>
         txLog(result, cb.success),
       );
-    console.log(res, res);
+    // console.log(res, res);
     return res;
   } catch (error) {
     cb.error(error.toString());

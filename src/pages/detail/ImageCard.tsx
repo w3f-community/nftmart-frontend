@@ -23,6 +23,7 @@ const ImageCard: FC<ImageCardProps> = ({ width = 466, height = 666, src }) => {
               height: '100%',
             },
           }}
+          fadeIn
         />
       </Center>
       {/* </AspectRatio> */}

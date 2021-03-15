@@ -57,8 +57,6 @@ export const actions = {
     store.setState({ collections, filteredCollections: collections });
   },
   setAssets(assets: Work[]) {
-    console.log(store.currentState);
-
     store.setState((s) => ({
       ...s,
       assets,

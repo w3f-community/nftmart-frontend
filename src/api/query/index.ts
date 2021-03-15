@@ -68,8 +68,6 @@ export const useCollectionsQuery = () => {
 export const useMyCollectionsQuery = (address: string) => {
   const queryClassesAndMap = async () => {
     const classes = await queryClassByAddress({ address });
-    console.log('given classes', classes);
-
     return classes;
   };
 
@@ -114,9 +112,9 @@ export const useMyAssetsQuery = (address: string) => {
     return assets;
   };
 
-  const { data, isLoading, error } = useQuery<Work[]>(MY_ASSETS_QUERY, queryAssetsAndMap as any, {
+  const { data, isLoading, error, refetch } = useQuery<Work[]>([MY_ASSETS_QUERY, address], queryAssetsAndMap as any, {
     staleTime: Infinity,
   });
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch };
 };

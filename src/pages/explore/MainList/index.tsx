@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { Box, Center, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
+import { Box, Center, Divider, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -151,12 +151,19 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
         <>
           <Helpers onSort={handleSorting} count={count} />
 
+          <Center paddingLeft={4} paddingBottom={6}>
+            <Divider borderColor={colors.divider.dark} />
+          </Center>
+
           {!!count && (
             <SimpleGrid columns={4}>
               {data.map((work) => (
-                <Link to={`/detail/${work.classId}/${work.tokenId}`} key={work.tokenId}>
+                <Link
+                  to={`/detail/${work.classId}/${work.tokenId}`}
+                  key={`${work.classId}-${work.tokenId}`}
+                >
                   <Box ml="16px" mb="16px">
-                    <Collection {...work} key={`${work.classId}-${work.tokenId}`} />
+                    <Collection {...work} />
                   </Box>
                 </Link>
               ))}

@@ -16,7 +16,7 @@ export default function Uploader() {
       const added = await ipfs.add(files[0], {
         progress: (prog: any) => console.log(`received: ${prog}`),
       });
-      console.log(added.cid.toString(), '=============');
+      // console.log(added.cid.toString(), '=============');
       setCid(added.cid.toString());
     } catch (err) {
       console.error(err);

@@ -96,8 +96,6 @@ const CreateCollection = () => {
                 description: '',
               }}
               onSubmit={(formValue, formAction) => {
-                console.log('submitting', formValue);
-
                 mint(formValue, {
                   success: () => {
                     toast({
