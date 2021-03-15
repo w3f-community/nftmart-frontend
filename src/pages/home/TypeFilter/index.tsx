@@ -1,7 +1,8 @@
 import React, { FC, useMemo, useState } from 'react';
-import { Box, Container, Button } from '@chakra-ui/react';
+import { Box, Container, Button, keyframes } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import BannerBg from '../../../assets/home/banner.png';
 import colors from '../../../themes/colors';
@@ -10,9 +11,20 @@ import { Category } from '../../../types';
 
 import categoriesStore from '../../../stores/categories';
 
+const fadeIn = keyframes`
+from {
+  opacity: 0;
+}
+
+to {
+  opacity: 1;
+}
+`
+
 const BannerImg = styled.img({
   height: '100%',
   maxWidth: 'none',
+  animation: `${fadeIn} .5s ease-in`,
 });
 
 const Title = styled.div({
@@ -115,7 +127,9 @@ const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky }) => {
       <TextContainer>
         <Title>The largest NFT marketplace</Title>
         <Intro>Buy, sell, and discover rare digital items</Intro>
-        <ExploreButton>EXPLORE</ExploreButton>
+        <Link to="/explore">
+          <ExploreButton>EXPLORE</ExploreButton>
+        </Link>
       </TextContainer>
 
       <Box

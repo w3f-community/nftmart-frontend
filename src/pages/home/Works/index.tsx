@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, Container, SimpleGrid, Skeleton } from '@chakra-ui/react';
+import { Box, Center, Container, SimpleGrid, Skeleton, Spinner } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -112,10 +112,18 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
     );
   };
 
+  const loadingNode = (
+    <Center height="40vh">
+      <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+    </Center>
+  );
+
   return (
     <Box p="40px 0">
       <Container>
-        {!Object.keys(data).length && <Empty description={t('home.empty')} />}
+        {!Object.keys(data).length && loading && loadingNode}
+
+        {!Object.keys(data).length && !loading && <Empty description={t('home.empty')} />}
 
         {!!Object.keys(data).length &&
           partList.map(({ title, link, icon, list }) =>
