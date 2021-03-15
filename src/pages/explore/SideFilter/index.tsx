@@ -172,7 +172,6 @@ const SideFilter: FC<SideFilterProps> = ({
                 <Stack>
                   <Radio value={DEFUALT_COLLECTION_ID}>{t('nav.explore.all')}</Radio>
                   {data.map(({ id, name }) => {
-                    console.log(id, selectedCollectionId);
                     return (
                       <Radio value={`id:${id}`} key={`key:${id}`}>
                         {name}

@@ -169,7 +169,6 @@ const Detail: FC = () => {
         },
       },
     };
-    console.log(purchaseParams);
     takeOrder(purchaseParams);
   };
 

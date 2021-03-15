@@ -27,7 +27,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
       const added = await ipfs.add(files[0], {
         progress: (arg: any) => arg,
       });
-      console.log(added.cid.toString(), '=============');
+      // console.log(added.cid.toString(), '=============');
       setValue(added.cid.toString());
       setLoadingStatus(false);
     } catch (err) {

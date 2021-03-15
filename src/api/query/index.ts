@@ -68,8 +68,6 @@ export const useCollectionsQuery = () => {
 export const useMyCollectionsQuery = (address: string) => {
   const queryClassesAndMap = async () => {
     const classes = await queryClassByAddress({ address });
-    console.log('given classes', classes);
-
     return classes;
   };
 
