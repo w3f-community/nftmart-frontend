@@ -105,7 +105,7 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
         <PartHeader title={title} icon={icon} link={link} />
         <SimpleGrid columns={5} spacing={4}>
           {typicalList.map((work) => (
-            <Collection {...work} isSet />
+            <Collection {...work} isSet key={`${work.classId}-${work.tokenId}`} />
           ))}
         </SimpleGrid>
       </Box>
