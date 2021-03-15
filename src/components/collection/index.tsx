@@ -77,6 +77,7 @@ const Collection = (props: CollectionProps) => {
           NativeImgProps={{ style: { width: 231, height: 195 } }}
           src={picUrl as string}
           fallback={<Shimmer height={195} width={231} />}
+          fadeIn
         />
       </Center>
 
