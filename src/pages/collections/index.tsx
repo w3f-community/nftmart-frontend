@@ -74,7 +74,7 @@ const MyCollections = () => {
       // Update store
       actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      if (!selectedCollectionId) {
+      if (!selectedCollectionId && collectionsData[0]) {
         setSelectedCollectionId(collectionsData[0].id);
         setSelectedCollection(collectionsData[0]);
       }

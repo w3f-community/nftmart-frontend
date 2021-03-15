@@ -24,6 +24,7 @@ import Layout from '../../layouts/common';
 import colors from '../../themes/colors';
 
 import { createClass } from '../../api/polka';
+import { useMyAssetsQuery } from '../../api/query';
 
 const schema = Yup.object().shape({
   name: Yup.string().max(50, 'Too Long!').required('Required'),
@@ -56,6 +57,7 @@ const CreateCollection: FC = () => {
   const toast = useToast();
 
   const { account } = globalStore.useState('account');
+  const { refetch: refetchAssets } = useMyAssetsQuery(account.address);
 
   const create = useCallback((formValue, cb) => {
     createClass({ address: account.address, metadata: formValue, cb });
@@ -103,6 +105,7 @@ const CreateCollection: FC = () => {
                     });
                     formActions.setSubmitting(false);
                     formActions.resetForm();
+                    refetchAssets();
                   },
                   error: (err: any) => {
                     toast({
@@ -113,6 +116,7 @@ const CreateCollection: FC = () => {
                       description: err,
                     });
                     formActions.setSubmitting(false);
+                    refetchAssets();
                   },
                 });
               }}

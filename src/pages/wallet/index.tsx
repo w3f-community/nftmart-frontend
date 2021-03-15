@@ -64,8 +64,8 @@ const Wallet = () => {
       // Update store
       actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      if (!selectedCollectionId) {
-        setSelectedCollectionId(collectionsData[0].id);
+      if (!selectedCollectionId && collectionsData[0]) {
+        setSelectedCollectionId(collectionsData[0]?.id);
       }
     }
 
