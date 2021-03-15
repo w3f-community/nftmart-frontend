@@ -8,6 +8,7 @@
   "title.collections": "我的作品 | NFTmart",
   "title.create": "创建作品 | NFTmart",
   "title.create-collection": "创建作品集 | NFTmart",
+  "title.not-found": "找不到 | NFTmart",
 
   "nav.home": "首页",
   "nav.explore": "浏览",
@@ -44,6 +45,13 @@
   "type.collection": "收藏品",
   "type.others": "其他",
 
+  "not-found.title": "Page Not Found",
+  "not-found.subtitle": "We could not find what you were looking for.",
+  "not-found.description": "Please contact the owner of the site that linked you to the original URL and let them know their link is broken.",
+  "not-found.asset.title": "Asset Not Found",
+  "not-found.asset.subtitle": "We could not find the asset you were looking for.",
+  "not-found.asset.description": "Please contact the owner of the site that linked you to the original URL and let them know their link is broken.",
+
   "home.new-list": "新上架",
   "home.new-create": "新创建",
   "home.new-strike": "最近成交",
@@ -54,6 +62,7 @@
 
   "wallet.title": "我的钱包",
 
+  "detail.loading-text": "正在搜索对应资产，请稍等。。。",
   "detail.no-description": "暂时没有介绍",
   "detail.no-metadata": "暂时没有元数据",
   "detail.no-about": "暂时没有关于",

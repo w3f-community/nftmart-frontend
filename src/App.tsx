@@ -24,6 +24,7 @@ import CreateCollection from './pages/create-collection';
 import EditUser from './pages/edit-user';
 import Detail from './pages/detail';
 import MyCollections from './pages/collections';
+import NotFound from './pages/notFound';
 
 const ControlledLayout = () => {
   const location = useLocation();
@@ -49,6 +50,7 @@ const ControlledLayout = () => {
           <Route exact strict path="/collections" component={MyCollections} />
           <Route exact strict path="/create" component={Create} />
           <Route exact strict path="/create-collection" component={CreateCollection} />
+          <Route exact strict path="*" component={NotFound} />
         </Switch>
       </PolkaProvider>
       <Footer />

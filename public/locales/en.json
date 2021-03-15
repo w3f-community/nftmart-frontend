@@ -8,6 +8,7 @@
   "title.collections": "My Collections | NFTmart",
   "title.create": "Create | NFTmart",
   "title.create-collection": "Create Collection | NFTmart",
+  "title.not-found": "Not Found | NFTmart",
 
   "nav.home": "Home",
   "nav.explore": "Explore",
@@ -45,6 +46,13 @@
   "type.collection": "Collection",
   "type.others": "Other",
 
+  "not-found.title": "Page Not Found",
+  "not-found.subtitle": "We could not find what you were looking for.",
+  "not-found.description": "Please contact the owner of the site that linked you to the original URL and let them know their link is broken.",
+  "not-found.asset.title": "Asset Not Found",
+  "not-found.asset.subtitle": "We could not find the asset you were looking for.",
+  "not-found.asset.description": "Please make sure the link is right or contact the owner of the site that linked you to the original URL and let them know their link is broken.",
+
   "home.new-list": "New List",
   "home.new-create": "New Creation",
   "home.new-strike": "Latest Strike",
@@ -55,6 +63,7 @@
 
   "wallet.title": "My Wallet",
 
+  "detail.loading-text": "Looking for the corresponding asset, please wait...",
   "detail.no-description": "No description available.",
   "detail.no-metadata": "No metadata available.",
   "detail.no-about": "No about available.",
