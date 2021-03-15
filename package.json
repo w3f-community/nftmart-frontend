@@ -41,6 +41,7 @@
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.8.8",
     "react-icons": "^3.0.0",
+    "react-json-view": "^1.21.3",
     "react-query": "^3.12.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",

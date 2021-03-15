@@ -13,7 +13,7 @@ const Alert: FC<AlertProps> = ({ onSetting, order, categories, ...boxProps }) =>
   return (
     <Box height="80px" backgroundColor="#e9ecff" display="flex" alignItems="center" {...boxProps}>
       <Container>
-        <Stack direction="row" justifyContent="flex-end">
+        <Stack direction="row" justifyContent="center">
           <Center>
             <Box>
               <Text display="inline" color={colors.text.gray}>

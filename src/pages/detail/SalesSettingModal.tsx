@@ -133,7 +133,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
             price: undefined,
             // expiration: undefined,
             category: undefined,
-            pledge: 200,
+            pledge: undefined,
           }}
           onSubmit={handleSubmit}
           validationSchema={SalesSettingSchema}

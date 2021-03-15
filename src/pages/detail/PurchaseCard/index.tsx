@@ -82,7 +82,7 @@ const InnerCard: FC<InnerCardProps> = ({
       noHeadBorder
     >
       <Box marginTop="-1rem">
-        <Heading display="inline">{order ? price : 'No listed yet'}</Heading>{' '}
+        <Text display="inline">{order ? price : t('detail.no.list')}</Text>{' '}
         {/* TODO: price formatting */}
         {order && <Text display="inline">{(price as string).includes('NMT') ? '' : 'NMT'}</Text>}
       </Box>
@@ -123,7 +123,13 @@ const PurchaseCard: FC<PurchaseCardProps> = ({
           </Heading>
           <Meta description="Owned by" who={isOwner ? 'You' : asset.owner} />
         </Flex>
-        <InnerCard price={price} onPurchase={onPurchase} asset={asset} {...rest}></InnerCard>
+        <InnerCard
+          price={price}
+          onPurchase={onPurchase}
+          asset={asset}
+          isOwner={isOwner}
+          {...rest}
+        ></InnerCard>
       </Stack>
     </Card>
   );

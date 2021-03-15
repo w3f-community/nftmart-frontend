@@ -59,7 +59,6 @@ const SideFilter: FC<SideFilterProps> = ({
 
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
-
   const [selectedCollectionId, setSelectedCollectionId] = useState<number>(-1);
 
   // Update status base on router
@@ -103,6 +102,7 @@ const SideFilter: FC<SideFilterProps> = ({
   };
 
   const handleSelectCollection = (val: number | string) => {
+    console.log(val);
     const result = Number(val);
     setSelectedCollectionId(result);
     onSelectCollection(result);
@@ -181,13 +181,15 @@ const SideFilter: FC<SideFilterProps> = ({
             {!loading && !!data.length && (
               <RadioGroup
                 onChange={handleSelectCollection}
-                value={selectedCollectionId}
+                value={`${selectedCollectionId}`}
                 defaultValue={DEFUALT_COLLECTION_ID}
               >
                 <Stack>
-                  <Radio value={DEFUALT_COLLECTION_ID}>{t('nav.explore.all')}</Radio>
+                  <Radio value={`${DEFUALT_COLLECTION_ID}`} key={`${DEFUALT_COLLECTION_ID}`}>
+                    {t('nav.explore.all')}
+                  </Radio>
                   {data.map(({ id, name }) => (
-                    <Radio value={id} key={id} checked={id === selectedCollectionId}>
+                    <Radio value={`${id}`} key={id + name}>
                       {name}
                     </Radio>
                   ))}

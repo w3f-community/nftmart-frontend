@@ -217,9 +217,7 @@ const Detail: FC = () => {
                 description={selectedAsset.metadata.description ?? t('detail.no-description')}
               />
             )}
-            <MetaCard
-              metadata={JSON.stringify(selectedAsset.metadata) ?? t('detail.no-metadata')}
-            />
+            <MetaCard metadata={selectedAsset.metadata ?? {}} />
             {selectedAsset.class && selectedAsset.class.metadata && (
               <ClassInfo about={selectedAsset.class ?? t('detail.no-about')} />
             )}
