@@ -102,7 +102,6 @@ const SideFilter: FC<SideFilterProps> = ({
   };
 
   const handleSelectCollection = (val: number | string) => {
-    console.log(val);
     const result = Number(val);
     setSelectedCollectionId(result);
     onSelectCollection(result);

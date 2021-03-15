@@ -2,7 +2,7 @@ import { getTimestamp } from '../api/polka';
 
 export const queryTimestamp = async () => {
   const res = await getTimestamp();
-  console.log(res);
+  // console.log(res);
   return res;
 };
 

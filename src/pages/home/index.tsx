@@ -49,8 +49,6 @@ const Page = () => {
   const { filteredAssets } = store.useState('assets', 'filteredAssets');
   const { account } = globalStore.useState('account');
 
-  console.log(assetsData, filteredAssets);
-
   const [workListMap, setWorkListMap] = useState<ListMap>(groupByStatus(filteredAssets));
   // TODO: sticky animation
   const [stickyFilter] = useState(false);
@@ -148,7 +146,6 @@ const Page = () => {
     }
 
     actions.setAssets(assets ?? []);
-    console.log('effect changes', store.currentState);
     return () => {
       //
     };

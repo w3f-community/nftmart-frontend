@@ -45,6 +45,7 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
           paddingX: 4,
           display: 'block',
         }}
+        key={title}
       />
     );
   };
