@@ -47,6 +47,7 @@
   "type.virtual": "虚拟世界",
   "type.sport": "运动",
   "type.collection": "收藏品",
+  "type.art": "Art",
   "type.others": "其他",
 
   "not-found.title": "Page Not Found",
@@ -134,5 +135,7 @@
 
   "lang.en": "英文",
   "lang.zh": "中文",
-  "network.retry": "点击重试"
+  "network.retry": "点击重试",
+  
+  "loading.init": "初始化 Polkadot API 中..."
 }

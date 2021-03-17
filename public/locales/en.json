@@ -45,9 +45,10 @@
   "type.all": "All",
   "type.arts": "Digital Art",
   "type.digital": "Digital Art",
-  "type.virtual": "Virtual",
-  "type.sport": "Sport",
-  "type.collection": "Collection",
+  "type.virtual": "Virtual Worlds",
+  "type.sport": "Sports",
+  "type.collection": "Collectibles",
+  "type.art": "Art",
   "type.others": "Other",
 
   "not-found.title": "Page Not Found",
@@ -107,7 +108,7 @@
   "detail.cancel": "Cancel Order",
   "detail.cancel.success": "Order cancel success...",
   "detail.purchase.success": "Order cancel success...",
-  "detail.no.list": "Not listing yet",
+  "detail.no.list": "Not listed yet",
 
   "footer.aboutus.title": "About Us",
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
@@ -144,5 +145,7 @@
   "network.retry": "Retry",
 
   "order.coming.soon": "Demonstration only. Order stats coming soon",
-  "event.coming.soon": "Events history coming soon"
+  "event.coming.soon": "Events history coming soon",
+  
+  "loading.init": "Initializing Polkadot API..."
 }
