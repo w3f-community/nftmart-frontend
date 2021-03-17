@@ -81,7 +81,7 @@ export const useMyCollectionsQuery = (address: string) => {
     return classes;
   };
 
-  const { data, isLoading, error } = useQuery<Collection[]>(
+  const { data, isLoading, error, refetch } = useQuery<Collection[]>(
     MY_COLLECTIONS_QUERY,
     queryClassesAndMap as any,
     {
@@ -89,7 +89,7 @@ export const useMyCollectionsQuery = (address: string) => {
     },
   );
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch };
 };
 
 export const useMyAssetsQuery = (address: string) => {

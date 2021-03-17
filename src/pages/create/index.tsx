@@ -21,7 +21,7 @@ import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
 import { mintNft } from '../../api/polka';
-import { useMyCollectionsQuery } from '../../api/query';
+import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 import { useQuery } from '../../utils/hook';
 
 const formLableLayout = {
@@ -51,7 +51,8 @@ const CreateCollection = () => {
   const { t } = useTranslation();
   const toast = useToast();
   const { account } = globalStore.useState('account');
-  const { data: classes } = useMyCollectionsQuery(account.address);
+  const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
+  const { data: classes, refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
     const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
@@ -106,6 +107,8 @@ const CreateCollection = () => {
                     });
                     formAction.setSubmitting(false);
                     formAction.resetForm();
+                    refetchMyAssets();
+                    refetchMyCollections();
                   },
                   error: (error: string) => {
                     toast({
@@ -116,6 +119,8 @@ const CreateCollection = () => {
                       description: error,
                     });
                     formAction.setSubmitting(false);
+                    refetchMyAssets();
+                    refetchMyCollections();
                   },
                 });
               }}
