@@ -29,7 +29,6 @@ import { toFixedDecimals } from '../../utils';
 import { IPFS_GET_SERVER } from '../../constants';
 import NotFound from '../notFound';
 import colors from '../../themes/colors';
-import { Work } from '../../types';
 
 const Detail: FC = () => {
   const { t } = useTranslation();
