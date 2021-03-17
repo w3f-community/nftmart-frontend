@@ -30,7 +30,11 @@
   "download": "Download",
 
   "component.collection.title": "Title",
+  "component.collection.title.tooltip": "The name of this NFT",
   "component.collection.price": "Price",
+  "component.collection.price.tooltip": "The offer price of this NFT",
+  "component.collection.pledge": "Pledge",
+  "component.collection.pledge.tooltip": "The pledge of this asset",
 
   "form.collection": "Collections",
   "form.collection.placeholder": "Filter Collections",

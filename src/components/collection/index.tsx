@@ -7,6 +7,8 @@ import {
   Box,
   Flex,
   Center,
+  Text,
+  Tooltip,
 } from '@chakra-ui/react';
 import { motion, MotionProps, isValidMotionProp } from 'framer-motion';
 import Image, { Shimmer } from 'react-shimmer';
@@ -44,7 +46,7 @@ export const MotionBox = motion.custom(
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
   const { t } = useTranslation();
-  const { classId, tokenId: id, name, price, isSet = false, url } = props;
+  const { classId, tokenId: id, name, price, isSet = false, url, data = {}, status } = props;
   const history = useHistory();
 
   const picUrl = useMemo(() => `${IPFS_GET_SERVER}${url}`, []);
@@ -61,7 +63,7 @@ const Collection = (props: CollectionProps) => {
     <MotionBox
       onClick={handleCollectionClick}
       width="231px"
-      height="310px"
+      // height="310px"
       backgroundColor="#fff"
       borderRadius="4px"
       cursor="pointer"
@@ -120,6 +122,22 @@ const Collection = (props: CollectionProps) => {
           </Box>
         )}
       </Box>
+      {status === 1 && (
+        <Box padding="0 16px 16px" display="inline-block">
+          {/* TODO: Add helper text like tooltip to help guiding user */}
+          {/* <Tooltip
+            label={t('component.collection.pledge.tooltip')}
+            placement="top-start"
+            children={ */}
+          <Text color={colors.text.gray} fontSize="12px">
+            {t('component.collection.pledge')}
+          </Text>
+          {/* }
+           /> */}
+
+          <Text fontWeight="bold">{data.deposit}</Text>
+        </Box>
+      )}
     </MotionBox>
   );
 };

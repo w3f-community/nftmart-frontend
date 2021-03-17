@@ -35,14 +35,24 @@ export const useAssetsQuery = () => {
   };
 
   const queryAssetsAndMap = async () => {
-    const assets = await getAllNfts();
+    let assets = await getAllNfts();
     const orders = (await getAllOrders()) as Order[];
 
     if (Array.isArray(orders) && Array.isArray(assets)) {
-      const newAssets = assets.map((asset) => updateAssetByOrder(asset, orders));
-      return newAssets;
+      assets = assets.map((asset) => updateAssetByOrder(asset, orders));
     }
-    return assets;
+    
+    const sortedAssets = assets.sort((a, b) => {
+      // b up first if a is not listing
+      if (a.status !== 1) return 1;
+      // vice versa
+      if (b.status !== 1) return -1;
+
+      const aDps = parseFloat(a.data!.deposit!);
+      const bDps = parseFloat(b.data!.deposit!);
+      return bDps - aDps;
+    });
+    return sortedAssets;
   };
 
   // use query
@@ -112,9 +122,13 @@ export const useMyAssetsQuery = (address: string) => {
     return assets;
   };
 
-  const { data, isLoading, error, refetch } = useQuery<Work[]>([MY_ASSETS_QUERY, address], queryAssetsAndMap as any, {
-    staleTime: Infinity,
-  });
+  const { data, isLoading, error, refetch } = useQuery<Work[]>(
+    [MY_ASSETS_QUERY, address],
+    queryAssetsAndMap as any,
+    {
+      staleTime: Infinity,
+    },
+  );
 
   return { data, isLoading, error, refetch };
 };

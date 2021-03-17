@@ -30,7 +30,11 @@
   "download": "下载",
 
   "component.collection.title": "作品名称",
+  "component.collection.title.tooltip": "NFT 作品名称",
   "component.collection.price": "价格",
+  "component.collection.price.tooltip": "NFT 的价格",
+  "component.collection.pledge": "质押金",
+  "component.collection.pledge.tooltip": "NFT 的质押金额",
 
   "form.collection": "集合",
   "form.collection.placeholder": "过滤集合",
