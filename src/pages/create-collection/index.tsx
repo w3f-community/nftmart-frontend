@@ -64,7 +64,7 @@ const CreateCollection: FC = () => {
   }, []);
 
   return (
-    <Layout title="title.create-collections">
+    <Layout title="title.create-collection">
       <Box padding={2}>
         <Container
           width="880px"
