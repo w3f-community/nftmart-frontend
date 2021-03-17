@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { HashRouter, Switch, Route, useLocation } from 'react-router-dom';
 import { ChakraProvider, CSSReset } from '@chakra-ui/react';
-import { ApolloProvider } from '@apollo/client';
+// import { ApolloProvider } from '@apollo/client';
 import { QueryClientProvider } from 'react-query';
 
 import PolkaProvider from './api/polka/provider';
@@ -10,7 +10,7 @@ import TransHOC from './components/trans';
 import theme from './themes';
 import Header from './components/header';
 import Footer from './components/footer';
-import { getClient } from './api/graph';
+// import { getClient } from './api/graph';
 import { queryClient } from './api/query';
 import { scrollTo } from './utils/ui';
 
@@ -61,16 +61,16 @@ const ControlledLayout = () => {
 export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ApolloProvider client={getClient()}>
-        <ChakraProvider theme={theme}>
-          <CSSReset />
-          <HashRouter>
-            <TransHOC>
-              <ControlledLayout />
-            </TransHOC>
-          </HashRouter>
-        </ChakraProvider>
-      </ApolloProvider>
+      {/* <ApolloProvider client={getClient()}> */}
+      <ChakraProvider theme={theme}>
+        <CSSReset />
+        <HashRouter>
+          <TransHOC>
+            <ControlledLayout />
+          </TransHOC>
+        </HashRouter>
+      </ChakraProvider>
+      {/* </ApolloProvider> */}
     </QueryClientProvider>
   );
 };
