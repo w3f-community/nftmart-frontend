@@ -51,7 +51,14 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
       icon: IconClinch,
       link: '/explore?status=recent',
     },
-  ].map((item) => ({ ...item, list: data[item.key] || [] }));
+  ].map((item) => {
+    const assets = data[item.key] || [];
+
+    return {
+      ...item,
+      list: assets,
+    };
+  });
 
   const PartHeader = (props: PartHeaderProps) => {
     const { title, icon, link } = props;

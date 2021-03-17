@@ -35,7 +35,6 @@ const QUERY_MAP: Record<string, string> = {
   recent: 'nav.latest-strike',
 };
 
-const DEFUALT_COLLECTION_ID = -1;
 export interface SideFilterProps {
   data: Collection[];
   header?: string;
@@ -66,7 +65,7 @@ const SideFilter: FC<SideFilterProps> = ({
   const selectedStatusSet = useMemo<Set<number>>(() => new Set(), []);
   const [selectedStatus, setSelectedStatus] = useState<number[]>([]);
 
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number>(-1);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<string>();
 
   // Update status base on router
   useEffect(() => {
@@ -86,8 +85,8 @@ const SideFilter: FC<SideFilterProps> = ({
 
   // Update default collectionId
   useEffect(() => {
-    if (data.length && selectedCollectionId === -1) {
-      setSelectedCollectionId(data[0].id);
+    if (data.length && !selectedCollectionId) {
+      setSelectedCollectionId(`${data[0].id}`);
     }
 
     return () => {
@@ -108,10 +107,9 @@ const SideFilter: FC<SideFilterProps> = ({
     onStatusChange(status);
   };
 
-  const handleSelectCollection = (val: number | string) => {
-    const result = Number(val);
-    setSelectedCollectionId(result);
-    onSelectCollection(result);
+  const handleSelectCollection = (val: string) => {
+    setSelectedCollectionId(val);
+    onSelectCollection(+val);
   };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = ({ target: { value } }) => {
@@ -187,21 +185,17 @@ const SideFilter: FC<SideFilterProps> = ({
             )}
 
             {!loading && !!data.length && (
-              <RadioGroup
-                onChange={handleSelectCollection}
-                value={`${selectedCollectionId}`}
-                defaultValue={DEFUALT_COLLECTION_ID}
-              >
+              <RadioGroup onChange={handleSelectCollection} value={`${selectedCollectionId}`}>
                 <Stack>
-                  <Radio
+                  {/* <Radio
                     key={-1}
                     value={DEFUALT_COLLECTION_ID}
                     checked={selectedCollectionId === DEFUALT_COLLECTION_ID}
                   >
                     {t('nav.explore.all')}
-                  </Radio>
+                  </Radio> */}
                   {data.map(({ id, name }) => (
-                    <Radio value={`${id}`} key={id} checked={id === selectedCollectionId}>
+                    <Radio value={`${id}`} key={id} checked={`${id}` === selectedCollectionId}>
                       {name}
                     </Radio>
                   ))}
