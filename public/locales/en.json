@@ -106,8 +106,8 @@
   "detail.alert.list": "Listing at",
 
   "detail.cancel": "Cancel Order",
-  "detail.cancel.success": "Order cancel success...",
-  "detail.purchase.success": "Order cancel success...",
+  "detail.cancel.success": "Cancel order success!",
+  "detail.purchase.success": "Purchase order success!",
   "detail.no.list": "Not listed yet",
 
   "footer.aboutus.title": "About Us",
