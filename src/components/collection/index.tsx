@@ -105,7 +105,8 @@ const Collection = (props: CollectionProps) => {
         display="flex"
         justifyContent="space-between"
         maxHeight="80px"
-        p="0 16px 16px 16px"
+        padding="0 16px 16px 16px"
+        paddingBottom={status === 1 ? 0 : '16px'}
         fontWeight="600"
         color={colors.text.black}
         flex="1"
