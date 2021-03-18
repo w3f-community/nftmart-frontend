@@ -86,7 +86,7 @@ const Detail: FC = () => {
     return res;
   };
 
-  const { data: detailData, isLoading: assetLoading } = useQuery(
+  const { data: detailData, isLoading: assetLoading, refetch: refetchDetail } = useQuery(
     ['QUERY_DETAIL', classId, tokenId],
     () => fetchData(classId, tokenId),
   );
@@ -156,7 +156,7 @@ const Detail: FC = () => {
             duration: 3000,
             description: t('detail.cancel.success'),
           });
-          fetchData();
+          refetchDetail();
           refetchMyAssets();
           refetchMyCollections();
           getBalance(account.address);
@@ -195,7 +195,7 @@ const Detail: FC = () => {
             duration: 3000,
             description: t('detail.purchase.success'),
           });
-          fetchData();
+          refetchDetail();
           refetchMyAssets();
           refetchMyCollections();
           getBalance(account.address);
@@ -224,7 +224,7 @@ const Detail: FC = () => {
   const handleSettingConfirm = (success: boolean) => {
     // refetch data
     if (success) {
-      fetchData(classId, tokenId);
+      refetchDetail();
       refetchMyAssets();
       refetchMyCollections();
       getBalance(account.address);
