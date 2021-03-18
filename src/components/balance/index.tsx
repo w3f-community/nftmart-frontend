@@ -23,12 +23,14 @@ interface BalanceType {
 }
 
 export interface BalanceProps {
-  balance?: BalanceType;
+  balance?: BalanceType | null;
 }
 
 const Balance: FC<BalanceProps> = ({ balance }) => {
   const { t } = useTranslation();
 
+  console.log('[test in production]', balance);
+  
   if (!balance) return null;
 
   const renderBalanceText = (balanceText: string) => {
