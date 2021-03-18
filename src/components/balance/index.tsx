@@ -29,8 +29,6 @@ export interface BalanceProps {
 const Balance: FC<BalanceProps> = ({ balance }) => {
   const { t } = useTranslation();
 
-  console.log('[test in production]', balance);
-  
   if (!balance) return null;
 
   const renderBalanceText = (balanceText: string) => {
