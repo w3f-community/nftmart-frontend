@@ -1,3 +1,8 @@
+export interface WorkData {
+  deposit?: string
+  createBlock?: string;
+}
+
 export interface Work {
   tokenId: number;
   name: string;
@@ -14,6 +19,7 @@ export interface Work {
   createdAt: string;
   updatedAt: string;
   owner: string;
+  data?: WorkData
 }
 
 export interface Category {

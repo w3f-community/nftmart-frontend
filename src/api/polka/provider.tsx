@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import walletLogo from '../../assets/polkadot.png';
 import { initPolkadotApi, getCategories } from './index';
 import store from '../../stores/categories';
+import colors from '../../themes/colors';
 
 interface Props {
   children: React.ReactNode;
@@ -100,21 +101,24 @@ const provider = ({ children }: Props) => {
               </Button>
             </Box>
           ) : (
-            <Box>
+            <Center height="100%" width="100%" flexDirection="column">
               {accounts ? (
-                <Spinner
-                  thickness="4px"
-                  speed="0.65s"
-                  emptyColor="gray.200"
-                  color="blue.500"
-                  size="xl"
-                />
+                <>
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
+                  <Text marginTop={5} color={colors.text.gray}>{t('loading.init')}</Text>
+                </>
               ) : (
                 <Heading as="h4" size="md">
                   {t('extension.account')}
                 </Heading>
               )}
-            </Box>
+            </Center>
           )}
         </Center>
       )}

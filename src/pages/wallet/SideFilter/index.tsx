@@ -78,15 +78,15 @@ const SideFilter: FC<SideFilterProps> = ({
   }, [statusQueryValue]);
 
   // Update default collectionId
-  useEffect(() => {
-    if (data.length && selectedCollectionId === -1) {
-      setSelectedCollectionId(data[0].id);
-    }
+  // useEffect(() => {
+  //   if (data.length && selectedCollectionId === -1) {
+  //     setSelectedCollectionId(data[0].id);
+  //   }
 
-    return () => {
-      //
-    };
-  }, [data]);
+  //   return () => {
+  //     //
+  //   };
+  // }, [data]);
 
   const handleSelectStatus = (status: number) => {
     if (singleStatus) {

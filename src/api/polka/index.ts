@@ -4,7 +4,7 @@ import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { bnToBn } from '@polkadot/util';
-import { omit } from 'ramda';
+import { identity, omit } from 'ramda';
 
 import store from '../../stores/account';
 import {
@@ -27,12 +27,6 @@ let api: any = null;
 
 const ss58Format = 50;
 const keyring = new Keyring({ type: 'sr25519', ss58Format });
-
-const formatAddressByKeyring = (address: string) => {
-  const decodedAddress = keyring.encodeAddress(address).toString();
-  console.log(decodedAddress);
-  return decodedAddress;
-};
 
 // query gas needed
 const nftDeposit = async (metadata: any, quantity: any) => {
@@ -218,17 +212,18 @@ const getAllNftsByClassId = async (classId: number) => {
   return [];
 };
 
-const filterNonMetaNFT = (nft: null | any) => {
-  if (!nft) return false;
+// It might deprecated after data mapping is done right already
+// const filterNonMetaNFT = (nft: null | any) => {
+//   if (!nft) return false;
 
-  try {
-    const originalString = nft.metadata.trim().startsWith('{') ? nft.metadata : `{ ${nft.metadata}`;
-    JSON.parse(originalString);
-    return true;
-  } catch {
-    return false;
-  }
-};
+//   try {
+//     const originalString = nft.metadata.trim().startsWith('{') ? nft.metadata : `{ ${nft.metadata}`;
+//     JSON.parse(originalString);
+//     return true;
+//   } catch {
+//     return false;
+//   }
+// };
 
 const getClassId = (c: any) => {
   let key = c[0];
@@ -252,7 +247,7 @@ const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
 
 const mapNFTsToAsset = (NFTS: any[], cid: number) => {
   return NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
-    .filter(filterNonMetaNFT)
+    // .filter(filterNonMetaNFT)
     .map((n, idx) => mapNFTToAsset(n, cid, idx));
 };
 
@@ -286,7 +281,7 @@ export const getAllOrders = async () => {
     const tokenIdRaw = new Uint32Array(key.slice(keyLen - 8 - 32 - 16, keyLen - 32 - 16));
 
     const tokenIdLow32 = tokenIdRaw[0];
-    const tokenIdHigh32 = tokenIdRaw[1];
+    // const tokenIdHigh32 = tokenIdRaw[1];
     const tokenId = tokenIdLow32;
     let nft = await api.query.ormlNft.tokens(classId, tokenId);
     if (nft.isSome) {
@@ -328,7 +323,7 @@ export const queryNftByAddress = async ({ address = '' }) => {
     return null;
   });
   const res = await Promise.all(arr);
-  return res.filter(filterNonMetaNFT);
+  return res.filter(identity);
 };
 
 // query users class

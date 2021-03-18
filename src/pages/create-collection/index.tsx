@@ -23,15 +23,15 @@ import Upload from '../../components/upload';
 import Layout from '../../layouts/common';
 import colors from '../../themes/colors';
 
-import { createClass } from '../../api/polka';
-import { useMyAssetsQuery } from '../../api/query';
+import { createClass, getBalance } from '../../api/polka';
+import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 
 const schema = Yup.object().shape({
-  name: Yup.string().max(50, 'Too Long!').required('Required'),
-  description: Yup.string().max(200, 'Too Long!').required('Required'),
+  name: Yup.string().max(20).required('Required'),
+  description: Yup.string().max(256).required('Required'),
   // bannerUrl: Yup.string().required('Required'),
-  url: Yup.string().max(200, 'Too Long!').required('Required'),
-  externalUrl: Yup.string().max(200, 'Too Long!').required('Required'),
+  url: Yup.string().max(200).required('Required'),
+  externalUrl: Yup.string().max(200).required('Required'),
 });
 
 const formLabelLayout = {
@@ -58,13 +58,14 @@ const CreateCollection: FC = () => {
 
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useMyAssetsQuery(account.address);
+  const { refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
 
   const create = useCallback((formValue, cb) => {
     createClass({ address: account.address, metadata: formValue, cb });
   }, []);
 
   return (
-    <Layout title="title.create-collections">
+    <Layout title="title.create-collection">
       <Box padding={2}>
         <Container
           width="880px"
@@ -106,6 +107,8 @@ const CreateCollection: FC = () => {
                     formActions.setSubmitting(false);
                     formActions.resetForm();
                     refetchAssets();
+                    refetchMyCollections()
+                    getBalance(account.address);
                   },
                   error: (err: any) => {
                     toast({
@@ -117,6 +120,8 @@ const CreateCollection: FC = () => {
                     });
                     formActions.setSubmitting(false);
                     refetchAssets();
+                    refetchMyCollections()
+                    getBalance(account.address);
                   },
                 });
               }}

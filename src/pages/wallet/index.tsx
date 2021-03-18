@@ -34,15 +34,15 @@ const Wallet = () => {
 
   const { account } = globalStore.useState('account');
 
+  const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
+  const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
+
   const {
     data: collectionsData,
     isLoading: collectionsLoading,
     error: collectionsError,
   } = useMyCollectionsQuery(account.address);
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
-  const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
-
   const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(account.address);
 
   const { filteredAssets, filteredCollections } = store.useState(
@@ -64,9 +64,9 @@ const Wallet = () => {
       // Update store
       actions.setCollections(collectionsData);
       // Update default selectedCollectionId
-      if (!selectedCollectionId && collectionsData.length > 0) {
-        setSelectedCollectionId(collectionsData[0].id);
-      }
+      // if (!selectedCollectionId && collectionsData.length > 0) {
+      //   setSelectedCollectionId(collectionsData[0].id);
+      // }
     }
 
     return () => {

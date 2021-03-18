@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Container, Flex } from '@chakra-ui/react';
 import Image, { Shimmer } from 'react-shimmer';
 import { globalStore } from 'rekv';
@@ -8,6 +8,9 @@ import Login from '../login';
 // import ChangeLanguage from '../changeLanguage';
 import LogoSrc from '../../assets/logo.png';
 import { Z_INDEXES } from '../../constants';
+import { getBalance } from '../../api/polka';
+import accountStore from '../../stores/account';
+import Balance from '../balance';
 
 export interface HeaderProps {
   sticky?: boolean;
@@ -16,7 +19,18 @@ export interface HeaderProps {
 const formatAddress = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-4)}`;
 
 const Header: FC<HeaderProps> = ({ sticky }) => {
-  const { account } = globalStore.useState('account');
+  const { account, api } = globalStore.useState('account', 'api');
+  const { balance } = accountStore.useState('balance');
+
+  useEffect(() => {
+    if (account?.address && api) {
+      api.isReady.then(() => getBalance(account.address));
+    }
+
+    return () => {
+      // cleanup
+    };
+  }, [account?.address, api]);
 
   return (
     <Flex
@@ -55,8 +69,9 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
         <Flex>{/* <ChangeLanguage /> */}</Flex>
 
         {account?.meta && (
-          <Flex flex="1 1 auto" justifyContent="flex-end" maxW="200px">
+          <Flex flex="1 1 auto" justifyContent="flex-end" alignItems="center" height="55px">
             <Login username={formatAddress(account.address)} avatar={account.meta.avatar} />
+            <Balance balance={balance} />
           </Flex>
         )}
       </Container>

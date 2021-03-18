@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { groupBy } from 'ramda';
-import { Container, Button, Center } from '@chakra-ui/react';
+import { Container, Button, Center, Stack, StackDivider } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { globalStore } from 'rekv';
@@ -194,11 +194,14 @@ const Page = () => {
   const errorBox = (
     <Container height={300}>
       <Center flexDirection="column" height="100%">
-        Error on fetching data
+        <Stack>
+          Error on fetching data
+          <StackDivider />
+          <Button variant="primary" onClick={() => refetch()}>
+            {t('network.retry')}
+          </Button>
+        </Stack>
         {/* <Text color={colors.text.gray}>{error?.message}</Text> */}
-        <Button variant="primary" onClick={() => refetch()}>
-          {t('network.retry')}
-        </Button>
       </Center>
     </Container>
   );

@@ -51,7 +51,14 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
       icon: IconClinch,
       link: '/explore?status=recent',
     },
-  ].map((item) => ({ ...item, list: data[item.key] || [] }));
+  ].map((item) => {
+    const assets = data[item.key] || [];
+
+    return {
+      ...item,
+      list: assets,
+    };
+  });
 
   const PartHeader = (props: PartHeaderProps) => {
     const { title, icon, link } = props;
@@ -105,7 +112,7 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
         <PartHeader title={title} icon={icon} link={link} />
         <SimpleGrid columns={5} spacing={4}>
           {typicalList.map((work) => (
-            <Collection {...work} isSet />
+            <Collection {...work} isSet key={`${work.classId}-${work.tokenId}`} />
           ))}
         </SimpleGrid>
       </Box>
