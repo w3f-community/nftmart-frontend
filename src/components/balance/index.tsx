@@ -32,7 +32,7 @@ const Balance: FC<BalanceProps> = ({ balance }) => {
   if (!balance) return null;
 
   const renderBalanceText = (balanceText: string) => {
-    if (!balanceText) return null;
+    if (!balanceText || typeof balanceText !== 'string') return null;
 
     const [money, unit] = balanceText.replace('k', '').split(' ');
     const normalizedMoney = String(+money * 1000);
