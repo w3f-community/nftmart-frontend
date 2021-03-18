@@ -71,11 +71,11 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
           </Text>
         </Box>
 
-        <Icon
+        {/* <Icon
           marginLeft={0}
           marginInlineStart={0}
           as={opening ? IoMdArrowDropup : IoMdArrowDropdown}
-        />
+        /> */}
       </Flex>
     </Stack>
   );
@@ -83,6 +83,7 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
   return (
     <Popover
       placement="bottom"
+      trigger="hover"
       size="sm"
       variant="menu"
       onOpen={() => setOpening(true)}

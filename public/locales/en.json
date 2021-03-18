@@ -146,6 +146,11 @@
 
   "order.coming.soon": "Demonstration only. Order stats coming soon",
   "event.coming.soon": "Events history coming soon",
-  
-  "loading.init": "Initializing Polkadot API..."
+
+  "loading.init": "Initializing Polkadot API...",
+
+  "balance.feeFrozen": "Frozen Fees",
+  "balance.free": "Available",
+  "balance.miscFrozen": "Frozen Others",
+  "balance.reserved": "Reserved"
 }

@@ -136,6 +136,11 @@
   "lang.en": "英文",
   "lang.zh": "中文",
   "network.retry": "点击重试",
-  
-  "loading.init": "初始化 Polkadot API 中..."
+
+  "loading.init": "初始化 Polkadot API 中...",
+
+  "balance.feeFrozen": "Frozen Fees",
+  "balance.free": "Available",
+  "balance.miscFrozen": "Frozen Others",
+  "balance.reserved": "Reserved"
 }
