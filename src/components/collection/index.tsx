@@ -46,7 +46,7 @@ export const MotionBox = motion.custom(
 // FIXME: MotionBox seems to have a bit rendering issue which looks like crashing
 const Collection = (props: CollectionProps) => {
   const { t } = useTranslation();
-  const { classId, tokenId: id, name, price, isSet = false, url, data = {}, status } = props;
+  const { classId, tokenId: id, name, price, isSet = false, url, pledge, status } = props;
   const history = useHistory();
 
   const picUrl = useMemo(() => `${IPFS_GET_SERVER}${url}`, []);
@@ -63,7 +63,7 @@ const Collection = (props: CollectionProps) => {
     <MotionBox
       onClick={handleCollectionClick}
       width="231px"
-      // height="310px"
+      height="342px"
       backgroundColor="#fff"
       borderRadius="4px"
       cursor="pointer"
@@ -72,7 +72,6 @@ const Collection = (props: CollectionProps) => {
       whileTap={{ scale: 0.98 }}
       display="flex"
       flexDirection="column"
-      justifyContent="space-around"
     >
       <Center height={195} width={231} borderBottom={`1px solid ${colors.divider.dark}`}>
         <Image
@@ -136,7 +135,7 @@ const Collection = (props: CollectionProps) => {
           {/* }
            /> */}
 
-          <Text fontWeight="bold">{data.deposit}</Text>
+          <Text fontWeight="bold">{pledge}</Text>
         </Box>
       )}
     </MotionBox>

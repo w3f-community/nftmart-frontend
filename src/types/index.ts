@@ -1,5 +1,5 @@
 export interface WorkData {
-  deposit?: string
+  deposit?: string;
   createBlock?: string;
 }
 
@@ -19,7 +19,8 @@ export interface Work {
   createdAt: string;
   updatedAt: string;
   owner: string;
-  data?: WorkData
+  data?: WorkData;
+  pledge?: string;
 }
 
 export interface Category {
@@ -28,6 +29,7 @@ export interface Category {
 }
 
 export interface Order {
+  deposit: string;
   classId: number;
   tokenId: number;
   price: string;
