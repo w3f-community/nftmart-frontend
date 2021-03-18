@@ -8,7 +8,6 @@ import {
   FormErrorMessage,
   Input,
   Textarea,
-  Select,
   Flex,
   useToast,
 } from '@chakra-ui/react';
@@ -20,7 +19,7 @@ import { globalStore } from 'rekv';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
-import { mintNft } from '../../api/polka';
+import { getBalance, mintNft } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 import { useQuery } from '../../utils/hook';
 
@@ -109,6 +108,7 @@ const CreateCollection = () => {
                     formAction.resetForm();
                     refetchMyAssets();
                     refetchMyCollections();
+                    getBalance(account.address);
                   },
                   error: (error: string) => {
                     toast({
@@ -121,6 +121,7 @@ const CreateCollection = () => {
                     formAction.setSubmitting(false);
                     refetchMyAssets();
                     refetchMyCollections();
+                    getBalance(account.address);
                   },
                 });
               }}

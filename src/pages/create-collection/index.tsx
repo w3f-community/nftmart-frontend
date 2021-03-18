@@ -23,7 +23,7 @@ import Upload from '../../components/upload';
 import Layout from '../../layouts/common';
 import colors from '../../themes/colors';
 
-import { createClass } from '../../api/polka';
+import { createClass, getBalance } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 
 const schema = Yup.object().shape({
@@ -108,6 +108,7 @@ const CreateCollection: FC = () => {
                     formActions.resetForm();
                     refetchAssets();
                     refetchMyCollections()
+                    getBalance(account.address);
                   },
                   error: (err: any) => {
                     toast({
@@ -120,6 +121,7 @@ const CreateCollection: FC = () => {
                     formActions.setSubmitting(false);
                     refetchAssets();
                     refetchMyCollections()
+                    getBalance(account.address);
                   },
                 });
               }}
