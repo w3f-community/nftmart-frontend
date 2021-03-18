@@ -37,8 +37,10 @@ const Balance: FC<BalanceProps> = ({ balance }) => {
   const renderBalanceText = (balanceText: string) => {
     if (!balanceText || typeof balanceText !== 'string') return null;
 
+    const isThousandBase = balanceText.toLowerCase().includes('k');
+
     const [money, unit] = balanceText.replace('k', '').split(' ');
-    const normalizedMoney = toBigNumber(money).times(1000);
+    const normalizedMoney = toBigNumber(money).times(isThousandBase ? 1000 : 1);
     const [integer, decimal] = normalizedMoney.toString().split('.');
 
     return (
