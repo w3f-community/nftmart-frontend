@@ -70,7 +70,7 @@ export const getTimestamp = async () => {
 // get address balance
 export const getBalance = async (address: string) => {
   const { nonce, data: balance } = await api.query.system.account(address);
-  store.setState({ nonce, balance });
+  store.setState({ nonce, balance: balance.toHuman() });
   return balance;
 };
 
@@ -246,9 +246,11 @@ const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
 };
 
 const mapNFTsToAsset = (NFTS: any[], cid: number) => {
-  return NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
-    // .filter(filterNonMetaNFT)
-    .map((n, idx) => mapNFTToAsset(n, cid, idx));
+  return (
+    NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
+      // .filter(filterNonMetaNFT)
+      .map((n, idx) => mapNFTToAsset(n, cid, idx))
+  );
 };
 
 // get all nfts
