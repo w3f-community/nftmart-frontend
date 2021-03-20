@@ -161,9 +161,14 @@ export const getNft = async (classId: string, id: string) => {
 // get order by params
 export const getOrder = async (classId = '', tokenId = '', onerAddr = '') => {
   const order = await api.query.nftmart.orders([classId, tokenId], onerAddr);
+  const currentBlockNumber = bnToBn(await api.query.system.number());
+
   if (order.isSome) {
     const res = order.toHuman();
-    return res;
+    const deadline = +res.deadline.replace(/,/g, '');
+    if (typeof currentBlockNumber !== 'undefined' && currentBlockNumber.ltn(deadline)) {
+      return res;
+    }
   }
   return null;
 };

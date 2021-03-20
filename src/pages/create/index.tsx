@@ -20,7 +20,7 @@ import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
 import { getBalance, mintNft } from '../../api/polka';
-import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
+import { useMyAssetsQuery, useMyCollectionsQuery, useAssetsQuery } from '../../api/query';
 import { useQuery } from '../../utils/hook';
 
 const formLableLayout = {
@@ -50,6 +50,7 @@ const CreateCollection = () => {
   const { t } = useTranslation();
   const toast = useToast();
   const { account } = globalStore.useState('account');
+  const { refetch: refetchAssets } = useAssetsQuery();
   const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
   const { data: classes, refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
   const mint = useCallback(async (formValue: any, cb) => {
@@ -108,6 +109,7 @@ const CreateCollection = () => {
                     formAction.resetForm();
                     refetchMyAssets();
                     refetchMyCollections();
+                    refetchAssets();
                     getBalance(account.address);
                   },
                   error: (error: string) => {
@@ -121,6 +123,7 @@ const CreateCollection = () => {
                     formAction.setSubmitting(false);
                     refetchMyAssets();
                     refetchMyCollections();
+                    refetchAssets();
                     getBalance(account.address);
                   },
                 });

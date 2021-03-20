@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { globalStore } from 'rekv';
 import { Order, Work, Collection } from '../../types';
 import {
   getAllNfts,
@@ -16,31 +17,37 @@ const MY_COLLECTIONS_QUERY = 'getMyCollections';
 const MY_ASSETS_QUERY = 'getMyAssets';
 
 export const useAssetsQuery = () => {
+  const { api } = globalStore.useState('api');
+
   // ----- helpers
-  const updateAssetByOrder = (asset: Work, orders: Order[]) => {
+  const updateAssetByOrder = (asset: Work, orders: Order[], blockNumber: number) => {
     const givenOrder = orders.find(
       (order) => order.classId === asset.classId && order.tokenId === asset.tokenId,
     );
 
     if (givenOrder) {
-      const categoryId = givenOrder.categoryId ? Number(givenOrder.categoryId) : 3;
-      return {
-        ...asset,
-        status: 1,
-        price: givenOrder.price,
-        pledge: givenOrder.deposit,
-        categoryId,
-      };
+      const deadline = +givenOrder.deadline.replace(/,/g, '');
+      if (blockNumber < deadline) {
+        const categoryId = givenOrder.categoryId ? Number(givenOrder.categoryId) : -1;
+        return {
+          ...asset,
+          status: 1,
+          price: givenOrder.price,
+          pledge: givenOrder.deposit,
+          categoryId,
+        };
+      }
     }
-    return { ...asset, status: 2, price: undefined, categoryId: -1 };
+    return { ...asset, status: 2, price: undefined, categoryId: -1, pledge: undefined };
   };
 
   const queryAssetsAndMap = async () => {
     let assets = await getAllNfts();
     const orders = (await getAllOrders()) as Order[];
+    const blockNumber = Number(await api.query.system.number());
 
     if (Array.isArray(orders) && Array.isArray(assets)) {
-      assets = assets.map((asset) => updateAssetByOrder(asset, orders));
+      assets = assets.map((asset) => updateAssetByOrder(asset, orders, blockNumber));
     }
 
     const sortedAssets = assets.sort((a, b) => {

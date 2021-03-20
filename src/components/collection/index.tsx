@@ -103,7 +103,7 @@ const Collection = (props: CollectionProps) => {
         mt="8px"
         display="flex"
         justifyContent="space-between"
-        maxHeight="80px"
+        maxHeight="56px"
         padding="0 16px 16px 16px"
         paddingBottom={status === 1 ? 0 : '16px'}
         fontWeight="600"
@@ -111,7 +111,9 @@ const Collection = (props: CollectionProps) => {
         flex="1"
       >
         <Box pr={2} flex="2" overflow="hidden" textOverflow="ellipsis">
-          <Flex align="center">{name}</Flex>
+          <Flex align="center" lineHeight="18px">
+            {name}
+          </Flex>
         </Box>
         {price && (
           <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
@@ -132,8 +134,6 @@ const Collection = (props: CollectionProps) => {
           <Text color={colors.text.gray} fontSize="12px">
             {t('component.collection.pledge')}
           </Text>
-          {/* }
-           /> */}
 
           <Text fontWeight="bold">{pledge}</Text>
         </Box>

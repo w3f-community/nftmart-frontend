@@ -17,6 +17,7 @@ export const queryClient = new QueryClient({
     queries: {
       // retry: false,
       // queryFn: defaultQueryFn
+      refetchOnWindowFocus: false,
     },
   },
 });

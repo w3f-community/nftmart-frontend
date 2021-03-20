@@ -29,6 +29,9 @@ export interface Category {
 }
 
 export interface Order {
+  currencyId: string;
+  deadline: string;
+  orderOwner: string;
   deposit: string;
   classId: number;
   tokenId: number;

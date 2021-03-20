@@ -42,7 +42,6 @@ const groupByStatus = groupBy<Work>(({ status }) => STATUS_MAP[status]);
 const Page = () => {
   const { data: assetsData, isLoading, error, refetch } = useAssetsQuery();
   // FIXME: Add type instead of any
-  const ordersQuery = useQuery<Order[]>('getOrders', getAllOrders as any);
 
   const { t } = useTranslation();
 
@@ -125,31 +124,13 @@ const Page = () => {
 
   // Update assets store after query
   useEffect(() => {
-    const orders = ordersQuery.data;
-    let assets = assetsData?.slice();
-
-    if (Array.isArray(orders) && Array.isArray(assets)) {
-      assets = assets.map((asset) => {
-        const givenOrder = orders.find(
-          (order) => order.classId === asset.classId && order.tokenId === asset.tokenId,
-        );
-        if (givenOrder) {
-          return {
-            ...asset,
-            status: 1,
-            price: givenOrder.price,
-            categoryId: Number(givenOrder.categoryId),
-          };
-        }
-        return { ...asset, status: 2, price: undefined, categoryId: -1 };
-      });
-    }
+    const assets = assetsData?.slice();
 
     actions.setAssets(assets ?? []);
     return () => {
       //
     };
-  }, [ordersQuery.data, assetsData]);
+  }, [assetsData]);
 
   // Update worklist after filteredAssets change
   useEffect(() => {
@@ -210,26 +191,6 @@ const Page = () => {
     <CommLayout title="title.home">
       <TypeFilter onFilter={handleFilter} sticky={stickyFilter} />
       {error ? errorBox : <Works loading={isLoading} data={workListMap} />}
-      {/* <button onClick={() => create()}>create</button>|
-      <button onClick={() => getClassById(8)}>get</button>|
-      <button onClick={() => mint()}>mint</button>
-      <br />
-      <button onClick={() => getCategories()}>getCate</button>|
-      <button onClick={() => getAllNfts()}>getAllNFTs</button>|
-      <button onClick={() => getAllOrders()}>getAllOrders</button>|
-      <br />
-      <button onClick={() => listOrder()}>createOrder</button>|
-      <button onClick={() => takerOrder()}>takeOrder</button>|
-      <button onClick={() => updateOrder()}>updateOrderPrice</button>|
-      <button onClick={() => delOrder()}>deleteOrder</button>|
-      <br />
-      <button onClick={() => queryClassByAddress({ address: 'account.address' })}>
-        queryClassByAddress
-      </button>
-      |
-      <button onClick={() => queryNftByAddress({ address: account.address })}>
-        queryNftByAddress
-      </button> */}
     </CommLayout>
   );
 };
