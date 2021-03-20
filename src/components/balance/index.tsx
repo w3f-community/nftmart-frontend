@@ -11,9 +11,10 @@ import {
   Stack,
   Box,
 } from '@chakra-ui/react';
-import { keys, map, omit } from 'ramda';
+import { map } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import colors from '../../themes/colors';
+import { toBigNumber } from '../../utils';
 
 interface BalanceType {
   feeFrozen: string;
@@ -22,8 +23,10 @@ interface BalanceType {
   reserved: string;
 }
 
+const availableBalanceKeys: (keyof BalanceType)[] = ['free', 'reserved'];
+
 export interface BalanceProps {
-  balance?: BalanceType;
+  balance?: BalanceType | null;
 }
 
 const Balance: FC<BalanceProps> = ({ balance }) => {
@@ -32,9 +35,13 @@ const Balance: FC<BalanceProps> = ({ balance }) => {
   if (!balance) return null;
 
   const renderBalanceText = (balanceText: string) => {
+    if (!balanceText || typeof balanceText !== 'string') return null;
+
+    const isThousandBase = balanceText.toLowerCase().includes('k');
+
     const [money, unit] = balanceText.replace('k', '').split(' ');
-    const normalizedMoney = String(+money * 1000);
-    const [integer, decimal] = normalizedMoney.split('.');
+    const normalizedMoney = toBigNumber(money).times(isThousandBase ? 1000 : 1);
+    const [integer, decimal] = normalizedMoney.toString().split('.');
 
     return (
       <>
@@ -52,11 +59,16 @@ const Balance: FC<BalanceProps> = ({ balance }) => {
     );
   };
 
-  const renderContentText = (key: keyof BalanceType) => (
-    <Stack direction="row" alignItems="center" justifyContent="space-between">
-      <Text fontSize="sm">{t(`balance.${key}`)}:</Text> <Box>{renderBalanceText(balance[key])}</Box>
-    </Stack>
-  );
+  const renderContentText = (key: keyof BalanceType) => {
+    const balanceText = balance[key];
+
+    return (
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Text fontSize="sm">{t(`balance.${key}`)}:</Text>{' '}
+        <Flex>{renderBalanceText(balanceText)}</Flex>
+      </Stack>
+    );
+  };
 
   const triggerContent = (
     <Flex cursor="pointer">
@@ -70,11 +82,7 @@ const Balance: FC<BalanceProps> = ({ balance }) => {
     </Flex>
   );
 
-  const contentNode = (
-    <Box padding={4}>
-      {map(renderContentText, keys(omit<BalanceType, 'free'>(['free'], balance)))}
-    </Box>
-  );
+  const contentNode = <Box padding={4}>{map(renderContentText, availableBalanceKeys)}</Box>;
 
   return (
     <Popover trigger="hover" variant="menu">

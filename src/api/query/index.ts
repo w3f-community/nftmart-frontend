@@ -28,6 +28,7 @@ export const useAssetsQuery = () => {
         ...asset,
         status: 1,
         price: givenOrder.price,
+        pledge: givenOrder.deposit,
         categoryId,
       };
     }
@@ -41,17 +42,18 @@ export const useAssetsQuery = () => {
     if (Array.isArray(orders) && Array.isArray(assets)) {
       assets = assets.map((asset) => updateAssetByOrder(asset, orders));
     }
-    
+
     const sortedAssets = assets.sort((a, b) => {
       // b up first if a is not listing
       if (a.status !== 1) return 1;
       // vice versa
       if (b.status !== 1) return -1;
 
-      const aDps = parseFloat(a.data!.deposit!);
-      const bDps = parseFloat(b.data!.deposit!);
+      const aDps = parseFloat(a.pledge!);
+      const bDps = parseFloat(b.pledge!);
       return bDps - aDps;
     });
+
     return sortedAssets;
   };
 
@@ -105,6 +107,7 @@ export const useMyAssetsQuery = (address: string) => {
         ...asset,
         status: 1,
         price: givenOrder.price,
+        pledge: givenOrder.deposit,
         categoryId,
       };
     }
@@ -112,14 +115,25 @@ export const useMyAssetsQuery = (address: string) => {
   };
 
   const queryAssetsAndMap = async () => {
-    const assets = (await queryNftByAddress({ address })) as Work[];
+    let assets = (await queryNftByAddress({ address })) as Work[];
     const orders = (await getAllOrders()) as Order[];
 
-    if (Array.isArray(orders) && orders.length && Array.isArray(assets) && assets.length) {
-      const newAssets = assets.map((asset) => updateAssetByOrder(asset, orders));
-      return newAssets;
+    if (Array.isArray(orders) && Array.isArray(assets)) {
+      assets = assets.map((asset) => updateAssetByOrder(asset, orders));
     }
-    return assets;
+
+    const sortedAssets = assets.sort((a, b) => {
+      // b up first if a is not listing
+      if (a.status !== 1) return 1;
+      // vice versa
+      if (b.status !== 1) return -1;
+
+      const aDps = parseFloat(a.pledge!);
+      const bDps = parseFloat(b.pledge!);
+      return bDps - aDps;
+    });
+
+    return sortedAssets;
   };
 
   const { data, isLoading, error, refetch } = useQuery<Work[]>(

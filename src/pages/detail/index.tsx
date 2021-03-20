@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Center, OrderedList, Spinner, Stack, Text, useToast } from '@chakra-ui/react';
+import { Box, Center, Spinner, Stack, Text, useToast } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
@@ -24,7 +24,8 @@ import ClassInfo from './AboutCard';
 import PurchaseModal from './PurchaseModal';
 import SalesSettingModal from './SalesSettingModal';
 
-import { getNft, getOrder, deleteOrder, takeOrder } from '../../api/polka';
+import { getNft, getOrder, deleteOrder, takeOrder, getBalance } from '../../api/polka';
+import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 import { toFixedDecimals } from '../../utils';
 import { IPFS_GET_SERVER } from '../../constants';
 import NotFound from '../notFound';
@@ -47,6 +48,9 @@ const Detail: FC = () => {
   const [categoryName, setCategoryName] = useState('');
 
   const { selectedAsset } = store.useState('selectedAsset');
+
+  const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
+  const { refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
 
   // const { data: collectionsResponse } = GetCollections({
   //   id: selectedAsset?.classId,
@@ -82,7 +86,7 @@ const Detail: FC = () => {
     return res;
   };
 
-  const { data: detailData, isLoading: assetLoading } = useQuery(
+  const { data: detailData, isLoading: assetLoading, refetch: refetchDetail } = useQuery(
     ['QUERY_DETAIL', classId, tokenId],
     () => fetchData(classId, tokenId),
   );
@@ -152,7 +156,10 @@ const Detail: FC = () => {
             duration: 3000,
             description: t('detail.cancel.success'),
           });
-          fetchData(classId, tokenId);
+          refetchDetail();
+          refetchMyAssets();
+          refetchMyCollections();
+          getBalance(account.address);
           setCancelLoading(false);
         },
         error: (error: string) => {
@@ -188,7 +195,10 @@ const Detail: FC = () => {
             duration: 3000,
             description: t('detail.purchase.success'),
           });
-          fetchData(classId, tokenId);
+          refetchDetail();
+          refetchMyAssets();
+          refetchMyCollections();
+          getBalance(account.address);
           setLoading(false);
           setPurchaseOpen(false);
         },
@@ -214,7 +224,10 @@ const Detail: FC = () => {
   const handleSettingConfirm = (success: boolean) => {
     // refetch data
     if (success) {
-      fetchData(classId, tokenId);
+      refetchDetail();
+      refetchMyAssets();
+      refetchMyCollections();
+      getBalance(account.address);
     }
   };
 

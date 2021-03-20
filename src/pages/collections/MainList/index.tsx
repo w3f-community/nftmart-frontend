@@ -199,7 +199,6 @@ const MainList: FC<MainListProps> = ({
                 userSelect="none"
                 ml="16px"
                 mb="16px"
-                height="310px"
               >
                 <Box mt={6} mb={2}>
                   <IoMdAddCircle size={99} />
