@@ -74,8 +74,25 @@ const provider = ({ children }: Props) => {
         });
       });
     };
+
     initExtension();
   }, []);
+
+  // Update latest header block
+  useEffect(() => {
+    const subscribeHead = async () => {
+      if (api) {
+        api.isReady.then(() => {
+          api.rpc.chain.subscribeNewHeads((lastHeader: any) => {
+            const blockNumber = lastHeader.number.toHuman().replace(/,/g, '');
+            globalStore.setState({ blockNumber: Number(blockNumber) });
+          });
+        });
+      }
+    };
+
+    subscribeHead();
+  }, [api]);
 
   // return children;
 
@@ -111,7 +128,9 @@ const provider = ({ children }: Props) => {
                     color="blue.500"
                     size="xl"
                   />
-                  <Text marginTop={5} color={colors.text.gray}>{t('loading.init')}</Text>
+                  <Text marginTop={5} color={colors.text.gray}>
+                    {t('loading.init')}
+                  </Text>
                 </>
               ) : (
                 <Heading as="h4" size="md">

@@ -197,6 +197,7 @@ const MainList: FC<MainListProps> = ({
                 justifyContent="center"
                 alignItems="center"
                 userSelect="none"
+                minHeight="342px"
                 ml="16px"
                 mb="16px"
               >
@@ -211,7 +212,10 @@ const MainList: FC<MainListProps> = ({
 
             {!!count &&
               data.map((work) => (
-                <Link to={`/detail/${work.classId}/${work.tokenId}`} key={`${work.classId}-${work.tokenId}`}>
+                <Link
+                  to={`/detail/${work.classId}/${work.tokenId}`}
+                  key={`${work.classId}-${work.tokenId}`}
+                >
                   <Box ml="16px" mb="16px">
                     <Collection {...work} />
                   </Box>
