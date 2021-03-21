@@ -21,6 +21,7 @@ import { Work } from '../../types';
 import { toFixedDecimals } from '../../utils';
 import { actions } from '../../stores/assets';
 import { IPFS_GET_SERVER } from '../../constants';
+import { parseMoneyText } from '../../utils/fomart';
 
 type CollectionProps = {
   isSet?: boolean;
@@ -50,6 +51,12 @@ const Collection = (props: CollectionProps) => {
   const history = useHistory();
 
   const picUrl = useMemo(() => `${IPFS_GET_SERVER}${url}`, []);
+  const normalizedPledge = useMemo(() => {
+    if (!pledge) return 0;
+    const { value, unit } = parseMoneyText(pledge);
+    // TODO: as a component
+    return `${value} ${unit}`;
+  }, [pledge]);
 
   const dispense = () => {
     actions.selectAsset(omit(['isSet'], props as Work));
@@ -135,7 +142,7 @@ const Collection = (props: CollectionProps) => {
             {t('component.collection.pledge')}
           </Text>
 
-          <Text fontWeight="bold">{pledge}</Text>
+          <Text fontWeight="bold">{normalizedPledge}</Text>
         </Box>
       )}
     </MotionBox>

@@ -433,6 +433,9 @@ export const mintNft = async ({
   }
 };
 
+// Block time in one month
+// Calculated by one block 6s at a time
+const oneMonth = (60 * 60 * 24 * 30) / 6;
 // create order
 export const createOrder = async ({
   address = '', // address of current user
@@ -441,7 +444,7 @@ export const createOrder = async ({
   price = 1, // list price
   classId = 0, // class id
   tokenId = 0, // token id
-  during = 5000, // during block num ,need to be conver from timestamp
+  during = oneMonth, // during block num ,need to be conver from timestamp
   cb = { success: noop, error: (err: any) => err },
 }) => {
   try {

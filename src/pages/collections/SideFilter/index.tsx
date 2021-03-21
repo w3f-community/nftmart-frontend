@@ -113,7 +113,6 @@ const SideFilter: FC<SideFilterProps> = ({
   };
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = ({ target: { value } }) => {
-    // TODO: add debounce
     onSearch(value);
   };
 
@@ -185,7 +184,7 @@ const SideFilter: FC<SideFilterProps> = ({
             )}
 
             {!loading && !!data.length && (
-              <RadioGroup onChange={handleSelectCollection} value={`${selectedCollectionId}`}>
+              <RadioGroup onChange={handleSelectCollection} value={selectedCollectionId}>
                 <Stack>
                   {/* <Radio
                     key={-1}

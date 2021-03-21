@@ -1,10 +1,15 @@
 import React, { FC, useState, useCallback, useEffect } from 'react';
 import { Input, Image, Spinner, Box, Text } from '@chakra-ui/react';
-import { IPFS_POST_SERVER, IPFS_GET_SERVER } from '../../constants';
 
+import { IPFS_POST_SERVER, IPFS_GET_SERVER, PINATA_POST_SERVER } from '../../constants';
 import { t } from '../../i18n';
 import colors from '../../themes/colors';
 
+const {
+  REACT_APP_PINATA_API_KEY,
+  REACT_APP_PINATA_API_SECRET_KEY,
+  REACT_APP_PINATA_ENABLE,
+} = process.env;
 const ipfsClient = require('ipfs-http-client');
 
 export interface UploadProps {
@@ -18,6 +23,28 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
   const [value, setValue] = useState(valueFromProp || '');
   const [isLoading, setLoadingStatus] = useState(false);
   const saveToIpfs = useCallback(async (files: any[]) => {
+    if (REACT_APP_PINATA_ENABLE === 'true') {
+      setLoadingStatus(true);
+      const formData = new FormData();
+
+      formData.append('file', files[0]);
+
+      const result = await fetch(PINATA_POST_SERVER, {
+        method: 'POST',
+
+        headers: {
+          pinata_api_key: REACT_APP_PINATA_API_KEY!,
+          pinata_secret_api_key: REACT_APP_PINATA_API_SECRET_KEY!,
+        },
+        body: formData,
+      });
+
+      const responseData = await result.json();
+      setValue(responseData.IpfsHash);
+      setLoadingStatus(false);
+      return;
+    }
+
     const ipfs = ipfsClient(IPFS_POST_SERVER);
     if (files.length === 0) {
       return;
@@ -44,7 +71,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
 
   useEffect(() => {
     if (valueFromProp !== value) {
-      setValue(valueFromProp);
+      setValue(valueFromProp as string);
     }
   }, []);
 
