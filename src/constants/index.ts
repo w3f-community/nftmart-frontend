@@ -69,6 +69,7 @@ export const DBURL = 'http://localhost:8888/graphql';
 export const IPFS_POST_SERVER = 'https://ipfs-api.bcdata.top'; // ipfs node
 export const IPFS_GET_SERVER = 'https://ipfs-web.bcdata.top/ipfs/'; // query with cid server
 export const NODE_URL = 'wss://dot.bcdata.top';
+export const PINATA_POST_SERVER = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
 // test
 // export const DBURL = 'http://localhost:8888/graphql';

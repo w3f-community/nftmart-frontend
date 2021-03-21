@@ -13,9 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { map } from 'ramda';
 import { useTranslation } from 'react-i18next';
-import { formatBalance } from '@polkadot/util';
 import colors from '../../themes/colors';
-import { toBigNumber } from '../../utils';
+import { parseMoneyText } from '../../utils/fomart';
 
 interface BalanceType {
   feeFrozen: string;
@@ -25,18 +24,6 @@ interface BalanceType {
 }
 
 const availableBalanceKeys: (keyof BalanceType)[] = ['free', 'reserved'];
-const baseOptions = [
-  { power: 0, text: 'TEST', value: '-' },
-  { power: 3, text: 'Kilo', value: 'k' },
-  { power: 6, text: 'Mill', value: 'M' },
-  { power: 9, text: 'Bill', value: 'B' },
-  { power: 12, text: 'Tril', value: 'T' },
-  { power: 15, text: 'Peta', value: 'P' },
-  { power: 18, text: 'Exa', value: 'E' },
-  { power: 21, text: 'Zeta', value: 'Z' },
-  { power: 24, text: 'Yotta', value: 'Y' },
-];
-
 export interface BalanceProps {
   balance?: BalanceType | null;
 }
@@ -49,12 +36,8 @@ const Balance: FC<BalanceProps> = ({ balance }) => {
   const renderBalanceText = (balanceText: string) => {
     if (!balanceText || typeof balanceText !== 'string') return null;
 
-    const baseOption =
-      baseOptions.find((option) => balanceText.includes(option.value)) || baseOptions[0];
-
-    const [money, unit] = balanceText.replace(baseOption.value, '').split(' ');
-    const normalizedMoney = toBigNumber(money).times(10 ** baseOption.power);
-    const [integer, decimal] = normalizedMoney.toString().split('.');
+    const { value, unit } = parseMoneyText(balanceText);
+    const [integer, decimal] = value.toString().split('.');
 
     return (
       <>

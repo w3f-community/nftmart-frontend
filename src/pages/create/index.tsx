@@ -87,7 +87,7 @@ const CreateCollection = () => {
           >
             {t('create.title')}
           </Box>
-          <Container p="0 20px">
+          <Container p="0 20px 20px">
             <Formik
               initialValues={{
                 classId: collectionId,
@@ -148,7 +148,11 @@ const CreateCollection = () => {
                             <SelectControl {...field} selectProps={formInputLayout} name="classId">
                               {classes?.length &&
                                 classes.map((clazz) => (
-                                  <option value={clazz.classId} color={colors.text.black}>
+                                  <option
+                                    value={clazz.classId}
+                                    color={colors.text.black}
+                                    key={clazz.classId}
+                                  >
                                     {clazz.name}
                                   </option>
                                 ))}

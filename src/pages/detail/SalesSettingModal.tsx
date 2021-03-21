@@ -178,12 +178,14 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
                       )}
                     </Field>
 
-                    {/* <NFormControl title="expiration" subtitle="expiration.subtitle">
+                    {/* <NFormControl
+                      title={t('detail.modal.sales-setting.expiration')}
+                      subtitle={t('detail.modal.sales-setting.expiration.subtitle')}>
                       <Checkbox
                         color={colors.text.gray}
                         onChange={() => setExpirationOpen((check) => !check)}
                       >
-                        expiration date
+                        {'detail.modal.sales-setting.expiration'}
                       </Checkbox>
                     </NFormControl> */}
 
