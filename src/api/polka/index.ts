@@ -500,7 +500,7 @@ export const takeOrder = async ({
   }
 };
 
-// delete order
+// update order price
 export const updateOrderPrice = async ({
   address = '', // address of current user
   ownerAddress = '', // owner address

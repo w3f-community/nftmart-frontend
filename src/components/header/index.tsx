@@ -1,16 +1,20 @@
-import React, { FC, useEffect } from 'react';
-import { Container, Flex } from '@chakra-ui/react';
+import React, { FC, useEffect, useState } from 'react';
+import { Container, Flex, useClipboard, useToast, IconButton, Button } from '@chakra-ui/react';
 import Image, { Shimmer } from 'react-shimmer';
 import { globalStore } from 'rekv';
+import { CopyIcon } from '@chakra-ui/icons';
+import { Keyring } from '@polkadot/api';
+import { useTranslation } from 'react-i18next';
 
 import NavLink from '../navlink';
 import Login from '../login';
-// import ChangeLanguage from '../changeLanguage';
+import ChangeLanguage from '../changeLanguage';
 import LogoSrc from '../../assets/logo.png';
 import { Z_INDEXES } from '../../constants';
 import { getBalance } from '../../api/polka';
 import accountStore from '../../stores/account';
 import Balance from '../balance';
+import { txLog } from '../../utils';
 
 export interface HeaderProps {
   sticky?: boolean;
@@ -21,7 +25,10 @@ const formatAddress = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-4)}
 const Header: FC<HeaderProps> = ({ sticky }) => {
   const { account, api } = globalStore.useState('account', 'api');
   const { balance } = accountStore.useState('balance');
-
+  const { t } = useTranslation();
+  const { hasCopied, onCopy } = useClipboard(account ? account.address : '');
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
   useEffect(() => {
     if (account?.address && api) {
       api.isReady.then(() => getBalance(account.address));
@@ -31,6 +38,47 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
       // cleanup
     };
   }, [account?.address, api]);
+
+  const handleCopy = () => {
+    toast({
+      title: 'success',
+      status: 'success',
+      position: 'top',
+      duration: 3000,
+      description: t('copy.success'),
+    });
+    onCopy();
+  };
+
+  const getFaucet = () => {
+    const faucet = async () => {
+      setLoading(true);
+      const ss58Format = 50;
+      const keyring = new Keyring({ type: 'sr25519', ss58Format });
+      const alice = keyring.addFromUri('//Alice');
+      const res = await api.tx.balances
+        .transfer(account.address, '210000000000000')
+        .signAndSend(alice, (result: any) => {
+          txLog(result, () => {
+            toast({
+              title: 'success',
+              status: 'success',
+              position: 'top',
+              duration: 3000,
+              description: t('fund.success'),
+            });
+            getBalance(account.address);
+            setLoading(false);
+          });
+        });
+    };
+
+    return (
+      <Button isLoading={loading} m={3} size="xs" variant="outline" onClick={faucet}>
+        Faucet
+      </Button>
+    );
+  };
 
   return (
     <Flex
@@ -66,12 +114,23 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
           <NavLink />
         </Flex>
 
-        <Flex>{/* <ChangeLanguage /> */}</Flex>
+        <Flex>
+          <ChangeLanguage />
+        </Flex>
 
         {account?.meta && (
           <Flex flex="1 1 auto" justifyContent="flex-end" alignItems="center" height="55px">
             <Login username={formatAddress(account.address)} avatar={account.meta.avatar} />
+            <IconButton
+              size="xs"
+              variant="outline"
+              m={2}
+              aria-label="Add to friends"
+              icon={<CopyIcon />}
+              onClick={() => handleCopy()}
+            />
             <Balance balance={balance} />
+            {getFaucet()}
           </Flex>
         )}
       </Container>
