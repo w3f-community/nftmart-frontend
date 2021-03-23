@@ -57,7 +57,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
       const keyring = new Keyring({ type: 'sr25519', ss58Format });
       const alice = keyring.addFromUri('//Alice');
       const res = await api.tx.balances
-        .transfer(account.address, '210000000000000')
+        .transfer(account.address, '2100000000000000')
         .signAndSend(alice, (result: any) => {
           txLog(result, () => {
             toast({
