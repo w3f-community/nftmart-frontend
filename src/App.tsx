@@ -26,6 +26,8 @@ import Detail from './pages/detail';
 import MyCollections from './pages/collections';
 import NotFound from './pages/notFound';
 
+require('dotenv').config();
+
 const ControlledLayout = () => {
   const location = useLocation();
 
