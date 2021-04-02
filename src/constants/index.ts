@@ -68,7 +68,7 @@ export const USER_LINKS: Record<string, string> = {
 export const DBURL = 'http://localhost:8888/graphql';
 export const IPFS_POST_SERVER = 'https://ipfs-api.bcdata.top'; // ipfs node
 export const IPFS_GET_SERVER = 'https://ipfs-web.bcdata.top/ipfs/'; // query with cid server
-export const NODE_URL = process.env.REACT_APP_NOT_SECRET_CODE;
+export const NODE_URL = process.env.REACT_APP_WS_URL;
 export const PINATA_POST_SERVER = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
 // test
