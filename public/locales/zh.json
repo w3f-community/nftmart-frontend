@@ -142,5 +142,9 @@
   "balance.feeFrozen": "Frozen Fees",
   "balance.free": "Available",
   "balance.miscFrozen": "Frozen Others",
-  "balance.reserved": "Reserved"
+  "balance.reserved": "Reserved",
+
+  "copy.success": "复制成功",
+  "fund.success": "申请成功",
+  "account.not.detect": "未连接插件钱包"
 }

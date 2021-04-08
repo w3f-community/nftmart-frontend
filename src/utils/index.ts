@@ -1,7 +1,24 @@
 import BigNumber from 'bignumber.js';
+import { ReactNode } from 'react';
 import { curry, apply } from 'ramda';
+import { globalStore } from 'rekv';
+import { createStandaloneToast } from '@chakra-ui/react';
+import { t } from '../i18n';
 
 type NumberValue = string | number;
+
+export type toastStatus = 'success' | 'info' | 'warning' | 'error' | undefined;
+
+export interface ToastProps {
+  title?: string;
+  desc: string | ReactNode;
+  status?: toastStatus;
+  duration?: number;
+  isClosable?: boolean;
+  position?: string;
+}
+
+const toastStandalone = createStandaloneToast();
 
 // Parse router query by path
 export const parseQuery = (search: string) => {
@@ -74,7 +91,7 @@ export const hexToUtf8 = (s: string) => {
   );
 };
 
-// trx log
+// trx log TODO add log
 export const txLog = (result: any, onSuccess = (res: any) => res) => {
   console.log(`Current status is ${result.status}`);
 
@@ -84,4 +101,31 @@ export const txLog = (result: any, onSuccess = (res: any) => res) => {
     onSuccess(result);
     console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
   }
+};
+
+export const toast = ({
+  title = 'Tips',
+  desc = '',
+  status = 'success',
+  duration = 9000,
+  isClosable = true,
+  position = 'bottom-right',
+}: ToastProps) => {
+  toastStandalone({
+    position,
+    title,
+    description: desc,
+    status,
+    duration,
+    isClosable,
+  });
+};
+
+export const redirectConnect = (callbackUrl = '', history?: any) => {
+  toast({
+    desc: t('account.not.detected'),
+  });
+  setTimeout(() => {
+    history.push(`/connect?callbackUrl=${callbackUrl}`);
+  }, 2000);
 };

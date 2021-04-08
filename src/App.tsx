@@ -19,6 +19,7 @@ import './i18n';
 import Home from './pages/home';
 import Explore from './pages/explore';
 import Wallet from './pages/wallet';
+import Connect from './pages/connect';
 import Create from './pages/create';
 import CreateCollection from './pages/create-collection';
 import EditUser from './pages/edit-user';
@@ -48,6 +49,7 @@ const ControlledLayout = () => {
           <Route exact strict path="/explore" component={Explore} />
           <Route exact strict path="/profile" component={EditUser} />
           <Route exact strict path="/wallet" component={Wallet} />
+          <Route exact strict path="/connect" component={Connect} />
           <Route exact strict path="/detail/:classId/:tokenId" component={Detail} />
           <Route exact strict path="/collections" component={MyCollections} />
           <Route exact strict path="/create" component={Create} />
