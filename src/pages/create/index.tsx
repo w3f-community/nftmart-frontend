@@ -12,6 +12,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Formik, Form, Field, FormikProps } from 'formik';
+import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { SelectControl } from 'formik-chakra-ui';
 
@@ -22,6 +23,13 @@ import Upload from '../../components/upload';
 import { getBalance, mintNft } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery, useAssetsQuery } from '../../api/query';
 import { useQuery } from '../../utils/hook';
+
+const schema = Yup.object().shape({
+  name: Yup.string().max(50).required('Required'),
+  url: Yup.string().max(200).required('Required'),
+  externalUrl: Yup.string().max(200).required('Required'),
+  description: Yup.string().max(200).required('Required'),
+});
 
 const formLableLayout = {
   height: '48px',
@@ -128,6 +136,7 @@ const CreateCollection = () => {
                   },
                 });
               }}
+              // validationSchema={schema}
             >
               {(props: FormikProps<any>) => {
                 return (

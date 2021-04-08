@@ -61,7 +61,7 @@ const SalesSettingSchema = yup.object().shape({
     .required(),
   // expiration: yup.number(),
   category: yup.number().required(),
-  pledge: yup.number().moreThan(200).required(),
+  pledge: yup.number().min(200).required(),
 });
 
 const SalesSettingModal: FC<SalesSettingModalProps> = ({

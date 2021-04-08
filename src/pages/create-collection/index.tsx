@@ -97,17 +97,29 @@ const CreateCollection: FC = () => {
               }}
               onSubmit={(values, formActions) => {
                 create(values, {
-                  success: () => {
-                    toast({
-                      title: 'success',
-                      status: 'success',
-                      position: 'top',
-                      duration: 3000,
-                    });
+                  success: (err: any) => {
+                    console.log('creat error : ', err);
+                    if (err.dispatchError) {
+                      toast({
+                        title: 'error',
+                        status: 'error',
+                        position: 'top',
+                        duration: 3000,
+                        description: t('create.create.error'),
+                      });
+                    } else {
+                      toast({
+                        title: 'success',
+                        status: 'success',
+                        position: 'top',
+                        duration: 3000,
+                      });
+                    }
+
                     formActions.setSubmitting(false);
                     formActions.resetForm();
                     refetchAssets();
-                    refetchMyCollections()
+                    refetchMyCollections();
                     getBalance(account.address);
                   },
                   error: (err: any) => {
@@ -120,7 +132,7 @@ const CreateCollection: FC = () => {
                     });
                     formActions.setSubmitting(false);
                     refetchAssets();
-                    refetchMyCollections()
+                    refetchMyCollections();
                     getBalance(account.address);
                   },
                 });
@@ -178,7 +190,7 @@ const CreateCollection: FC = () => {
                               <FormLabel
                                 mb="0"
                                 flexGrow={1}
-                                htmlFor="url"
+                                // htmlFor="url"
                                 borderBottom="1px solid #F3F4F8"
                               >
                                 <Upload
