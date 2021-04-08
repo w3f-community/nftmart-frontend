@@ -121,6 +121,9 @@
   "create.intro": "介绍：",
   "create.intro.placeholder": "请输入描述(200字之内）",
   "create.upload": "点击此处上传图片",
+  "create.crop": "裁剪图片",
+  "create.crop.confirm": "确认裁剪",
+  "create.create.error": "创建失败",
 
   "user.edit.title": "资料修改",
   "user.edit.nickname": "昵称：",

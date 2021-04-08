@@ -237,9 +237,25 @@ const getClassId = (c: any) => {
   return new Uint32Array(key)[0];
 };
 
+// const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
+//   const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
+//   const metadata = JSON.parse(originalString);
+
+//   return {
+//     ...NFT,
+//     ...metadata,
+//     metadata,
+//     classId: cid,
+//     tokenId: tid,
+//   };
+// };
+
 const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
-  const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
-  const metadata = JSON.parse(originalString);
+  let metadata = {};
+  if (NFT.metadata.indexOf('{') >= 0) {
+    const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
+    metadata = JSON.parse(originalString);
+  }
 
   return {
     ...NFT,
