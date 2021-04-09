@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback, useEffect } from 'react';
 import { Input, Image, Spinner, Box, Text } from '@chakra-ui/react';
 
-import { IPFS_POST_SERVER, IPFS_GET_SERVER, PINATA_POST_SERVER } from '../../constants';
+import { IPFS_POST_SERVER, PINATA_SERVER, PINATA_POST_SERVER } from '../../constants';
 import { t } from '../../i18n';
 import colors from '../../themes/colors';
 
@@ -81,7 +81,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
   const view = (
     <Box>
       {value ? (
-        <Image w="350px" h="350px" m="16px 0" src={`${IPFS_GET_SERVER}/${value}`} />
+        <Image w="350px" h="350px" m="16px 0" src={`${PINATA_SERVER}${value}`} />
       ) : (
         <Text fontSize="14px" lineHeight="47px" cursor="pointer" color={colors.success}>
           {t('create.upload')}

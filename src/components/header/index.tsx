@@ -123,37 +123,36 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
         </Flex>
 
         <Flex>
+          {account?.meta ? (
+            <Flex flex="1 1 auto" justifyContent="flex-end" alignItems="center" height="55px">
+              <Login username={formatAddress(account.address)} avatar={account.meta.avatar} />
+              <IconButton
+                size="xs"
+                variant="outline"
+                m={2}
+                aria-label="Add to friends"
+                icon={<CopyIcon />}
+                onClick={() => handleCopy()}
+              />
+              <Balance balance={balance} />
+              {getFaucet()}
+            </Flex>
+          ) : (
+            <Flex>
+              <Button
+                as="a"
+                variant="ghost"
+                ml={4}
+                onClick={() => {
+                  history.push('/connect');
+                }}
+              >
+                {t('login')}
+              </Button>
+            </Flex>
+          )}
           <ChangeLanguage />
         </Flex>
-
-        {account?.meta ? (
-          <Flex flex="1 1 auto" justifyContent="flex-end" alignItems="center" height="55px">
-            <Login username={formatAddress(account.address)} avatar={account.meta.avatar} />
-            <IconButton
-              size="xs"
-              variant="outline"
-              m={2}
-              aria-label="Add to friends"
-              icon={<CopyIcon />}
-              onClick={() => handleCopy()}
-            />
-            <Balance balance={balance} />
-            {getFaucet()}
-          </Flex>
-        ) : (
-          <Flex>
-            <Button
-              as="a"
-              variant="ghost"
-              ml={4}
-              onClick={() => {
-                history.push('/connect');
-              }}
-            >
-              {t('login')}
-            </Button>
-          </Flex>
-        )}
       </Container>
     </Flex>
   );
