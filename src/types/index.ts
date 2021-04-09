@@ -45,4 +45,5 @@ export interface Collection {
   id: number;
   classId: number;
   description: string;
+  totalIssuance: number;
 }

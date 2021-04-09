@@ -121,6 +121,8 @@
   "create.intro": "介绍：",
   "create.intro.placeholder": "请输入描述(200字之内）",
   "create.upload": "点击此处上传图片",
+  "create.toast.success": "创建成功，将跳转到创建NFT页面",
+  "create.detailtoast.success": "创建作品成功，将跳转到创建NFT详情页面",
 
   "user.edit.title": "资料修改",
   "user.edit.nickname": "昵称：",
@@ -150,5 +152,10 @@
   "trx.inblock": "交易区块正在确认中",
   "trx.broadcasting": "交易正在广播中",
   "trx.finalize": "交易确认",
-  "trx.failed": "交易失败"
+  "trx.failed": "交易失败",
+  "name": "名称",
+  "url": "链接",
+  "external": "外部链接",
+  "desc": "描述",
+  "total": "资产发行数量"
 }

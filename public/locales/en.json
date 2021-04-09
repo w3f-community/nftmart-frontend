@@ -128,6 +128,8 @@
   "create.intro": "Introduction",
   "create.intro.placeholder": "At most 200 characters",
   "create.upload": "Click here to upload image",
+  "create.toast.success": "Create success, will jump to create NFT page",
+  "create.detailtoast.success": "Create work successfully, will jump to create NFT details page",
 
   "user.edit.title": "Edit Profile",
   "user.edit.nickname": "Name:",
@@ -160,5 +162,10 @@
   "trx.inblock": "Transaction in block",
   "trx.broadcasting": "Transaction is broadcasting",
   "trx.finalize": "Transaction finalized",
-  "trx.failed": "Transaction failed"
+  "trx.failed": "Transaction failed",
+  "name": "name",
+  "url": "url",
+  "external": "externalUrl",
+  "desc": "description",
+  "total": "total isssuance"
 }
