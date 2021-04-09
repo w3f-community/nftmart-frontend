@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { SelectControl } from 'formik-chakra-ui';
 
 import { globalStore } from 'rekv';
+import LoginDetector from '../../components/loginDetector';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
@@ -51,9 +52,9 @@ const CreateCollection = () => {
   const toast = useToast();
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useAssetsQuery();
-  const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
+  const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
   const { data: classes = [], refetch: refetchMyCollections } = useMyCollectionsQuery(
-    account.address,
+    account ? account.address : '',
   );
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
@@ -147,7 +148,16 @@ const CreateCollection = () => {
                             <FormLabel {...formLableLayout}>
                               {t('create.collection.name')}
                             </FormLabel>
-                            <SelectControl {...field} selectProps={formInputLayout} name="classId">
+                            <SelectControl
+                              {...field}
+                              selectProps={{
+                                ...formInputLayout,
+                                onInput: (e) => {
+                                  console.log(e, '---------------');
+                                },
+                              }}
+                              name="classId"
+                            >
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option
@@ -296,6 +306,7 @@ const CreateCollection = () => {
           </Container>
         </Container>
       </Box>
+      <LoginDetector />
     </Layout>
   );
 };
