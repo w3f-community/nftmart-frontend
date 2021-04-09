@@ -38,6 +38,11 @@ export const toast = ({
   });
 };
 
+export const trimStr = (str: string, keep = 4) => {
+  const trimed = `${str.substr(0, keep)}...${str.substr(-keep)}`;
+  return trimed;
+};
+
 // Parse router query by path
 export const parseQuery = (search: string) => {
   const query = search.substring(1);

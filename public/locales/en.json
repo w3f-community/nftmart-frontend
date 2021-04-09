@@ -162,5 +162,10 @@
   "trx.inblock": "Transaction in block",
   "trx.broadcasting": "Transaction is broadcasting",
   "trx.finalize": "Transaction finalized",
-  "trx.failed": "Transaction failed"
+  "trx.failed": "Transaction failed",
+  "name": "name",
+  "url": "url",
+  "external": "externalUrl",
+  "desc": "description",
+  "total": "total isssuance"
 }

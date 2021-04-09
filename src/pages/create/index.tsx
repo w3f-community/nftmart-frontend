@@ -48,7 +48,7 @@ const formInputLayout = {
 const CreateCollection = () => {
   const query = useQuery();
 
-  const collectionId = query.get('collectionId');
+  const collectionId = query.get('collectionId') || '';
 
   const { t } = useTranslation();
   const toast = useToast();
@@ -82,7 +82,7 @@ const CreateCollection = () => {
     mintNft(normalizedFormData);
   }, []);
   const schema = Yup.object().shape({
-    classId: Yup.number().max(256).required('Required'),
+    classId: Yup.number().required('Required'),
     name: Yup.string().max(50).required('Required'),
     url: Yup.string().max(200).required('Required'),
     externalUrl: Yup.string().max(200).required('Required'),
@@ -148,15 +148,15 @@ const CreateCollection = () => {
                     refetchAssets();
                     getBalance(account.address);
 
-                    function findOneClasses(cls: any) {
-                      return Number(cls.classId) === Number(formValue.classId);
+                    const OneClasses = classes.find((cls) => {
+                      return +cls.classId === +formValue.classId;
+                    });
+                    if (OneClasses) {
+                      const { totalIssuance } = OneClasses;
+                      setTimeout(() => {
+                        history.push(`/detail/${formValue.classId}/${totalIssuance}`);
+                      }, 2000);
                     }
-                    const OneClasses: any = classes.find(findOneClasses);
-                    const totalIssuances: number = OneClasses.totalIssuance;
-
-                    setTimeout(() => {
-                      history.push(`/detail/${formValue.classId}/${totalIssuances}`);
-                    }, 2000);
                   },
                   error: (error: string) => {
                     toast({
@@ -192,16 +192,9 @@ const CreateCollection = () => {
                             <FormLabel {...formLableLayout} htmlFor="classId">
                               {t('create.collection.name')}
                             </FormLabel>
-                            <SelectControl
-                              {...field}
-                              selectProps={{
-                                ...formInputLayout,
-                                onInput: (e) => {
-                                  console.log(e, '---------------');
-                                },
-                              }}
-                              name="classId"
-                            >
+
+                            <SelectControl {...field} selectProps={formInputLayout} name="classId">
+                              <option value="">select</option>
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option
@@ -214,7 +207,7 @@ const CreateCollection = () => {
                                 ))}
                             </SelectControl>
                           </Flex>
-                          <FormErrorMessage pl="240px">{form.errors.classId}</FormErrorMessage>
+                          {/* <FormErrorMessage pl="240px">{form.errors.classId}</FormErrorMessage> */}
                         </FormControl>
                       )}
                     </Field>
@@ -288,8 +281,6 @@ const CreateCollection = () => {
                       }) => (
                         <FormControl
                           isInvalid={!!(form.errors.externalUrl && form.touched.externalUrl)}
-                          display="flex"
-                          alignItems="center"
                         >
                           <Flex width="100%">
                             <FormLabel {...formLableLayout} htmlFor="externalUrl">
