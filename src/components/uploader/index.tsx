@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Image } from '@chakra-ui/react';
-import { IPFS_POST_SERVER, IPFS_GET_SERVER } from '../../constants';
+import { IPFS_POST_SERVER, PINATA_SERVER } from '../../constants';
 
 const ipfsClient = require('ipfs-http-client');
 
@@ -37,7 +37,7 @@ export default function Uploader() {
     <form id="capture-media" onSubmit={handleSubmit}>
       <Input type="file" onChange={captureFile} />
       <br />
-      {cid && <Image src={`${IPFS_GET_SERVER}/${cid}`} />}
+      {cid && <Image src={`${PINATA_SERVER}/${cid}`} />}
     </form>
   );
 }

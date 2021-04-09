@@ -27,7 +27,7 @@ import SalesSettingModal from './SalesSettingModal';
 import { getNft, getOrder, deleteOrder, takeOrder, getBalance } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 import { toFixedDecimals, redirectConnect } from '../../utils';
-import { IPFS_GET_SERVER } from '../../constants';
+import { PINATA_SERVER } from '../../constants';
 import NotFound from '../notFound';
 import colors from '../../themes/colors';
 import { useLogin } from '../../utils/useLogin';
@@ -268,7 +268,7 @@ const Detail: FC = () => {
           <>
             {selectedAsset.metadata && selectedAsset.metadata.url && (
               <ImageCard
-                src={`${IPFS_GET_SERVER}${selectedAsset.metadata.url}` ?? 'image placeholder'}
+                src={`${PINATA_SERVER}${selectedAsset.metadata.url}` ?? 'image placeholder'}
               />
             )}
             {selectedAsset.metadata && (

@@ -21,7 +21,7 @@ import ImageCard from './ImageCard';
 import Meta from './Meta';
 
 // import bgSrc from '../../assets/background-demo.jpeg';
-import { IPFS_GET_SERVER } from '../../constants';
+import { PINATA_SERVER } from '../../constants';
 import { t } from '../../i18n';
 import { Work } from '../../types';
 
@@ -50,7 +50,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
     <Container>
       <Stack direction="row" justifyContent="space-between">
         <Flex flex={2} align="center">
-          <ImageCard src={`${IPFS_GET_SERVER}${metadata.url}`!} width={90} height={60} />
+          <ImageCard src={`${PINATA_SERVER}${metadata.url}`!} width={90} height={60} />
         </Flex>
         <Stack flex={2} justifyContent="space-between">
           <Flex flex={1}>
