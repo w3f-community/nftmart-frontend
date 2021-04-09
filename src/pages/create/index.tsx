@@ -15,6 +15,7 @@ import {
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { SelectControl } from 'formik-chakra-ui';
+import * as Yup from 'yup';
 
 import { globalStore } from 'rekv';
 import colors from '../../themes/colors';
@@ -53,7 +54,9 @@ const CreateCollection = () => {
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useAssetsQuery();
   const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
-  const { data: classes, refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
+  const { data: classes = [], refetch: refetchMyCollections } = useMyCollectionsQuery(
+    account.address,
+  );
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
     const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
@@ -76,6 +79,13 @@ const CreateCollection = () => {
     };
     mintNft(normalizedFormData);
   }, []);
+  const schema = Yup.object().shape({
+    classId: Yup.number().max(256).required('Required'),
+    name: Yup.string().max(50).required('Required'),
+    url: Yup.string().max(200).required('Required'),
+    externalUrl: Yup.string().max(200).required('Required'),
+    description: Yup.string().max(256).required('Required'),
+  });
 
   const history = useHistory();
 
@@ -121,13 +131,6 @@ const CreateCollection = () => {
                 description: '',
               }}
               onSubmit={(formValue, formAction) => {
-                const currentCls = classes?.find((cls) => {
-                  return Number(cls.classId) === Number(formValue.classId)
-                    ? Number(formValue.classId)
-                    : classes?.[0].classId;
-                });
-                const totalIssuance = currentCls?.totalIssuance;
-
                 mint(formValue, {
                   success: () => {
                     toast({
@@ -143,13 +146,17 @@ const CreateCollection = () => {
                     refetchAssets();
                     getBalance(account.address);
 
+                    /* function findOneClasses(cls:any){
+                      return cls.classId === formValue.classId;
+                    }
+                    const OneClasses:any = classes.find(findOneClasses);
+                    const totalIssuance:number = OneClasses.totalIssuance;
+
                     setTimeout(() => {
                       history.push(
-                        `/detail/${
-                          formValue.classId ? Number(formValue.classId) : classes?.[0].classId
-                        }/${totalIssuance}`,
+                        `/detail/${formValue.classId}/${totalIssuance}`,
                       );
-                    }, 2000);
+                    }, 2000); */
                   },
                   error: (error: string) => {
                     toast({
@@ -167,6 +174,7 @@ const CreateCollection = () => {
                   },
                 });
               }}
+              validationSchema={schema}
             >
               {(props: FormikProps<any>) => {
                 return (
@@ -181,10 +189,11 @@ const CreateCollection = () => {
                       }) => (
                         <FormControl isInvalid={!!(form.errors.classId && form.touched.classId)}>
                           <Flex>
-                            <FormLabel {...formLableLayout}>
+                            <FormLabel {...formLableLayout} htmlFor="classId">
                               {t('create.collection.name')}
                             </FormLabel>
                             <SelectControl {...field} selectProps={formInputLayout} name="classId">
+                              <option>请选择作品集</option>
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option
