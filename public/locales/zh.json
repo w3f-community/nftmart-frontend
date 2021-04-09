@@ -146,5 +146,9 @@
 
   "copy.success": "复制成功",
   "fund.success": "申请成功",
-  "account.not.detect": "未连接插件钱包"
+  "account.not.detect": "未连接插件钱包",
+  "trx.inblock": "交易区块正在确认中",
+  "trx.broadcasting": "交易正在广播中",
+  "trx.finalize": "交易确认",
+  "trx.failed": "交易失败"
 }

@@ -20,6 +20,24 @@ export interface ToastProps {
 
 const toastStandalone = createStandaloneToast();
 
+export const toast = ({
+  title = 'Tips',
+  desc = '',
+  status = 'success',
+  duration = 9000,
+  isClosable = true,
+  position = 'bottom-right',
+}: ToastProps) => {
+  toastStandalone({
+    position,
+    title,
+    description: desc,
+    status,
+    duration,
+    isClosable,
+  });
+};
+
 // Parse router query by path
 export const parseQuery = (search: string) => {
   const query = search.substring(1);
@@ -94,31 +112,45 @@ export const hexToUtf8 = (s: string) => {
 // trx log TODO add log
 export const txLog = (result: any, onSuccess = (res: any) => res) => {
   console.log(`Current status is ${result.status}`);
-
+  // toast({
+  //   title: '',
+  //   desc: t('trx.broadcasting'),
+  //   status: 'info',
+  //   duration: 8000,
+  // });
+  console.log(result.status, '=====');
   if (result.status.isInBlock) {
+    toast({
+      title: '',
+      desc: t('trx.inblock'),
+      status: 'info',
+      duration: 8000,
+    });
     console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
   } else if (result.status.isFinalized) {
+    toast({
+      title: '',
+      desc: t('trx.finalize'),
+      status: 'success',
+      duration: 6000,
+    });
     onSuccess(result);
     console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+  } else if (result.status.isBroadcast) {
+    toast({
+      title: '',
+      desc: t('trx.broadcasting'),
+      status: 'info',
+      duration: 10000,
+    });
+  } else if (result.status.isInvalid) {
+    toast({
+      title: 'error',
+      desc: t('trx.failed'),
+      status: 'info',
+      duration: 5000,
+    });
   }
-};
-
-export const toast = ({
-  title = 'Tips',
-  desc = '',
-  status = 'success',
-  duration = 9000,
-  isClosable = true,
-  position = 'bottom-right',
-}: ToastProps) => {
-  toastStandalone({
-    position,
-    title,
-    description: desc,
-    status,
-    duration,
-    isClosable,
-  });
 };
 
 export const redirectConnect = (callbackUrl = '', history?: any) => {

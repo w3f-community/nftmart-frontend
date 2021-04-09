@@ -156,5 +156,9 @@
 
   "copy.success": "Copy success",
   "fund.success": "Get funds success",
-  "account.not.detected": "Account not detected"
+  "account.not.detected": "Account not detected",
+  "trx.inblock": "Transaction in block",
+  "trx.broadcasting": "Transaction is broadcasting",
+  "trx.finalize": "Transaction finalized",
+  "trx.failed": "Transaction failed"
 }
