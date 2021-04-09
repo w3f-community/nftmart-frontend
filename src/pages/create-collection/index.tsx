@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { globalStore } from 'rekv';
+import LoginDetector from '../../components/loginDetector';
 
 import Upload from '../../components/upload';
 
@@ -107,7 +108,7 @@ const CreateCollection: FC = () => {
                     formActions.setSubmitting(false);
                     formActions.resetForm();
                     refetchAssets();
-                    refetchMyCollections()
+                    refetchMyCollections();
                     getBalance(account.address);
                   },
                   error: (err: any) => {
@@ -120,7 +121,7 @@ const CreateCollection: FC = () => {
                     });
                     formActions.setSubmitting(false);
                     refetchAssets();
-                    refetchMyCollections()
+                    refetchMyCollections();
                     getBalance(account.address);
                   },
                 });
@@ -300,6 +301,7 @@ const CreateCollection: FC = () => {
           </Container>
         </Container>
       </Box>
+      <LoginDetector />
     </Layout>
   );
 };
