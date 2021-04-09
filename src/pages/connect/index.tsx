@@ -44,6 +44,8 @@ const Connect: FC = () => {
           });
           if (callbackUrl && callbackUrl.length > 0) {
             history.push(callbackUrl);
+          } else {
+            history.push('/');
           }
           // TODO add backend integration
         }

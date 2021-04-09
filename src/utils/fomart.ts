@@ -14,7 +14,9 @@ const baseOptions = [
 ];
 
 export const parseMoneyText = (text: string) => {
-  const baseOption = baseOptions.find((option) => text.includes(option.value)) || baseOptions[0];
+  const cutUnit = text.substring(0, text.length - 3);
+
+  const baseOption = baseOptions.find((option) => cutUnit.includes(option.value)) || baseOptions[0];
 
   const [moneyText, unit] = text.replace(baseOption.value, '').split(' ');
   const normalizedMoney = toBigNumber(moneyText).times(10 ** baseOption.power);

@@ -18,6 +18,7 @@ import { SelectControl } from 'formik-chakra-ui';
 import * as Yup from 'yup';
 
 import { globalStore } from 'rekv';
+import LoginDetector from '../../components/loginDetector';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
@@ -53,9 +54,10 @@ const CreateCollection = () => {
   const toast = useToast();
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useAssetsQuery();
-  const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
+
+  const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
   const { data: classes = [], refetch: refetchMyCollections } = useMyCollectionsQuery(
-    account.address,
+    account ? account.address : '',
   );
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
@@ -146,17 +148,15 @@ const CreateCollection = () => {
                     refetchAssets();
                     getBalance(account.address);
 
-                    /* function findOneClasses(cls:any){
-                      return cls.classId === formValue.classId;
+                    function findOneClasses(cls: any) {
+                      return Number(cls.classId) === Number(formValue.classId);
                     }
-                    const OneClasses:any = classes.find(findOneClasses);
-                    const totalIssuance:number = OneClasses.totalIssuance;
+                    const OneClasses: any = classes.find(findOneClasses);
+                    const totalIssuances: number = OneClasses.totalIssuance;
 
                     setTimeout(() => {
-                      history.push(
-                        `/detail/${formValue.classId}/${totalIssuance}`,
-                      );
-                    }, 2000); */
+                      history.push(`/detail/${formValue.classId}/${totalIssuances}`);
+                    }, 2000);
                   },
                   error: (error: string) => {
                     toast({
@@ -192,8 +192,16 @@ const CreateCollection = () => {
                             <FormLabel {...formLableLayout} htmlFor="classId">
                               {t('create.collection.name')}
                             </FormLabel>
-                            <SelectControl {...field} selectProps={formInputLayout} name="classId">
-                              <option>请选择作品集</option>
+                            <SelectControl
+                              {...field}
+                              selectProps={{
+                                ...formInputLayout,
+                                onInput: (e) => {
+                                  console.log(e, '---------------');
+                                },
+                              }}
+                              name="classId"
+                            >
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option
@@ -342,6 +350,7 @@ const CreateCollection = () => {
           </Container>
         </Container>
       </Box>
+      <LoginDetector />
     </Layout>
   );
 };
