@@ -52,7 +52,9 @@ const CreateCollection = () => {
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useAssetsQuery();
   const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
-  const { data: classes, refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
+  const { data: classes = [], refetch: refetchMyCollections } = useMyCollectionsQuery(
+    account.address,
+  );
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
     const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
