@@ -1,4 +1,5 @@
 import React, { FC, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
   Container,
@@ -64,6 +65,8 @@ const CreateCollection: FC = () => {
     createClass({ address: account.address, metadata: formValue, cb });
   }, []);
 
+  const history = useHistory();
+
   return (
     <Layout title="title.create-collection">
       <Box padding={2}>
@@ -99,7 +102,7 @@ const CreateCollection: FC = () => {
                 create(values, {
                   success: () => {
                     toast({
-                      title: 'success',
+                      title: t('create.toast.success'),
                       status: 'success',
                       position: 'top',
                       duration: 3000,
@@ -107,12 +110,16 @@ const CreateCollection: FC = () => {
                     formActions.setSubmitting(false);
                     formActions.resetForm();
                     refetchAssets();
-                    refetchMyCollections()
+                    refetchMyCollections();
                     getBalance(account.address);
+
+                    setTimeout(() => {
+                      history.push('/create');
+                    }, 2000);
                   },
                   error: (err: any) => {
                     toast({
-                      title: 'success',
+                      title: 'error',
                       status: 'error',
                       position: 'top',
                       duration: 3000,
@@ -120,7 +127,7 @@ const CreateCollection: FC = () => {
                     });
                     formActions.setSubmitting(false);
                     refetchAssets();
-                    refetchMyCollections()
+                    refetchMyCollections();
                     getBalance(account.address);
                   },
                 });

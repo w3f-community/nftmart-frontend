@@ -128,6 +128,8 @@
   "create.intro": "Introduction",
   "create.intro.placeholder": "At most 200 characters",
   "create.upload": "Click here to upload image",
+  "create.toast.success": "Create success, will jump to create NFT page",
+  "create.detailtoast.success": "Create work successfully, will jump to create NFT details page",
 
   "user.edit.title": "Edit Profile",
   "user.edit.nickname": "Name:",

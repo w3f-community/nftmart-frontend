@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -64,6 +65,29 @@ const CreateCollection = () => {
     };
     mintNft(normalizedFormData);
   }, []);
+  const mintone = useCallback(async (formValue: any, cb) => {
+    const { classId, ...others } = formValue;
+    const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
+    const normalizedFormData = {
+      address: account.address,
+      metadata: { ...others },
+      classId: normalizedClassId,
+      cb,
+    };
+    mintNft(normalizedFormData);
+  }, []);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (classes?.length === 0) {
+      history.push('/create-collection');
+    }
+  });
+
+  const gettotalIssuance = (val: any) => {
+    console.log(val);
+  };
 
   return (
     <Layout title="title.create">
@@ -97,10 +121,17 @@ const CreateCollection = () => {
                 description: '',
               }}
               onSubmit={(formValue, formAction) => {
+                const currentCls = classes?.find((cls) => {
+                  return Number(cls.classId) === Number(formValue.classId)
+                    ? Number(formValue.classId)
+                    : classes?.[0].classId;
+                });
+                const totalIssuance = currentCls?.totalIssuance;
+
                 mint(formValue, {
                   success: () => {
                     toast({
-                      title: 'success',
+                      title: t('create.detailtoast.success'),
                       status: 'success',
                       position: 'top',
                       duration: 3000,
@@ -111,6 +142,14 @@ const CreateCollection = () => {
                     refetchMyCollections();
                     refetchAssets();
                     getBalance(account.address);
+
+                    setTimeout(() => {
+                      history.push(
+                        `/detail/${
+                          formValue.classId ? Number(formValue.classId) : classes?.[0].classId
+                        }/${totalIssuance}`,
+                      );
+                    }, 2000);
                   },
                   error: (error: string) => {
                     toast({
