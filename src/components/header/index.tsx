@@ -5,6 +5,7 @@ import { globalStore } from 'rekv';
 import { CopyIcon } from '@chakra-ui/icons';
 import { Keyring } from '@polkadot/api';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 import NavLink from '../navlink';
 import Login from '../login';
@@ -23,6 +24,7 @@ export interface HeaderProps {
 const formatAddress = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-4)}`;
 
 const Header: FC<HeaderProps> = ({ sticky }) => {
+  const history = useHistory();
   const { account, api } = globalStore.useState('account', 'api');
   const { balance } = accountStore.useState('balance');
   const { t } = useTranslation();
@@ -101,7 +103,13 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Flex justify="center" mr={8}>
+        <Flex
+          justify="center"
+          mr={8}
+          onClick={() => {
+            history.push('/');
+          }}
+        >
           <Image
             NativeImgProps={{ style: { height: 60, width: 'auto' } }}
             src={LogoSrc}
@@ -118,7 +126,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
           <ChangeLanguage />
         </Flex>
 
-        {account?.meta && (
+        {account?.meta ? (
           <Flex flex="1 1 auto" justifyContent="flex-end" alignItems="center" height="55px">
             <Login username={formatAddress(account.address)} avatar={account.meta.avatar} />
             <IconButton
@@ -131,6 +139,19 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
             />
             <Balance balance={balance} />
             {getFaucet()}
+          </Flex>
+        ) : (
+          <Flex>
+            <Button
+              as="a"
+              variant="ghost"
+              ml={4}
+              onClick={() => {
+                history.push('/connect');
+              }}
+            >
+              {t('login')}
+            </Button>
           </Flex>
         )}
       </Container>

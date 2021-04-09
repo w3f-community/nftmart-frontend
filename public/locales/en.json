@@ -157,5 +157,6 @@
   "balance.reserved": "Reserved",
 
   "copy.success": "Copy success",
-  "fund.success": "Get funds success"
+  "fund.success": "Get funds success",
+  "account.not.detected": "Account not detected"
 }
