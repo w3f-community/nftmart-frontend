@@ -54,6 +54,7 @@ const CreateCollection = () => {
   const toast = useToast();
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useAssetsQuery();
+
   const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
   const { data: classes = [], refetch: refetchMyCollections } = useMyCollectionsQuery(
     account ? account.address : '',
@@ -192,6 +193,7 @@ const CreateCollection = () => {
                             <FormLabel {...formLableLayout} htmlFor="classId">
                               {t('create.collection.name')}
                             </FormLabel>
+
                             <SelectControl {...field} selectProps={formInputLayout} name="classId">
                               <option value="">select</option>
                               {classes?.length &&
