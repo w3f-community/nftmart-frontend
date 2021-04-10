@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Box, Center, Spinner, Stack, Text, useToast } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import { globalStore } from 'rekv';
@@ -26,17 +26,21 @@ import SalesSettingModal from './SalesSettingModal';
 
 import { getNft, getOrder, deleteOrder, takeOrder, getBalance } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
-import { toFixedDecimals } from '../../utils';
-import { IPFS_GET_SERVER } from '../../constants';
+import { toFixedDecimals, redirectConnect } from '../../utils';
+import { PINATA_SERVER } from '../../constants';
 import NotFound from '../notFound';
 import colors from '../../themes/colors';
+import { useLogin } from '../../utils/useLogin';
 
 const Detail: FC = () => {
   const { t } = useTranslation();
   const toast = useToast();
 
+  const { login } = useLogin();
   const params = useParams<{ classId: string; tokenId: string }>();
   const { classId, tokenId } = params;
+  const location = useLocation();
+  const history = useHistory();
   const { account } = globalStore.useState('account');
 
   const { categories } = cateStore.useState('categories');
@@ -49,8 +53,8 @@ const Detail: FC = () => {
 
   const { selectedAsset } = store.useState('selectedAsset');
 
-  const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
-  const { refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
+  const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
+  const { refetch: refetchMyCollections } = useMyCollectionsQuery(account ? account.address : '');
 
   // const { data: collectionsResponse } = GetCollections({
   //   id: selectedAsset?.classId,
@@ -231,8 +235,13 @@ const Detail: FC = () => {
     }
   };
 
-  const handleDestroy = () => {
-    //
+  const handlePurchase = () => {
+    const callbackUrl = location.pathname;
+    if (login) {
+      setPurchaseOpen(true);
+    } else {
+      redirectConnect(callbackUrl, history);
+    }
   };
   let price = '';
   if (selectedAsset.order) {
@@ -259,7 +268,7 @@ const Detail: FC = () => {
           <>
             {selectedAsset.metadata && selectedAsset.metadata.url && (
               <ImageCard
-                src={`${IPFS_GET_SERVER}${selectedAsset.metadata.url}` ?? 'image placeholder'}
+                src={`${PINATA_SERVER}${selectedAsset.metadata.url}` ?? 'image placeholder'}
               />
             )}
             {selectedAsset.metadata && (
@@ -279,13 +288,13 @@ const Detail: FC = () => {
               category={categoryName}
               name={selectedAsset.metadata.name}
               price={price}
-              onPurchase={() => setPurchaseOpen(true)}
+              onPurchase={() => handlePurchase()}
               order={selectedAsset.order}
               asset={selectedAsset}
               onSetting={() => setSettingOpen(true)}
               onCancel={handleCancelOrder}
               cancelLoading={cancelLoading}
-              isOwner={selectedAsset.owner === account.address}
+              isOwner={account && selectedAsset.owner === account.address}
             />
             {/* <IntroCard description={selectedAsset.description ?? t('detail.no-description')} /> */}
             {/* <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />

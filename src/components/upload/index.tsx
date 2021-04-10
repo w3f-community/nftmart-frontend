@@ -3,7 +3,7 @@ import { Input, Image, Spinner, Box, Text, FormLabel } from '@chakra-ui/react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-import { IPFS_POST_SERVER, IPFS_GET_SERVER, PINATA_POST_SERVER } from '../../constants';
+import { IPFS_POST_SERVER, PINATA_SERVER, PINATA_POST_SERVER } from '../../constants';
 import { t } from '../../i18n';
 import colors from '../../themes/colors';
 
@@ -160,10 +160,10 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
     </Text>
   );
   const crop = !showCrop ? (
-    <Image w="auto" h="350px" m="16px 0" src={`${IPFS_GET_SERVER}/${value}`} />
+    <Image w="auto" h="350px" m="16px 0" src={`${PINATA_SERVER}/${value}`} />
   ) : (
     <CropperCop
-      imgUrl={`${IPFS_GET_SERVER}/${value}`}
+      imgUrl={`${PINATA_SERVER}/${value}`}
       uploadHandle={saveToIpfs}
       name={imgName}
     ></CropperCop>
@@ -171,7 +171,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
   const view = (
     <Box>
       {value
-        ? // <Image w="350px" h="350px" m="16px 0" src={`${IPFS_GET_SERVER}/${value}`} />
+        ? // <Image w="350px" h="350px" m="16px 0" src={`${PINATA_SERVER}/${value}`} />
           crop
         : txtUpload}
     </Box>

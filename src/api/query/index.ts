@@ -122,6 +122,7 @@ export const useMyAssetsQuery = (address: string) => {
   };
 
   const queryAssetsAndMap = async () => {
+    if (!address) return [];
     let assets = (await queryNftByAddress({ address })) as Work[];
     const orders = (await getAllOrders()) as Order[];
 

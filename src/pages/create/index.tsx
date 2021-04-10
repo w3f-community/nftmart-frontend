@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -15,7 +16,9 @@ import { Formik, Form, Field, FormikProps, yupToFormErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { SelectControl } from 'formik-chakra-ui';
 import * as Yup from 'yup';
+
 import { globalStore } from 'rekv';
+import LoginDetector from '../../components/loginDetector';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
@@ -23,14 +26,6 @@ import { getBalance, mintNft } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery, useAssetsQuery } from '../../api/query';
 import { useQuery } from '../../utils/hook';
 
-const schema = Yup.object().shape({
-  classId: Yup.number().moreThan(0, '请选择作品集'),
-  name: Yup.string().max(20).required('Required'),
-  description: Yup.string().max(256).required('Required'),
-  // bannerUrl: Yup.string().required('Required'),
-  url: Yup.string().max(200).required('Required'),
-  externalUrl: Yup.string().max(200).required('Required'),
-});
 const formLableLayout = {
   height: '48px',
   flex: '0 0 240px',
@@ -53,14 +48,16 @@ const formInputLayout = {
 const CreateCollection = () => {
   const query = useQuery();
 
-  const collectionId = query.get('collectionId');
+  const collectionId = query.get('collectionId') || '';
 
   const { t } = useTranslation();
   const toast = useToast();
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useAssetsQuery();
-  const { refetch: refetchMyAssets } = useMyAssetsQuery(account.address);
-  const { data: classes, refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
+  const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
+  const { data: classes = [], refetch: refetchMyCollections } = useMyCollectionsQuery(
+    account ? account.address : '',
+  );
   const mint = useCallback(async (formValue: any, cb) => {
     const { classId, ...others } = formValue;
     const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
@@ -72,6 +69,37 @@ const CreateCollection = () => {
     };
     mintNft(normalizedFormData);
   }, []);
+  const mintone = useCallback(async (formValue: any, cb) => {
+    const { classId, ...others } = formValue;
+    const normalizedClassId = classId ? Number(classId) : classes?.[0].id;
+    const normalizedFormData = {
+      address: account.address,
+      metadata: { ...others },
+      classId: normalizedClassId,
+      cb,
+    };
+    mintNft(normalizedFormData);
+  }, []);
+
+  const schema = Yup.object().shape({
+    classId: Yup.number().required('Required'),
+    name: Yup.string().max(50).required('Required'),
+    url: Yup.string().max(200).required('Required'),
+    externalUrl: Yup.string().max(200).required('Required'),
+    description: Yup.string().max(256).required('Required'),
+  });
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (classes?.length === 0) {
+      history.push('/create-collection');
+    }
+  });
+
+  const gettotalIssuance = (val: any) => {
+    console.log(val);
+  };
 
   return (
     <Layout title="title.create">
@@ -108,7 +136,7 @@ const CreateCollection = () => {
                 mint(formValue, {
                   success: () => {
                     toast({
-                      title: 'success',
+                      title: t('create.detailtoast.success'),
                       status: 'success',
                       position: 'top',
                       duration: 3000,
@@ -119,6 +147,16 @@ const CreateCollection = () => {
                     refetchMyCollections();
                     refetchAssets();
                     getBalance(account.address);
+
+                    const OneClasses = classes.find((cls) => {
+                      return +cls.classId === +formValue.classId;
+                    });
+                    if (OneClasses) {
+                      const { totalIssuance } = OneClasses;
+                      setTimeout(() => {
+                        history.push(`/detail/${formValue.classId}/${totalIssuance}`);
+                      }, 2000);
+                    }
                   },
                   error: (error: string) => {
                     toast({
@@ -151,13 +189,11 @@ const CreateCollection = () => {
                       }) => (
                         <FormControl isInvalid={!!(form.errors.classId && form.touched.classId)}>
                           <Flex>
-                            <FormLabel {...formLableLayout}>
+                            <FormLabel {...formLableLayout} htmlFor="classId">
                               {t('create.collection.name')}
                             </FormLabel>
                             <SelectControl {...field} selectProps={formInputLayout} name="classId">
-                              <option value={0} color={colors.text.black} key={0}>
-                                请选择
-                              </option>
+                              <option value="">select</option>
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option
@@ -170,7 +206,7 @@ const CreateCollection = () => {
                                 ))}
                             </SelectControl>
                           </Flex>
-                          <FormErrorMessage pl="240px">{form.errors.classId}</FormErrorMessage>
+                          {/* <FormErrorMessage pl="240px">{form.errors.classId}</FormErrorMessage> */}
                         </FormControl>
                       )}
                     </Field>
@@ -224,7 +260,7 @@ const CreateCollection = () => {
                               <Upload
                                 id="url"
                                 {...field}
-                                onChange={(url) => {
+                                onChange={(url: any) => {
                                   props.setFieldValue('url', url);
                                 }}
                               />
@@ -244,8 +280,6 @@ const CreateCollection = () => {
                       }) => (
                         <FormControl
                           isInvalid={!!(form.errors.externalUrl && form.touched.externalUrl)}
-                          display="flex"
-                          alignItems="center"
                         >
                           <Flex width="100%">
                             <FormLabel {...formLableLayout} htmlFor="externalUrl">
@@ -306,6 +340,7 @@ const CreateCollection = () => {
           </Container>
         </Container>
       </Box>
+      <LoginDetector />
     </Layout>
   );
 };

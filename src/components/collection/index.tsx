@@ -20,7 +20,7 @@ import colors from '../../themes/colors';
 import { Work } from '../../types';
 import { toFixedDecimals } from '../../utils';
 import { actions } from '../../stores/assets';
-import { IPFS_GET_SERVER } from '../../constants';
+import { PINATA_SERVER } from '../../constants';
 import { parseMoneyText } from '../../utils/fomart';
 
 type CollectionProps = {
@@ -50,7 +50,7 @@ const Collection = (props: CollectionProps) => {
   const { classId, tokenId: id, name, price, isSet = false, url, pledge, status } = props;
   const history = useHistory();
 
-  const picUrl = useMemo(() => `${IPFS_GET_SERVER}${url}`, []);
+  const picUrl = useMemo(() => `${PINATA_SERVER}${url}`, []);
   const normalizedPledge = useMemo(() => {
     if (!pledge) return 0;
     const { value, unit } = parseMoneyText(pledge);

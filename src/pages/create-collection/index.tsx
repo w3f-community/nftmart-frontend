@@ -1,4 +1,5 @@
 import React, { FC, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
   Container,
@@ -17,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { globalStore } from 'rekv';
+import LoginDetector from '../../components/loginDetector';
 
 import Upload from '../../components/upload';
 
@@ -63,6 +65,8 @@ const CreateCollection: FC = () => {
   const create = useCallback((formValue, cb) => {
     createClass({ address: account.address, metadata: formValue, cb });
   }, []);
+
+  const history = useHistory();
 
   return (
     <Layout title="title.create-collection">
@@ -114,16 +118,19 @@ const CreateCollection: FC = () => {
                         duration: 3000,
                       });
                     }
-
                     formActions.setSubmitting(false);
                     formActions.resetForm();
                     refetchAssets();
                     refetchMyCollections();
                     getBalance(account.address);
+
+                    setTimeout(() => {
+                      history.push('/create');
+                    }, 2000);
                   },
                   error: (err: any) => {
                     toast({
-                      title: 'success',
+                      title: 'error',
                       status: 'error',
                       position: 'top',
                       duration: 3000,
@@ -195,7 +202,7 @@ const CreateCollection: FC = () => {
                                 <Upload
                                   id="url"
                                   {...field}
-                                  onChange={(v) => {
+                                  onChange={(v: any) => {
                                     props.setFieldValue('url', v);
                                   }}
                                 />
@@ -311,6 +318,7 @@ const CreateCollection: FC = () => {
           </Container>
         </Container>
       </Box>
+      <LoginDetector />
     </Layout>
   );
 };

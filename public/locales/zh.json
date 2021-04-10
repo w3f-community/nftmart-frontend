@@ -124,6 +124,8 @@
   "create.crop": "裁剪图片",
   "create.crop.confirm": "确认裁剪",
   "create.create.error": "创建失败",
+  "create.toast.success": "创建成功，将跳转到创建NFT页面",
+  "create.detailtoast.success": "创建作品成功，将跳转到创建NFT详情页面",
 
   "user.edit.title": "资料修改",
   "user.edit.nickname": "昵称：",
@@ -145,5 +147,18 @@
   "balance.feeFrozen": "Frozen Fees",
   "balance.free": "Available",
   "balance.miscFrozen": "Frozen Others",
-  "balance.reserved": "Reserved"
+  "balance.reserved": "Reserved",
+
+  "copy.success": "复制成功",
+  "fund.success": "申请成功",
+  "account.not.detect": "未连接插件钱包",
+  "trx.inblock": "交易区块正在确认中",
+  "trx.broadcasting": "交易正在广播中",
+  "trx.finalize": "交易确认",
+  "trx.failed": "交易失败",
+  "name": "名称",
+  "url": "链接",
+  "external": "外部链接",
+  "desc": "描述",
+  "total": "资产发行数量"
 }
