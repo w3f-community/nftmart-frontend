@@ -98,10 +98,9 @@ const CreateCollection: FC = () => {
               onSubmit={(values, formActions) => {
                 create(values, {
                   success: (err: any) => {
-                    console.log('creat error : ', err);
                     if (err.dispatchError) {
                       toast({
-                        title: 'error',
+                        title: 'success',
                         status: 'error',
                         position: 'top',
                         duration: 3000,

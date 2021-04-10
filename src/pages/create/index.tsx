@@ -11,11 +11,10 @@ import {
   Flex,
   useToast,
 } from '@chakra-ui/react';
-import { Formik, Form, Field, FormikProps } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field, FormikProps, yupToFormErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { SelectControl } from 'formik-chakra-ui';
-
+import * as Yup from 'yup';
 import { globalStore } from 'rekv';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
@@ -25,12 +24,13 @@ import { useMyAssetsQuery, useMyCollectionsQuery, useAssetsQuery } from '../../a
 import { useQuery } from '../../utils/hook';
 
 const schema = Yup.object().shape({
-  name: Yup.string().max(50).required('Required'),
+  classId: Yup.number().moreThan(0, '请选择作品集'),
+  name: Yup.string().max(20).required('Required'),
+  description: Yup.string().max(256).required('Required'),
+  // bannerUrl: Yup.string().required('Required'),
   url: Yup.string().max(200).required('Required'),
   externalUrl: Yup.string().max(200).required('Required'),
-  description: Yup.string().max(200).required('Required'),
 });
-
 const formLableLayout = {
   height: '48px',
   flex: '0 0 240px',
@@ -136,7 +136,7 @@ const CreateCollection = () => {
                   },
                 });
               }}
-              // validationSchema={schema}
+              validationSchema={schema}
             >
               {(props: FormikProps<any>) => {
                 return (
@@ -155,6 +155,9 @@ const CreateCollection = () => {
                               {t('create.collection.name')}
                             </FormLabel>
                             <SelectControl {...field} selectProps={formInputLayout} name="classId">
+                              <option value={0} color={colors.text.black} key={0}>
+                                请选择
+                              </option>
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option

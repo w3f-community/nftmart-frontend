@@ -12,7 +12,8 @@ interface INavProps {
   name: string;
   uploadHandle: any;
 }
-const Demo: React.FC<INavProps> = (props) => {
+
+const CropperCop: React.FC<INavProps> = (props) => {
   const cropperRef = useRef<HTMLImageElement>(null);
   const [cropper, setCropper] = useState<any>();
 
@@ -113,7 +114,6 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
     if (files.length === 0) {
       return;
     }
-
     try {
       setLoadingStatus(true);
       const added = await ipfs.add(files[0], {
@@ -127,7 +127,6 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
       setLoadingStatus(false);
     }
   }, []);
-
   const captureFile = useCallback((event: any) => {
     if (event.target.files.length > 0) {
       event.stopPropagation();
@@ -163,7 +162,11 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
   const crop = !showCrop ? (
     <Image w="auto" h="350px" m="16px 0" src={`${IPFS_GET_SERVER}/${value}`} />
   ) : (
-    <Demo imgUrl={`${IPFS_GET_SERVER}/${value}`} uploadHandle={saveToIpfs} name={imgName}></Demo>
+    <CropperCop
+      imgUrl={`${IPFS_GET_SERVER}/${value}`}
+      uploadHandle={saveToIpfs}
+      name={imgName}
+    ></CropperCop>
   );
   const view = (
     <Box>
