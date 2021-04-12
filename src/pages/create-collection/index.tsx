@@ -29,11 +29,17 @@ import { createClass, getBalance } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 
 const schema = Yup.object().shape({
-  name: Yup.string().max(20).required('Required'),
-  description: Yup.string().max(256).required('Required'),
-  // bannerUrl: Yup.string().required('Required'),
+  name: Yup.string().max(50).required('Required'),
+
+  // bannerUrl: Yup.string().min(4,"length should be 4").required('Required'),
   url: Yup.string().max(200).required('Required'),
-  externalUrl: Yup.string().max(200).required('Required'),
+  externalUrl: Yup.string()
+    .required('Required')
+    .matches(
+      /(http|https):\/\/([\w.]+\/?)\S*/,
+      'Must start with HTTP, HTTPS, and conform to URL specification, check whether the format is correct',
+    ),
+  description: Yup.string().max(200).required('Required'),
 });
 
 const formLabelLayout = {

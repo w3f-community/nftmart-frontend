@@ -85,7 +85,12 @@ const CreateCollection = () => {
     classId: Yup.number().required('Required'),
     name: Yup.string().max(50).required('Required'),
     url: Yup.string().max(200).required('Required'),
-    externalUrl: Yup.string().max(200).required('Required'),
+    externalUrl: Yup.string()
+      .required('Required')
+      .matches(
+        /(http|https):\/\/([\w.]+\/?)\S*/,
+        'Must start with HTTP, HTTPS, and conform to URL specification, check whether the format is correct',
+      ),
     description: Yup.string().max(256).required('Required'),
   });
 
@@ -129,8 +134,6 @@ const CreateCollection = () => {
                 description: '',
               }}
               onSubmit={(formValue, formAction) => {
-                console.log(formValue);
-
                 mint(formValue, {
                   success: () => {
                     toast({
