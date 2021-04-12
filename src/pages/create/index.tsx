@@ -12,7 +12,7 @@ import {
   Flex,
   useToast,
 } from '@chakra-ui/react';
-import { Formik, Form, Field, FormikProps } from 'formik';
+import { Formik, Form, Field, FormikProps, yupToFormErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { SelectControl } from 'formik-chakra-ui';
 import * as Yup from 'yup';
@@ -81,6 +81,7 @@ const CreateCollection = () => {
     };
     mintNft(normalizedFormData);
   }, []);
+
   const schema = Yup.object().shape({
     classId: Yup.number().required('Required'),
     name: Yup.string().max(50).required('Required'),
@@ -257,7 +258,7 @@ const CreateCollection = () => {
                               <Upload
                                 id="url"
                                 {...field}
-                                onChange={(url) => {
+                                onChange={(url: any) => {
                                   props.setFieldValue('url', url);
                                 }}
                               />

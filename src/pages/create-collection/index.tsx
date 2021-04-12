@@ -101,13 +101,23 @@ const CreateCollection: FC = () => {
               }}
               onSubmit={(values, formActions) => {
                 create(values, {
-                  success: () => {
-                    toast({
-                      title: t('create.toast.success'),
-                      status: 'success',
-                      position: 'top',
-                      duration: 3000,
-                    });
+                  success: (err: any) => {
+                    if (err.dispatchError) {
+                      toast({
+                        title: 'success',
+                        status: 'error',
+                        position: 'top',
+                        duration: 3000,
+                        description: t('create.create.error'),
+                      });
+                    } else {
+                      toast({
+                        title: 'success',
+                        status: 'success',
+                        position: 'top',
+                        duration: 3000,
+                      });
+                    }
                     formActions.setSubmitting(false);
                     formActions.resetForm();
                     refetchAssets();
@@ -186,13 +196,13 @@ const CreateCollection: FC = () => {
                               <FormLabel
                                 mb="0"
                                 flexGrow={1}
-                                htmlFor="url"
+                                // htmlFor="url"
                                 borderBottom="1px solid #F3F4F8"
                               >
                                 <Upload
                                   id="url"
                                   {...field}
-                                  onChange={(v) => {
+                                  onChange={(v: any) => {
                                     props.setFieldValue('url', v);
                                   }}
                                 />
