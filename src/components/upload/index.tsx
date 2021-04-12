@@ -76,12 +76,12 @@ const ipfsClient = require('ipfs-http-client');
 export interface UploadProps {
   boxProps?: Record<string, unknown>;
   id: string;
-  value?: string;
+  value?: any;
   onChange?: (cid: string) => any;
 }
 
 const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps, ...rest }) => {
-  const [value, setValue] = useState(valueFromProp || '');
+  const [value, setValue] = useState(valueFromProp.url || '');
   const [isLoading, setLoadingStatus] = useState(false);
   const [imgName, setImgName] = useState('');
   const [showCrop, setShowCrop] = useState(false);
@@ -109,7 +109,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
       return;
     }
 
-    const ipfs = ipfsClient(IPFS_POST_SERVER);
+    const ipfs = ipfsClient(PINATA_POST_SERVER);
     if (files.length === 0) {
       return;
     }
@@ -144,8 +144,9 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
   };
 
   useEffect(() => {
-    if (valueFromProp !== value) {
-      setValue(valueFromProp as string);
+    if (valueFromProp.url !== value && !!valueFromProp.url) {
+      setValue(valueFromProp.url as string);
+      console.log(value);
     }
   }, []);
 
