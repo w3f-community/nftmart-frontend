@@ -153,7 +153,7 @@ const CreateCollection: FC = () => {
                         field,
                         form,
                       }: {
-                        field: Record<string, unknown>;
+                        field: Record<any, unknown>;
                         form: { errors: { name: string }; touched: { name: string } };
                       }) => {
                         return (
