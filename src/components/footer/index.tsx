@@ -32,7 +32,7 @@ export default function Uploader() {
       flex={1}
       display="flex"
       justifyContent="center"
-      minHeight="232px"
+      height="232px"
       backgroundColor="#373F60"
       border="1px solid #979797"
       className="page-footer"

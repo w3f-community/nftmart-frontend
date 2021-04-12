@@ -89,7 +89,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
       justify="space-between"
       backgroundColor="white"
       boxShadow="md"
-      minHeight="77px"
+      height="77px"
       position={sticky ? 'fixed' : 'initial'}
       top={0}
       left={0}
