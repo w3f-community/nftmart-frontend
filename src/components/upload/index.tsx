@@ -31,7 +31,6 @@ const CropperCop: React.FC<INavProps> = (props) => {
   };
 
   const getCropData = () => {
-    console.log('cropper : ', cropper);
     if (typeof cropper !== 'undefined') {
       const imgData = cropper.getCroppedCanvas().toDataURL('image/jpeg');
       const cropBlob = dataURLtoBlob(imgData);
@@ -160,10 +159,10 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
     </Text>
   );
   const crop = !showCrop ? (
-    <Image w="auto" h="350px" m="16px 0" src={`${PINATA_SERVER}/${value}`} />
+    <Image w="auto" h="350px" m="16px 0" src={`${PINATA_SERVER}${value}`} />
   ) : (
     <CropperCop
-      imgUrl={`${PINATA_SERVER}/${value}`}
+      imgUrl={`${PINATA_SERVER}${value}`}
       uploadHandle={saveToIpfs}
       name={imgName}
     ></CropperCop>
