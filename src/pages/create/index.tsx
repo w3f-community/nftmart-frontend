@@ -92,14 +92,10 @@ const CreateCollection = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (classes?.length === 0) {
+    if (classes.length === 0) {
       history.push('/create-collection');
     }
-  });
-
-  const gettotalIssuance = (val: any) => {
-    console.log(val);
-  };
+  }, []);
 
   return (
     <Layout title="title.create">
