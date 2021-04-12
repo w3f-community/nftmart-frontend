@@ -256,14 +256,14 @@ const CreateCollection = () => {
                             <FormLabel
                               mb="0"
                               flexGrow={1}
-                              htmlFor="url"
+                              // htmlFor="url"
                               borderBottom="1px solid #F3F4F8"
                             >
                               <Upload
                                 id="url"
                                 {...field}
-                                onChange={(url) => {
-                                  props.setFieldValue('url', url);
+                                onChange={(v: any) => {
+                                  props.setFieldValue('url', v);
                                 }}
                               />
                             </FormLabel>
