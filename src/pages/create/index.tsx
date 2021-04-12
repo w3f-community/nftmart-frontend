@@ -12,7 +12,7 @@ import {
   Flex,
   useToast,
 } from '@chakra-ui/react';
-import { Formik, Form, Field, FormikProps, yupToFormErrors } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { SelectControl } from 'formik-chakra-ui';
 import * as Yup from 'yup';
@@ -56,7 +56,7 @@ const CreateCollection = () => {
   const { refetch: refetchAssets } = useAssetsQuery();
 
   const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
-  const { data: classes = [], refetch: refetchMyCollections } = useMyCollectionsQuery(
+  const { data: classes, refetch: refetchMyCollections } = useMyCollectionsQuery(
     account ? account.address : '',
   );
   const mint = useCallback(async (formValue: any, cb) => {
@@ -81,7 +81,6 @@ const CreateCollection = () => {
     };
     mintNft(normalizedFormData);
   }, []);
-
   const schema = Yup.object().shape({
     classId: Yup.number().required('Required'),
     name: Yup.string().max(50).required('Required'),
@@ -93,10 +92,10 @@ const CreateCollection = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (classes.length === 0) {
+    if (classes?.length === 0) {
       history.push('/create-collection');
     }
-  }, []);
+  }, [classes]);
 
   return (
     <Layout title="title.create">
@@ -145,7 +144,7 @@ const CreateCollection = () => {
                     refetchAssets();
                     getBalance(account.address);
 
-                    const OneClasses = classes.find((cls) => {
+                    const OneClasses = classes?.find((cls) => {
                       return +cls.classId === +formValue.classId;
                     });
                     if (OneClasses) {
@@ -258,7 +257,7 @@ const CreateCollection = () => {
                               <Upload
                                 id="url"
                                 {...field}
-                                onChange={(url: any) => {
+                                onChange={(url) => {
                                   props.setFieldValue('url', url);
                                 }}
                               />
