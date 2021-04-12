@@ -174,7 +174,7 @@ const CreateCollection: FC = () => {
                         );
                       }}
                     </Field>
-                    <Field name="url">
+                    <Field>
                       {({
                         field,
                         form,
