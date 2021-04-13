@@ -1148,7 +1148,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.6", "@babel/runtime@^7.13.7", "@babel/runtime@^7.13.8", "@babel/runtime@^7.13.9", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.13.6", "@babel/runtime@^7.13.7", "@babel/runtime@^7.13.8", "@babel/runtime@^7.13.9", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.13.10"
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
   integrity sha1-R9QqV7YJX0Ro2kQDiP262L6/DX0=
@@ -2395,15 +2395,15 @@
     "@polkadot/x-rxjs" "^5.9.2"
     bn.js "^4.11.9"
 
-"@polkadot/api-derive@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/@polkadot/api-derive/download/@polkadot/api-derive-4.0.3.tgz#542d871d84c64f927565d655eabce0ec2b917a4a"
-  integrity sha1-VC2HHYTGT5J1ZdZV6rzg7CuReko=
+"@polkadot/api-derive@4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-derive/-/api-derive-4.4.1.tgz#2e3a26b59573a04c18e05b85e0b8a951a7f970b0"
+  integrity sha512-N+U4S2zT4W9UNaJpOlEn8kvUnchiqvfYXnD1CXhxbn8yLo3jMW/WNJ8KksxxW2jg3RGW24slYVARvYFHBrlFYQ==
   dependencies:
-    "@babel/runtime" "^7.13.9"
-    "@polkadot/api" "4.0.3"
-    "@polkadot/rpc-core" "4.0.3"
-    "@polkadot/types" "4.0.3"
+    "@babel/runtime" "^7.13.10"
+    "@polkadot/api" "4.4.1"
+    "@polkadot/rpc-core" "4.4.1"
+    "@polkadot/types" "4.4.1"
     "@polkadot/util" "^6.0.5"
     "@polkadot/util-crypto" "^6.0.5"
     "@polkadot/x-rxjs" "^6.0.5"
@@ -2428,19 +2428,19 @@
     bn.js "^4.11.9"
     eventemitter3 "^4.0.7"
 
-"@polkadot/api@4.0.3", "@polkadot/api@^4.0.1-9":
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/@polkadot/api/download/@polkadot/api-4.0.3.tgz#e3e11ab6341f84562c29677fb9d14d499c6aa892"
-  integrity sha1-4+EatjQfhFYsKWd/udFNSZxqqJI=
+"@polkadot/api@4.4.1", "@polkadot/api@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-4.4.1.tgz#7f5e9bdafce53e34505875183c9cbcdd966a6e8b"
+  integrity sha512-r/zpFYVebp6TYE5SjEH9eYNFQEq4IzNYM6rM65d0nPCbXFVmpzY5hsqPUhiRL6+drdhEO47pgxAow+60Pdx1fg==
   dependencies:
-    "@babel/runtime" "^7.13.9"
-    "@polkadot/api-derive" "4.0.3"
+    "@babel/runtime" "^7.13.10"
+    "@polkadot/api-derive" "4.4.1"
     "@polkadot/keyring" "^6.0.5"
-    "@polkadot/metadata" "4.0.3"
-    "@polkadot/rpc-core" "4.0.3"
-    "@polkadot/rpc-provider" "4.0.3"
-    "@polkadot/types" "4.0.3"
-    "@polkadot/types-known" "4.0.3"
+    "@polkadot/metadata" "4.4.1"
+    "@polkadot/rpc-core" "4.4.1"
+    "@polkadot/rpc-provider" "4.4.1"
+    "@polkadot/types" "4.4.1"
+    "@polkadot/types-known" "4.4.1"
     "@polkadot/util" "^6.0.5"
     "@polkadot/util-crypto" "^6.0.5"
     "@polkadot/x-rxjs" "^6.0.5"
@@ -2514,14 +2514,14 @@
     "@polkadot/util-crypto" "^5.9.2"
     bn.js "^4.11.9"
 
-"@polkadot/metadata@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/@polkadot/metadata/download/@polkadot/metadata-4.0.3.tgz#f0c7b63f8d0f40d8f81218849613f35edcb8157b"
-  integrity sha1-8Me2P40PQNj4EhiElhPzXty4FXs=
+"@polkadot/metadata@4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/metadata/-/metadata-4.4.1.tgz#aeecee93f0c63183dddd4a4f4f987cd3ebacf085"
+  integrity sha512-rkOaB90BkYvWLc1gKfY4/hGtXriWi/8LmopDV241on9ED5q8gvD5gX8gamrHeK7p0IDvUELkP35/0zyKpK2ihw==
   dependencies:
-    "@babel/runtime" "^7.13.9"
-    "@polkadot/types" "4.0.3"
-    "@polkadot/types-known" "4.0.3"
+    "@babel/runtime" "^7.13.10"
+    "@polkadot/types" "4.4.1"
+    "@polkadot/types-known" "4.4.1"
     "@polkadot/util" "^6.0.5"
     "@polkadot/util-crypto" "^6.0.5"
     bn.js "^4.11.9"
@@ -2562,15 +2562,15 @@
     "@polkadot/util" "^5.9.2"
     "@polkadot/x-rxjs" "^5.9.2"
 
-"@polkadot/rpc-core@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/@polkadot/rpc-core/download/@polkadot/rpc-core-4.0.3.tgz#40046acd961d925ef69532694f48437c7bceef0c"
-  integrity sha1-QARqzZYdkl72lTJpT0hDfHvO7ww=
+"@polkadot/rpc-core@4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-4.4.1.tgz#bf010efa0bafb4b353db10067b945457ba3852eb"
+  integrity sha512-tDN6qt0LYbslHVS4iTlssNaqv5Zepe9do0Edew6oa7b4wAr5zmXbsyhlVQFgaPvi/whNjpcyRF2ZYxhGbEkd6Q==
   dependencies:
-    "@babel/runtime" "^7.13.9"
-    "@polkadot/metadata" "4.0.3"
-    "@polkadot/rpc-provider" "4.0.3"
-    "@polkadot/types" "4.0.3"
+    "@babel/runtime" "^7.13.10"
+    "@polkadot/metadata" "4.4.1"
+    "@polkadot/rpc-provider" "4.4.1"
+    "@polkadot/types" "4.4.1"
     "@polkadot/util" "^6.0.5"
     "@polkadot/x-rxjs" "^6.0.5"
 
@@ -2589,13 +2589,13 @@
     bn.js "^4.11.9"
     eventemitter3 "^4.0.7"
 
-"@polkadot/rpc-provider@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/@polkadot/rpc-provider/download/@polkadot/rpc-provider-4.0.3.tgz#55d3e87ff439e2908292fac80bcbd8244291f283"
-  integrity sha1-VdPof/Q54pCCkvrIC8vYJEKR8oM=
+"@polkadot/rpc-provider@4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-provider/-/rpc-provider-4.4.1.tgz#c60e27253dc0be7c6361ae63e10ac77795588e74"
+  integrity sha512-6v4iAkFzbeCLaCBvsTVTSyCy+Fp7AzMKySpdB4g/+MG8dupqts5f2BDmlnMFHBlNBDantVpJoMTvfvLfLxJz7g==
   dependencies:
-    "@babel/runtime" "^7.13.9"
-    "@polkadot/types" "4.0.3"
+    "@babel/runtime" "^7.13.10"
+    "@polkadot/types" "4.4.1"
     "@polkadot/util" "^6.0.5"
     "@polkadot/util-crypto" "^6.0.5"
     "@polkadot/x-fetch" "^6.0.5"
@@ -2615,14 +2615,14 @@
     "@polkadot/util" "^5.9.2"
     bn.js "^4.11.9"
 
-"@polkadot/types-known@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/@polkadot/types-known/download/@polkadot/types-known-4.0.3.tgz#e1a39c938d5b91c175eb548a586bde6a521205b2"
-  integrity sha1-4aOck41bkcF161SKWGvealISBbI=
+"@polkadot/types-known@4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/types-known/-/types-known-4.4.1.tgz#dfd7e9bb8cafd50fb1438270f0310fbdf78c978d"
+  integrity sha512-JPRqRnwxTweDZMWVg+vjFLK2xB3dsJsBUcUGoL96KH8klywk5m07JueRYdNuWhnZ77OloSo+0FvLWC83oBhBfg==
   dependencies:
-    "@babel/runtime" "^7.13.9"
+    "@babel/runtime" "^7.13.10"
     "@polkadot/networks" "^6.0.5"
-    "@polkadot/types" "4.0.3"
+    "@polkadot/types" "4.4.1"
     "@polkadot/util" "^6.0.5"
     bn.js "^4.11.9"
 
@@ -2639,13 +2639,13 @@
     "@types/bn.js" "^4.11.6"
     bn.js "^4.11.9"
 
-"@polkadot/types@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/@polkadot/types/download/@polkadot/types-4.0.3.tgz#80640b102b585c7971c7116df6a23bcb1379aa31"
-  integrity sha1-gGQLECtYXHlxxxFt9qI7yxN5qjE=
+"@polkadot/types@4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-4.4.1.tgz#85bdbdd965e33e2832bf77e7ffc5741e513938f7"
+  integrity sha512-sP0yqAKmv4WcFYX3fGdZ2xFaLAo1dcTY9gSL4twnG1TYBh1FT9fTux1d0d46VSPM6/+fbTV/HSIBa6wSETRHUQ==
   dependencies:
-    "@babel/runtime" "^7.13.9"
-    "@polkadot/metadata" "4.0.3"
+    "@babel/runtime" "^7.13.10"
+    "@polkadot/metadata" "4.4.1"
     "@polkadot/util" "^6.0.5"
     "@polkadot/util-crypto" "^6.0.5"
     "@polkadot/x-rxjs" "^6.0.5"
@@ -5729,6 +5729,11 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cropperjs@^1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.5.11.tgz#502ae6d8ca098b124de6813601cca70015879fc0"
+  integrity sha512-SJUeBBhtNBnnn+UrLKluhFRIXLJn7XFPv8QN1j49X5t+BIMwkgvDev541f96bmu8Xe0TgCx3gON22KmY/VddaA==
 
 cross-fetch@^3.0.4:
   version "3.1.0"
@@ -13270,6 +13275,13 @@ react-clientside-effect@^1.2.2:
   integrity sha1-4sTcPJ7hCfZC+sT1tum/W80iGaM=
   dependencies:
     "@babel/runtime" "^7.12.13"
+
+react-cropper@^2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/react-cropper/-/react-cropper-2.1.7.tgz#f9f8127b9516fecc44f918dd331107bfc32adfaf"
+  integrity sha512-dGp2l2wSh4KubWx3PQZIP27fV4shPYjIvm972IqJZdzi/fpDsB6s3GKEH54mk0gy18+80d3WnlgAP2xJ/o8+yw==
+  dependencies:
+    cropperjs "^1.5.11"
 
 react-dev-utils@^11.0.3:
   version "11.0.4"

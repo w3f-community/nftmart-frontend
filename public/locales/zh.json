@@ -121,6 +121,9 @@
   "create.intro": "介绍：",
   "create.intro.placeholder": "请输入描述(200字之内）",
   "create.upload": "点击此处上传图片",
+  "create.crop": "裁剪图片",
+  "create.crop.confirm": "确认裁剪",
+  "create.create.error": "创建失败",
   "create.toast.success": "创建成功，将跳转到创建NFT页面",
   "create.detailtoast.success": "创建作品成功，将跳转到创建NFT详情页面",
 
