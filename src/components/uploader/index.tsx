@@ -37,7 +37,7 @@ export default function Uploader() {
     <form id="capture-media" onSubmit={handleSubmit}>
       <Input type="file" onChange={captureFile} />
       <br />
-      {cid && <Image src={`${PINATA_SERVER}/${cid}`} />}
+      {cid && <Image src={`${PINATA_SERVER}${cid}`} />}
     </form>
   );
 }
