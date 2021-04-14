@@ -3,7 +3,9 @@ import { Center, Spinner, Button, Box, Text, Heading } from '@chakra-ui/react';
 import { globalStore } from 'rekv';
 import { web3Accounts, web3FromSource, web3Enable } from '@polkadot/extension-dapp';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga';
+
 import { initPolkadotApi, getCategories } from './index';
 import store from '../../stores/categories';
 
@@ -13,7 +15,9 @@ interface Props {
 
 const provider = ({ children }: Props) => {
   // init polkadot api
+  ReactGA.initialize(`${process.env.REACT_APP_GA}`);
   const history = useHistory();
+  const location = useLocation();
   const queryCategories = async () => {
     let categories = await getCategories();
     categories = categories.map((cat: any) => {
@@ -65,6 +69,11 @@ const provider = ({ children }: Props) => {
     subscribeHead();
     initLoginStatu();
   }, [api]);
+
+  useEffect(() => {
+    ReactGA.pageview(location.pathname + location.search);
+    // console.log('page view', process.env.REACT_APP_GA, location.pathname + location.search)
+  }, [location.pathname, location.search]);
 
   // return children;
 

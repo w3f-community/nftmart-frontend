@@ -58,6 +58,13 @@ const Collection = (props: CollectionProps) => {
     return `${value} ${unit}`;
   }, [pledge]);
 
+  const disPrice = useMemo(() => {
+    if (!price) return 0;
+    const { value, unit } = parseMoneyText(String(price));
+    // TODO: as a component
+    return `${value} ${unit}`;
+  }, [price]);
+
   const dispense = () => {
     actions.selectAsset(omit(['isSet'], props as Work));
     history.push(`/detail/${classId}/${id}`);
@@ -126,7 +133,7 @@ const Collection = (props: CollectionProps) => {
           <Box flex="1" textAlign="right" display="flex" justifyContent="flex-end">
             <Flex align="flex-start">
               {/* {isSet && <Box src={PriceIcon} as="img" alt="" mr="4px" />} */}
-              <Box>{typeof price === 'number' ? toFixedDecimals(price, 0) : price}</Box>
+              <Box>{disPrice}</Box>
             </Flex>
           </Box>
         )}
