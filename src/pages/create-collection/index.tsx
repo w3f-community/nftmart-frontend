@@ -123,7 +123,7 @@ const CreateCollection: FC = () => {
                     success: (err: any) => {
                       if (err.dispatchError) {
                         toast({
-                          title: 'success',
+                          title: 'error',
                           status: 'error',
                           position: 'top',
                           duration: 3000,
@@ -136,19 +136,19 @@ const CreateCollection: FC = () => {
                           position: 'top',
                           duration: 3000,
                         });
+                        setTimeout(() => {
+                          setIsOpen(true);
+                          // history.push('/create');
+                        }, 2000);
                       }
                       formActions.setSubmitting(false);
                       formActions.resetForm();
                       refetchAssets();
                       refetchMyCollections();
                       getBalance(account.address);
-
-                      setTimeout(() => {
-                        setIsOpen(true);
-                        // history.push('/create');
-                      }, 2000);
                     },
                     error: (err: any) => {
+                      console.log(err);
                       toast({
                         title: 'error',
                         status: 'error',
