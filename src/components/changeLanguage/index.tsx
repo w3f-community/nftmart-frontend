@@ -18,7 +18,7 @@ import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
 
 const TRANSLATIONS: Record<string, string> = {
   en: 'lang.en',
-  zh: 'lang.zh',
+  'zh-CN': 'lang.zh',
 };
 
 const ChangeLanguage = () => {

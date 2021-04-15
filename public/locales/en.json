@@ -131,6 +131,7 @@
   "create.crop": "Crop the picture",
   "create.crop.confirm": "Confirm clipping",
   "create.create.error": "Failed to create",
+  "create.create.success": "Success to create",
   "create.toast.success": "Create success, will jump to create NFT page",
   "create.detailtoast.success": "Create work successfully, will jump to create NFT details page",
 

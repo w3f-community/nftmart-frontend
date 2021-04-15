@@ -1,7 +1,18 @@
 import React, { FC, useState, useCallback, useEffect, useRef } from 'react';
-import { Input, Image, Spinner, Box, Text, FormLabel } from '@chakra-ui/react';
+import {
+  Input,
+  Image,
+  Spinner,
+  Box,
+  Text,
+  FormLabel,
+  CircularProgress,
+  CircularProgressLabel,
+  useToast,
+} from '@chakra-ui/react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
+import axios from 'axios';
 
 import { IPFS_POST_SERVER, PINATA_SERVER, PINATA_POST_SERVER } from '../../constants';
 import { t } from '../../i18n';
@@ -86,26 +97,53 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
   const [isLoading, setLoadingStatus] = useState(false);
   const [imgName, setImgName] = useState('');
   const [showCrop, setShowCrop] = useState(false);
+  const [fileSize, setFileSize] = useState(true);
+  const [progresses, setProgresses] = useState(0);
+  const toast = useToast();
 
   const saveToIpfs = useCallback(async (files: any[]) => {
-    if (REACT_APP_PINATA_ENABLE === 'true') {
+    if (files[0].size > 10737418240 || files[0].size === 10737418240) {
+      toast({
+        title: 'The file size cannot exceed 10G',
+        status: 'error',
+        position: 'top',
+        duration: 3000,
+      });
+
+      setLoadingStatus(false);
+      return;
+    }
+    if (files[0].size < 10737418240 && REACT_APP_PINATA_ENABLE === 'true') {
       setLoadingStatus(true);
       const formData = new FormData();
 
       formData.append('file', files[0]);
 
-      const result = await fetch(PINATA_POST_SERVER, {
-        method: 'POST',
+      // const result = await fetch(PINATA_POST_SERVER, {
+      //   method: 'POST',
 
+      //   headers: {
+      //     pinata_api_key: REACT_APP_PINATA_API_KEY!,
+      //     pinata_secret_api_key: REACT_APP_PINATA_API_SECRET_KEY!,
+      //   },
+
+      //   body: formData,
+
+      // });
+
+      const result = await axios.post(PINATA_POST_SERVER, formData, {
         headers: {
           pinata_api_key: REACT_APP_PINATA_API_KEY!,
           pinata_secret_api_key: REACT_APP_PINATA_API_SECRET_KEY!,
         },
-        body: formData,
+        onUploadProgress: (progress) => {
+          // 格式化成百分数
+          setProgresses(Math.floor((progress.loaded / progress.total) * 100));
+        },
       });
 
-      const responseData = await result.json();
-      setValue(responseData.IpfsHash);
+      const responseData = await result;
+      setValue(responseData.data.IpfsHash);
       setLoadingStatus(false);
       return;
     }
@@ -176,7 +214,17 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
         : txtUpload}
     </Box>
   );
-  const imgWrap = <Box>{isLoading ? <Spinner /> : view}</Box>;
+  const imgWrap = (
+    <Box>
+      {isLoading ? (
+        <CircularProgress value={progresses} isIndeterminate color="green.400">
+          <CircularProgressLabel>{progresses}%</CircularProgressLabel>
+        </CircularProgress>
+      ) : (
+        view
+      )}
+    </Box>
+  );
 
   const operateBtn = (
     <Box>
