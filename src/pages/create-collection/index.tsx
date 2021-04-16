@@ -36,20 +36,6 @@ import colors from '../../themes/colors';
 import { createClass, getBalance } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 
-const schema = Yup.object().shape({
-  name: Yup.string().max(50).required('Required'),
-
-  // bannerUrl: Yup.string().min(4,"length should be 4").required('Required'),
-  url: Yup.string().max(200).required('Required'),
-  externalUrl: Yup.string()
-    .required('Required')
-    .matches(
-      /(http|https):\/\/([\w.]+\/?)\S*/,
-      'Must start with HTTP, HTTPS, and conform to URL specification, check whether the format is correct',
-    ),
-  description: Yup.string().max(200).required('Required'),
-});
-
 const formLabelLayout = {
   flex: '0 0 240px',
   height: '48px',
@@ -80,8 +66,20 @@ const CreateCollection: FC = () => {
     createClass({ address: account.address, metadata: formValue, cb });
   }, []);
 
-  const history = useHistory();
+  const schema = Yup.object().shape({
+    name: Yup.string()
+      .max(50, t('create.verification.name'))
+      .required(t('create.verification.Required')),
+    url: Yup.string().max(200).required(t('create.verification.Required')),
+    externalUrl: Yup.string()
+      .required(t('create.verification.Required'))
+      .matches(/(http|https):\/\/([\w.]+\/?)\S*/, t('create.verification.externalUrl')),
+    description: Yup.string()
+      .max(200, t('create.verification.description'))
+      .required(t('create.verification.Required')),
+  });
 
+  const history = useHistory();
   const cancelRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);

@@ -19,7 +19,7 @@ from {
 to {
   opacity: 1;
 }
-`
+`;
 
 const BannerImg = styled.img({
   height: '100%',
@@ -125,10 +125,10 @@ const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky }) => {
       <BannerImg src={BannerBg} alt="" />
 
       <TextContainer>
-        <Title>The largest NFT marketplace</Title>
-        <Intro>Buy, sell, and discover rare digital items</Intro>
+        <Title>{t('banner.title')}</Title>
+        <Intro>{t('banner.content')}</Intro>
         <Link to="/explore">
-          <ExploreButton>EXPLORE</ExploreButton>
+          <ExploreButton>{t('banner.button')}</ExploreButton>
         </Link>
       </TextContainer>
 

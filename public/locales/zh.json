@@ -17,6 +17,10 @@
   "nav.latest-create": "未上架",
   "nav.latest-strike": "最新成交",
 
+  "banner.title": "最大的NFT市场",
+  "banner.content": "购买、出售和发现稀有数字物品",
+  "banner.button": "开启探索",
+
   "quick-area.wallet": "我的钱包",
   "quick-area.collections": "我的作品集",
   "quick-area.nft.create": "创建作品",
@@ -50,12 +54,12 @@
   "type.art": "Art",
   "type.others": "其他",
 
-  "not-found.title": "Page Not Found",
-  "not-found.subtitle": "We could not find what you were looking for.",
-  "not-found.description": "Please contact the owner of the site that linked you to the original URL and let them know their link is broken.",
-  "not-found.asset.title": "Asset Not Found",
-  "not-found.asset.subtitle": "We could not find the asset you were looking for.",
-  "not-found.asset.description": "Please contact the owner of the site that linked you to the original URL and let them know their link is broken.",
+  "not-found.title": "找不到页面",
+  "not-found.subtitle": "我们找不到你要找的东西。",
+  "not-found.description": "请联系将您链接到原始URL的网站的所有者，让他们知道他们的链接已断开。",
+  "not-found.asset.title": "未找到资产",
+  "not-found.asset.subtitle": "我们找不到你要找的资产。",
+  "not-found.asset.description": "请联系将您链接到原始URL的网站的所有者，让他们知道他们的链接已断开。",
 
   "home.new-list": "新上架",
   "home.new-create": "新创建",
@@ -88,12 +92,12 @@
 
   "order.setting": "售卖设置",
   "detail.modal.sales-setting.title": "售卖设置",
-  "detail.modal.sales-setting.price": "Price",
-  "detail.modal.sales-setting.price.subtitle": "Price of this asset",
-  "detail.modal.sales-setting.category": "Category",
-  "detail.modal.sales-setting.category.subtitle": "Choose which categoy to list to",
+  "detail.modal.sales-setting.price": "价格",
+  "detail.modal.sales-setting.price.subtitle": "该资产的价格",
+  "detail.modal.sales-setting.category": "类别",
+  "detail.modal.sales-setting.category.subtitle": "选择要列出的类别",
   "detail.modal.sales-setting.pledge": "Pledge",
-  "detail.modal.sales-setting.pledge.subtitle": "After being remove or sold, pledge would return to your hand.",
+  "detail.modal.sales-setting.pledge.subtitle": "在被移除或出售后，质押物将回到您的手中。",
 
   "detail.event.event": "事件",
   "detail.event.price": "价格",
@@ -101,9 +105,9 @@
   "detail.event.target": "目标",
   "detail.event.date": "时间",
 
-  "footer.aboutus.title": "About Us",
-  "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
-  "footer.follow": "Follow Us",
+  "footer.aboutus.title": "关于我们",
+  "footer.aboutus.intro": "NFTmark, 致力于对加密/区块链世界中发生的一切进行即时、全面的报道，以专业的见解和最先进的准确性向国际读者提供正确的贸易信息。",
+  "footer.follow": "联系我们",
   "footer.copyright": "© 2021 NFTmark",
 
   "create.title": "创建作品",
@@ -128,6 +132,12 @@
   "create.toast.success": "创建成功，将跳转到创建NFT页面",
   "create.detailtoast.success": "创建作品成功，将跳转到创建NFT详情页面",
   "create.popup.confirm": "确认",
+  "create.verification.name": "名称不能超过50个字符",
+  "create.verification.url": "",
+  "create.verification.externalUrl": "必须以HTTP、HTTPS开头，并符合URL规范，检查格式是否正确",
+  "create.verification.description": "说明不能超过200个字符",
+  "create.verification.Required": "必填",
+  "create.verification.select": "请选择作品集",
 
   "user.edit.title": "资料修改",
   "user.edit.nickname": "昵称：",

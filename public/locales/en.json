@@ -17,6 +17,10 @@
   "nav.latest-create": "Not for sale",
   "nav.latest-strike": "Sold Recently",
 
+  "banner.title": "The largest NFT marketplace",
+  "banner.content": "Buy, sell, and discover rare digital items",
+  "banner.button": "EXPLORE",
+
   "quick-area.wallet": "Wallet",
   "quick-area.collections": "My Collections",
   "quick-area.nft.create": "Create NFT",
@@ -135,6 +139,12 @@
   "create.toast.success": "Create success, will jump to create NFT page",
   "create.detailtoast.success": "Create work successfully, will jump to create NFT details page",
   "create.popup.confirm": "confirm",
+  "create.verification.name": "name must be at most 50 characters",
+  "create.verification.url": "",
+  "create.verification.externalUrl": "Must start with HTTP, HTTPS, and conform to URL specification, check whether the format is correct",
+  "create.verification.description": "description must be at most 200 characters",
+  "create.verification.Required": "Required",
+  "create.verification.select": "select",
 
   "user.edit.title": "Edit Profile",
   "user.edit.nickname": "Name:",

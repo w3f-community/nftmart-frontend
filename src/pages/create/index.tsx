@@ -82,16 +82,17 @@ const CreateCollection = () => {
     mintNft(normalizedFormData);
   }, []);
   const schema = Yup.object().shape({
-    classId: Yup.number().required('Required'),
-    name: Yup.string().max(50).required('Required'),
-    url: Yup.string().max(200).required('Required'),
+    classId: Yup.number().required(t('create.verification.Required')),
+    name: Yup.string()
+      .max(50, t('create.verification.name'))
+      .required(t('create.verification.Required')),
+    url: Yup.string().max(200).required(t('create.verification.Required')),
     externalUrl: Yup.string()
-      .required('Required')
-      .matches(
-        /(http|https):\/\/([\w.]+\/?)\S*/,
-        'Must start with HTTP, HTTPS, and conform to URL specification, check whether the format is correct',
-      ),
-    description: Yup.string().max(256).required('Required'),
+      .required(t('create.verification.Required'))
+      .matches(/(http|https):\/\/([\w.]+\/?)\S*/, t('create.verification.externalUrl')),
+    description: Yup.string()
+      .max(200, t('create.verification.description'))
+      .required(t('create.verification.Required')),
   });
 
   const history = useHistory();
@@ -195,7 +196,7 @@ const CreateCollection = () => {
                             </FormLabel>
 
                             <SelectControl {...field} selectProps={formInputLayout} name="classId">
-                              <option value="">select</option>
+                              <option value="">{t('create.verification.select')}</option>
                               {classes?.length &&
                                 classes.map((clazz) => (
                                   <option
