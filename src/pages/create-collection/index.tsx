@@ -148,7 +148,6 @@ const CreateCollection: FC = () => {
                       getBalance(account.address);
                     },
                     error: (err: any) => {
-                      console.log(err);
                       toast({
                         title: 'error',
                         status: 'error',
@@ -199,7 +198,7 @@ const CreateCollection: FC = () => {
                           field,
                           form,
                         }: {
-                          field: Record<string, unknown>;
+                          field: Record<any, unknown>;
                           form: { errors: { url: string }; touched: { url: string } };
                         }) => {
                           return (
