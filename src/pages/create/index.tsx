@@ -161,7 +161,7 @@ const CreateCollection = () => {
                   },
                   error: (error: string) => {
                     toast({
-                      title: 'success',
+                      title: 'error',
                       status: 'error',
                       position: 'top',
                       duration: 3000,

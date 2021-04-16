@@ -127,6 +127,7 @@
   "create.create.success": "创建成功",
   "create.toast.success": "创建成功，将跳转到创建NFT页面",
   "create.detailtoast.success": "创建作品成功，将跳转到创建NFT详情页面",
+  "create.popup.confirm": "确认",
 
   "user.edit.title": "资料修改",
   "user.edit.nickname": "昵称：",

@@ -82,7 +82,7 @@ const CreateCollection: FC = () => {
 
   const history = useHistory();
 
-  const cancelRef = useRef();
+  const cancelRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);
 
@@ -364,7 +364,7 @@ const CreateCollection: FC = () => {
           <AlertDialogBody>{t('create.toast.success')}</AlertDialogBody>
           <AlertDialogFooter>
             <Button bg="#495FE5" color="#FFFFFF" ml={3} onClick={() => history.push('/create')}>
-              Yes
+              {t('create.popup.confirm')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

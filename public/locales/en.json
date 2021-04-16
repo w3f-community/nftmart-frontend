@@ -134,6 +134,7 @@
   "create.create.success": "Success to create",
   "create.toast.success": "Create success, will jump to create NFT page",
   "create.detailtoast.success": "Create work successfully, will jump to create NFT details page",
+  "create.popup.confirm": "confirm",
 
   "user.edit.title": "Edit Profile",
   "user.edit.nickname": "Name:",

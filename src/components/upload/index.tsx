@@ -93,7 +93,7 @@ export interface UploadProps {
 }
 
 const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps, ...rest }) => {
-  const [value, setValue] = useState(valueFromProp.url || '');
+  const [value, setValue] = useState(valueFromProp?.url || '');
   const [isLoading, setLoadingStatus] = useState(false);
   const [imgName, setImgName] = useState('');
   const [showCrop, setShowCrop] = useState(false);
