@@ -14,7 +14,12 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import axios from 'axios';
 
-import { IPFS_POST_SERVER, PINATA_SERVER, PINATA_POST_SERVER } from '../../constants';
+import {
+  IPFS_POST_SERVER,
+  PINATA_SERVER,
+  PINATA_POST_SERVER,
+  MAX_FILE_SIZE,
+} from '../../constants';
 import { t } from '../../i18n';
 import colors from '../../themes/colors';
 
@@ -55,10 +60,10 @@ const CropperCop: React.FC<INavProps> = (props) => {
     <Box>
       <Cropper
         src={props.imgUrl}
-        style={{ height: 400, width: '100%' }}
+        style={{ height: 500, width: '100%' }}
         // Cropper.js options
-        initialAspectRatio={16 / 9}
         guides={false}
+        viewMode={2}
         // crop={onCrop}
         ref={cropperRef}
         onInitialized={(instance) => {
@@ -96,24 +101,14 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
   const [value, setValue] = useState(valueFromProp?.url || '');
   const [isLoading, setLoadingStatus] = useState(false);
   const [imgName, setImgName] = useState('');
+  const [file, setFile] = useState();
   const [showCrop, setShowCrop] = useState(false);
-  const [fileSize, setFileSize] = useState(true);
+  const [fileUrl, setFileUrl] = useState('');
   const [progresses, setProgresses] = useState(0);
   const toast = useToast();
 
   const saveToIpfs = useCallback(async (files: any[]) => {
-    if (files[0].size > 10737418240 || files[0].size === 10737418240) {
-      toast({
-        title: 'The file size cannot exceed 10G',
-        status: 'error',
-        position: 'top',
-        duration: 3000,
-      });
-
-      setLoadingStatus(false);
-      return;
-    }
-    if (files[0].size < 10737418240 && REACT_APP_PINATA_ENABLE === 'true') {
+    if (REACT_APP_PINATA_ENABLE === 'true') {
       setLoadingStatus(true);
       const formData = new FormData();
 
@@ -144,11 +139,13 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
 
       const responseData = await result;
       setValue(responseData.data.IpfsHash);
+      setShowCrop(false);
       setLoadingStatus(false);
+      setProgresses(0);
       return;
     }
 
-    const ipfs = ipfsClient(PINATA_POST_SERVER);
+    const ipfs = ipfsClient(IPFS_POST_SERVER);
     if (files.length === 0) {
       return;
     }
@@ -169,9 +166,24 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
     if (event.target.files.length > 0) {
       event.stopPropagation();
       event.preventDefault();
-      saveToIpfs(event.target.files);
-      setShowCrop(false);
-      setImgName(event.target.files[0].name);
+      const currentFile = event.target.files[0];
+
+      if (currentFile.size >= MAX_FILE_SIZE) {
+        toast({
+          title: t('create.upload.overflow'),
+          status: 'warning',
+          position: 'top',
+          duration: 3000,
+        });
+
+        setLoadingStatus(false);
+        return;
+      }
+      setValue('');
+      setFile(currentFile);
+      setShowCrop(true);
+      // saveToIpfs(event.target.files);
+      setImgName(currentFile.name);
     }
   }, []);
 
@@ -192,28 +204,25 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
     if (onChange) onChange(value);
   }, [value]);
 
+  useEffect(() => {
+    if (!file) {
+      setShowCrop(false);
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = (e: any) => {
+      const dataURL = e.target.result;
+      setFileUrl(dataURL);
+    };
+    fileReader.readAsDataURL(file);
+  }, [file]);
+
   const txtUpload = (
     <Text fontSize="14px" lineHeight="47px" cursor="pointer" color={colors.success}>
       {t('create.upload')}
     </Text>
   );
-  const crop = !showCrop ? (
-    <Image w="auto" h="350px" m="16px 0" src={`${PINATA_SERVER}${value}`} />
-  ) : (
-    <CropperCop
-      imgUrl={`${PINATA_SERVER}${value}`}
-      uploadHandle={saveToIpfs}
-      name={imgName}
-    ></CropperCop>
-  );
-  const view = (
-    <Box>
-      {value
-        ? // <Image w="350px" h="350px" m="16px 0" src={`${PINATA_SERVER}/${value}`} />
-          crop
-        : txtUpload}
-    </Box>
-  );
+
   const imgWrap = (
     <Box>
       {isLoading ? (
@@ -221,28 +230,40 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
           <CircularProgressLabel>{progresses}%</CircularProgressLabel>
         </CircularProgress>
       ) : (
-        view
+        <Box>
+          {value ? (
+            <Image w="350px" h="350px" m="16px 0" src={`${PINATA_SERVER}/${value}`} />
+          ) : (
+            <Box>
+              {file ? (
+                <CropperCop imgUrl={fileUrl} uploadHandle={saveToIpfs} name={imgName}></CropperCop>
+              ) : (
+                txtUpload
+              )}
+            </Box>
+          )}
+        </Box>
       )}
     </Box>
   );
 
-  const operateBtn = (
-    <Box>
-      {value && !showCrop ? (
-        <Text
-          fontSize="14px"
-          lineHeight="47px"
-          cursor="pointer"
-          color={colors.success}
-          onClick={cropImage}
-        >
-          {t('create.crop')}
-        </Text>
-      ) : (
-        ''
-      )}
-    </Box>
-  );
+  // const operateBtn = (
+  //   <Box>
+  //     {value && !showCrop ? (
+  //       <Text
+  //         fontSize="14px"
+  //         lineHeight="47px"
+  //         cursor="pointer"
+  //         color={colors.success}
+  //         onClick={cropImage}
+  //       >
+  //         {t('create.crop')}
+  //       </Text>
+  //     ) : (
+  //       ''
+  //     )}
+  //   </Box>
+  // );
 
   return (
     <Box>
@@ -261,13 +282,11 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
             {...rest}
           />
           {/* {txtUpload} */}
-          {showCrop ? txtUpload : ''}
           {!showCrop ? imgWrap : ''}
         </FormLabel>
         {/* 切图编辑时不触发input点击事件 */}
         {showCrop ? imgWrap : ''}
       </Box>
-      {operateBtn}
     </Box>
   );
 };

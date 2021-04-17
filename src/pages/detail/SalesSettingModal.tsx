@@ -32,6 +32,7 @@ import NFormControl from '../../components/formControl';
 import colors from '../../themes/colors';
 import NSelect from '../../components/nSelect';
 import { createOrder } from '../../api/polka';
+import { t } from '../../i18n';
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
   <Alert status="error" color="white" backgroundColor={colors.failure}>
@@ -61,7 +62,14 @@ const SalesSettingSchema = yup.object().shape({
     .required(),
   // expiration: yup.number(),
   category: yup.number().required(),
-  pledge: yup.number().moreThan(200).required(),
+  pledge: yup
+    .number()
+    .required()
+    .test(
+      'pledge',
+      t('detail.modal.sales-setting.pledge.low', { num: 200 }),
+      (value, context) => !!value && value >= 200,
+    ),
 });
 
 const SalesSettingModal: FC<SalesSettingModalProps> = ({
@@ -73,7 +81,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
   tokenId,
 }) => {
   const [expirationOpen, setExpirationOpen] = useState(false);
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const { account } = globalStore.useState('account');
   const toast = useToast();
 

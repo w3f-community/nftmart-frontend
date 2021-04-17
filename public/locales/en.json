@@ -99,6 +99,7 @@
   "detail.modal.sales-setting.category.subtitle": "Choose which categoy to list to",
   "detail.modal.sales-setting.pledge": "Pledge",
   "detail.modal.sales-setting.pledge.subtitle": "After being remove or sold, pledge would return to your hand.",
+  "detail.modal.sales-setting.pledge.low": "The pledge can't be less than {{num}}",
 
   "detail.event.event": "Event",
   "detail.event.price": "Price",
@@ -132,6 +133,7 @@
   "create.intro": "Introduction",
   "create.intro.placeholder": "At most 200 characters",
   "create.upload": "Click here to upload image",
+  "create.upload.overflow": "File size exceeds 10M，pls resize it.",
   "create.crop": "Crop the picture",
   "create.crop.confirm": "Confirm clipping",
   "create.create.error": "Failed to create",

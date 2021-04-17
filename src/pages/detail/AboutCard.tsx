@@ -25,7 +25,7 @@ const AboutCard: FC<{ about: any }> = ({ about }) => {
         <Text>{t('name')}</Text>
         <Spacer /><Text>{metadata.name}</Text>
       </Flex>
-      <Flex>
+      {/* <Flex>
         <Text>{t('url')}</Text>
         <Spacer />
         <Text
@@ -36,11 +36,21 @@ const AboutCard: FC<{ about: any }> = ({ about }) => {
         >
           {trimStr(metadata.url)}
         </Text>
-      </Flex>
-      <Flex>
-        <Text>{t('external')}</Text>
-        <Spacer /><Text>{metadata.externalUrl}</Text>
-      </Flex>
+      </Flex> */}
+      {metadata.externalUrl && (
+        <Flex>
+          <Text>{t('external')}</Text>
+          <Spacer />
+          <Text
+            as="a"
+            cursor="pointer"
+            color="primary"
+            onClick={() => window.open(`${metadata.externalUrl}`)}
+          >
+            {metadata.externalUrl}
+          </Text>
+        </Flex>
+      )}
       <Flex>
         <Text>{t('total')}</Text>
         <Spacer /><Text>{totalIssuance}</Text>

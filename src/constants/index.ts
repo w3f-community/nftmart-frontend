@@ -84,6 +84,8 @@ export const PINATA_POST_SERVER = 'https://api.pinata.cloud/pinning/pinFileToIPF
 // 	Burnable = 0b00000010
 export const TOKEN_TRANSFERABLE_BURNABLE = 0b00000011;
 
+export const MAX_FILE_SIZE = 1024 * 1024 * 10;
+
 // class metadata
 export const CLASS_METADATA = {
   name: '', // name of nft asset

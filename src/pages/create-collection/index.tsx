@@ -59,7 +59,7 @@ const CreateCollection: FC = () => {
   const toast = useToast();
 
   const { account } = globalStore.useState('account');
-  const { refetch: refetchAssets } = useMyAssetsQuery(account.address);
+  const { refetch: refetchAssets } = useMyAssetsQuery(account ? account.address : '');
   const { refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
 
   const create = useCallback((formValue, cb) => {
@@ -71,9 +71,10 @@ const CreateCollection: FC = () => {
       .max(50, t('create.verification.name'))
       .required(t('create.verification.Required')),
     url: Yup.string().max(200).required(t('create.verification.Required')),
-    externalUrl: Yup.string()
-      .required(t('create.verification.Required'))
-      .matches(/(http|https):\/\/([\w.]+\/?)\S*/, t('create.verification.externalUrl')),
+    externalUrl: Yup.string().matches(
+      /(http|https):\/\/([\w.]+\/?)\S*/,
+      t('create.verification.externalUrl'),
+    ),
     description: Yup.string()
       .max(200, t('create.verification.description'))
       .required(t('create.verification.Required')),

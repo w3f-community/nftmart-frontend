@@ -35,7 +35,7 @@ const MetaCard: FC<MetaCardProps> = ({ metadata, owner }) => {
           <Text>{t('name')}</Text>
           <Spacer /><Text>{innerMeta.name}</Text>
         </Flex>
-        <Flex>
+        {/* <Flex>
           <Text>{t('url')}</Text>
           <Spacer />
           <Text
@@ -46,11 +46,21 @@ const MetaCard: FC<MetaCardProps> = ({ metadata, owner }) => {
           >
             {trimStr(innerMeta.url)}
           </Text>
-        </Flex>
-        <Flex>
-          <Text>{t('external')}</Text>
-          <Spacer /><Text>{innerMeta.externalUrl}</Text>
-        </Flex>
+        </Flex> */}
+        {innerMeta.externalUrl && (
+          <Flex>
+            <Text>{t('external')}</Text>
+            <Spacer />{' '}
+            <Text
+              as="a"
+              cursor="pointer"
+              color="primary"
+              onClick={() => window.open(`${innerMeta.externalUrl}`)}
+            >
+              {innerMeta.externalUrl}
+            </Text>
+          </Flex>
+        )}
       </Stack>
     </Card>
   );

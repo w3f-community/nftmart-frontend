@@ -88,11 +88,10 @@ const CreateCollection = () => {
       .required(t('create.verification.Required')),
     url: Yup.string().max(200).required(t('create.verification.Required')),
     externalUrl: Yup.string()
-      .required(t('create.verification.Required'))
+      // .required(t('create.verification.Required'))
       .matches(/(http|https):\/\/([\w.]+\/?)\S*/, t('create.verification.externalUrl')),
-    description: Yup.string()
-      .max(200, t('create.verification.description'))
-      .required(t('create.verification.Required')),
+    description: Yup.string().max(200, t('create.verification.description')),
+    // .required(t('create.verification.Required')),
   });
 
   const history = useHistory();

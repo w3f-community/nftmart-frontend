@@ -299,8 +299,8 @@ const Detail: FC = () => {
             {/* <IntroCard description={selectedAsset.description ?? t('detail.no-description')} /> */}
             {/* <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
             <ClassInfo about={selectedAsset.class ?? t('detail.no-about')} /> */}
-            <PriceHistoryCard />
-            <HistoryEventCard />
+            {/* <PriceHistoryCard />
+            <HistoryEventCard /> */}
           </>
         }
       />

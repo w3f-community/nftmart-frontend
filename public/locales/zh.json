@@ -70,6 +70,7 @@
   "explore.collections.empty": "没有结果",
 
   "wallet.title": "我的钱包",
+  "detail.no.list": "未上架",
 
   "detail.loading-text": "正在搜索对应资产，请稍等。。。",
   "detail.no-description": "暂时没有介绍",
@@ -96,8 +97,9 @@
   "detail.modal.sales-setting.price.subtitle": "该资产的价格",
   "detail.modal.sales-setting.category": "类别",
   "detail.modal.sales-setting.category.subtitle": "选择要列出的类别",
-  "detail.modal.sales-setting.pledge": "Pledge",
+  "detail.modal.sales-setting.pledge": "质押",
   "detail.modal.sales-setting.pledge.subtitle": "在被移除或出售后，质押物将回到您的手中。",
+  "detail.modal.sales-setting.pledge.low": "质押不能小于 {{num}}",
 
   "detail.event.event": "事件",
   "detail.event.price": "价格",
@@ -125,6 +127,7 @@
   "create.intro": "介绍：",
   "create.intro.placeholder": "请输入描述(200字之内）",
   "create.upload": "点击此处上传图片",
+  "create.upload.overflow": "文件大小不能超过 10M，请压缩后重新上传.",
   "create.crop": "裁剪图片",
   "create.crop.confirm": "确认裁剪",
   "create.create.error": "创建失败",
