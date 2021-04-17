@@ -48,7 +48,7 @@ const CropperCop: React.FC<INavProps> = (props) => {
 
   const getCropData = () => {
     console.log('cropper : ', cropper);
-    if (typeof cropper !== 'undefined') {
+    if (typeof cropper !== 'undefined' && cropper.getCroppedCanvas()) {
       const imgData = cropper.getCroppedCanvas().toDataURL('image/jpeg');
       const cropBlob = dataURLtoBlob(imgData);
       const cropFile = new File([cropBlob], props.name);

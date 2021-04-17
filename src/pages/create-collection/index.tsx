@@ -60,7 +60,7 @@ const CreateCollection: FC = () => {
 
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useMyAssetsQuery(account ? account.address : '');
-  const { refetch: refetchMyCollections } = useMyCollectionsQuery(account.address);
+  const { refetch: refetchMyCollections } = useMyCollectionsQuery(account ? account.address : '');
 
   const create = useCallback((formValue, cb) => {
     createClass({ address: account.address, metadata: formValue, cb });
