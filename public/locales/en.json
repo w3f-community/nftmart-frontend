@@ -107,6 +107,7 @@
   "detail.event.target": "Target",
   "detail.event.date": "Date",
   "detail.info.owner": "Owner",
+  "detail.info.ownerby": "Owned by",
 
   "detail.alert.list": "Listing at",
 
@@ -119,6 +120,7 @@
   "footer.aboutus.intro": "NFTmark, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership.",
   "footer.follow": "Follow Us",
   "footer.copyright": "© 2021 NFTmark",
+  "whitelist.not.tips": "You are not in the whitelist yet.",
 
   "create.title": "Create Asset",
   "create.collection.title": "Create Collection",
@@ -160,10 +162,10 @@
   "list.empty": "No assets were found",
 
   "lang.en": "English",
-  "lang.zh": "Chinese",
+  "lang.zh": "中文",
   "network.retry": "Retry",
 
-  "order.coming.soon": "Demonstration only. Order stats coming soon",
+  "order.coming.soon": "Order stats coming soon",
   "event.coming.soon": "Events history coming soon",
 
   "loading.init": "Initializing Polkadot API...",

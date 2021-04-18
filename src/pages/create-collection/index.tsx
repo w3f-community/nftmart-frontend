@@ -27,6 +27,7 @@ import { Formik, Form, Field, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { globalStore } from 'rekv';
 import LoginDetector from '../../components/loginDetector';
+import CheckWhiteList from '../../components/checkWhiteList';
 
 import Upload from '../../components/upload';
 
@@ -346,6 +347,7 @@ const CreateCollection: FC = () => {
         </Box>
 
         <LoginDetector />
+        <CheckWhiteList />
       </Layout>
 
       <AlertDialog

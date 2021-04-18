@@ -6,8 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
-import { initPolkadotApi, getCategories } from './index';
+import { initPolkadotApi, getCategories, getWhiteList } from './index';
 import store from '../../stores/categories';
+import whiteListStore from '../../stores/whiteList';
 
 interface Props {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ const provider = ({ children }: Props) => {
   ReactGA.initialize(`${process.env.REACT_APP_GA}`);
   const history = useHistory();
   const location = useLocation();
+  // query cate
   const queryCategories = async () => {
     let categories = await getCategories();
     categories = categories.map((cat: any) => {
@@ -25,7 +27,16 @@ const provider = ({ children }: Props) => {
     });
     store.setState({ categories });
   };
-  initPolkadotApi(queryCategories);
+  // query whitelist
+  const queryWhiteList = async () => {
+    const whiteList = await getWhiteList();
+
+    whiteListStore.setState({ whiteList });
+  };
+  initPolkadotApi(() => {
+    queryCategories();
+    queryWhiteList();
+  });
 
   const { t } = useTranslation();
 

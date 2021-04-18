@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 
 import { globalStore } from 'rekv';
 import LoginDetector from '../../components/loginDetector';
+import CheckWhiteList from '../../components/checkWhiteList';
 import colors from '../../themes/colors';
 import Layout from '../../layouts/common';
 import Upload from '../../components/upload';
@@ -343,6 +344,7 @@ const CreateCollection = () => {
         </Container>
       </Box>
       <LoginDetector />
+      <CheckWhiteList />
     </Layout>
   );
 };

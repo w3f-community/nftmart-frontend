@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Card from '../../../components/card';
 import colors from '../../../themes/colors';
 import Meta from '../Meta';
+import { trimStr } from '../../../utils';
 
 export interface InnerCardProps {
   price: number | string;
@@ -127,7 +128,10 @@ const PurchaseCard: FC<PurchaseCardProps> = ({
           <Heading as="h2" size="lg">
             {name}
           </Heading>
-          <Meta description="Owned by" who={isOwner ? 'You' : asset.owner} />
+          <Meta
+            description={t('detail.info.ownerby')}
+            who={isOwner ? 'You' : trimStr(asset.owner)}
+          />
         </Flex>
         <InnerCard
           price={price}

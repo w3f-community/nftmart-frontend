@@ -190,6 +190,19 @@ export const getCategories = async () => {
 
   return categories;
 };
+// query all whitelist
+export const getWhiteList = async () => {
+  let whiteList = (await api.query.config.accountWhitelist.entries()) || [];
+  whiteList = whiteList.map((user: any) => {
+    let key = user[0];
+    const len = key.length;
+    key = key.buffer.slice(len - 32, len);
+    const addr = keyring.encodeAddress(new Uint8Array(key));
+    return addr;
+  });
+
+  return whiteList;
+};
 
 // get nft by class id
 const getAllNftsByClassId = async (classId: number) => {

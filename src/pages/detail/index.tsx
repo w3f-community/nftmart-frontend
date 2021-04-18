@@ -27,6 +27,7 @@ import SalesSettingModal from './SalesSettingModal';
 import { getNft, getOrder, deleteOrder, takeOrder, getBalance } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery } from '../../api/query';
 import { toFixedDecimals, redirectConnect } from '../../utils';
+import { parseMoneyText } from '../../utils/fomart';
 import { PINATA_SERVER } from '../../constants';
 import NotFound from '../notFound';
 import colors from '../../themes/colors';
@@ -56,6 +57,7 @@ const Detail: FC = () => {
   const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
   const { refetch: refetchMyCollections } = useMyCollectionsQuery(account ? account.address : '');
 
+  const isOwner = account && selectedAsset && selectedAsset.owner === account.address;
   // const { data: collectionsResponse } = GetCollections({
   //   id: selectedAsset?.classId,
   //   pageSize: 1,
@@ -245,16 +247,19 @@ const Detail: FC = () => {
   };
   let price = '';
   if (selectedAsset.order) {
-    price =
-      typeof selectedAsset.order.price === 'number'
-        ? toFixedDecimals(selectedAsset.order.price, 8)
-        : selectedAsset.order.price ?? '';
+    // price =
+    //   typeof selectedAsset.order.price === 'number'
+    //     ? toFixedDecimals(selectedAsset.order.price, 8)
+    //     : selectedAsset.order.price
+
+    const { value, unit } = parseMoneyText(selectedAsset.order.price);
+    price = value.toFixed(2) + unit;
   }
 
   return (
     <Box marginTop="77px" width="100%">
       <Helmet title={t('title.detail', { name: selectedAsset.name })} />
-      {selectedAsset.order && (
+      {selectedAsset.order && isOwner && (
         <Alert
           order={selectedAsset.order}
           categories={categories}
@@ -299,8 +304,8 @@ const Detail: FC = () => {
             {/* <IntroCard description={selectedAsset.description ?? t('detail.no-description')} /> */}
             {/* <MetaCard metadata={selectedAsset.metadata ?? t('detail.no-metadata')} />
             <ClassInfo about={selectedAsset.class ?? t('detail.no-about')} /> */}
-            {/* <PriceHistoryCard />
-            <HistoryEventCard /> */}
+            <PriceHistoryCard />
+            <HistoryEventCard />
           </>
         }
       />

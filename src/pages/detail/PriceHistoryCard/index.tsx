@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Flex, Heading, Text } from '@chakra-ui/react';
+import { Stack, Flex, Center, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
 import Card from '../../../components/card';
@@ -13,7 +13,7 @@ const PriceHistoryCard = () => {
   return (
     <Card title={t('detail.title.price')}>
       <Stack spacing={4}>
-        <Stack direction="row" spacing={4}>
+        <Center direction="row" spacing={4}>
           {/* <NSelect
             options={[
               { title: '最近7天', value: 7 },
@@ -36,9 +36,9 @@ const PriceHistoryCard = () => {
             </Heading>
           </Flex> */}
           <Flex>{t('order.coming.soon')}</Flex>
-        </Stack>
+        </Center>
 
-        <PriceHistoryChart />
+        {/* <PriceHistoryChart /> */}
       </Stack>
     </Card>
   );

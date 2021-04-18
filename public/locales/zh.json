@@ -112,6 +112,8 @@
   "footer.follow": "联系我们",
   "footer.copyright": "© 2021 NFTmark",
 
+  "whitelist.not.tips": "你不在白名单中，无法创建集合与资产",
+
   "create.title": "创建作品",
   "create.collection.title": "创建作品集",
   "create.save": "保存",
@@ -153,11 +155,13 @@
   "list.total.results": "{{count}}个结果",
   "list.empty": "没有找到任何结果",
 
-  "lang.en": "英文",
+  "lang.en": "English",
   "lang.zh": "中文",
   "network.retry": "点击重试",
 
   "loading.init": "初始化 Polkadot API 中...",
+  "event.coming.soon": "事件历史即将上线",
+  "order.coming.soon": "历史价格即将上线",
 
   "balance.feeFrozen": "Frozen Fees",
   "balance.free": "Available",
