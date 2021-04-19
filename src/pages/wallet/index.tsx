@@ -34,8 +34,8 @@ const Wallet = () => {
 
   const { account } = globalStore.useState('account');
 
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number>();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
+  const [selectedCollectionId, setSelectedCollectionId] = useState<number>(-1);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(-1);
   const [selectedStatus, setSelectedStatus] = useState<number>(statusQueryValue);
 
   const {
@@ -131,18 +131,14 @@ const Wallet = () => {
             singleStatus
           />
           {/* TODO: sorting event */}
-          {!!collectionsData?.length && (
-            <MainList
-              data={filteredAssets}
-              onTypeChange={handleTypeChange}
-              loading={itemsLoading}
-            />
-          )}
-          {!collectionsData?.length && (
+          {/* {!!collectionsData?.length && ( */}
+          <MainList data={filteredAssets} onTypeChange={handleTypeChange} loading={itemsLoading} />
+          {/* )} */}
+          {/* {!collectionsData?.length && (
             <Center height="444px" flex={1}>
               <Empty description={t('list.empty')} />
             </Center>
-          )}
+          )} */}
         </Container>
       </Box>
     </Layout>

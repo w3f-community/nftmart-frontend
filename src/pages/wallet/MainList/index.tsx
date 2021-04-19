@@ -121,7 +121,6 @@ export interface MainListProps {
 const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
   const { t } = useTranslation();
   const [count, setCount] = useState<number>(0);
-
   useEffect(() => {
     if (Array.isArray(data)) {
       setCount(data.length);
