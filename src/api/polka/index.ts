@@ -271,9 +271,7 @@ const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
 };
 
 const mapNFTsToAsset = (NFTS: any[], cid: number) => {
-  let arr = NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
-    // .filter(filterNonMetaNFT)
-    .map((n, idx) => mapNFTToAsset(n, cid, idx));
+  let arr = NFTS.map((n) => mapNFTToAsset(n, cid, n.tokenId));
 
   arr = arr.filter((nft) => {
     console.log(nft, '===============');
