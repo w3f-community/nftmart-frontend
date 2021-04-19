@@ -52,35 +52,35 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
     onCopy();
   };
 
-  const getFaucet = () => {
-    const faucet = async () => {
-      setLoading(true);
-      const ss58Format = 50;
-      const keyring = new Keyring({ type: 'sr25519', ss58Format });
-      const alice = keyring.addFromUri('//Alice');
-      const res = await api.tx.balances
-        .transfer(account.address, '2100000000000000')
-        .signAndSend(alice, (result: any) => {
-          txLog(result, () => {
-            toast({
-              title: 'success',
-              status: 'success',
-              position: 'top',
-              duration: 3000,
-              description: t('fund.success'),
-            });
-            getBalance(account.address);
-            setLoading(false);
-          });
-        });
-    };
+  // const getFaucet = () => {
+  //   const faucet = async () => {
+  //     setLoading(true);
+  //     const ss58Format = 50;
+  //     const keyring = new Keyring({ type: 'sr25519', ss58Format });
+  //     const alice = keyring.addFromUri('//Alice');
+  //     const res = await api.tx.balances
+  //       .transfer(account.address, '2100000000000000')
+  //       .signAndSend(alice, (result: any) => {
+  //         txLog(result, () => {
+  //           toast({
+  //             title: 'success',
+  //             status: 'success',
+  //             position: 'top',
+  //             duration: 3000,
+  //             description: t('fund.success'),
+  //           });
+  //           getBalance(account.address);
+  //           setLoading(false);
+  //         });
+  //       });
+  //   };
 
-    return (
-      <Button isLoading={loading} m={3} size="xs" variant="outline" onClick={faucet}>
-        Faucet
-      </Button>
-    );
-  };
+  //   return (
+  //     <Button isLoading={loading} m={3} size="xs" variant="outline" onClick={faucet}>
+  //       Faucet
+  //     </Button>
+  //   );
+  // };
 
   return (
     <Flex
@@ -124,7 +124,13 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
 
         <Flex>
           {account?.meta ? (
-            <Flex flex="1 1 auto" justifyContent="flex-end" alignItems="center" height="55px">
+            <Flex
+              flex="1 1 auto"
+              justifyContent="flex-end"
+              alignItems="center"
+              height="55px"
+              mr={4}
+            >
               <Login username={formatAddress(account.address)} avatar={account.meta.avatar} />
               <IconButton
                 size="xs"
@@ -135,7 +141,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
                 onClick={() => handleCopy()}
               />
               <Balance balance={balance} />
-              {getFaucet()}
+              {/* {getFaucet()} */}
             </Flex>
           ) : (
             <Flex>
