@@ -46,9 +46,11 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
 
   // Link render helper
   const renderLink = (title: string) => {
+    // add whitelist check hide menu
+    if (title === 'quick-area.nft.create' || title === 'quick-area.collections') return '';
     const path = USER_LINKS[title];
     const active = location.pathname === path;
-    console.log(title);
+
     return (
       <NLink
         title={title}
@@ -60,11 +62,6 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
           paddingX: 4,
           display: 'block',
         }}
-        display={
-          createjump && (title === 'quick-area.nft.create' || title === 'quick-area.collections')
-            ? 'none'
-            : ''
-        }
         key={title}
       />
     );
