@@ -232,7 +232,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
       ) : (
         <Box>
           {value ? (
-            <Image w="350px" h="350px" m="16px 0" src={`${PINATA_SERVER}/${value}`} />
+            <Image w="350px" h="350px" m="16px 0" src={`${PINATA_SERVER}${value}`} />
           ) : (
             <Box>
               {file ? (
