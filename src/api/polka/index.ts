@@ -3,7 +3,7 @@ import { globalStore } from 'rekv';
 import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { web3FromAddress } from '@polkadot/extension-dapp';
-import { bnToBn } from '@polkadot/util';
+import { bnToBn, isObject } from '@polkadot/util';
 import { identity, omit } from 'ramda';
 
 import store from '../../stores/account';
@@ -219,11 +219,14 @@ const getAllNftsByClassId = async (classId: number) => {
       arr.push(api.query.ormlNft.tokens(classId, i));
     }
     const res = await Promise.all(arr);
-    return res.map((n, idx) => {
+    const results = res.map((n, idx) => {
       if (n.isEmpty) return null;
       const nft = n.toHuman();
       nft.classInfo = classInfo.toHuman();
       nft.tokenId = idx;
+      return nft;
+    });
+    return results.filter((nft) => {
       return nft;
     });
   }
@@ -252,6 +255,7 @@ const getClassId = (c: any) => {
 
 const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
   let metadata = {};
+  if (!NFT.metadata) return null;
   if (NFT.metadata.indexOf('{') >= 0) {
     const originalString = NFT.metadata.trim().startsWith('{') ? NFT.metadata : `{ ${NFT.metadata}`;
     metadata = JSON.parse(originalString);
@@ -267,11 +271,16 @@ const mapNFTToAsset = (NFT: any, cid: number, tid?: number) => {
 };
 
 const mapNFTsToAsset = (NFTS: any[], cid: number) => {
-  return (
-    NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
-      // .filter(filterNonMetaNFT)
-      .map((n, idx) => mapNFTToAsset(n, cid, idx))
-  );
+  let arr = NFTS.map((nft, tokenId) => ({ ...nft, tokenId }))
+    // .filter(filterNonMetaNFT)
+    .map((n, idx) => mapNFTToAsset(n, cid, idx));
+
+  arr = arr.filter((nft) => {
+    console.log(nft, '===============');
+    return nft;
+  });
+
+  return arr;
 };
 
 // get all nfts
