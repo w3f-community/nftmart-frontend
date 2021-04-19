@@ -53,7 +53,11 @@
   "type.sport": "Sports",
   "type.collection": "Collectibles",
   "type.art": "Art",
-  "type.others": "Other",
+  "type.other": "Other",
+  "type.calligraphy": "Calligraphy",
+  "type.photography": "Photography",
+  "type.game": "Game",
+  "type.collectibles": "Collectibles",
 
   "not-found.title": "Page Not Found",
   "not-found.subtitle": "We could not find what you were looking for.",

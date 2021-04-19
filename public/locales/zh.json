@@ -52,7 +52,11 @@
   "type.sport": "运动",
   "type.collection": "收藏品",
   "type.art": "Art",
-  "type.others": "其他",
+  "type.other": "其他",
+  "type.calligraphy": "书法",
+  "type.photography": "摄影",
+  "type.game": "游戏",
+  "type.collectibles": "收藏品",
 
   "not-found.title": "找不到页面",
   "not-found.subtitle": "我们找不到你要找的东西。",
