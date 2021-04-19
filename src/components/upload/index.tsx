@@ -65,6 +65,7 @@ const CropperCop: React.FC<INavProps> = (props) => {
         guides={false}
         viewMode={2}
         // crop={onCrop}
+        initialAspectRatio={16 / 16}
         ref={cropperRef}
         onInitialized={(instance) => {
           setCropper(instance);
