@@ -27,6 +27,8 @@ import { getBalance, mintNft } from '../../api/polka';
 import { useMyAssetsQuery, useMyCollectionsQuery, useAssetsQuery } from '../../api/query';
 import { useQuery } from '../../utils/hook';
 
+import store from '../../stores/whiteList';
+
 const formLableLayout = {
   height: '48px',
   flex: '0 0 240px',
@@ -55,6 +57,7 @@ const CreateCollection = () => {
   const toast = useToast();
   const { account } = globalStore.useState('account');
   const { refetch: refetchAssets } = useAssetsQuery();
+  const { whiteList } = store.useState('whiteList');
 
   const { refetch: refetchMyAssets } = useMyAssetsQuery(account ? account.address : '');
   const { data: classes, refetch: refetchMyCollections } = useMyCollectionsQuery(
@@ -98,10 +101,14 @@ const CreateCollection = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (classes?.length === 0) {
+    if (!account || whiteList.length === 0) {
+      return;
+    }
+    const flag = whiteList.indexOf(account.address);
+    if (flag >= 0 && classes?.length === 0) {
       history.push('/create-collection');
     }
-  }, [classes]);
+  }, [classes, whiteList, account]);
 
   return (
     <Layout title="title.create">
