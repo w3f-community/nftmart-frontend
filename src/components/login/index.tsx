@@ -32,7 +32,7 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
   const { whiteList } = store.useState('whiteList');
 
   const [opening, setOpening] = useState(false);
-  const [createjump, setCreatejump] = useState(false);
+  const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
     if (!account || whiteList.length === 0) {
@@ -40,14 +40,15 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
     }
     const flag = whiteList.indexOf(account.address);
     if (flag < 0) {
-      setCreatejump(true);
+      setHideMenu(true);
     }
   }, [whiteList, account]);
 
   // Link render helper
   const renderLink = (title: string) => {
     // add whitelist check hide menu
-    if (title === 'quick-area.nft.create' || title === 'quick-area.collections') return '';
+    if (hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections'))
+      return '';
     const path = USER_LINKS[title];
     const active = location.pathname === path;
 
