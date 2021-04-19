@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   Popover,
@@ -16,6 +16,8 @@ import {
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 
+import { globalStore } from 'rekv';
+import store from '../../stores/whiteList';
 import NLink from '../link';
 import { USER_LINKS } from '../../constants';
 
@@ -26,14 +28,27 @@ export interface LoginProps {
 
 const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
   const location = useLocation();
+  const { account } = globalStore.useState('account');
+  const { whiteList } = store.useState('whiteList');
 
   const [opening, setOpening] = useState(false);
+  const [createjump, setCreatejump] = useState(false);
+
+  useEffect(() => {
+    if (!account || whiteList.length === 0) {
+      return;
+    }
+    const flag = whiteList.indexOf(account.address);
+    if (flag < 0) {
+      setCreatejump(true);
+    }
+  }, [whiteList, account]);
 
   // Link render helper
   const renderLink = (title: string) => {
     const path = USER_LINKS[title];
     const active = location.pathname === path;
-
+    console.log(title);
     return (
       <NLink
         title={title}
@@ -45,6 +60,11 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
           paddingX: 4,
           display: 'block',
         }}
+        display={
+          createjump && (title === 'quick-area.nft.create' || title === 'quick-area.collections')
+            ? 'none'
+            : ''
+        }
         key={title}
       />
     );
