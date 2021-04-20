@@ -37,10 +37,7 @@ export interface PurchaseModalProps {
 
 function formatprice(price: any) {
   if (!price) return 0;
-  console.log(price);
   const { value, unit } = parseMoneyText(String(price));
-  const dddd = parseMoneyText(String(price));
-  console.log(dddd);
   // TODO: as a component
   return `${value} ${unit}`;
 }
