@@ -50,29 +50,39 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
   // Link render helper
   const renderLink = (title: string) => {
     // add whitelist check hide menu
-
     function noJurisdiction() {
-      if (hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')) {
-        toast({
-          title: t('whitelist.not.tips'),
-          status: 'warning',
-          position: 'top',
-          duration: 3000,
-        });
-      }
-      return false;
+      toast({
+        title: t('whitelist.not.tips'),
+        status: 'warning',
+        position: 'top',
+        duration: 3000,
+      });
     }
     const path = USER_LINKS[title];
     const active = location.pathname === path;
+    if (hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')) {
+      return (
+        <NLink
+          title={title}
+          path={''}
+          active={false}
+          bgSize="cover"
+          textAlign="center"
+          linkProps={{
+            paddingX: 4,
+            display: 'block',
+          }}
+          color={'gray'}
+          onClick={noJurisdiction}
+          key={title}
+        />
+      );
+    }
 
     return (
       <NLink
         title={title}
-        path={
-          hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')
-            ? ''
-            : path
-        }
+        path={path}
         active={active}
         bgSize="cover"
         textAlign="center"
@@ -80,12 +90,6 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
           paddingX: 4,
           display: 'block',
         }}
-        color={
-          hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')
-            ? 'gray'
-            : ''
-        }
-        onClick={noJurisdiction}
         key={title}
       />
     );
