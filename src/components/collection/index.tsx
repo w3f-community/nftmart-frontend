@@ -89,7 +89,14 @@ const Collection = (props: CollectionProps) => {
     >
       <Center height={195} width={231} borderBottom={`1px solid ${colors.divider.dark}`}>
         <Image
-          NativeImgProps={{ style: { width: 231, height: 195 } }}
+          NativeImgProps={{
+            style: {
+              objectFit: 'contain',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              borderRadius: '5px',
+            },
+          }}
           src={picUrl as string}
           fallback={<Shimmer height={195} width={231} />}
           fadeIn

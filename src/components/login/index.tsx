@@ -13,10 +13,12 @@ import {
   Icon,
   Flex,
   Box,
+  useToast,
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 
 import { globalStore } from 'rekv';
+import { t } from '../../i18n';
 import store from '../../stores/whiteList';
 import NLink from '../link';
 import { USER_LINKS } from '../../constants';
@@ -28,6 +30,7 @@ export interface LoginProps {
 
 const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
   const location = useLocation();
+  const toast = useToast();
   const { account } = globalStore.useState('account');
   const { whiteList } = store.useState('whiteList');
 
@@ -47,15 +50,29 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
   // Link render helper
   const renderLink = (title: string) => {
     // add whitelist check hide menu
-    if (hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections'))
-      return '';
+
+    function noJurisdiction() {
+      if (hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')) {
+        toast({
+          title: t('whitelist.not.tips'),
+          status: 'warning',
+          position: 'top',
+          duration: 3000,
+        });
+      }
+      return false;
+    }
     const path = USER_LINKS[title];
     const active = location.pathname === path;
 
     return (
       <NLink
         title={title}
-        path={path}
+        path={
+          hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')
+            ? ''
+            : path
+        }
         active={active}
         bgSize="cover"
         textAlign="center"
@@ -63,6 +80,12 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
           paddingX: 4,
           display: 'block',
         }}
+        color={
+          hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')
+            ? 'gray'
+            : ''
+        }
+        onClick={noJurisdiction}
         key={title}
       />
     );

@@ -14,7 +14,7 @@ import {
   Heading,
   Container,
 } from '@chakra-ui/react';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 import Card from '../../components/card';
 import colors from '../../themes/colors';
 import ImageCard from './ImageCard';
@@ -24,6 +24,7 @@ import Meta from './Meta';
 import { PINATA_SERVER } from '../../constants';
 import { t } from '../../i18n';
 import { Work } from '../../types';
+import { parseMoneyText } from '../../utils/fomart';
 
 export interface PurchaseModalProps {
   open: boolean;
@@ -32,6 +33,16 @@ export interface PurchaseModalProps {
   category: string;
   onClose: () => void;
   onConfirm: (setLoading: any) => void;
+}
+
+function formatprice(price: any) {
+  if (!price) return 0;
+  console.log(price);
+  const { value, unit } = parseMoneyText(String(price));
+  const dddd = parseMoneyText(String(price));
+  console.log(dddd);
+  // TODO: as a component
+  return `${value} ${unit}`;
 }
 
 const PurchaseModal: FC<PurchaseModalProps> = ({
@@ -95,7 +106,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
           <Flex flex={4}>{itemColumnNode}</Flex>
           <Flex flex={2}>{count}</Flex>
           <Flex flex={1} justify="flex-end">
-            <Text color={colors.primary}>{order ? order.price : ''}</Text>
+            <Text color={colors.primary}>{order ? formatprice(order.price) : ''}</Text>
           </Flex>
         </Flex>
       </Stack>
