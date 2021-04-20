@@ -62,20 +62,18 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
     const active = location.pathname === path;
     if (hideMenu && (title === 'quick-area.nft.create' || title === 'quick-area.collections')) {
       return (
-        <NLink
-          title={title}
-          path={''}
-          active={false}
-          bgSize="cover"
+        <Box
           textAlign="center"
           linkProps={{
             paddingX: 4,
             display: 'block',
           }}
           color={'gray'}
-          onClick={noJurisdiction}
+          // onClick={noJurisdiction}
           key={title}
-        />
+        >
+          {t(title)}
+        </Box>
       );
     }
 
