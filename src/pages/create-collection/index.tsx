@@ -347,7 +347,7 @@ const CreateCollection: FC = () => {
         </Box>
 
         <LoginDetector />
-        {/* <CheckWhiteList /> */}
+        <CheckWhiteList />
       </Layout>
 
       <AlertDialog

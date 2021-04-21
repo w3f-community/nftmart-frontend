@@ -351,7 +351,7 @@ const CreateCollection = () => {
         </Container>
       </Box>
       <LoginDetector />
-      {/* <CheckWhiteList /> */}
+      <CheckWhiteList />
     </Layout>
   );
 };
