@@ -29,7 +29,7 @@ import { globalStore } from 'rekv';
 import LoginDetector from '../../components/loginDetector';
 import CheckWhiteList from '../../components/checkWhiteList';
 
-import Upload from '../../components/upload';
+import Upload from '../../components/uploadCollection';
 
 import Layout from '../../layouts/common';
 import colors from '../../themes/colors';
@@ -347,7 +347,7 @@ const CreateCollection: FC = () => {
         </Box>
 
         <LoginDetector />
-        <CheckWhiteList />
+        {/* <CheckWhiteList /> */}
       </Layout>
 
       <AlertDialog
