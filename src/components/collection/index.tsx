@@ -76,8 +76,8 @@ const Collection = (props: CollectionProps) => {
   return (
     <MotionBox
       onClick={handleCollectionClick}
-      width="231px"
-      height="342px"
+      width="300px"
+      height="442px"
       backgroundColor="#fff"
       borderRadius="4px"
       cursor="pointer"
@@ -87,7 +87,7 @@ const Collection = (props: CollectionProps) => {
       display="flex"
       flexDirection="column"
     >
-      <Center height={195} width={231} borderBottom={`1px solid ${colors.divider.dark}`}>
+      <Center height={295} width={300} borderBottom={`1px solid ${colors.divider.dark}`}>
         <Image
           NativeImgProps={{
             style: {
@@ -98,7 +98,7 @@ const Collection = (props: CollectionProps) => {
             },
           }}
           src={picUrl as string}
-          fallback={<Shimmer height={195} width={231} />}
+          fallback={<Shimmer height={295} width={300} />}
           fadeIn
         />
       </Center>

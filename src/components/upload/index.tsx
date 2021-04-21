@@ -164,12 +164,32 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
     }
   }, []);
   const captureFile = useCallback((event: any) => {
+    // if (event.target.files.length > 0) {
+    //   event.stopPropagation();
+    //   event.preventDefault();
+    //   const currentFile = event.target.files[0];
+
+    //   if (currentFile.size >= MAX_FILE_SIZE) {
+    //     toast({
+    //       title: t('create.upload.overflow'),
+    //       status: 'warning',
+    //       position: 'top',
+    //       duration: 3000,
+    //     });
+
+    //     setLoadingStatus(false);
+    //     return;
+    //   }
+    //   setValue('');
+    //   setFile(currentFile);
+    //   setShowCrop(true);
+    //   // saveToIpfs(event.target.files);
+    //   setImgName(currentFile.name);
+    // }
     if (event.target.files.length > 0) {
       event.stopPropagation();
       event.preventDefault();
-      const currentFile = event.target.files[0];
-
-      if (currentFile.size >= MAX_FILE_SIZE) {
+      if (event.target.files[0].size >= MAX_FILE_SIZE) {
         toast({
           title: t('create.upload.overflow'),
           status: 'warning',
@@ -180,11 +200,9 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
         setLoadingStatus(false);
         return;
       }
-      setValue('');
-      setFile(currentFile);
-      setShowCrop(true);
-      // saveToIpfs(event.target.files);
-      setImgName(currentFile.name);
+      saveToIpfs(event.target.files);
+      setShowCrop(false);
+      setImgName(event.target.files[0].name);
     }
   }, []);
 
@@ -237,7 +255,8 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
           ) : (
             <Box>
               {file ? (
-                <CropperCop imgUrl={fileUrl} uploadHandle={saveToIpfs} name={imgName}></CropperCop>
+                // <CropperCop imgUrl={fileUrl} uploadHandle={saveToIpfs} name={imgName}></CropperCop>
+                <Image w="auto" h="350px" m="16px 0" src={`${PINATA_SERVER}${value}`} />
               ) : (
                 txtUpload
               )}
