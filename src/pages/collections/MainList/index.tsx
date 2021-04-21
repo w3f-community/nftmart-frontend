@@ -181,7 +181,7 @@ const MainList: FC<MainListProps> = ({
       {!loading && (
         <>
           <Helpers onSort={handleSorting} count={count} />
-          <SimpleGrid columns={4}>
+          <SimpleGrid columns={[1, 2, 3]}>
             {onCreateAsset && (
               <MotionBox
                 onClick={onCreateAsset}
