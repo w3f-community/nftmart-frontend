@@ -69,7 +69,7 @@ const CreateCollection: FC = () => {
 
   const schema = Yup.object().shape({
     name: Yup.string()
-      .max(50, t('create.verification.name'))
+      .max(20, t('create.verification.collectionName'))
       .required(t('create.verification.Required')),
     url: Yup.string().max(200).required(t('create.verification.Required')),
     externalUrl: Yup.string().matches(
@@ -183,7 +183,7 @@ const CreateCollection: FC = () => {
                                 </FormLabel>
                                 <Input
                                   id="name"
-                                  placeholder={t('create.name.placeholder')}
+                                  placeholder={t('create.name.collectionPlaceholder')}
                                   {...formInputLayout}
                                   {...field}
                                 />
