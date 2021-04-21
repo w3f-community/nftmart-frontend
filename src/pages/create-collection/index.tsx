@@ -29,7 +29,7 @@ import { globalStore } from 'rekv';
 import LoginDetector from '../../components/loginDetector';
 import CheckWhiteList from '../../components/checkWhiteList';
 
-import Upload from '../../components/uploadCollection';
+import Upload from '../../components/upload';
 
 import Layout from '../../layouts/common';
 import colors from '../../themes/colors';
@@ -220,6 +220,7 @@ const CreateCollection: FC = () => {
                                 >
                                   <Upload
                                     id="url"
+                                    mediatype="cutting"
                                     {...field}
                                     onChange={(v: any) => {
                                       props.setFieldValue('url', v);

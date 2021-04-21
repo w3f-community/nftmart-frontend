@@ -269,6 +269,7 @@ const CreateCollection = () => {
                             >
                               <Upload
                                 id="url"
+                                mediatype="nocuttiing"
                                 {...field}
                                 onChange={(v: any) => {
                                   props.setFieldValue('url', v);

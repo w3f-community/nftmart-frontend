@@ -96,9 +96,17 @@ export interface UploadProps {
   id: string;
   value?: any;
   onChange?: (cid: string) => any;
+  mediatype: string;
 }
 
-const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps, ...rest }) => {
+const Upload: FC<UploadProps> = ({
+  id,
+  value: valueFromProp,
+  onChange,
+  boxProps,
+  mediatype,
+  ...rest
+}) => {
   const [value, setValue] = useState(valueFromProp?.url || '');
   const [isLoading, setLoadingStatus] = useState(false);
   const [imgName, setImgName] = useState('');
@@ -163,33 +171,14 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
       setLoadingStatus(false);
     }
   }, []);
+
   const captureFile = useCallback((event: any) => {
-    // if (event.target.files.length > 0) {
-    //   event.stopPropagation();
-    //   event.preventDefault();
-    //   const currentFile = event.target.files[0];
-
-    //   if (currentFile.size >= MAX_FILE_SIZE) {
-    //     toast({
-    //       title: t('create.upload.overflow'),
-    //       status: 'warning',
-    //       position: 'top',
-    //       duration: 3000,
-    //     });
-
-    //     setLoadingStatus(false);
-    //     return;
-    //   }
-    //   setValue('');
-    //   setFile(currentFile);
-    //   setShowCrop(true);
-    //   // saveToIpfs(event.target.files);
-    //   setImgName(currentFile.name);
-    // }
     if (event.target.files.length > 0) {
       event.stopPropagation();
       event.preventDefault();
-      if (event.target.files[0].size >= MAX_FILE_SIZE) {
+      const currentFile = event.target.files[0];
+
+      if (currentFile.size >= MAX_FILE_SIZE) {
         toast({
           title: t('create.upload.overflow'),
           status: 'warning',
@@ -200,9 +189,18 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
         setLoadingStatus(false);
         return;
       }
-      saveToIpfs(event.target.files);
-      setShowCrop(false);
-      setImgName(event.target.files[0].name);
+      if (mediatype === 'cutting') {
+        setValue('');
+        setFile(currentFile);
+        setShowCrop(true);
+        // saveToIpfs(event.target.files);
+        setImgName(currentFile.name);
+      } else {
+        setValue(true);
+        saveToIpfs(event.target.files);
+        setShowCrop(false);
+        setImgName(currentFile.name);
+      }
     }
   }, []);
 
@@ -255,8 +253,7 @@ const Upload: FC<UploadProps> = ({ id, value: valueFromProp, onChange, boxProps,
           ) : (
             <Box>
               {file ? (
-                // <CropperCop imgUrl={fileUrl} uploadHandle={saveToIpfs} name={imgName}></CropperCop>
-                <Image w="auto" h="350px" m="16px 0" src={`${PINATA_SERVER}${value}`} />
+                <CropperCop imgUrl={fileUrl} uploadHandle={saveToIpfs} name={imgName}></CropperCop>
               ) : (
                 txtUpload
               )}
