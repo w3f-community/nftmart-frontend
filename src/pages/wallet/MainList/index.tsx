@@ -149,7 +149,7 @@ const MainList: FC<MainListProps> = ({ data, loading, onTypeChange }) => {
         <>
           <Helpers onSort={handleSorting} count={count} />
           {!!count && (
-            <SimpleGrid columns={4}>
+            <SimpleGrid justify="space-between" columns={[1, 2, 3]}>
               {data.map((work) => (
                 <Link
                   to={`/detail/${work.classId}/${work.tokenId}`}
