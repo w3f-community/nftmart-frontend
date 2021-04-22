@@ -42,8 +42,10 @@ const Wallet = () => {
     data: collectionsData,
     isLoading: collectionsLoading,
     error: collectionsError,
-  } = useMyCollectionsQuery(account.address);
-  const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(account.address);
+  } = useMyCollectionsQuery(account ? account.address : '');
+  const { data: assetsData, isLoading: itemsLoading } = useMyAssetsQuery(
+    account ? account.address : '',
+  );
 
   const { filteredAssets, filteredCollections } = store.useState(
     'filteredAssets',
