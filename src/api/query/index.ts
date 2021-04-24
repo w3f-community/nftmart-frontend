@@ -56,8 +56,8 @@ export const useAssetsQuery = () => {
       // vice versa
       if (b.status !== 1) return -1;
 
-      const aDps = parseFloat(a.pledge!);
-      const bDps = parseFloat(b.pledge!);
+      const aDps = parseFloat(a.pledge!.split(' ')[0]);
+      const bDps = parseFloat(b.pledge!.split(' ')[0]);
       return bDps - aDps;
     });
 
