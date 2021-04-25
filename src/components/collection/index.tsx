@@ -15,6 +15,7 @@ import Image, { Shimmer } from 'react-shimmer';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { omit } from 'ramda';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import colors from '../../themes/colors';
 import { Work } from '../../types';
@@ -87,21 +88,27 @@ const Collection = (props: CollectionProps) => {
       display="flex"
       flexDirection="column"
     >
-      <Center height={295} width={300} borderBottom={`1px solid ${colors.divider.dark}`}>
-        <Image
-          NativeImgProps={{
-            style: {
-              objectFit: 'contain',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              borderRadius: '5px',
-            },
-          }}
-          src={picUrl as string}
-          fallback={<Shimmer height={295} width={300} />}
-          fadeIn
-        />
-      </Center>
+      <LazyLoadImage
+        wrapperProps={{
+          style: {
+            width: '300px',
+            height: '295px',
+            borderBottom: `1px solid ${colors.divider.dark}`,
+            display: 'flex',
+            justifyContent: 'center',
+          },
+        }}
+        style={{
+          objectFit: 'contain',
+          maxWidth: '100%',
+          maxHeight: '100%',
+          borderRadius: '5px',
+        }}
+        src={picUrl as string}
+        effect="none"
+        fallback={<Shimmer height={295} width={300} />}
+        fadeIn
+      />
 
       <Box
         mt="16px"
