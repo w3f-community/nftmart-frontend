@@ -274,7 +274,6 @@ const mapNFTsToAsset = (NFTS: any[], cid: number) => {
   let arr = NFTS.map((n) => mapNFTToAsset(n, cid, n.tokenId));
 
   arr = arr.filter((nft) => {
-    console.log(nft, '===============');
     return nft;
   });
 

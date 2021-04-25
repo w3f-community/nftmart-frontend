@@ -53,69 +53,6 @@ const Page = () => {
   const [stickyFilter] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(-1);
 
-  const listOrder = () => {
-    const order = {
-      address: account.address,
-      price: 20,
-      categoryId: 0,
-      classId: 17,
-      tokenId: 0,
-    };
-    createOrder(order);
-  };
-  const takerOrder = () => {
-    const order = {
-      address: account.address,
-      classId: 17,
-      tokenId: 0,
-      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
-      price: 20,
-    };
-    takeOrder(order);
-  };
-  const updateOrder = () => {
-    const order = {
-      address: account.address,
-      price: 50,
-      classId: 17,
-      tokenId: 0,
-      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
-    };
-    updateOrderPrice(order);
-  };
-
-  const delOrder = () => {
-    const order = {
-      address: account.address,
-      classId: 17,
-      tokenId: 0,
-      ownerAddress: '611LQeE32RZvaY6m2oG8US5R4dRsTzxRnn43vqjtoUwzHqtC',
-    };
-    deleteOrder(order);
-  };
-
-  const create = () => {
-    const metadata = {
-      name: 'nft class',
-      description: 'this is my second nft class',
-      url: 'http://www.baidu.com',
-      externalUrl: '123',
-      bannerUrl: '123',
-    };
-    createClass({ address: account.address, metadata });
-  };
-
-  const mint = () => {
-    const metadata = {
-      name: 'nft',
-      description: 'this is my second nft class',
-      url: 'http://www.baidu.com',
-      externalUrl: '123',
-      bannerUrl: '123',
-    };
-    mintNft({ address: account.address, metadata, classId: 17 });
-  };
-
   // Update filters when mount
   useEffect(() => {
     refetch();
