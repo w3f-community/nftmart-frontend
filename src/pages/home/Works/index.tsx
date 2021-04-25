@@ -111,7 +111,7 @@ const Works: FC<WorksProps> = ({ loading, data }) => {
       <Box marginBottom={10}>
         <PartHeader title={title} icon={icon} link={link} />
         <SimpleGrid columns={4} spacing={4}>
-          {typicalList.map((work) => (
+          {typicalList.slice(0, 16).map((work) => (
             <Collection {...work} isSet key={`${work.classId}-${work.tokenId}`} />
           ))}
         </SimpleGrid>
