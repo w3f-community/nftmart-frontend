@@ -19,6 +19,7 @@ import {
   PINATA_SERVER,
   PINATA_POST_SERVER,
   MAX_FILE_SIZE,
+  UPLOAD_PINATA_SERVER,
 } from '../../constants';
 import { t } from '../../i18n';
 import colors from '../../themes/colors';
@@ -249,7 +250,7 @@ const Upload: FC<UploadProps> = ({
       ) : (
         <Box>
           {value ? (
-            <Image w="350px" h="350px" m="16px 0" src={`${PINATA_SERVER}${value}`} />
+            <Image w="350px" h="350px" m="16px 0" src={`${UPLOAD_PINATA_SERVER}${value}`} />
           ) : (
             <Box>
               {file ? (
