@@ -64,7 +64,7 @@ export const useAssetsQuery = () => {
 
       return aDps - bDps;
     });
-    console.log(sortedAssets);
+
     return sortedAssets;
   };
 
