@@ -56,14 +56,15 @@ export const useAssetsQuery = () => {
       if (a.status !== 1) return 1;
       // vice versa
       if (b.status !== 1) return -1;
-      const { value: aPledge } = parseMoneyText(a.pledge!);
-      const { value: bPledge } = parseMoneyText(b.pledge!);
-      const aDps = parseFloat(aPledge.toString());
-      const bDps = parseFloat(bPledge.toString());
 
-      return bDps - aDps;
+      const { value: aPrice } = parseMoneyText(a.price!);
+      const { value: bPrice } = parseMoneyText(b.price!);
+      const aDps = parseFloat(aPrice.toString());
+      const bDps = parseFloat(bPrice.toString());
+
+      return aDps - bDps;
     });
-
+    console.log(sortedAssets);
     return sortedAssets;
   };
 
