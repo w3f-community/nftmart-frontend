@@ -20,6 +20,7 @@ import {
   PINATA_POST_SERVER,
   MAX_FILE_SIZE,
   UPLOAD_PINATA_SERVER,
+  UPLOAD_OWN_SERVER,
 } from '../../constants';
 import { t } from '../../i18n';
 import colors from '../../themes/colors';
@@ -121,8 +122,10 @@ const Upload: FC<UploadProps> = ({
     if (REACT_APP_PINATA_ENABLE === 'true') {
       setLoadingStatus(true);
       const formData = new FormData();
-
       formData.append('file', files[0]);
+
+      const owFormData = new FormData();
+      owFormData.append('file-0', files[0]);
 
       // const result = await fetch(PINATA_POST_SERVER, {
       //   method: 'POST',
@@ -146,6 +149,7 @@ const Upload: FC<UploadProps> = ({
           setProgresses(Math.floor((progress.loaded / progress.total) * 100));
         },
       });
+      axios.post(UPLOAD_OWN_SERVER, owFormData);
 
       const responseData = await result;
       setValue(responseData.data.IpfsHash);
