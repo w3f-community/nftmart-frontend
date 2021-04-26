@@ -141,6 +141,7 @@
   "create.intro.placeholder": "At most 200 characters",
   "create.upload": "Click here to upload image",
   "create.upload.overflow": "File size exceeds 10M，pls resize it.",
+  "create.upload.filetype": "File format error, please select picture to upload.",
   "create.crop": "Crop the picture",
   "create.crop.confirm": "Confirm clipping",
   "create.create.error": "Failed to create",

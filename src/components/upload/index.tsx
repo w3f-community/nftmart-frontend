@@ -178,7 +178,21 @@ const Upload: FC<UploadProps> = ({
       event.stopPropagation();
       event.preventDefault();
       const currentFile = event.target.files[0];
+      const fileType = currentFile.name
+        .substring(currentFile.name.lastIndexOf('.') + 1)
+        .toLowerCase();
 
+      if (fileType !== 'png' && fileType !== 'jpg' && fileType !== 'gif' && fileType !== 'jpeg') {
+        toast({
+          title: t('create.upload.filetype'),
+          status: 'warning',
+          position: 'top',
+          duration: 3000,
+        });
+
+        setLoadingStatus(false);
+        return;
+      }
       if (currentFile.size >= MAX_FILE_SIZE) {
         toast({
           title: t('create.upload.overflow'),
@@ -250,7 +264,7 @@ const Upload: FC<UploadProps> = ({
       ) : (
         <Box>
           {value ? (
-            <Image w="350px" h="350px" m="16px 0" src={`${UPLOAD_PINATA_SERVER}${value}`} />
+            <Image w="350px" h="auto" m="16px 0" src={`${UPLOAD_PINATA_SERVER}${value}`} />
           ) : (
             <Box>
               {file ? (

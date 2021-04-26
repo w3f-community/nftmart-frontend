@@ -135,6 +135,7 @@
   "create.intro.placeholder": "请输入描述(200字之内）",
   "create.upload": "点击此处上传图片",
   "create.upload.overflow": "文件大小不能超过 10M，请压缩后重新上传.",
+  "create.upload.filetype": "文件格式错误，请选择图片上传.",
   "create.crop": "裁剪图片",
   "create.crop.confirm": "确认裁剪",
   "create.create.error": "创建失败",
