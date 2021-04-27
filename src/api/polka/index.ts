@@ -221,7 +221,8 @@ const getAllNftsByClassId = async (classId: number) => {
     const res = await Promise.all(arr);
     const results = res.map((n, idx) => {
       if (n.isEmpty) return null;
-      const nft = n.toHuman();
+      const nft = JSON.parse(n.unwrap());
+      nft.metadata = hexToUtf8(nft.metadata);
       nft.classInfo = classInfo.toHuman();
       nft.tokenId = idx;
       return nft;

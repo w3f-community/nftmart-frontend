@@ -212,12 +212,10 @@ const Upload: FC<UploadProps> = ({
         setValue('');
         setFile(currentFile);
         setShowCrop(true);
-        // saveToIpfs(event.target.files);
         setImgName(currentFile.name);
       } else {
-        setValue(true);
+        setValue('');
         saveToIpfs(event.target.files);
-        setShowCrop(false);
         setImgName(currentFile.name);
       }
     }
@@ -268,7 +266,7 @@ const Upload: FC<UploadProps> = ({
       ) : (
         <Box>
           {value ? (
-            <Image w="350px" h="auto" m="16px 0" src={`${UPLOAD_PINATA_SERVER}${value}`} />
+            <Image w="350px" h="auto" m="16px 0" src={`${PINATA_SERVER}${value}`} />
           ) : (
             <Box>
               {file ? (

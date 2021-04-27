@@ -96,7 +96,7 @@ const Detail: FC = () => {
     ['QUERY_DETAIL', classId, tokenId],
     () => fetchData(classId, tokenId),
   );
-
+  console.log(detailData);
   useEffect(() => {
     if (detailData) {
       actions.selectAsset(detailData);
