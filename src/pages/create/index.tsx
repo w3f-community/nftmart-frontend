@@ -243,7 +243,7 @@ const CreateCollection = () => {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="url">
+                    <Field>
                       {({
                         field,
                         form,
