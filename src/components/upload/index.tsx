@@ -215,6 +215,7 @@ const Upload: FC<UploadProps> = ({
         setImgName(currentFile.name);
       } else {
         setValue('');
+        setFile(currentFile);
         saveToIpfs(event.target.files);
         setImgName(currentFile.name);
       }
