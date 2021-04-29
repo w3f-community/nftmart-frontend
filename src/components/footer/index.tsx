@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, BoxProps, Flex, useMediaQuery, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Flex, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import GithubLogo from '../../assets/footer_icon_github.png';
 import GithubLogoHover from '../../assets/footer_icon_github_s.png';
@@ -32,7 +32,6 @@ const ICON_LIST = ICONS.map((title, index) => ({
 
 export default function Footer(props: BoxProps) {
   const { t } = useTranslation('common');
-  const [isLargerThan1280] = useMediaQuery('(min-width: 1280px)');
 
   const iconList = ICON_LIST;
 
@@ -49,17 +48,12 @@ export default function Footer(props: BoxProps) {
     >
       <Flex
         display="flex"
-        paddingX={3}
+        paddingX={6}
         justifyContent="space-around"
         flexWrap="wrap"
         paddingBottom={5}
       >
-        {isLargerThan1280 && (
-          <Box maxW="20%" minW="10%" alignSelf="center">
-            <Box as="img" src="/logo_white.png" alt="" width="180px" height="auto"></Box>
-          </Box>
-        )}
-        <Box maxW="60%" minW="40%" mt="60px">
+        <Box maxW="80%" minW="40%" mt="60px">
           <Text lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
             {t('footer.aboutus.title', { defaultValue: 'About Us' })}
           </Text>
