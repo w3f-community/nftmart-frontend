@@ -113,6 +113,14 @@ const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky }) => {
     onFilter?.(id);
   };
 
+  const jump = () => {
+    if (i18n.language === 'zh-CN') {
+      window.open('https://mp.weixin.qq.com/s/LCNjyFFkSkKnfn6aE-Jf3Q', '_blank');
+    } else {
+      window.open('https://t.me/NFTmart', '_blank');
+    }
+  };
+
   return (
     <Box
       position="relative"
@@ -127,9 +135,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ onFilter, sticky }) => {
       <TextContainer>
         <Title>{t('banner.title')}</Title>
         <Intro>{t('banner.content')}</Intro>
-        <Link to="/explore">
-          <ExploreButton>{t('banner.button')}</ExploreButton>
-        </Link>
+        <ExploreButton onClick={() => jump()}>{t('banner.button')}</ExploreButton>
       </TextContainer>
 
       <Box
