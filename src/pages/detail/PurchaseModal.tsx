@@ -20,6 +20,8 @@ import colors from '../../themes/colors';
 import ImageCard from './ImageCard';
 import Meta from './Meta';
 
+import store from '../../stores/account';
+
 // import bgSrc from '../../assets/background-demo.jpeg';
 import { PINATA_SERVER } from '../../constants';
 import { t } from '../../i18n';
@@ -53,7 +55,13 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
   const { metadata, order = null } = item;
   const owner = '';
   const [loading, setLoading] = useState(false);
-
+  const {
+    balance: { free },
+  } = store.useState('balance');
+  const { value: bal } = parseMoneyText(free);
+  const { value: pricNum } = parseMoneyText(String(order?.price));
+  const nftPrice = pricNum.toNumber();
+  const userBal = bal.toNumber();
   const itemColumnNode = (
     <Container>
       <Stack direction="row" justifyContent="space-between">
@@ -126,7 +134,12 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
         <ModalBody>{order ? itemCard : null}</ModalBody>
 
         <ModalFooter display="flex" justifyContent="center">
-          <Button isLoading={loading} variant="primary" onClick={() => onConfirm(setLoading)}>
+          <Button
+            isLoading={loading}
+            disabled={userBal < nftPrice}
+            variant="primary"
+            onClick={() => onConfirm(setLoading)}
+          >
             {t('detail.modal.purchase.confirm')}
           </Button>
         </ModalFooter>

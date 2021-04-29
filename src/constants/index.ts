@@ -69,7 +69,7 @@ export const DBURL = 'http://localhost:8888/graphql';
 export const IPFS_POST_SERVER = 'https://ipfs-api.bcdata.top'; // ipfs node
 export const IPFS_GET_SERVER = 'https://ipfs-web.bcdata.top/ipfs/'; // query with cid server
 export const PINATA_SERVER = 'https://ipfs-web.bcdata.top/ipfs/'; // query with cid server
-export const NODE_URL = process.env.REACT_APP_WS_URL;
+// export const NODE_URL = process.env.REACT_APP_WS_URL;
 export const PINATA_POST_SERVER = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 export const UPLOAD_PINATA_SERVER = 'https://gateway.pinata.cloud/ipfs/';
 export const UPLOAD_OWN_SERVER =
@@ -79,7 +79,7 @@ export const UPLOAD_OWN_SERVER =
 // export const DBURL = 'http://localhost:8888/graphql';
 // export const IPFS_POST_SERVER = 'http://59.110.115.146:5001'; // ipfs node
 // export const IPFS_GET_SERVER = 'http://59.110.115.146:8080/ipfs/'; // query with cid server
-// export const NODE_URL = 'ws://8.136.111.191:9944';
+export const NODE_URL = 'ws://8.136.111.191:9944';
 
 // 	 Token can be transferred
 // 	Transferable = 0b00000001

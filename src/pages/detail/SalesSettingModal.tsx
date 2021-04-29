@@ -33,6 +33,8 @@ import colors from '../../themes/colors';
 import NSelect from '../../components/nSelect';
 import { createOrder } from '../../api/polka';
 import { t } from '../../i18n';
+import store from '../../stores/account';
+import { parseMoneyText } from '../../utils/fomart';
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
   <Alert status="error" color="white" backgroundColor={colors.failure}>
@@ -85,6 +87,11 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
   const { account } = globalStore.useState('account');
   const toast = useToast();
 
+  const {
+    balance: { free },
+  } = store.useState('balance');
+  const { value: bal } = parseMoneyText(free);
+  const userBal = bal.toNumber();
   // FIXME: Add types
   const handleSubmit = (values: any, actions: any) => {
     const orderParams = {
@@ -141,7 +148,7 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
             price: undefined,
             // expiration: undefined,
             category: undefined,
-            pledge: undefined,
+            pledge: 0,
           }}
           onSubmit={handleSubmit}
           validationSchema={SalesSettingSchema}
@@ -282,7 +289,12 @@ const SalesSettingModal: FC<SalesSettingModalProps> = ({
                 </ModalBody>
 
                 <ModalFooter display="flex" justifyContent="center">
-                  <Button variant="primary" type="submit" isLoading={isSubmitting}>
+                  <Button
+                    variant="primary"
+                    disabled={userBal < +values.pledge}
+                    type="submit"
+                    isLoading={isSubmitting}
+                  >
                     Confirm
                   </Button>
                 </ModalFooter>

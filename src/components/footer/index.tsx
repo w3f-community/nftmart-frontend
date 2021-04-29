@@ -1,30 +1,40 @@
 import React from 'react';
-import { Box, Container } from '@chakra-ui/react';
+import { Box, BoxProps, Flex, useMediaQuery, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import LogoImg from '../../assets/footer_logo.png';
 import GithubLogo from '../../assets/footer_icon_github.png';
 import GithubLogoHover from '../../assets/footer_icon_github_s.png';
 import TwitterLogo from '../../assets/footer_icon_twitter.png';
 import TwitterLogoHover from '../../assets/footer_icon_twitter_s.png';
-import FaceboookLogo from '../../assets/footer_icon_facebook.png';
-import FaceboookLogoHover from '../../assets/footer_icon_facebook_s.png';
-import WeboLogo from '../../assets/footer_icon_webo.png';
-import WeboLogoHover from '../../assets/footer_icon_webo_s.png';
-import WechatLogo from '../../assets/footer_icon_wechat.png';
-import WechatLogoHover from '../../assets/footer_icon_wechat_s.png';
-import InsLogo from '../../assets/footer_icon_ins.png';
-import InsLogoHover from '../../assets/footer_icon_ins_s.png';
+import TelegramLogo from '../../assets/footer_icon_telegram.png';
+import TelegramLogoHover from '../../assets/footer_icon_telegram_s.png';
+import MediumLogo from '../../assets/footer_icon_medium.png';
+import MediumLogoHover from '../../assets/footer_icon_medium_s.png';
 
-export default function Uploader() {
-  const { t } = useTranslation();
-  const iconList = [
-    { src: GithubLogo, hoverSrc: GithubLogoHover, id: 0 },
-    { src: TwitterLogo, hoverSrc: TwitterLogoHover, id: 1 },
-    { src: FaceboookLogo, hoverSrc: FaceboookLogoHover, id: 2 },
-    { src: WeboLogo, hoverSrc: WeboLogoHover, id: 3 },
-    { src: WechatLogo, hoverSrc: WechatLogoHover, id: 4 },
-    { src: InsLogo, hoverSrc: InsLogoHover, id: 5 },
-  ];
+const ICONS = [
+  { icon: GithubLogo, hover: GithubLogoHover },
+  { icon: TwitterLogo, hover: TwitterLogoHover },
+  { icon: TelegramLogo, hover: TelegramLogoHover },
+  { icon: MediumLogo, hover: MediumLogoHover },
+];
+const links = [
+  'https://github.com/NFTT-studio',
+  'https://twitter.com/NFTmartio',
+  'https://t.me/NFTmart',
+  'https://nftmart-io.medium.com/',
+];
+
+const ICON_LIST = ICONS.map((title, index) => ({
+  src: ICONS[index].icon,
+  hoverSrc: ICONS[index].hover,
+  id: index,
+  link: links[index],
+}));
+
+export default function Footer(props: BoxProps) {
+  const { t } = useTranslation('common');
+  const [isLargerThan1280] = useMediaQuery('(min-width: 1280px)');
+
+  const iconList = ICON_LIST;
 
   return (
     <Box
@@ -32,37 +42,46 @@ export default function Uploader() {
       flex={1}
       display="flex"
       justifyContent="center"
-      height="232px"
+      height="auto"
       backgroundColor="#373F60"
       border="1px solid #979797"
       className="page-footer"
     >
-      <Container
+      <Flex
         display="flex"
-        flexDirection="row"
         paddingX={3}
         justifyContent="space-around"
         flexWrap="wrap"
         paddingBottom={5}
       >
-        <Box alignSelf="center">
-          <Box as="img" src={LogoImg} alt="" width="200px" height="auto"></Box>
-        </Box>
-        <Box width="663px" mt="60px">
-          <Box lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
-            {t('footer.aboutus.title')}
+        {isLargerThan1280 && (
+          <Box maxW="20%" minW="10%" alignSelf="center">
+            <Box as="img" src="/logo_white.png" alt="" width="180px" height="auto"></Box>
           </Box>
-          <Box lineHeight="20px" color="#C7CCE6" fontSize="14px">
-            {t('footer.aboutus.intro')}
-          </Box>
+        )}
+        <Box maxW="60%" minW="40%" mt="60px">
+          <Text lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
+            {t('footer.aboutus.title', { defaultValue: 'About Us' })}
+          </Text>
+          <Text lineHeight="30px" color="#C7CCE6" fontSize="14px">
+            {t('footer.aboutus.intro', {
+              defaultValue:
+                'NFTMart, dedicated to an instant and inclusive coverage of everything happening in the crypto/blockchain world, delivers right trade information with professional insights and state-of-art accuracy to an international readership. ',
+            })}
+          </Text>
         </Box>
-        <Box mt="60px">
+        <Box mt="60px" maxW="50%" minW="20%">
           <Box lineHeight="20px" color="#61688a" fontWeight="500" fontSize="14px" mb="20px">
-            {t('footer.follow')}
+            {t('footer.follow', { defaultValue: 'Follow Us' })}
           </Box>
-          <Box mb="20px" display="flex">
-            {iconList.map(({ id, src, hoverSrc }) => (
-              <Box ml={id !== 0 ? '30px' : 0} role="group" key={src}>
+          <Box mb="20px" display="flex" ml={4}>
+            {iconList.map(({ id, src, hoverSrc, link }) => (
+              <Box
+                ml={id !== 0 ? '30px' : 0}
+                role="group"
+                key={src}
+                onClick={() => window.open(link, '_blank')}
+              >
                 <Box
                   as="img"
                   alt=""
@@ -84,10 +103,10 @@ export default function Uploader() {
             ))}
           </Box>
           <Box lineHeight="20px" color="#61688a" fontSize="12px">
-            {t('footer.copyright')}
+            {t('copyright', { defaultValue: '© 2021 GUAP Limited' })}
           </Box>
         </Box>
-      </Container>
+      </Flex>
     </Box>
   );
 }
