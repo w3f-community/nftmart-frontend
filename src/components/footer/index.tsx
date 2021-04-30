@@ -53,7 +53,7 @@ export default function Footer(props: BoxProps) {
         flexWrap="wrap"
         paddingBottom={5}
       >
-        <Box maxW="80%" minW="40%" mt="60px">
+        <Box maxW="80%" minW="40%" mt="60px" mr="20px">
           <Text lineHeight="20px" fontWeight="500" fontSize="14px" color="#61688A" mb="10px">
             {t('footer.aboutus.title', { defaultValue: 'About Us' })}
           </Text>

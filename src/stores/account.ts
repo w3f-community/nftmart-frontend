@@ -1,7 +1,7 @@
 import Rekv from 'rekv';
 
 const store = new Rekv({
-  balance: null,
+  balance: { free: '0 NMT' },
   nonce: -1,
 });
 

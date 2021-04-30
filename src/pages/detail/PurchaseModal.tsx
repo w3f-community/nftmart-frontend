@@ -58,6 +58,7 @@ const PurchaseModal: FC<PurchaseModalProps> = ({
   const {
     balance: { free },
   } = store.useState('balance');
+  console.log(free, '===============');
   const { value: bal } = parseMoneyText(free);
   const { value: pricNum } = parseMoneyText(String(order?.price));
   const nftPrice = pricNum.toNumber();
