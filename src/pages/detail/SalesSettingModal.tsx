@@ -60,6 +60,7 @@ const SalesSettingSchema = yup.object().shape({
       1,
       // 'number should more than 1 MFT'
     )
+    .max(100000000)
     // 'price is required'
     .required(),
   // expiration: yup.number(),
