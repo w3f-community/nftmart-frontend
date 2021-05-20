@@ -75,6 +75,9 @@ export const UPLOAD_PINATA_SERVER = 'https://gateway.pinata.cloud/ipfs/';
 export const UPLOAD_OWN_SERVER =
   'https://ipfs-api.bcdata.top/api/v0/add?stream-channels=true&pin=true&progress=true&wrap-with-directory=false';
 
+// analytics.google
+export const REACT_APP_GA = 'UA-197448335-2';
+
 // test
 // export const DBURL = 'http://localhost:8888/graphql';
 // export const IPFS_POST_SERVER = 'http://59.110.115.146:5001'; // ipfs node

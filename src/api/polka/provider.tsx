@@ -10,13 +10,15 @@ import { initPolkadotApi, getCategories, getWhiteList } from './index';
 import store from '../../stores/categories';
 import whiteListStore from '../../stores/whiteList';
 
+import { REACT_APP_GA } from '../../constants';
+
 interface Props {
   children: React.ReactNode;
 }
 
 const provider = ({ children }: Props) => {
   // init polkadot api
-  ReactGA.initialize(`${process.env.REACT_APP_GA}`);
+  ReactGA.initialize(REACT_APP_GA);
   const history = useHistory();
   const location = useLocation();
   // query cate
