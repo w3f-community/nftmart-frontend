@@ -50,7 +50,7 @@ const ControlledLayout = () => {
   }, [location.pathname, location.search]);
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
+  const cancelRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <>
