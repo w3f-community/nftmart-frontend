@@ -11,6 +11,7 @@
     "@polkadot/api": "^4.4.1",
     "@polkadot/api-contract": "^3.10.3-8",
     "@polkadot/extension-dapp": "^0.37.1",
+    "@polkadot/extension-inject": "^0.38.2",
     "@polkadot/hw-ledger": "^5.7.2-6",
     "@polkadot/keyring": "^5.7.2-6",
     "@polkadot/networks": "^5.7.2-6",

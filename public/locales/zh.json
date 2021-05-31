@@ -24,11 +24,13 @@
   "quick-area.wallet": "我的钱包",
   "quick-area.collections": "我的作品集",
   "quick-area.nft.create": "创建作品",
+  "quick-area.switch": "切换账户",
   "quick-area.profile.edit": "资料编辑",
 
   "extension.dowload": "请下载 Polkadot 钱包插件",
   "extension.login": "登录到您的钱包",
   "extension.account": "请先使用 Polkadot 钱包插件创建或导入账户",
+  "extension.select": "选择账户",
 
   "login": "登录",
   "download": "下载",

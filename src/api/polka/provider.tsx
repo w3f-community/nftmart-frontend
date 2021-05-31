@@ -57,12 +57,7 @@ const provider = ({ children }: Props) => {
       const injectedAccounts = await web3Accounts();
       if (injectedAccounts.length !== 0) {
         // treat first account as signer
-        const injector = await web3FromSource(injectedAccounts[0].meta.source);
-        globalStore.setState({
-          accounts: injectedAccounts,
-          account: injectedAccounts[0],
-          injector,
-        });
+        history.push('/connect');
       }
     }
   };
