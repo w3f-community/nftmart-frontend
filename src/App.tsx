@@ -1,7 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 import * as React from 'react';
 import { HashRouter, Switch, Route, useLocation } from 'react-router-dom';
-import { ChakraProvider, CSSReset } from '@chakra-ui/react';
+import {
+  ChakraProvider,
+  CSSReset,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+} from '@chakra-ui/react';
 // import { ApolloProvider } from '@apollo/client';
 import { QueryClientProvider } from 'react-query';
 
@@ -39,10 +48,28 @@ const ControlledLayout = () => {
       // cleanup
     };
   }, [location.pathname, location.search]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const onClose = () => setIsOpen(false);
+  const cancelRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <>
       <Header sticky />
+      <AlertDialog isOpen={true} leastDestructiveRef={cancelRef} onClose={onClose}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Notice
+            </AlertDialogHeader>
+
+            <AlertDialogBody fontSize="lg">
+              The beta version is under maintenance...
+            </AlertDialogBody>
+
+            <AlertDialogFooter></AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
       <PolkaProvider>
         <Switch>
           <Route exact strict path="/" component={Home} />
