@@ -110,6 +110,9 @@ const CreateCollection = () => {
     }
   }, [classes, whiteList, account]);
 
+  const brr = JSON.parse(localStorage.getItem('create'));
+  const crr = brr;
+
   return (
     <Layout title="title.create">
       <Box padding={2}>
@@ -135,13 +138,15 @@ const CreateCollection = () => {
           <Container p="0 20px 20px">
             <Formik
               initialValues={{
-                classId: collectionId,
-                name: '',
-                url: '',
-                externalUrl: '',
-                description: '',
+                classId: crr ? crr.classId : collectionId,
+                name: crr ? crr.name : '',
+                url: crr ? crr.url : '',
+                externalUrl: crr ? crr.externalUrl : '',
+                description: crr ? crr.description : '',
               }}
               onSubmit={(formValue, formAction) => {
+                const arr = formValue;
+                localStorage.setItem('create', JSON.stringify(arr));
                 mint(formValue, {
                   success: () => {
                     toast({
@@ -156,6 +161,7 @@ const CreateCollection = () => {
                     refetchMyCollections();
                     refetchAssets();
                     getBalance(account.address);
+                    localStorage.removeItem('create');
 
                     const OneClasses = classes?.find((cls) => {
                       return +cls.classId === +formValue.classId;

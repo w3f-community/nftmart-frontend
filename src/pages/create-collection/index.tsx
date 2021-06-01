@@ -86,6 +86,9 @@ const CreateCollection: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);
 
+  const brr = JSON.parse(localStorage.getItem('collection'));
+  const crr = brr;
+
   return (
     <>
       <Layout title="title.create-collection">
@@ -112,13 +115,15 @@ const CreateCollection: FC = () => {
             <Container p="0 20px">
               <Formik
                 initialValues={{
-                  name: '',
+                  name: crr ? crr.name : '',
                   // bannerUrl: '',
-                  description: '',
-                  url: '',
-                  externalUrl: '',
+                  description: crr ? crr.description : '',
+                  url: crr ? crr.url : '',
+                  externalUrl: crr ? crr.externalUrl : '',
                 }}
                 onSubmit={(values, formActions) => {
+                  const arr = values;
+                  localStorage.setItem('collection', JSON.stringify(arr));
                   create(values, {
                     success: (err: any) => {
                       if (err.dispatchError) {
@@ -136,6 +141,7 @@ const CreateCollection: FC = () => {
                           position: 'top',
                           duration: 3000,
                         });
+                        localStorage.removeItem('collection');
                         setTimeout(() => {
                           setIsOpen(true);
                           // history.push('/create');
