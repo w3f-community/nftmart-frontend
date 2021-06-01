@@ -55,17 +55,15 @@ const ControlledLayout = () => {
   return (
     <>
       <Header sticky />
-      <AlertDialog isOpen={true} leastDestructiveRef={cancelRef} onClose={onClose}>
+      <AlertDialog isOpen={false} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Notice
             </AlertDialogHeader>
-
             <AlertDialogBody fontSize="lg">
               The beta version is under maintenance...
             </AlertDialogBody>
-
             <AlertDialogFooter></AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
