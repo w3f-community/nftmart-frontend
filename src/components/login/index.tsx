@@ -44,6 +44,8 @@ const Login: FC<LoginProps> = ({ avatar, username = 'no name' }) => {
     const flag = whiteList.indexOf(account.address);
     if (flag < 0) {
       setHideMenu(true);
+    } else {
+      setHideMenu(false);
     }
   }, [whiteList, account]);
 
