@@ -78,7 +78,7 @@ const Connect: FC = () => {
             </Center>
           ) : (
             <>
-              {injectedAccounts ? (
+              {injectedAccounts.length > 0 ? (
                 <Container paddingTop="20px" display="flex" justifyContent="center">
                   <Card
                     title={t('extension.select')}
@@ -90,10 +90,12 @@ const Connect: FC = () => {
                   </Card>
                 </Container>
               ) : (
-                <Center height="100%" width="100%" flexDirection="column">
-                  <Heading as="h4" size="md">
-                    {t('extension.account')}
-                  </Heading>
+                <Center h="100vh" w="100vw">
+                  <Center height="100%" width="100%" flexDirection="column">
+                    <Heading as="h4" size="md">
+                      {t('extension.account')}
+                    </Heading>
+                  </Center>
                 </Center>
               )}
             </>

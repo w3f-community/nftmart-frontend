@@ -16,12 +16,34 @@ import { useTranslation } from 'react-i18next';
 import colors from '../../themes/colors';
 import { parseMoneyText } from '../../utils/fomart';
 
-interface BalanceType {
+export interface BalanceType {
   feeFrozen: string;
   free: string;
   miscFrozen: string;
   reserved: string;
 }
+
+export const renderBalanceText = (balanceText: string) => {
+  if (!balanceText || typeof balanceText !== 'string') return null;
+
+  const { value, unit } = parseMoneyText(balanceText);
+  const [integer, decimal] = value.toString().split('.');
+
+  return (
+    <>
+      <Text fontSize="sm" fontWeight="bold" color={colors.primary}>
+        {integer}
+        {decimal ? '.' : ''}
+      </Text>
+      <Text fontSize="sm" color={colors.text.gray} marginRight={1}>
+        {decimal}
+      </Text>
+      <Text fontSize="sm" color={colors.primary}>
+        {unit}
+      </Text>
+    </>
+  );
+};
 
 const availableBalanceKeys: (keyof BalanceType)[] = ['free', 'reserved'];
 export interface BalanceProps {
@@ -32,28 +54,6 @@ const Balance: FC<BalanceProps> = ({ balance }) => {
   const { t } = useTranslation();
 
   if (!balance) return null;
-
-  const renderBalanceText = (balanceText: string) => {
-    if (!balanceText || typeof balanceText !== 'string') return null;
-
-    const { value, unit } = parseMoneyText(balanceText);
-    const [integer, decimal] = value.toString().split('.');
-
-    return (
-      <>
-        <Text fontSize="sm" fontWeight="bold" color={colors.primary}>
-          {integer}
-          {decimal ? '.' : ''}
-        </Text>
-        <Text fontSize="sm" color={colors.text.gray} marginRight={1}>
-          {decimal}
-        </Text>
-        <Text fontSize="sm" color={colors.primary}>
-          {unit}
-        </Text>
-      </>
-    );
-  };
 
   const renderContentText = (key: keyof BalanceType) => {
     const balanceText = balance[key];
