@@ -5,18 +5,20 @@ import iconSelect from '../../assets/icon_select.png';
 import colors from '../../themes/colors';
 
 import { getBalance } from '../../api/polka';
+import Balance, { BalanceType, renderBalanceText } from '../balance';
 
 interface AccountProps {
   account: InjectedAccountWithMeta;
   handleClick: (index: number) => Promise<void>;
   index: number;
   length: number;
-  balance: string;
+  balanceArr: BalanceType[] | undefined;
 }
 
-const Account = ({ account, handleClick, index, length, balance }: AccountProps) => {
+const Account = ({ account, handleClick, index, length, balanceArr }: AccountProps) => {
   const { address, meta } = account;
   const { name } = meta;
+  const balance = balanceArr && balanceArr[index];
 
   return (
     <>
@@ -35,14 +37,7 @@ const Account = ({ account, handleClick, index, length, balance }: AccountProps)
           <Text fontWeight="medium">{name}</Text>
           <Text color={colors.text.gray}>{address}</Text>
         </Box>
-        <Box display="inline-block">
-          <Text display="inline-block" fontWeight="medium" paddingRight="1">
-            {balance}
-          </Text>
-          <Text display="inline-block" fontSize="small" color={colors.text.gray}>
-            NMT
-          </Text>
-        </Box>
+        {balance && <Box display="inline-block">{renderBalanceText(balance?.free)}</Box>}
         <Box display="inline-block" as="img" src={iconSelect} w="32px" h="32px" />
       </Box>
       {index !== length - 1 && <Divider></Divider>}
@@ -56,22 +51,27 @@ interface AccountListProps {
 }
 
 const AccountList = ({ list, handleClick }: AccountListProps) => {
-  const [balanceArr, setBalanceArr] = useState<any>([]);
+  const [balanceArr, setBalanceArr] = useState<BalanceType[]>();
 
   useEffect(() => {
-    list.forEach(async (account) => {
-      const resArr = [];
-      const res = await getBalance(account.address);
-      resArr.push(res.toHuman().free);
+    const resArr: BalanceType[] = [];
+    const fetchBalances = async () => {
+      await Promise.all(
+        list.map(async (account) => {
+          const res = await getBalance(account.address);
+          resArr.push(res.toHuman());
+        }),
+      );
       setBalanceArr(resArr);
-    });
+    };
+    fetchBalances();
   }, [list]);
 
   return list.map((account, index) => (
     <Account
       account={account}
       handleClick={handleClick}
-      balance={balanceArr[index]}
+      balanceArr={balanceArr}
       index={index}
       length={list.length}
     />
