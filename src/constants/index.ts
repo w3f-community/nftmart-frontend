@@ -61,6 +61,7 @@ export const USER_LINKS: Record<string, string> = {
   'quick-area.wallet': '/wallet',
   'quick-area.collections': '/collections',
   'quick-area.nft.create': '/create',
+  'quick-area.switch': '/connect',
   // 'quick-area.profile.edit': '/profile',
 };
 

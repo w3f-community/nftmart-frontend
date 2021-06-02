@@ -1,30 +1,26 @@
-import { Box, Center, Container, Heading, Button, Spinner, Text } from '@chakra-ui/react';
+import { Box, Center, Container, Heading, Button } from '@chakra-ui/react';
 import React, { FC, useEffect, useState } from 'react';
 import { globalStore } from 'rekv';
-import { useParams, useHistory } from 'react-router-dom';
-import {
-  web3Accounts,
-  web3Enable,
-  web3FromSource,
-  web3AccountsSubscribe,
-} from '@polkadot/extension-dapp';
+import { useHistory } from 'react-router-dom';
+import { web3Accounts, web3Enable, web3FromSource } from '@polkadot/extension-dapp';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 
 import Layout from '../../layouts/common';
 import { t } from '../../i18n';
 import walletLogo from '../../assets/polkadot.png';
 import { useQuery } from '../../utils/hook';
-
-// export interface Props {
-
-// }
+import polkadotIcon from '../../assets/box_title_polkadot_icon.png';
+import Card from '../../components/card';
+import AccountList from '../../components/accountList';
 
 const Connect: FC = () => {
   // const params = useParams<{ callbackUrl: string; }>();
   const query = useQuery();
   const callbackUrl = query.get('callbackUrl');
-  const { accounts = null } = globalStore.useState('api', 'accounts');
   const [injected, setInjected] = useState(false);
+  const [injectedAccounts, setInjectedAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const history = useHistory();
+
   useEffect(() => {
     const initExtension = async () => {
       const allInjected = await web3Enable('NFTMart');
@@ -33,50 +29,38 @@ const Connect: FC = () => {
       } else {
         setInjected(true);
         // get accounts info in extension
-        const injectedAccounts = await web3Accounts();
-        if (injectedAccounts.length !== 0) {
-          // treat first account as signer
-          const injector = await web3FromSource(injectedAccounts[0].meta.source);
-          globalStore.setState({
-            accounts: injectedAccounts,
-            account: injectedAccounts[0],
-            injector,
-          });
-          if (callbackUrl && callbackUrl.length > 0) {
-            history.push(callbackUrl);
-          } else {
-            history.push('/');
-          }
+        const web3InjectedAccounts = await web3Accounts();
+        if (web3InjectedAccounts.length !== 0) {
+          setInjectedAccounts(web3InjectedAccounts);
           // TODO add backend integration
         }
       }
-
-      // subscribe and update defaultaccount
-      const unsubscribe = await web3AccountsSubscribe(async (reInjectedAccounts) => {
-        // console.log(reInjectedAccounts);
-
-        if (!reInjectedAccounts.length) {
-          return;
-        }
-
-        const injector = await web3FromSource(reInjectedAccounts[0].meta.source);
-        globalStore.setState({
-          accounts: reInjectedAccounts,
-          account: reInjectedAccounts[0],
-          injector,
-        });
-      });
     };
 
     initExtension();
   }, []);
 
+  const handleClick = async (index: number) => {
+    // treat first account as signer
+    const injector = await web3FromSource(injectedAccounts[index].meta.source);
+    globalStore.setState({
+      accounts: injectedAccounts,
+      account: injectedAccounts[index],
+      injector,
+    });
+    if (callbackUrl && callbackUrl.length > 0) {
+      history.push(callbackUrl);
+    } else {
+      history.push('/');
+    }
+  };
+
   return (
     <Layout title={'connect'}>
       <Box display="flex">
         <Container width="1180px">
-          <Center h="100vh" w="100vw">
-            {!injected ? (
+          {!injected ? (
+            <Center h="100vh" w="100vw">
               <Box display="flex" flexDirection="column" alignItems="center">
                 <Heading as="h4" size="md">
                   {t('extension.dowload')}
@@ -91,29 +75,29 @@ const Connect: FC = () => {
                   {t('download')}
                 </Button>
               </Box>
-            ) : (
-              <Center height="100%" width="100%" flexDirection="column">
-                {accounts ? (
-                  <>
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="blue.500"
-                      size="xl"
-                    />
-                    <Text marginTop={5} color="GrayText">
-                      {t('loading.init')}
-                    </Text>
-                  </>
-                ) : (
+            </Center>
+          ) : (
+            <>
+              {injectedAccounts ? (
+                <Container paddingTop="20px" display="flex" justifyContent="center">
+                  <Card
+                    title={t('extension.select')}
+                    icon={polkadotIcon}
+                    bodyPadding={false}
+                    w="790px"
+                  >
+                    <AccountList list={injectedAccounts} handleClick={handleClick} />
+                  </Card>
+                </Container>
+              ) : (
+                <Center height="100%" width="100%" flexDirection="column">
                   <Heading as="h4" size="md">
                     {t('extension.account')}
                   </Heading>
-                )}
-              </Center>
-            )}
-          </Center>
+                </Center>
+              )}
+            </>
+          )}
         </Container>
       </Box>
     </Layout>

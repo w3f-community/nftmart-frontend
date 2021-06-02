@@ -24,11 +24,13 @@
   "quick-area.wallet": "Wallet",
   "quick-area.collections": "My Collections",
   "quick-area.nft.create": "Create NFT",
+  "quick-area.switch": "Switch Account",
   "quick-area.profile.edit": "Edit Profile",
 
   "extension.dowload": "Please download Polkadot extension",
   "extension.login": "Connect wallet",
   "extension.account": "Please use Polkadot extension create or import your account",
+  "extension.select": "Select Account",
 
   "login": "Login",
   "download": "Download",
