@@ -69,6 +69,7 @@ const AccountList = ({ list, handleClick }: AccountListProps) => {
 
   return list.map((account, index) => (
     <Account
+      key={index}
       account={account}
       handleClick={handleClick}
       balanceArr={balanceArr}

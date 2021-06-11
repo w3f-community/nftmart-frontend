@@ -24,6 +24,7 @@ const WebSocket = require('rpc-websockets').Client;
 const noop = () => null;
 
 let api: any = null;
+let initializing = false;
 
 const ss58Format = 50;
 const keyring = new Keyring({ type: 'sr25519', ss58Format });
@@ -45,9 +46,9 @@ const nftDeposit = async (metadata: any, quantity: any) => {
 };
 
 export const initPolkadotApi = (cb?: any) => {
-  if (api) return;
+  if (initializing) return;
   // set ss58Format
-  api = true;
+  initializing = true;
   setSS58Format(50);
   const wsProvider = new WsProvider(NODE_URL);
   const ws = new WebSocket(NODE_URL);
@@ -192,6 +193,7 @@ export const getCategories = async () => {
 };
 // query all whitelist
 export const getWhiteList = async () => {
+  if (!api) return [];
   let whiteList = (await api.query.config.accountWhitelist.entries()) || [];
   whiteList = whiteList.map((user: any) => {
     let key = user[0];
@@ -283,6 +285,7 @@ const mapNFTsToAsset = (NFTS: any[], cid: number) => {
 
 // get all nfts
 export const getAllNfts = async (classId?: number): Promise<Work[]> => {
+  if (!api) return [];
   if (classId === undefined) {
     const allClasses = await api.query.ormlNft.classes.entries();
     const result = await Promise.all(

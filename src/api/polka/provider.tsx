@@ -46,7 +46,9 @@ const provider = ({ children }: Props) => {
   // extension inject status
 
   // const accessAvailable = useMemo(() => api && injected && accounts, [api, injected, accounts]);
-  const accessAvailable = useMemo(() => api, [api]);
+  const accessAvailable = useMemo(() => {
+    return api;
+  }, [api]);
 
   const initLoginStatu = async () => {
     const allInjected = await web3Enable('NFTMart');
