@@ -1,5 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Container, Flex, useClipboard, useToast, IconButton, Button } from '@chakra-ui/react';
+import {
+  Container,
+  Flex,
+  useClipboard,
+  useToast,
+  IconButton,
+  Button,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import Image, { Shimmer } from 'react-shimmer';
 import { globalStore } from 'rekv';
 import { CopyIcon } from '@chakra-ui/icons';
@@ -27,7 +36,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
   const history = useHistory();
   const { account, api } = globalStore.useState('account', 'api');
   const { balance } = accountStore.useState('balance');
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { hasCopied, onCopy } = useClipboard(account ? account.address : '');
   const [loading, setLoading] = useState(false);
   const toast = useToast();
@@ -96,6 +105,31 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
       right={0}
       zIndex={Z_INDEXES.header}
     >
+      <Flex
+        mt="2px"
+        background="#FDD971"
+        width="100vw"
+        p="2px"
+        fontSize="13px"
+        justifyContent="center"
+        position="fixed"
+        zIndex="10"
+        top="0"
+      >
+        <Text>{t('nav.brand')}</Text>
+        {i18n.language === 'zh-CN' ? (
+          <Link color="#5E7E72" href="https://mp.weixin.qq.com/s/qEF0eZKrULMBCtQQm5r50g">
+            {t('nav.details')}
+          </Link>
+        ) : (
+          <Link
+            color="#5E7E72"
+            href="https://nftmart-io.medium.com/new-logo-announcement-daff46b1aaf1"
+          >
+            {t('nav.details')}
+          </Link>
+        )}
+      </Flex>
       <Container
         py={2}
         maxW={1200}
