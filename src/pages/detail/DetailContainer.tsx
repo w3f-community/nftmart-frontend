@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Container, SimpleGrid, Stack } from '@chakra-ui/react';
+import { Box, SimpleGrid, Stack } from '@chakra-ui/react';
 
 export interface DetailContainerProps {
   left?: React.ReactNode;
@@ -8,13 +8,13 @@ export interface DetailContainerProps {
 
 const DetailContainer: FC<DetailContainerProps> = ({ left, right }) => {
   return (
-    <Container>
+    <Box minH="1200px">
       <SimpleGrid templateColumns="466px auto" spacing={4} paddingY={6}>
         <Stack spacing={4}>{left}</Stack>
 
         <Stack spacing={4}>{right}</Stack>
       </SimpleGrid>
-    </Container>
+    </Box>
   );
 };
 
