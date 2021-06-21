@@ -105,7 +105,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
       right={0}
       zIndex={Z_INDEXES.header}
     >
-      <Flex
+      {/* <Flex
         mt="2px"
         background="#FDD971"
         width="100vw"
@@ -129,7 +129,7 @@ const Header: FC<HeaderProps> = ({ sticky }) => {
             {t('nav.details')}
           </Link>
         )}
-      </Flex>
+      </Flex> */}
       <Container
         py={2}
         maxW={1200}
