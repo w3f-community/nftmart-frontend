@@ -194,7 +194,7 @@ export const getCategories = async () => {
 // query all whitelist
 export const getWhiteList = async () => {
   if (!api) return [];
-  let whiteList = (await api.query.config.accountWhitelist.entries()) || [];
+  let whiteList = (await api.query.nftmart.accountWhitelist.entries()) || [];
   whiteList = whiteList.map((user: any) => {
     let key = user[0];
     const len = key.length;

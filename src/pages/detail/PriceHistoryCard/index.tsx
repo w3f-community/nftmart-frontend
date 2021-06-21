@@ -11,7 +11,7 @@ const PriceHistoryCard = () => {
   const { t } = useTranslation();
 
   return (
-    <Card title={t('detail.title.price')}>
+    <Card title={t('detail.title.price')} h="300px">
       <Stack spacing={4}>
         <Center direction="row" spacing={4}>
           {/* <NSelect
